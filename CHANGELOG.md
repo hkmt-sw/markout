@@ -4,6 +4,17 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.1.2] - 2026-10-06
+
+### Security
+
+- Release binaries are built with the current Go release instead of Go 1.24.2,
+  which is no longer supported and carried known vulnerabilities in the
+  standard library (among them in `net/http` and `crypto/tls`, used when a
+  document references an image by URL). Building from source now needs Go 1.26
+  or newer.
+- Updated `golang.org/x/sys`.
+
 ## [1.1.1] - 2026-10-06
 
 ### Changed

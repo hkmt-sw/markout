@@ -1,6 +1,6 @@
 module github.com/hkmt-sw/markout
 
-go 1.24.2
+go 1.26.0
 
 require (
 	github.com/charmbracelet/bubbles v1.0.0
@@ -41,7 +41,7 @@ require (
 	github.com/rivo/uniseg v0.4.7 // indirect
 	github.com/tetratelabs/wazero v1.4.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sys v0.48.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
 	gopkg.in/check.v1 v1.0.0-20200227125254-8fa46927fb4f // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
