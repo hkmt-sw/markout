@@ -11,7 +11,7 @@ require (
 	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
 	github.com/mmonterroca/docxgo/v2 v2.2.1
 	github.com/signintech/gopdf v0.35.0
-	github.com/yuin/goldmark v1.7.13
+	github.com/yuin/goldmark v1.8.6
 	github.com/yuin/goldmark-emoji v1.0.6
 	go.abhg.dev/goldmark/frontmatter v0.3.0
 	go.abhg.dev/goldmark/toc v0.12.0
