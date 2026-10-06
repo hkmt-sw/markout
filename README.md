@@ -16,23 +16,7 @@ GitLab, YouTrack, Azure DevOps, Obsidian, Pandoc or one of the
 [other flavors](#markdown-flavors), and alerts, diagrams, math, tables of
 contents and the rest of that dialect come out right.
 
-```
-┌─ markout ────────────────────────────────────────────────────────────────────┐
-│~/docs                                                                        │
-│  ..                                                                          │
-│  images/                                                               <DIR> │
-│▶ architecture.md                                             12K 10-06 11:43 │
-│  release-notes.md                                             3K 10-02 09:15 │
-│  todo.txt                                                   512B 09-28 17:02 │
-├─ Convert ────────────────────────────────────────────────────────────────────┤
-│Flavor:  GitLab (GLFM)                                                        │
-│Format:   DOCX   PDF                                                          │
-│Output:  architecture.pdf                                                     │
-│Status:  select a Markdown file and press Enter                               │
-├──────────────────────────────────────────────────────────────────────────────┤
-│↵ Convert   ^S Find   F2 Flavor   F3 Format   F4 Output   F10 Quit            │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+![The markout terminal UI: a file list with a Markdown file highlighted, and the Convert box showing the flavor, format and output file](docs/screenshot.png)
 
 ## Install
 
@@ -148,6 +132,8 @@ The output format is inferred from the file extension:
 GitHub, GitLab, YouTrack or in Obsidian. markout has an interpreter for each of
 the flavors below, so a document converts the way it looks on the platform it
 was written for.
+
+![The settings dialog listing the Markdown flavors, with GitLab selected](docs/screenshot-flavors.png)
 
 Pick the flavor with `F2` in the TUI. The choice is saved (in
 `markout/config.json` under your OS config directory, or the file named by
