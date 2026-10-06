@@ -200,9 +200,6 @@ func (l Loader) load(ref, fromDir string, chain []string) (Set, error) {
 			return fail(err)
 		}
 		target.theme.Name = name
-		// A theme file's spacing applies in DOCX too; only the built-in
-		// default keeps the old plain layout.
-		target.theme.PlainLayout = false
 	}
 
 	resolveDocxFonts(&set.DOCX)

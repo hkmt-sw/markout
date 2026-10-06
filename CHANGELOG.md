@@ -6,6 +6,15 @@ All notable changes to markout are listed here. The format follows
 
 ## [1.3.2] - 2026-10-06
 
+### Changed
+
+- The default theme lays DOCX out with spacing too. Its DOCX output had no
+  space between headings and paragraphs, indented lists with spaces, and drew
+  quote bars and rules with characters; it now uses the spacing, indents and
+  borders its PDF form has always had. Fonts, sizes and colors are unchanged.
+  Existing documents come out more open in DOCX and may run to more pages;
+  PDF output is not affected.
+
 ### Fixed
 
 - Word no longer asks "This document contains fields that may refer to other

@@ -1,15 +1,15 @@
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "Bitbucket"
-P
+P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P
+P{indent=0 spacing=0/0 line=320/atLeast}
   R{color=2563EB font=Georgia} "Bitbucket"
-P
-  R "    "
+P{indent=400 spacing=0/0 line=320/atLeast}
   R{color=2563EB font=Georgia} "Features"
-P
+P{spacing=/ line=160/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "Features"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Tables, "
   R{color=8888A0 font=Georgia strike} "deleted"
   R{color=1A1A2E font=Georgia} " text, footnotes"
@@ -23,38 +23,37 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "A"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "B"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "2"
-P
+P{spacing=/ line=160/exact}
+P{spacing=0/0 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "Apple"
-P
-  R "    "
+P{indent=400 spacing=0/80 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "A"
   R{color=1A1A2E font=Georgia} " fruit"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "The HTML spec is"
   R{color=1A1A2E font=Georgia} " long."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Raw "
   R{color=1A1A2E font=Georgia} "<u>"
   R{color=1A1A2E font=Georgia} "HTML"
   R{color=1A1A2E font=Georgia} "</u>"
   R{color=1A1A2E font=Georgia} " is not"
   R{color=1A1A2E font=Georgia} " rendered."
-P
-  R{color=B4B4B4 sz=18} "────────────────────────────────"
-P
+P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "A"
   R{color=4A4A68 font=Georgia sz=18} " footnote."

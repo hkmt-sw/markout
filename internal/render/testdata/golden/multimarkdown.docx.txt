@@ -4,27 +4,28 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=4A4A68 font=Georgia} "Title: "
         R{color=1A1A2E font=Georgia} "MultiMarkdown sample"
-      P
+      P{indent=160/160 spacing=0/0 line=320/atLeast}
         R{b color=4A4A68 font=Georgia} "Author: "
         R{color=1A1A2E font=Georgia} "Fletcher"
-      P
+      P{indent=160/160 spacing=0/160 line=320/atLeast}
         R{b color=4A4A68 font=Georgia} "Date: "
         R{color=1A1A2E font=Georgia} "2026-10-06"
-P
+P{spacing=/ line=160/exact}
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "MultiMarkdown"
-P
+P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P
+P{indent=0 spacing=0/0 line=320/atLeast}
   R{color=2563EB font=Georgia} "MultiMarkdown"
-P
-  R "    "
+P{indent=400 spacing=0/0 line=320/atLeast}
   R{color=2563EB font=Georgia} "Markup"
-P
+P{spacing=/ line=160/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "Markup"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "x"
   R{color=1A1A2E font=Georgia} "²"
   R{color=1A1A2E font=Georgia} " and H"
@@ -34,7 +35,7 @@ P
   R{color=1A1A2E font=Georgia} " and display "
   R{color=7C3AED font=Georgia i} "c = d"
   R{color=1A1A2E font=Georgia} "."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "CriticMarkup: "
   R{color=16A34A font=Georgia u=single} "added"
   R{color=1A1A2E font=Georgia} ", "
@@ -45,7 +46,7 @@ P
   R{color=1A1A2E font=Georgia} ", "
   R{color=1A1A2E font=Georgia highlight=yellow} "marked"
   R{color=1A1A2E font=Georgia} "."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "The HTML spec"
   R{color=1A1A2E font=Georgia} "."
 TABLE
@@ -55,26 +56,26 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "A"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "B"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "2"
-P
+P{spacing=/ line=160/exact}
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Footnote"
   R{color=2563EB font=Georgia sz=18} "[1]"
   R{color=1A1A2E font=Georgia} "."
-P
-  R{color=B4B4B4 sz=18} "────────────────────────────────"
-P
+P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "Note text"
   R{color=4A4A68 font=Georgia sz=18} "."

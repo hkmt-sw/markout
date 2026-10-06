@@ -69,7 +69,7 @@ func TestDOCXFollowsTheThemesSpacing(t *testing.T) {
 		t.Logf("outline:\n%s", outline)
 	}
 
-	// Indents and borders replace the characters of the plain layout.
+	// Indents and borders, not leading spaces and box-drawing characters.
 	for _, drawn := range []string{"│", "────", `"    • `, `R "    "`} {
 		if strings.Contains(outline, drawn) {
 			t.Errorf("the styled layout still draws %q", drawn)
@@ -81,29 +81,29 @@ func TestDOCXFollowsTheThemesSpacing(t *testing.T) {
 	}
 }
 
-// The default theme's DOCX is laid out as it always was: by the word
-// processor, with no spacing or indents set.
-func TestDefaultDOCXKeepsThePlainLayout(t *testing.T) {
+// The default theme is laid out with spacing like every other: nothing is
+// left to the word processor's defaults, and nothing is drawn with characters.
+func TestDefaultDOCXIsLaidOut(t *testing.T) {
 	outline := docxOutlineWith(t, nil)
-	// Cells have borders in every layout; paragraphs only in the styled one
-	for _, added := range []string{"spacing=", "indent=", "line=", "P{border-"} {
-		if strings.Contains(outline, added) {
-			t.Errorf("the default layout now has %s:\n%s", added, outline)
+	for what, want := range map[string]string{
+		"heading":    `P{spacing=400/240 line=560/atLeast}`,
+		"paragraph":  `P{spacing=0/160 line=320/atLeast}`,
+		"list item":  `P{indent=400 spacing=0/0 line=320/atLeast}`,
+		"quote":      `P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}`,
+		"rule":       `P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}`,
+		"table cell": `P{indent=80/80 spacing=80/80 line=260/atLeast}`,
+	} {
+		if !strings.Contains(outline, want) {
+			t.Errorf("%s: missing %s", what, want)
 		}
 	}
-	for _, kept := range []string{"│ ", "────", `"    •  "`} {
-		if !strings.Contains(outline, kept) {
-			t.Errorf("the default layout lost %q", kept)
+	for _, drawn := range []string{"│", "────", `"    •`} {
+		if strings.Contains(outline, drawn) {
+			t.Errorf("the default layout still draws %q", drawn)
 		}
 	}
-
-	// A theme file, even an empty one extending the default, gets spacing.
-	set, err := theme.Loader{}.Load("classic")
-	if err != nil {
-		t.Fatal(err)
-	}
-	if set.DOCX.PlainLayout || !theme.Default().DOCX.PlainLayout || theme.Default().PDF.PlainLayout {
-		t.Error("the plain layout belongs to the DOCX form of the built-in default only")
+	if t.Failed() {
+		t.Logf("outline:\n%s", outline)
 	}
 }
 

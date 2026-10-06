@@ -1,25 +1,24 @@
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "CommonMark"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Only the "
   R{color=1A1A2E font=Georgia i} "standard"
   R{color=1A1A2E font=Georgia} ": no ~~strikethrough~~, no tables, no https://autolinks.example, no :emoji:."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "| a | b | "
   R{color=1A1A2E font=Georgia} "|---|---| "
   R{color=1A1A2E font=Georgia} "| 1 | 2 |"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "["
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "] not a task"
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "["
-  R{color=1A1A2E font=Georgia} "!NOTE"
-  R{color=1A1A2E font=Georgia} "] "
-  R{color=1A1A2E font=Georgia} "Just a quote."
-P
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "["
+  R{color=1A1A2E font=Georgia i} "!NOTE"
+  R{color=1A1A2E font=Georgia i} "] "
+  R{color=1A1A2E font=Georgia i} "Just a quote."
+P{spacing=0/160 line=320/atLeast}
   R{color=CF222E font=Consolas} "#FF0000"
   R{color=1A1A2E font=Georgia} " is plain code. Inline "
   R{color=1A1A2E font=Georgia u=single} "HTML"

@@ -351,7 +351,7 @@ func (r *DocxRenderer) renderList(l ast.List) error {
 		return err
 	}
 	// The space after a list goes under its last item
-	if r.styled() && r.lastListItem != nil {
+	if r.lastListItem != nil {
 		r.lastListItem.SetSpacingAfter(twips(r.t.List.SpaceAfter))
 	}
 	return nil
@@ -380,30 +380,19 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level
 			prefix = getBulletChar(level)
 		}
 
-		// Indentation based on level: a real indent with a theme, leading
-		// spaces in the plain layout
-		indent := "    "
-		for i := 0; i < level; i++ {
-			indent += "    "
-		}
-		bullet := indent + prefix + "  "
-		if r.styled() {
-			bullet = prefix + " "
-			r.indent(para, float64(level+1)*r.t.List.Indent, 0)
-			r.space(para, r.t.Text.LineHeight, 0, 0)
-			r.lastListItem = para
-		}
+		// Indentation based on level
+		r.indent(para, float64(level+1)*r.t.List.Indent, 0)
+		r.space(para, r.t.Text.LineHeight, 0, 0)
+		r.lastListItem = para
 
 		bulletRun, err := para.AddRun()
 		if err != nil {
 			return err
 		}
-		bulletRun.SetText(bullet)
+		bulletRun.SetText(prefix + " ")
 		bulletRun.SetSize(halfPoints(r.t.Text.Size))
 		bulletRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		if r.styled() {
-			bulletRun.SetColor(docxColor(r.t.Text.Color))
-		}
+		bulletRun.SetColor(docxColor(r.t.Text.Color))
 
 		// Add content
 		for _, astRun := range item.Runs {
@@ -506,9 +495,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 		}
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
 		run.SetSize(halfPoints(r.t.Code.BlockSize))
-		if r.styled() {
-			run.SetColor(docxColor(r.t.Code.BlockColor))
-		}
+		run.SetColor(docxColor(r.t.Code.BlockColor))
 	}
 
 	return r.gap(r.t.Code.SpaceAfter)
@@ -761,24 +748,13 @@ func (r *DocxRenderer) renderBlockquote(bq ast.Blockquote) error {
 				return err
 			}
 
+			// The bar is the paragraph's left border
+			quote := r.t.Quote
+			para.SetBorders(domain.ParagraphBorders{Left: ruleBorder(quote.BarWidth, quote.Bar)})
+			r.indent(para, quote.Indent, 0)
+			r.space(para, r.t.Text.LineHeight, 0, quote.SpaceAfter)
 			base := r.bodyBase()
-			if r.styled() {
-				// The bar is the paragraph's left border
-				quote := r.t.Quote
-				para.SetBorders(domain.ParagraphBorders{Left: ruleBorder(quote.BarWidth, quote.Bar)})
-				r.indent(para, quote.Indent, 0)
-				r.space(para, r.t.Text.LineHeight, 0, quote.SpaceAfter)
-				base.italic = quote.Italic
-			} else {
-				// Add visual indicator
-				indicatorRun, err := para.AddRun()
-				if err != nil {
-					return err
-				}
-				indicatorRun.SetText("│ ")
-				indicatorRun.SetColor(docxColor(r.t.Quote.Bar))
-				indicatorRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-			}
+			base.italic = quote.Italic
 
 			for _, astRun := range e.Runs {
 				if err := r.addRun(para, astRun, base); err != nil {
@@ -806,27 +782,12 @@ func (r *DocxRenderer) renderHorizontalRule() error {
 		return err
 	}
 
-	if r.styled() {
-		// A paragraph with nothing in it but a border below
-		rule := r.t.Rule
-		para.SetBorderBottom(ruleBorder(rule.Width, rule.Color))
-		para.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: 20})
-		para.SetSpacingBefore(twips(rule.Space))
-		para.SetSpacingAfter(twips(rule.Space))
-		return nil
-	}
-
-	para.SetAlignment(domain.AlignmentCenter)
-
-	run, err := para.AddRun()
-	if err != nil {
-		return err
-	}
-
-	run.SetText("────────────────────────────────────────────────────────────────────────────────")
-	run.SetColor(docxColor(r.t.Rule.Color))
-	run.SetSize(halfPoints(r.t.Text.Size))
-
+	// A paragraph with nothing in it but a border below
+	rule := r.t.Rule
+	para.SetBorderBottom(ruleBorder(rule.Width, rule.Color))
+	para.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: 20})
+	para.SetSpacingBefore(twips(rule.Space))
+	para.SetSpacingAfter(twips(rule.Space))
 	return nil
 }
 
@@ -993,21 +954,11 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 	if err != nil {
 		return err
 	}
-	if r.styled() {
-		// A short line: a top border on a paragraph indented from the right
-		sepPara.SetBorderTop(ruleBorder(0.5, r.t.Footnote.Rule))
-		sepPara.SetIndentRight(int(float64(r.contentTwips()) * 0.7))
-		sepPara.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: twips(10)})
-		sepPara.SetSpacingBefore(twips(20))
-	} else {
-		sepRun, err := sepPara.AddRun()
-		if err != nil {
-			return err
-		}
-		sepRun.SetText("────────────────────────────────")
-		sepRun.SetColor(docxColor(r.t.Footnote.Rule))
-		sepRun.SetSize(halfPoints(r.t.Footnote.Size))
-	}
+	// A short line: a top border on a paragraph indented from the right
+	sepPara.SetBorderTop(ruleBorder(0.5, r.t.Footnote.Rule))
+	sepPara.SetIndentRight(int(float64(r.contentTwips()) * 0.7))
+	sepPara.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: twips(10)})
+	sepPara.SetSpacingBefore(twips(20))
 
 	// Render each footnote
 	for _, fn := range r.footnotes {
@@ -1069,10 +1020,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	cell.SetShading(hexToColor(bgColor))
 	cell.SetWidth(r.contentTwips())
 
-	barEighths := 24 // 3pt
-	if r.styled() {
-		barEighths = int(r.t.Alert.BarWidth*8 + 0.5)
-	}
+	barEighths := int(r.t.Alert.BarWidth*8 + 0.5)
 
 	// Colored left border, thin gray on other sides
 	thinBorder := domain.BorderStyle{
@@ -1252,22 +1200,12 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 			if err != nil {
 				return err
 			}
-			if r.styled() {
-				after := 0.0
-				if n == len(item.Definitions)-1 {
-					after = 4
-				}
-				r.indent(defPara, r.t.List.Indent, 0)
-				r.space(defPara, r.t.Text.LineHeight, 0, after)
-			} else {
-				// Indent marker
-				indentRun, err := defPara.AddRun()
-				if err != nil {
-					return err
-				}
-				indentRun.SetText("    ")
-				indentRun.SetSize(halfPoints(r.t.Text.Size))
+			after := 0.0
+			if n == len(item.Definitions)-1 {
+				after = 4
 			}
+			r.indent(defPara, r.t.List.Indent, 0)
+			r.space(defPara, r.t.Text.LineHeight, 0, after)
 
 			for _, run := range def {
 				if err := r.addRunToParagraph(defPara, run); err != nil {
@@ -1305,25 +1243,8 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 		}
 
 		// Indent based on level
-		indent := ""
-		for i := 1; i < item.Level; i++ {
-			indent += "    "
-		}
-
-		if r.styled() {
-			r.indent(para, float64(item.Level-1)*r.t.List.Indent, 0)
-			r.space(para, r.t.Text.LineHeight, 0, 0)
-			indent = ""
-		}
-
-		if indent != "" {
-			indentRun, err := para.AddRun()
-			if err != nil {
-				return err
-			}
-			indentRun.SetText(indent)
-			indentRun.SetSize(halfPoints(r.t.Text.Size))
-		}
+		r.indent(para, float64(item.Level-1)*r.t.List.Indent, 0)
+		r.space(para, r.t.Text.LineHeight, 0, 0)
 
 		run, err := para.AddRun()
 		if err != nil {
@@ -1534,21 +1455,11 @@ func (r *DocxRenderer) fillRunning(part runningPart, run theme.Running, info doc
 
 // ---- layout ---------------------------------------------------------------
 //
-// The helpers below apply the theme's spacing. With the plain layout of the
-// default theme they do nothing, and the document is laid out as it always
-// was: by the word processor's defaults.
-
-// styled reports whether the theme's spacing is applied.
-func (r *DocxRenderer) styled() bool {
-	return !r.t.PlainLayout
-}
+// The helpers below write the theme's spacing into the document.
 
 // space sets a paragraph's line height and the space before and after it.
 // A line height of zero leaves it to the word processor.
 func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float64) {
-	if !r.styled() {
-		return
-	}
 	if lineHeight > 0 {
 		// "At least": taller content, such as an image, still gets its room
 		p.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingAtLeast, Value: twips(lineHeight)})
@@ -1559,9 +1470,6 @@ func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float
 
 // indent sets a paragraph's left and right indent.
 func (r *DocxRenderer) indent(p domain.Paragraph, left, right float64) {
-	if !r.styled() {
-		return
-	}
 	p.SetIndentLeft(twips(left))
 	p.SetIndentRight(twips(right))
 }
@@ -1569,9 +1477,6 @@ func (r *DocxRenderer) indent(p domain.Paragraph, left, right float64) {
 // pad gives the paragraphs of a table cell the padding of their panel:
 // indents on both sides, space above the first and below the last.
 func (r *DocxRenderer) pad(paragraphs []domain.Paragraph, padding, lineHeight float64) {
-	if !r.styled() {
-		return
-	}
 	for i, p := range paragraphs {
 		before, after := 0.0, 0.0
 		if i == 0 {
@@ -1588,9 +1493,6 @@ func (r *DocxRenderer) pad(paragraphs []domain.Paragraph, padding, lineHeight fl
 // gap adds vertical space after a table, as an empty paragraph of that
 // height. Tables cannot carry space of their own.
 func (r *DocxRenderer) gap(height float64) error {
-	if !r.styled() {
-		return nil
-	}
 	if height < 1 {
 		height = 1
 	}

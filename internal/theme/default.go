@@ -11,8 +11,8 @@ const (
 )
 
 // Default is markout's standard look. Its PDF and DOCX forms differ in fonts,
-// margins and heading sizes for historical reasons, and are kept as they are
-// so existing documents convert the way they always have.
+// margins and heading sizes for historical reasons; spacing is the same in
+// both.
 func Default() Set {
 	alerts := Alert{
 		Padding:    8,
@@ -75,7 +75,6 @@ func Default() Set {
 	}
 
 	docx := pdf
-	docx.PlainLayout = true
 	docx.Page.Width, docx.Page.Height = 210*mm, 297*mm
 	docx.Page.MarginTop, docx.Page.MarginRight = 25*mm, 25*mm
 	docx.Page.MarginBottom, docx.Page.MarginLeft = 25*mm, 25*mm
