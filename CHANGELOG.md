@@ -4,6 +4,17 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - Unreleased
+
+### Added
+
+- Update notifications: the TUI checks for a newer release at most once a day
+  and announces it in the top border. `F2` then `u` turns the check off, and
+  `markout --check-update` looks on demand. Command-line conversions never
+  check, and nothing is installed automatically.
+- `markout --version` reports the right version for binaries installed with
+  `go install`.
+
 ## [1.1.2] - 2026-10-06
 
 ### Security

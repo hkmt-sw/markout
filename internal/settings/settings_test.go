@@ -4,6 +4,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/hkmt-sw/markout/internal/flavor"
 )
@@ -35,5 +36,19 @@ func TestLoadIgnoresBadFiles(t *testing.T) {
 		if got := Load(); got.Flavor != flavor.DefaultID {
 			t.Errorf("Load() with %q = %q, want the default", content, got.Flavor)
 		}
+	}
+}
+
+// Saving one preference must not lose the others.
+func TestAllFieldsRoundTrip(t *testing.T) {
+	t.Setenv(EnvPath, filepath.Join(t.TempDir(), "config.json"))
+	when := time.Date(2026, 10, 6, 12, 0, 0, 0, time.UTC)
+	want := Settings{Flavor: "obsidian", NoUpdateCheck: true, UpdateCheckedAt: when, LatestVersion: "v1.2.0"}
+	if err := Save(want); err != nil {
+		t.Fatal(err)
+	}
+	got := Load()
+	if got.Flavor != want.Flavor || !got.NoUpdateCheck || !got.UpdateCheckedAt.Equal(when) || got.LatestVersion != "v1.2.0" {
+		t.Fatalf("Load() = %+v, want %+v", got, want)
 	}
 }

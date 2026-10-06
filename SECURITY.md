@@ -28,6 +28,9 @@ Knowing this helps judge whether something is a vulnerability:
 - With the GitLab flavor, `::include{file=…}` reads the named file, but only
   from the directory of the document or below it.
 - Nothing is uploaded, and no code from the document is executed.
+- Independently of any document, the TUI asks the GitHub API for the latest
+  release at most once a day, sending only the markout version, to announce
+  updates. `F2` then `u` turns this off; command-line conversions never do it.
 
 Converting a document you did not write therefore lets that document embed
 image files from your disk into the output, and, if you allow remote images,

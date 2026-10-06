@@ -13,8 +13,10 @@ package main
 
 import (
 	"bufio"
+	"context"
 	"fmt"
 	"os"
+	"runtime/debug"
 	"strings"
 	"unicode"
 
@@ -24,6 +26,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
 	"github.com/hkmt-sw/markout/internal/tui"
+	"github.com/hkmt-sw/markout/internal/update"
 )
 
 // version is the build version, overridden at release time via:
@@ -44,10 +47,13 @@ func main() {
 			printUsage()
 			return
 		case arg == "-v" || arg == "--version" || (arg == "version" && len(args) == 1):
-			fmt.Printf("markout %s\n", version)
+			fmt.Printf("markout %s\n", buildVersion())
 			return
 		case arg == "--list-flavors" || arg == "--flavors":
 			printFlavors()
+			return
+		case arg == "--check-update":
+			checkUpdate()
 			return
 		case arg == "-f" || arg == "--flavor":
 			if i+1 >= len(args) {
@@ -71,7 +77,8 @@ func main() {
 	}
 
 	// The flavor comes from the command line, else from the saved settings.
-	fl := settings.Load().MarkdownFlavor()
+	saved := settings.Load()
+	fl := saved.MarkdownFlavor()
 	if flavorID != "" {
 		chosen, ok := flavor.ByID(flavorID)
 		if !ok {
@@ -93,7 +100,7 @@ func main() {
 	}
 
 	// Interactive mode.
-	if err := tui.Run(fl); err != nil {
+	if err := tui.Run(tui.Config{Flavor: fl, Settings: saved, Version: buildVersion()}); err != nil {
 		fail("%v", err)
 	}
 }
@@ -172,6 +179,36 @@ func printable(s string) string {
 	}, s)
 }
 
+// buildVersion is the version set at release time, or, for a binary built
+// with "go install module@version", the module version Go recorded.
+func buildVersion() string {
+	if version != "dev" {
+		return version
+	}
+	if info, ok := debug.ReadBuildInfo(); ok && update.IsRelease(info.Main.Version) {
+		return info.Main.Version
+	}
+	return version
+}
+
+// checkUpdate asks GitHub for the newest release and says how this build
+// compares.
+func checkUpdate() {
+	current := buildVersion()
+	latest, err := update.Latest(context.Background(), update.LatestReleaseAPI, current)
+	if err != nil {
+		fail("could not check for updates: %v", err)
+	}
+	switch {
+	case !update.IsRelease(current):
+		fmt.Printf("This is a development build (%s). The latest release is %s:\n  https://%s\n", current, latest, update.ReleasesPage)
+	case update.Newer(latest, current):
+		fmt.Printf("markout %s is available (you have %s):\n  https://%s\n", latest, current, update.ReleasesPage)
+	default:
+		fmt.Printf("markout %s is the latest release.\n", current)
+	}
+}
+
 func fail(format string, a ...any) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", a...)
 	os.Exit(1)
@@ -191,6 +228,7 @@ Options:
   -f, --flavor <name>             Markdown flavor to interpret the input as
                                   (default: the one saved in the TUI settings)
       --list-flavors              List the supported flavors
+      --check-update              Ask GitHub whether a newer release exists
       --remote-images <mode>      Images referenced by URL: ask (default in a
                                   terminal), allow, or deny (default otherwise)
 `)
