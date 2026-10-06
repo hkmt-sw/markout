@@ -1,245 +1,239 @@
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "GitHub Flavored Markdown (GFM) - Teljes"
   R{b font=Georgia sz=56} " Referencia"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Ez a dokumentum a GFM összes elemét bemutatja"
   R{color=1A1A2E font=Georgia} " példákkal."
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "1. Fejlécek "
   R{b font=Georgia sz=44} "(Headings)"
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "H1 - Legnagyobb"
   R{b font=Georgia sz=56} " fejléc"
-P
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "H2 - Másodlagos"
   R{b font=Georgia sz=44} " fejléc"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "H3 - Harmadlagos"
   R{b font=Georgia sz=34} " fejléc"
-P
+P{spacing=240/120 line=360/atLeast}
   R{b font=Georgia sz=28} "H4 - Negyedszintű"
   R{b font=Georgia sz=28} " fejléc"
-P
+P{spacing=200/120 line=320/atLeast}
   R{b font=Georgia sz=24} "H5 - Ötödszintű"
   R{b font=Georgia sz=24} " fejléc"
-P
+P{spacing=200/120 line=280/atLeast}
   R{b font=Georgia} "H6 - Legkisebb"
   R{b font=Georgia} " fejléc"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Alternatív szintaxis H1 és H2 esetén"
   R{color=1A1A2E font=Georgia} ":"
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "Alternatív"
   R{b font=Georgia sz=56} " H1"
-P
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "Alternatív"
   R{b font=Georgia sz=44} " H2"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "2. Szövegformázás (Text"
   R{b font=Georgia sz=44} " Formatting)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "Félkövér szöveg"
   R{color=1A1A2E font=Georgia} " vagy "
   R{b color=1A1A2E font=Georgia} "így is félkövér"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia i} "Dőlt szöveg"
   R{color=1A1A2E font=Georgia} " vagy "
   R{color=1A1A2E font=Georgia i} "így is dőlt"
-P
+P{spacing=0/160 line=320/atLeast}
   R{b color=1A1A2E font=Georgia i} "Félkövér és dőlt"
   R{color=1A1A2E font=Georgia} " vagy "
   R{b color=1A1A2E font=Georgia i} "így is"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=8888A0 font=Georgia strike} "Áthúzott szöveg"
   R{color=1A1A2E font=Georgia} " (GFM"
   R{color=1A1A2E font=Georgia} " specifikus)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Ez egy "
   R{color=CF222E font=Consolas} "inline kód"
   R{color=1A1A2E font=Georgia} " a"
   R{color=1A1A2E font=Georgia} " szövegben."
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "3. Listák "
   R{b font=Georgia sz=44} "(Lists)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Felsorolás (Unordered"
   R{b font=Georgia sz=34} " List)"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Első"
   R{color=1A1A2E font=Georgia} " elem"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Második"
   R{color=1A1A2E font=Georgia} " elem"
-P
-  R{font=Georgia} "        ◦  "
+P{indent=800 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "◦ "
   R{color=1A1A2E font=Georgia} "Beágyazott"
   R{color=1A1A2E font=Georgia} " elem"
-P
-  R{font=Georgia} "        ◦  "
+P{indent=800 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "◦ "
   R{color=1A1A2E font=Georgia} "Még egy"
   R{color=1A1A2E font=Georgia} " beágyazott"
-P
-  R{font=Georgia} "            ▪  "
+P{indent=1200 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "▪ "
   R{color=1A1A2E font=Georgia} "Harmadik"
   R{color=1A1A2E font=Georgia} " szint"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Harmadik"
   R{color=1A1A2E font=Georgia} " elem"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Alternatív jelölők"
   R{color=1A1A2E font=Georgia} ":"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Csillaggal"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Plusszal"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Számozott lista (Ordered"
   R{b font=Georgia sz=34} " List)"
-P
-  R{font=Georgia} "    1.  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "1. "
   R{color=1A1A2E font=Georgia} "Első"
   R{color=1A1A2E font=Georgia} " lépés"
-P
-  R{font=Georgia} "    2.  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "2. "
   R{color=1A1A2E font=Georgia} "Második"
   R{color=1A1A2E font=Georgia} " lépés"
-P
-  R{font=Georgia} "        a.  "
+P{indent=800 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "a. "
   R{color=1A1A2E font=Georgia} "Allépés"
   R{color=1A1A2E font=Georgia} " A"
-P
-  R{font=Georgia} "        b.  "
+P{indent=800 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "b. "
   R{color=1A1A2E font=Georgia} "Allépés"
   R{color=1A1A2E font=Georgia} " B"
-P
-  R{font=Georgia} "    3.  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "3. "
   R{color=1A1A2E font=Georgia} "Harmadik"
   R{color=1A1A2E font=Georgia} " lépés"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "A számok nem számítanak, automatikusan számozódik"
   R{color=1A1A2E font=Georgia} ":"
-P
-  R{font=Georgia} "    1.  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "1. "
   R{color=1A1A2E font=Georgia} "Első"
-P
-  R{font=Georgia} "    2.  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "2. "
   R{color=1A1A2E font=Georgia} "Második"
-P
-  R{font=Georgia} "    3.  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "3. "
   R{color=1A1A2E font=Georgia} "Harmadik"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Feladatlista / Checkbox (Task List) - GFM"
   R{b font=Georgia sz=34} " specifikus"
-P
-  R{font=Georgia} "    ☑  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☑ "
   R{color=1A1A2E font=Georgia} "Befejezett"
   R{color=1A1A2E font=Georgia} " feladat"
-P
-  R{font=Georgia} "    ☑  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☑ "
   R{color=1A1A2E font=Georgia} "Ez is"
   R{color=1A1A2E font=Georgia} " kész"
-P
-  R{font=Georgia} "    ☐  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☐ "
   R{color=1A1A2E font=Georgia} "Még nem"
   R{color=1A1A2E font=Georgia} " kész"
-P
-  R{font=Georgia} "    ☐  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☐ "
   R{color=1A1A2E font=Georgia} "Ez sincs"
   R{color=1A1A2E font=Georgia} " kész"
-P
-  R{font=Georgia} "        ☐  "
+P{indent=800 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☐ "
   R{color=1A1A2E font=Georgia} "Beágyazott"
   R{color=1A1A2E font=Georgia} " feladat"
-P
-  R{font=Georgia} "        ☑  "
+P{indent=800 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☑ "
   R{color=1A1A2E font=Georgia} "Beágyazott kész"
   R{color=1A1A2E font=Georgia} " feladat"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "4. Linkek "
   R{b font=Georgia sz=44} "(Links)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Inline"
   R{b font=Georgia sz=34} " link"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=https://example.com rStyle=Hyperlink u=single} "Látható szöveg"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=https://example.com rStyle=Hyperlink u=single} "Link címmel"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Automatikus linkek (Autolinks) - GFM"
   R{b font=Georgia sz=34} " specifikus"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Egyszerűen beírt URL: "
   R{color=2563EB font=Georgia link=https://github.com rStyle=Hyperlink u=single} "https://github.com"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Email automatikus link: "
   R{color=2563EB font=Georgia link=info@example.com rStyle=Hyperlink u=single} "info@example.com"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Referencia stílusú"
   R{b font=Georgia sz=34} " linkek"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=https://example.com rStyle=Hyperlink u=single} "Ez egy referencia link"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=https://example.com/masik rStyle=Hyperlink u=single} "Ez is referencia"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Relatív"
   R{b font=Georgia sz=34} " linkek"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=./masik-fajl.md rStyle=Hyperlink u=single} "Másik fájl"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=./images/ rStyle=Hyperlink u=single} "Képek mappa"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "5. Képek "
   R{b font=Georgia sz=44} "(Images)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Inline"
   R{b font=Georgia sz=34} " kép"
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=4A4A68 font=Georgia i} "🖼 Alt szöveg"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "https://via.placeholder.com/150x100"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Referencia stílusú"
   R{b font=Georgia sz=34} " kép"
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=4A4A68 font=Georgia i} "🖼 Logo"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "https://via.placeholder.com/200x50"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Kép"
   R{b font=Georgia sz=34} " linkként"
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=4A4A68 font=Georgia i} "🖼 Kattintható kép"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "https://via.placeholder.com/100x100"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "6. Kódblokkok (Code"
   R{b font=Georgia sz=44} " Blocks)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Inline"
   R{b font=Georgia sz=34} " kód"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Használd a "
   R{color=CF222E font=Consolas} "console.log()"
   R{color=1A1A2E font=Georgia} " függvényt"
   R{color=1A1A2E font=Georgia} " debugoláshoz."
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Behúzással (4 szóköz vagy 1"
   R{b font=Georgia sz=34} " tab)"
 TABLE
@@ -248,13 +242,14 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "function hello() {"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "function hello() {"
         R "<br>"
-        R{font=Consolas sz=19} "    console.log(\"Hello\");"
+        R{color=24292F font=Consolas sz=19} "    console.log(\"Hello\");"
         R "<br>"
-        R{font=Consolas sz=19} "}"
-P
+        R{color=24292F font=Consolas sz=19} "}"
+P{spacing=/ line=160/exact}
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Kerített kódblokk (Fenced Code Block) - GFM"
   R{b font=Georgia sz=34} " specifikus"
 TABLE
@@ -263,11 +258,12 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "Nincs nyelvjelölés"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "Nincs nyelvjelölés"
         R "<br>"
-        R{font=Consolas sz=19} "Egyszerű szöveg"
-P
+        R{color=24292F font=Consolas sz=19} "Egyszerű szöveg"
+P{spacing=/ line=160/exact}
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Szintaxis kiemelés"
   R{b font=Georgia sz=34} " nyelvjelöléssel"
 TABLE
@@ -276,116 +272,121 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "function greet(name) {"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "function greet(name) {"
         R "<br>"
-        R{font=Consolas sz=19} "    return `Hello, ${name}!`;"
+        R{color=24292F font=Consolas sz=19} "    return `Hello, ${name}!`;"
         R "<br>"
-        R{font=Consolas sz=19} "}"
+        R{color=24292F font=Consolas sz=19} "}"
         R "<br>"
-        R{font=Consolas sz=19} " "
+        R{color=24292F font=Consolas sz=19} " "
         R "<br>"
-        R{font=Consolas sz=19} "const result = greet(\"Világ\");"
+        R{color=24292F font=Consolas sz=19} "const result = greet(\"Világ\");"
         R "<br>"
-        R{font=Consolas sz=19} "console.log(result);"
+        R{color=24292F font=Consolas sz=19} "console.log(result);"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "def greet(name):"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "def greet(name):"
         R "<br>"
-        R{font=Consolas sz=19} "    \"\"\"Üdvözlő függvény\"\"\""
+        R{color=24292F font=Consolas sz=19} "    \"\"\"Üdvözlő függvény\"\"\""
         R "<br>"
-        R{font=Consolas sz=19} "    return f\"Hello, {name}!\""
+        R{color=24292F font=Consolas sz=19} "    return f\"Hello, {name}!\""
         R "<br>"
-        R{font=Consolas sz=19} " "
+        R{color=24292F font=Consolas sz=19} " "
         R "<br>"
-        R{font=Consolas sz=19} "if __name__ == \"__main__\":"
+        R{color=24292F font=Consolas sz=19} "if __name__ == \"__main__\":"
         R "<br>"
-        R{font=Consolas sz=19} "    print(greet(\"Világ\"))"
+        R{color=24292F font=Consolas sz=19} "    print(greet(\"Világ\"))"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "SELECT "
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "SELECT "
         R "<br>"
-        R{font=Consolas sz=19} "    u.name,"
+        R{color=24292F font=Consolas sz=19} "    u.name,"
         R "<br>"
-        R{font=Consolas sz=19} "    COUNT(o.id) as order_count"
+        R{color=24292F font=Consolas sz=19} "    COUNT(o.id) as order_count"
         R "<br>"
-        R{font=Consolas sz=19} "FROM users u"
+        R{color=24292F font=Consolas sz=19} "FROM users u"
         R "<br>"
-        R{font=Consolas sz=19} "LEFT JOIN orders o ON u.id = o.user_id"
+        R{color=24292F font=Consolas sz=19} "LEFT JOIN orders o ON u.id = o.user_id"
         R "<br>"
-        R{font=Consolas sz=19} "WHERE u.created_at > '2024-01-01'"
+        R{color=24292F font=Consolas sz=19} "WHERE u.created_at > '2024-01-01'"
         R "<br>"
-        R{font=Consolas sz=19} "GROUP BY u.id"
+        R{color=24292F font=Consolas sz=19} "GROUP BY u.id"
         R "<br>"
-        R{font=Consolas sz=19} "HAVING order_count > 5"
+        R{color=24292F font=Consolas sz=19} "HAVING order_count > 5"
         R "<br>"
-        R{font=Consolas sz=19} "ORDER BY order_count DESC;"
+        R{color=24292F font=Consolas sz=19} "ORDER BY order_count DESC;"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "#!/bin/bash"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "#!/bin/bash"
         R "<br>"
-        R{font=Consolas sz=19} "echo \"Hello World\""
+        R{color=24292F font=Consolas sz=19} "echo \"Hello World\""
         R "<br>"
-        R{font=Consolas sz=19} "for i in {1..5}; do"
+        R{color=24292F font=Consolas sz=19} "for i in {1..5}; do"
         R "<br>"
-        R{font=Consolas sz=19} "    echo \"Iteration $i\""
+        R{color=24292F font=Consolas sz=19} "    echo \"Iteration $i\""
         R "<br>"
-        R{font=Consolas sz=19} "done"
+        R{color=24292F font=Consolas sz=19} "done"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "{"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "{"
         R "<br>"
-        R{font=Consolas sz=19} "  \"name\": \"projekt\","
+        R{color=24292F font=Consolas sz=19} "  \"name\": \"projekt\","
         R "<br>"
-        R{font=Consolas sz=19} "  \"version\": \"1.0.0\","
+        R{color=24292F font=Consolas sz=19} "  \"version\": \"1.0.0\","
         R "<br>"
-        R{font=Consolas sz=19} "  \"dependencies\": {"
+        R{color=24292F font=Consolas sz=19} "  \"dependencies\": {"
         R "<br>"
-        R{font=Consolas sz=19} "    \"docx\": \"^9.0.0\""
+        R{color=24292F font=Consolas sz=19} "    \"docx\": \"^9.0.0\""
         R "<br>"
-        R{font=Consolas sz=19} "  }"
+        R{color=24292F font=Consolas sz=19} "  }"
         R "<br>"
-        R{font=Consolas sz=19} "}"
+        R{color=24292F font=Consolas sz=19} "}"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "procedure TForm1.Button1Click(Sender: TObject);"
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "procedure TForm1.Button1Click(Sender: TObject);"
         R "<br>"
-        R{font=Consolas sz=19} "begin"
+        R{color=24292F font=Consolas sz=19} "begin"
         R "<br>"
-        R{font=Consolas sz=19} "  ShowMessage('Hello Delphi!');"
+        R{color=24292F font=Consolas sz=19} "  ShowMessage('Hello Delphi!');"
         R "<br>"
-        R{font=Consolas sz=19} "end;"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+        R{color=24292F font=Consolas sz=19} "end;"
+P{spacing=/ line=160/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "7. Táblázatok (Tables) - GFM"
   R{b font=Georgia sz=44} " specifikus"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Alapvető"
   R{b font=Georgia sz=34} " táblázat"
 TABLE
@@ -396,46 +397,47 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Fejléc"
         R{b color=1A1A2E font=Georgia} " 1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Fejléc"
         R{b color=1A1A2E font=Georgia} " 2"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Fejléc"
         R{b color=1A1A2E font=Georgia} " 3"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 2"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 3"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 4"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 5"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Cella"
         R{color=1A1A2E font=Georgia} " 6"
-P
+P{spacing=/ line=160/exact}
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Igazítás"
 TABLE
   COL w=4858
@@ -445,49 +447,50 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4858}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Balra"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2267}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Középre"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=1943}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Jobbra"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4858}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "bal"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2267}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "közép"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1943}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "jobb"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4858}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2267}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1943}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "123"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4858}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "hosszabb"
         R{color=1A1A2E font=Georgia} " szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2267}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "rövid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1943}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "45678"
-P
+P{spacing=/ line=160/exact}
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Formázás"
   R{b font=Georgia sz=34} " táblázatban"
 TABLE
@@ -498,230 +501,210 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Funkció"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4065}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Szintaxis"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Eredmény"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Félkövér"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4065}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "**szöveg**"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "szöveg"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Dőlt"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4065}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "*szöveg*"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia i} "szöveg"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Kód"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4065}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "`kód`"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "kód"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Link"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4065}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "[szöveg](url)"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=2563EB font=Georgia link=url rStyle=Hyperlink u=single} "szöveg"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{spacing=/ line=160/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "8. Idézetek "
   R{b font=Georgia sz=44} "(Blockquotes)"
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Ez egy"
-  R{color=1A1A2E font=Georgia} " idézet. "
-  R{color=1A1A2E font=Georgia} "Több sorban is"
-  R{color=1A1A2E font=Georgia} " folytatható."
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Idézet több"
-  R{color=1A1A2E font=Georgia} " bekezdéssel."
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Második bekezdés az"
-  R{color=1A1A2E font=Georgia} " idézetben."
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Beágyazott idézet"
-  R{color=1A1A2E font=Georgia} ":"
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Ez egy beágyazott"
-  R{color=1A1A2E font=Georgia} " idézet. "
-  R{color=1A1A2E font=Georgia} "Még egy"
-  R{color=1A1A2E font=Georgia} " sor."
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=1A1A2E font=Georgia} "Vissza az első"
-  R{color=1A1A2E font=Georgia} " szintre."
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{b color=1A1A2E font=Georgia} "Formázott idézet"
-P
-  R{font=Georgia} "    •  "
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Ez egy"
+  R{color=1A1A2E font=Georgia i} " idézet. "
+  R{color=1A1A2E font=Georgia i} "Több sorban is"
+  R{color=1A1A2E font=Georgia i} " folytatható."
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Idézet több"
+  R{color=1A1A2E font=Georgia i} " bekezdéssel."
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Második bekezdés az"
+  R{color=1A1A2E font=Georgia i} " idézetben."
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Beágyazott idézet"
+  R{color=1A1A2E font=Georgia i} ":"
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Ez egy beágyazott"
+  R{color=1A1A2E font=Georgia i} " idézet. "
+  R{color=1A1A2E font=Georgia i} "Még egy"
+  R{color=1A1A2E font=Georgia i} " sor."
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=1A1A2E font=Georgia i} "Vissza az első"
+  R{color=1A1A2E font=Georgia i} " szintre."
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{b color=1A1A2E font=Georgia i} "Formázott idézet"
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Lista az"
   R{color=1A1A2E font=Georgia} " idézetben"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Második"
   R{color=1A1A2E font=Georgia} " elem"
-P
-  R{color=3B82F6 font=Georgia} "│ "
-  R{color=CF222E font=Consolas} "Kód is lehet benne"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
+  R{color=CF222E font=Consolas i} "Kód is lehet benne"
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "9. Vízszintes vonal (Horizontal"
   R{b font=Georgia sz=44} " Rule)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Három féle módon"
   R{color=1A1A2E font=Georgia} ":"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "10. Escape karakterek "
   R{b font=Georgia sz=44} "(Escaping)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Speciális karakterek megjelenítése backslash-sel"
   R{color=1A1A2E font=Georgia} ":"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "*Ez nem lesz"
   R{color=1A1A2E font=Georgia} " dőlt*"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "# Ez nem lesz"
   R{color=1A1A2E font=Georgia} " fejléc"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "[Ez nem lesz link]"
   R{color=1A1A2E font=Georgia} "(url)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Backslash:"
   R{color=1A1A2E font=Georgia} " \\"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Backtick:"
   R{color=1A1A2E font=Georgia} " `"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Pipe táblázatban:"
   R{color=1A1A2E font=Georgia} " |"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "11. HTML"
   R{b font=Georgia sz=44} " támogatás"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "GFM támogatja a nyers HTML-t"
   R{color=1A1A2E font=Georgia} ":"
-P
+P{spacing=0/160 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "► Kattints a részletekért (összecsukható)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Ez a tartalom rejtve van"
   R{color=1A1A2E font=Georgia} " alapból."
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Lista a"
   R{color=1A1A2E font=Georgia} " details-ben"
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "Második"
   R{color=1A1A2E font=Georgia} " elem"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=CF222E font=Consolas} "Ctrl"
   R{color=1A1A2E font=Georgia} " + "
   R{color=CF222E font=Consolas} "C"
   R{color=1A1A2E font=Georgia} " -"
   R{color=1A1A2E font=Georgia} " másolás"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "H"
   R{color=1A1A2E font=Georgia} "₂"
   R{color=1A1A2E font=Georgia} "O - alsó"
   R{color=1A1A2E font=Georgia} " index"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "E = mc"
   R{color=1A1A2E font=Georgia} "²"
   R{color=1A1A2E font=Georgia} " - felső"
   R{color=1A1A2E font=Georgia} " index"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia highlight=yellow} "Kiemelt szöveg"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Sortörés HTML-lel"
   R{color=1A1A2E font=Georgia} " fent."
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "12. Lábjegyzetek (Footnotes) - GFM"
   R{b font=Georgia sz=44} " kiterjesztés"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Ez egy szöveg lábjegyzettel"
   R{color=2563EB font=Georgia sz=18} "[1]"
   R{color=1A1A2E font=Georgia} "."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Még egy lábjegyzet"
   R{color=2563EB font=Georgia sz=18} "[2]"
   R{color=1A1A2E font=Georgia} " és egy nevesített"
   R{color=2563EB font=Georgia sz=18} "[3]"
   R{color=1A1A2E font=Georgia} "."
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "13. Definíciós lista - Egyes"
   R{b font=Georgia sz=44} " implementációkban"
-P
+P{spacing=0/0 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "Kifejezés"
-P
-  R "    "
+P{indent=400 spacing=0/80 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Definíció"
   R{color=1A1A2E font=Georgia} " itt"
-P
+P{spacing=0/0 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "Másik"
   R{b color=1A1A2E font=Georgia} " kifejezés"
-P
-  R "    "
+P{indent=400 spacing=0/0 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Első"
   R{color=1A1A2E font=Georgia} " definíció"
-P
-  R "    "
+P{indent=400 spacing=0/80 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Második"
   R{color=1A1A2E font=Georgia} " definíció"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "14. Emoji - GFM"
   R{b font=Georgia sz=44} " specifikus"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "😄"
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "❤️"
@@ -731,7 +714,7 @@ P
   R{color=1A1A2E font=Georgia} "🚀"
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "⚠️"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "🇭🇺"
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "💻"
@@ -741,55 +724,52 @@ P
   R{color=1A1A2E font=Georgia} "💡"
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "🔥"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Unicode emoji is működik: 😀 ❤️ 👍 🚀"
   R{color=1A1A2E font=Georgia} " ⚠️"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "15. Megemlítések és hivatkozások - GitHub"
   R{b font=Georgia sz=44} " specifikus"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Felhasználó"
   R{b font=Georgia sz=34} " megemlítése"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "@username (GitHubon"
   R{color=1A1A2E font=Georgia} " működik)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Issue/PR"
   R{b font=Georgia sz=34} " hivatkozás"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "#123 (Issue vagy Pull Request"
   R{color=1A1A2E font=Georgia} " száma)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Commit"
   R{b font=Georgia sz=34} " hivatkozás"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "SHA: a]5c3d2e1f (rövidített commit"
   R{color=1A1A2E font=Georgia} " hash)"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Repository"
   R{b font=Georgia sz=34} " hivatkozás"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "owner/repo#123"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "16. Matematikai képletek - GFM"
   R{b font=Georgia sz=44} " kiterjesztés"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Inline matek: "
   R{color=7C3AED font=Georgia i} "E = mc^2"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Blokk matek"
   R{color=1A1A2E font=Georgia} ":"
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=7C3AED font=Georgia i} "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=7C3AED font=Georgia i} "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "17. Mermaid diagramok - GFM"
   R{b font=Georgia sz=44} " kiterjesztés"
 TABLE
@@ -798,9 +778,9 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=240/atLeast}
         R{b color=065F46 font=Georgia} "Mermaid Diagram"
-      P
+      P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "graph TD"
         R "<br>"
         R{color=065F46 font=Consolas sz=19} "    A[Start] --> B{Döntés}"
@@ -812,15 +792,16 @@ TABLE
         R{color=065F46 font=Consolas sz=19} "    C --> E[Vége]"
         R "<br>"
         R{color=065F46 font=Consolas sz=19} "    D --> E"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=240/atLeast}
         R{b color=065F46 font=Georgia} "Mermaid Diagram"
-      P
+      P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "sequenceDiagram"
         R "<br>"
         R{color=065F46 font=Consolas sz=19} "    participant K as Kliens"
@@ -830,52 +811,50 @@ TABLE
         R{color=065F46 font=Consolas sz=19} "    K->>S: Kérés"
         R "<br>"
         R{color=065F46 font=Consolas sz=19} "    S-->>K: Válasz"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{spacing=/ line=160/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "18. Sortörések (Line"
   R{b font=Georgia sz=44} " Breaks)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Egyszerű sortörés (két szóköz a sor végén)"
   R{color=1A1A2E font=Georgia} ":"
   R{color=1A1A2E font=Georgia} "Ez új sorban"
   R{color=1A1A2E font=Georgia} " van."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Vagy üres sorral"
   R{color=1A1A2E font=Georgia} ":"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Ez egy új"
   R{color=1A1A2E font=Georgia} " bekezdés."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "HTML sortörés: első sor"
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "második"
   R{color=1A1A2E font=Georgia} " sor"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "19. Speciális"
   R{b font=Georgia sz=44} " linkek"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Anchor linkek (dokumentumon"
   R{b font=Georgia sz=34} " belüli)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia rStyle=Hyperlink u=single} "Ugrás a táblázatokhoz"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia rStyle=Hyperlink u=single} "Vissza az elejére"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Mailto"
   R{b font=Georgia sz=34} " link"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=mailto:info@example.com rStyle=Hyperlink u=single} "Küldj emailt"
-P
+P{spacing=280/160 line=400/atLeast}
   R{b font=Georgia sz=34} "Tel"
   R{b font=Georgia sz=34} " link"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia link=tel:+36301234567 rStyle=Hyperlink u=single} "Hívj fel"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=360/200 line=480/atLeast}
   R{b font=Georgia sz=44} "20. Összefoglaló"
   R{b font=Georgia sz=44} " táblázat"
 TABLE
@@ -887,75 +866,75 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Elem"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Alap"
         R{b color=1A1A2E font=Georgia} " MD"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "GFM"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Megjegyzés"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Fejlécek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "H1-H6"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Félkövér/Dőlt"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "**"
         R{color=1A1A2E font=Georgia} " és "
         R{color=CF222E font=Consolas} "*"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Áthúzás"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "~~szöveg~~"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Listák"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "-"
         R{color=1A1A2E font=Georgia} ", "
         R{color=CF222E font=Consolas} "*"
@@ -966,224 +945,223 @@ TABLE
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Tasklist"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "- [x]"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Linkek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "[](url)"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Autolink"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "URL"
         R{color=1A1A2E font=Georgia} " automatikus"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Képek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "![]()"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Kódblokk"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "``` vagy"
         R{color=1A1A2E font=Georgia} " behúzás"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Szintaxis"
         R{color=1A1A2E font=Georgia} " highlight"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "```"
         R{color=1A1A2E font=Georgia} "nyelv"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Táblázatok"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Pipe"
         R{color=1A1A2E font=Georgia} " szintaxis"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Idézetek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} ">"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "HR"
         R{color=1A1A2E font=Georgia} " vonal"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "---"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "HTML"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Részleges"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Lábjegyzet"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "[^1]"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Emoji"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} ":emoji:"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Matek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=CF222E font=Consolas} "$ és $$"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Mermaid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "```"
         R{color=1A1A2E font=Georgia} "mermaid"
-P{jc=center}
-  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
-P
+P{spacing=/ line=160/exact}
+P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia i} "Ez a dokumentum a GFM specifikáció alapján készült."
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia i} "Forrás: "
   R{color=2563EB font=Georgia link=https://github.github.com/gfm/ rStyle=Hyperlink u=single} "https://github.github.com/gfm/"
-P
-  R{color=B4B4B4 sz=18} "────────────────────────────────"
-P
+P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "Ez az első lábjegyzet"
   R{color=4A4A68 font=Georgia sz=18} " tartalma."
-P
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "2. "
   R{color=4A4A68 font=Georgia sz=18} "Ez a második"
   R{color=4A4A68 font=Georgia sz=18} " lábjegyzet."
-P
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "3. "
   R{color=4A4A68 font=Georgia sz=18} "A lábjegyzeteknek lehet beszédes neve"
   R{color=4A4A68 font=Georgia sz=18} " is."

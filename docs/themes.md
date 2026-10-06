@@ -28,10 +28,9 @@ Five themes come with markout. Each picture is the first page of
 | ![report](themes/report.png) | |
 
 The default theme is the one markout has always used. For historical reasons
-its PDF and DOCX forms differ a little (PDF is sans-serif with 20 mm margins;
-DOCX uses Georgia with 25 mm margins and larger headings, and leaves spacing
-to the word processor); it is kept that way so existing documents convert as
-they always have. The other four use the same values in both formats.
+its PDF and DOCX forms differ a little: PDF is sans-serif with 20 mm margins,
+DOCX uses Georgia with 25 mm margins and larger headings. The other four use
+the same values in both formats.
 
 ## Using a theme
 
@@ -407,11 +406,6 @@ formats are:
   and rules into the document, and Word or LibreOffice does the rest: where
   lines and pages break is their decision, and line heights are a minimum
   (taller content gets its room).
-
-The default theme is the exception for spacing: its DOCX form keeps the plain
-layout markout has always produced, in which spacing and indents are left to
-the word processor. A theme of your own that extends `default` gets the
-default's spacing values in DOCX too, so it looks like the PDF.
 
 ### What a theme does not control
 

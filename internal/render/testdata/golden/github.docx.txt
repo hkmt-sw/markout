@@ -4,16 +4,17 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=4A4A68 font=Georgia} "Title: "
         R{color=1A1A2E font=Georgia} "GitHub Flavored Markdown"
-      P
+      P{indent=160/160 spacing=0/160 line=320/atLeast}
         R{b color=4A4A68 font=Georgia} "Author: "
         R{color=1A1A2E font=Georgia} "Markout"
-P
+P{spacing=/ line=160/exact}
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "GitHub "
   R{b font=Georgia sz=56} "(GFM)"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Task lists, "
   R{color=8888A0 font=Georgia strike} "strikethrough"
   R{color=1A1A2E font=Georgia} ", autolinks ("
@@ -23,11 +24,11 @@ P
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "👍"
   R{color=1A1A2E font=Georgia} "."
-P
-  R{font=Georgia} "    ☑  "
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☑ "
   R{color=1A1A2E font=Georgia} "Done"
-P
-  R{font=Georgia} "    ☐  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "☐ "
   R{color=1A1A2E font=Georgia} "Open"
 TABLE
   COL w=3968
@@ -36,33 +37,35 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3968}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Feature"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5101}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3968}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "Tables"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5101}
-      P{jc=center}
+      P{indent=80/80 jc=center spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "yes"
+P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
   ROW
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=EF4444 font=Georgia} "WARNING"
-      P
+      P{indent=160/160 spacing=0/160 line=320/atLeast}
         R{color=1A1A2E font=Georgia} "Alerts use the five GitHub"
         R{color=1A1A2E font=Georgia} " types. "
         R{color=1A1A2E font=Georgia} "They have no custom"
         R{color=1A1A2E font=Georgia} " titles."
-P
+P{spacing=/ line=160/exact}
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Inline math "
   R{color=7C3AED font=Georgia i} "E = mc^2"
   R{color=1A1A2E font=Georgia} " and "
@@ -74,7 +77,7 @@ P
   R{color=CF222E font=Consolas} "rgb(9, 105, 218)"
   R{color=0969DA font=Georgia} "■ "
   R{color=1A1A2E font=Georgia} "."
-P{jc=center}
+P{jc=center spacing=0/160 line=320/atLeast}
   R{color=7C3AED font=Georgia i} "\\sum_{i=1}^{n} i"
 TABLE
   COL w=9070
@@ -82,11 +85,12 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
-      P
+      P{indent=160/160 spacing=160/0 line=240/atLeast}
         R{b color=065F46 font=Georgia} "Mermaid Diagram"
-      P
+      P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "graph TD; A-->B;"
-P
+P{spacing=/ line=160/exact}
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Water is H"
   R{color=1A1A2E font=Georgia} "₂"
   R{color=1A1A2E font=Georgia} "O, press "
@@ -94,18 +98,17 @@ P
   R{color=1A1A2E font=Georgia} ", "
   R{color=1A1A2E font=Georgia u=single} "inserted"
   R{color=1A1A2E font=Georgia} " text."
-P
+P{spacing=0/160 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "► Collapsed section"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Hidden"
   R{color=1A1A2E font=Georgia} " content."
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "A footnote"
   R{color=2563EB font=Georgia sz=18} "[1]"
   R{color=1A1A2E font=Georgia} "."
-P
-  R{color=B4B4B4 sz=18} "────────────────────────────────"
-P
+P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "The"
   R{color=4A4A68 font=Georgia sz=18} " note."

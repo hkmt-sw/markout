@@ -1,4 +1,4 @@
-P
+P{spacing=400/240 line=560/atLeast}
   R{b font=Georgia sz=56} "Markdown Extra"
 TABLE
   COL w=4031
@@ -7,25 +7,25 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4031}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Left"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5038}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{b color=1A1A2E font=Georgia} "Right"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4031}
-      P
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "a"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5038}
-      P{jc=right}
+      P{indent=80/80 jc=right spacing=80/80 line=260/atLeast}
         R{color=1A1A2E font=Georgia} "b"
-P
+P{spacing=/ line=160/exact}
+P{spacing=0/0 line=320/atLeast}
   R{b color=1A1A2E font=Georgia} "Apple"
-P
-  R "    "
+P{indent=400 spacing=0/80 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "A fruit"
-P
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Footnote"
   R{color=2563EB font=Georgia sz=18} "[1]"
   R{color=1A1A2E font=Georgia} " and an HTML abbreviation."
@@ -35,19 +35,19 @@ TABLE
     cantSplit
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
-      P
-        R{font=Consolas sz=19} "fenced with tildes"
-P
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=24292F font=Consolas sz=19} "fenced with tildes"
+P{spacing=/ line=160/exact}
+P{spacing=0/160 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "No ~~strikethrough~~ and no - ["
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "] task lists here."
-P
-  R{font=Georgia} "    •  "
+P{indent=400 spacing=0/120 line=320/atLeast}
+  R{color=1A1A2E font=Georgia} "• "
   R{color=1A1A2E font=Georgia} "["
   R{color=1A1A2E font=Georgia} " "
   R{color=1A1A2E font=Georgia} "] literal brackets"
-P
-  R{color=B4B4B4 sz=18} "────────────────────────────────"
-P
+P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
+P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "The note."

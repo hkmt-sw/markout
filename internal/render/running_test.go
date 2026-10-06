@@ -133,6 +133,13 @@ func TestDOCXHeaderAndFooter(t *testing.T) {
 			t.Errorf("footer lacks %s", want)
 		}
 	}
+	// A field marked "dirty" makes Word ask whether to update fields when the
+	// document is opened.
+	for _, part := range []string{body, header, footer} {
+		if strings.Contains(part, "w:dirty") {
+			t.Error("a field is marked as needing an update")
+		}
+	}
 	if strings.Contains(footer, "{page}") || strings.Contains(footer, "{author}") {
 		t.Error("a placeholder was left in the footer")
 	}
