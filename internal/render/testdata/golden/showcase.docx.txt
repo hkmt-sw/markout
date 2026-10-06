@@ -174,9 +174,9 @@ P
   R{b font=Georgia sz=44} "5."
   R{b font=Georgia sz=44} " Tables"
 P
-  R{color=1A1A2E font=Georgia} "A table with a shaded header row, borders, and the third column"
-  R{color=1A1A2E font=Georgia} " right-aligned "
-  R{color=1A1A2E font=Georgia} "in DOCX. The last row has formatting and a long cell that"
+  R{color=1A1A2E font=Georgia} "A table with a shaded header row, borders, and the numbers in the third"
+  R{color=1A1A2E font=Georgia} " column "
+  R{color=1A1A2E font=Georgia} "right-aligned. The last row has formatting and a long cell that"
   R{color=1A1A2E font=Georgia} " wraps."
 TABLE
   COL w=850

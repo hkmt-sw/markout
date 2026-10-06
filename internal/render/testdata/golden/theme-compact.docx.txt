@@ -1,0 +1,465 @@
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=10204}
+      P
+        R{b color=555555 font=Arial sz=19} "Title: "
+        R{color=1A1A1A font=Arial sz=19} "markout showcase"
+      P
+        R{b color=555555 font=Arial sz=19} "Author: "
+        R{color=1A1A1A font=Arial sz=19} "The markout project"
+      P
+        R{b color=555555 font=Arial sz=19} "Date: "
+        R{color=1A1A1A font=Arial sz=19} "2026-10-06"
+P
+  R{b font=Arial sz=36} "markout"
+  R{b font=Arial sz=36} " showcase"
+P
+  R{color=1A1A1A font=Arial sz=19} "This document contains every kind of element markout can render, each with"
+  R{color=1A1A1A font=Arial sz=19} " a "
+  R{color=1A1A1A font=Arial sz=19} "short note saying what you should see. Convert it to PDF and to DOCX and"
+  R{color=1A1A1A font=Arial sz=19} " read "
+  R{color=1A1A1A font=Arial sz=19} "through the result: if every note is true, the output is"
+  R{color=1A1A1A font=Arial sz=19} " fine."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/4/D4D4D4 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=F4F4F4 w=10204}
+      P
+        R{font=Courier New sz=16} "markout fixtures/showcase.md showcase.pdf"
+        R "<br>"
+        R{font=Courier New sz=16} "markout fixtures/showcase.md showcase.docx"
+P
+  R{color=1A1A1A font=Arial sz=19} "Above this heading there should be a panel listing the title, author and"
+  R{color=1A1A1A font=Arial sz=19} " date."
+P
+  R{b font=Arial sz=28} "1."
+  R{b font=Arial sz=28} " Headings"
+P
+  R{color=1A1A1A font=Arial sz=19} "The six heading levels follow, each smaller than the one"
+  R{color=1A1A1A font=Arial sz=19} " before."
+P
+  R{b font=Arial sz=36} "Heading level"
+  R{b font=Arial sz=36} " 1"
+P
+  R{b font=Arial sz=28} "Heading level"
+  R{b font=Arial sz=28} " 2"
+P
+  R{b font=Arial sz=24} "Heading level"
+  R{b font=Arial sz=24} " 3"
+P
+  R{b font=Arial sz=21} "Heading level"
+  R{b font=Arial sz=21} " 4"
+P
+  R{b font=Arial sz=20} "Heading level"
+  R{b font=Arial sz=20} " 5"
+P
+  R{b font=Arial sz=19} "Heading level"
+  R{b font=Arial sz=19} " 6"
+P
+  R{b font=Arial sz=28} "2. Text"
+  R{b font=Arial sz=28} " formatting"
+P
+  R{color=1A1A1A font=Arial sz=19} "Each word in quotes should look the way it describes itself: \""
+  R{b color=1A1A1A font=Arial sz=19} "bold"
+  R{color=1A1A1A font=Arial sz=19} "\", "
+  R{color=1A1A1A font=Arial sz=19} "\""
+  R{color=1A1A1A font=Arial i sz=19} "italic"
+  R{color=1A1A1A font=Arial sz=19} "\", \""
+  R{b color=1A1A1A font=Arial i sz=19} "bold italic"
+  R{color=1A1A1A font=Arial sz=19} "\", \""
+  R{color=B42318 font=Courier New sz=19} "inline code"
+  R{color=1A1A1A font=Arial sz=19} "\" (monospace,"
+  R{color=1A1A1A font=Arial sz=19} " colored), "
+  R{color=1A1A1A font=Arial sz=19} "\""
+  R{color=888888 font=Arial strike sz=19} "struck through"
+  R{color=1A1A1A font=Arial sz=19} "\" (with a line through it), \""
+  R{color=1A1A1A font=Arial sz=19 u=single} "underlined"
+  R{color=1A1A1A font=Arial sz=19} "\", "
+  R{color=1A1A1A font=Arial sz=19} "\""
+  R{color=1A1A1A font=Arial highlight=yellow sz=19} "highlighted"
+  R{color=1A1A1A font=Arial sz=19} "\" (on a colored"
+  R{color=1A1A1A font=Arial sz=19} " background)."
+P
+  R{color=1A1A1A font=Arial sz=19} "Water is H"
+  R{color=1A1A1A font=Arial sz=19} "₂"
+  R{color=1A1A1A font=Arial sz=19} "O (the 2 sits below the line) and Einstein"
+  R{color=1A1A1A font=Arial sz=19} " wrote "
+  R{color=1A1A1A font=Arial sz=19} "E = mc"
+  R{color=1A1A1A font=Arial sz=19} "²"
+  R{color=1A1A1A font=Arial sz=19} " (the 2 sits above"
+  R{color=1A1A1A font=Arial sz=19} " it)."
+P
+  R{color=1A1A1A font=Arial sz=19} "A paragraph long enough to wrap should fill the line and continue on the"
+  R{color=1A1A1A font=Arial sz=19} " next "
+  R{color=1A1A1A font=Arial sz=19} "one without any word being cut in half or running past the right margin,"
+  R{color=1A1A1A font=Arial sz=19} " which "
+  R{color=1A1A1A font=Arial sz=19} "this sentence is here to demonstrate by simply being"
+  R{color=1A1A1A font=Arial sz=19} " long."
+P
+  R{color=1A1A1A font=Arial sz=19} "Escaped characters appear without their backslash: *not italic*, # not"
+  R{color=1A1A1A font=Arial sz=19} " a "
+  R{color=1A1A1A font=Arial sz=19} "heading, [not a link]. A copyright sign from an entity:"
+  R{color=1A1A1A font=Arial sz=19} " ©."
+P
+  R{b font=Arial sz=28} "3."
+  R{b font=Arial sz=28} " Links"
+P
+  R{color=1A1A1A font=Arial sz=19} "A "
+  R{color=1D4ED8 font=Arial link=https://example.com rStyle=Hyperlink sz=19 u=single} "link with text"
+  R{color=1A1A1A font=Arial sz=19} " and a bare"
+  R{color=1A1A1A font=Arial sz=19} " address, "
+  R{color=1D4ED8 font=Arial link=https://example.com/bare rStyle=Hyperlink sz=19 u=single} "https://example.com/bare"
+  R{color=1A1A1A font=Arial sz=19} ", should both be colored and"
+  R{color=1A1A1A font=Arial sz=19} " clickable."
+P
+  R{b font=Arial sz=28} "4."
+  R{b font=Arial sz=28} " Lists"
+P
+  R{color=1A1A1A font=Arial sz=19} "Three bullets, the second with two nested ones"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P
+  R{font=Arial sz=19} "    •  "
+  R{color=1A1A1A font=Arial sz=19} "First"
+  R{color=1A1A1A font=Arial sz=19} " item"
+P
+  R{font=Arial sz=19} "    •  "
+  R{color=1A1A1A font=Arial sz=19} "Second item, with "
+  R{b color=1A1A1A font=Arial sz=19} "bold"
+  R{color=1A1A1A font=Arial sz=19} " and "
+  R{color=B42318 font=Courier New sz=19} "code"
+  R{color=1A1A1A font=Arial sz=19} " inside"
+  R{color=1A1A1A font=Arial sz=19} " it"
+P
+  R{font=Arial sz=19} "        ◦  "
+  R{color=1A1A1A font=Arial sz=19} "Nested item"
+  R{color=1A1A1A font=Arial sz=19} " one"
+P
+  R{font=Arial sz=19} "        ◦  "
+  R{color=1A1A1A font=Arial sz=19} "Nested item"
+  R{color=1A1A1A font=Arial sz=19} " two"
+P
+  R{font=Arial sz=19} "    •  "
+  R{color=1A1A1A font=Arial sz=19} "Third item, long enough to wrap onto a second line so that you can check"
+  R{color=1A1A1A font=Arial sz=19} " the "
+  R{color=1A1A1A font=Arial sz=19} "continuation line starts under the first one and not at the page"
+  R{color=1A1A1A font=Arial sz=19} " margin"
+P
+  R{color=1A1A1A font=Arial sz=19} "Three numbered items"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P
+  R{font=Arial sz=19} "    1.  "
+  R{color=1A1A1A font=Arial sz=19} "First"
+P
+  R{font=Arial sz=19} "    2.  "
+  R{color=1A1A1A font=Arial sz=19} "Second"
+P
+  R{font=Arial sz=19} "    3.  "
+  R{color=1A1A1A font=Arial sz=19} "Third"
+P
+  R{color=1A1A1A font=Arial sz=19} "A task list, the first box checked and the second empty"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P
+  R{font=Arial sz=19} "    ☑  "
+  R{color=1A1A1A font=Arial sz=19} "Done"
+P
+  R{font=Arial sz=19} "    ☐  "
+  R{color=1A1A1A font=Arial sz=19} "Still to"
+  R{color=1A1A1A font=Arial sz=19} " do"
+P
+  R{b font=Arial sz=28} "5."
+  R{b font=Arial sz=28} " Tables"
+P
+  R{color=1A1A1A font=Arial sz=19} "A table with a shaded header row, borders, and the numbers in the third"
+  R{color=1A1A1A font=Arial sz=19} " column "
+  R{color=1A1A1A font=Arial sz=19} "right-aligned. The last row has formatting and a long cell that"
+  R{color=1A1A1A font=Arial sz=19} " wraps."
+TABLE
+  COL w=895
+  COL w=8458
+  COL w=850
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=EDEDED w=895}
+      P
+        R{b font=Arial sz=19} "Element"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=EDEDED w=8458}
+      P
+        R{b font=Arial sz=19} "Example"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=EDEDED w=850}
+      P{jc=right}
+        R{b font=Arial sz=19} "Count"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=895}
+      P
+        R{font=Arial sz=19} "Plain"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=8458}
+      P
+        R{font=Arial sz=19} "text"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Arial sz=19} "1"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F8F8F8 w=895}
+      P
+        R{font=Arial sz=19} "Formatted"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F8F8F8 w=8458}
+      P
+        R{font=Arial sz=19} "bold"
+        R{font=Arial sz=19} ", "
+        R{font=Arial sz=19} "italic"
+        R{font=Arial sz=19} ", "
+        R{font=Arial sz=19} "code"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F8F8F8 w=850}
+      P{jc=right}
+        R{font=Arial sz=19} "22"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=895}
+      P
+        R{font=Arial sz=19} "Long"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=8458}
+      P
+        R{font=Arial sz=19} "A cell with enough text that it has to wrap onto more than one line inside its"
+        R{font=Arial sz=19} " column"
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Arial sz=19} "333"
+P
+  R{b font=Arial sz=28} "6."
+  R{b font=Arial sz=28} " Code"
+P
+  R{color=1A1A1A font=Arial sz=19} "A code block in a monospace font on a shaded panel, with its"
+  R{color=1A1A1A font=Arial sz=19} " indentation "
+  R{color=1A1A1A font=Arial sz=19} "preserved"
+  R{color=1A1A1A font=Arial sz=19} ":"
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/4/D4D4D4 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=F4F4F4 w=10204}
+      P
+        R{font=Courier New sz=16} "func main() {"
+        R "<br>"
+        R{font=Courier New sz=16} "\tif ok := convert(); !ok {"
+        R "<br>"
+        R{font=Courier New sz=16} "\t\tfmt.Println(\"failed\")"
+        R "<br>"
+        R{font=Courier New sz=16} "\t}"
+        R "<br>"
+        R{font=Courier New sz=16} "}"
+P
+  R{b font=Arial sz=28} "7."
+  R{b font=Arial sz=28} " Quotes"
+P
+  R{color=1A1A1A font=Arial sz=19} "A quote, set off from the text by a bar on the left"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P
+  R{color=B4B4B4 font=Arial} "│ "
+  R{color=1A1A1A font=Arial sz=19} "The first paragraph of the quote, with "
+  R{color=1A1A1A font=Arial i sz=19} "emphasis"
+  R{color=1A1A1A font=Arial sz=19} "."
+P
+  R{color=B4B4B4 font=Arial} "│ "
+  R{color=1A1A1A font=Arial sz=19} "The second paragraph of the"
+  R{color=1A1A1A font=Arial sz=19} " quote."
+P
+  R{b font=Arial sz=28} "8."
+  R{b font=Arial sz=28} " Callouts"
+P
+  R{color=1A1A1A font=Arial sz=19} "Five boxes with a colored bar and title: blue note, green tip,"
+  R{color=1A1A1A font=Arial sz=19} " purple "
+  R{color=1A1A1A font=Arial sz=19} "important, amber caution, red"
+  R{color=1A1A1A font=Arial sz=19} " warning."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/24/3B82F6 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=DBEAFE w=10204}
+      P
+        R{b color=3B82F6 font=Arial sz=19} "NOTE"
+      P
+        R{color=1A1A1A font=Arial sz=19} "Something worth"
+        R{color=1A1A1A font=Arial sz=19} " knowing."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/24/22C55E border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=DCFCE7 w=10204}
+      P
+        R{b color=22C55E font=Arial sz=19} "TIP"
+      P
+        R{color=1A1A1A font=Arial sz=19} "A helpful hint, with "
+        R{b color=1A1A1A font=Arial sz=19} "bold"
+        R{color=1A1A1A font=Arial sz=19} " and "
+        R{color=B42318 font=Courier New sz=19} "code"
+        R{color=1A1A1A font=Arial sz=19} "."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/24/A855F7 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=F3E8FF w=10204}
+      P
+        R{b color=A855F7 font=Arial sz=19} "IMPORTANT"
+      P
+        R{color=1A1A1A font=Arial sz=19} "Something you must not"
+        R{color=1A1A1A font=Arial sz=19} " miss."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/24/EAB308 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=FEF9C3 w=10204}
+      P
+        R{b color=EAB308 font=Arial sz=19} "CAUTION"
+      P
+        R{color=1A1A1A font=Arial sz=19} "Take care with"
+        R{color=1A1A1A font=Arial sz=19} " this."
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D4D4D4 border-left=single/24/EF4444 border-right=single/4/D4D4D4 border-top=single/4/D4D4D4 fill=FEE2E2 w=10204}
+      P
+        R{b color=EF4444 font=Arial sz=19} "WARNING"
+      P
+        R{color=1A1A1A font=Arial sz=19} "This can go wrong. The text of this callout is long enough to wrap, and"
+        R{color=1A1A1A font=Arial sz=19} " the "
+        R{color=1A1A1A font=Arial sz=19} "box should grow to contain all of"
+        R{color=1A1A1A font=Arial sz=19} " it."
+P
+  R{b font=Arial sz=28} "9."
+  R{b font=Arial sz=28} " Rule"
+P
+  R{color=1A1A1A font=Arial sz=19} "A horizontal line across the page"
+  R{color=1A1A1A font=Arial sz=19} " follows."
+P{jc=center}
+  R{color=B4B4B4 sz=19} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Arial sz=28} "10."
+  R{b font=Arial sz=28} " Math"
+P
+  R{color=1A1A1A font=Arial sz=19} "Formulas are shown as their LaTeX source in a distinct color, not"
+  R{color=1A1A1A font=Arial sz=19} " typeset. "
+  R{color=1A1A1A font=Arial sz=19} "Inline: "
+  R{color=7C3AED font=Arial i sz=19} "E = mc^2"
+  R{color=1A1A1A font=Arial sz=19} " and "
+  R{color=7C3AED font=Arial i sz=19} "a^2 + b^2 = c^2"
+  R{color=1A1A1A font=Arial sz=19} ". On a line of its own, centered"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P{jc=center}
+  R{color=7C3AED font=Arial i sz=19} "\\int_0^1 x^2 \\, dx = \\frac{1}{3}"
+P
+  R{b font=Arial sz=28} "11."
+  R{b font=Arial sz=28} " Diagram"
+P
+  R{color=1A1A1A font=Arial sz=19} "Diagram source is shown in a labeled panel, not drawn"
+  R{color=1A1A1A font=Arial sz=19} ":"
+TABLE
+  COL w=10204
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=10204}
+      P
+        R{b color=065F46 font=Arial sz=19} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Courier New sz=16} "graph LR"
+        R "<br>"
+        R{color=065F46 font=Courier New sz=16} "    Markdown --> PDF"
+        R "<br>"
+        R{color=065F46 font=Courier New sz=16} "    Markdown --> DOCX"
+P
+  R{b font=Arial sz=28} "12. Definition"
+  R{b font=Arial sz=28} " list"
+P
+  R{color=1A1A1A font=Arial sz=19} "A bold term with its definition indented below it"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P
+  R{b color=1A1A1A font=Arial sz=19} "Markdown"
+P
+  R{sz=19} "    "
+  R{color=1A1A1A font=Arial sz=19} "A plain-text format for writing structured"
+  R{color=1A1A1A font=Arial sz=19} " documents."
+P
+  R{b color=1A1A1A font=Arial sz=19} "Flavor"
+P
+  R{sz=19} "    "
+  R{color=1A1A1A font=Arial sz=19} "A dialect of Markdown, such as the one GitHub"
+  R{color=1A1A1A font=Arial sz=19} " uses."
+P
+  R{b font=Arial sz=28} "13."
+  R{b font=Arial sz=28} " Images"
+P
+  R{color=1A1A1A font=Arial sz=19} "An image that does not exist shows a placeholder with its description"
+  R{color=1A1A1A font=Arial sz=19} " and "
+  R{color=1A1A1A font=Arial sz=19} "path instead of a picture"
+  R{color=1A1A1A font=Arial sz=19} ":"
+P{jc=center}
+  R{color=555555 font=Arial i sz=19} "🖼 A missing picture"
+  R "<br>"
+  R{color=1D4ED8 font=Arial sz=16 u=single} "does-not-exist.png"
+P
+  R{b font=Arial sz=28} "14. Inline diff and color"
+  R{b font=Arial sz=28} " chips"
+P
+  R{color=1A1A1A font=Arial sz=19} "An addition is "
+  R{color=16A34A font=Arial sz=19 u=single} "green and underlined"
+  R{color=1A1A1A font=Arial sz=19} ", a removal is {- red and"
+  R{color=1A1A1A font=Arial sz=19} " struck "
+  R{color=1A1A1A font=Arial sz=19} "through -}. A color code such as "
+  R{color=B42318 font=Courier New sz=19} "#2563EB"
+  R{color=2563EB font=Arial sz=19} "■ "
+  R{color=1A1A1A font=Arial sz=19} " is preceded by a small square"
+  R{color=1A1A1A font=Arial sz=19} " of "
+  R{color=1A1A1A font=Arial sz=19} "that"
+  R{color=1A1A1A font=Arial sz=19} " color."
+P
+  R{b font=Arial sz=28} "15."
+  R{b font=Arial sz=28} " Emoji"
+P
+  R{color=1A1A1A font=Arial sz=19} "Emoji shortcodes become emoji in DOCX: "
+  R{color=1A1A1A font=Arial sz=19} "🚀"
+  R{color=1A1A1A font=Arial sz=19} " "
+  R{color=1A1A1A font=Arial sz=19} "🎉"
+  R{color=1A1A1A font=Arial sz=19} ". In PDF they are"
+  R{color=1A1A1A font=Arial sz=19} " left "
+  R{color=1A1A1A font=Arial sz=19} "out, because the built-in fonts have no"
+  R{color=1A1A1A font=Arial sz=19} " emoji."
+P
+  R{b font=Arial sz=28} "16."
+  R{b font=Arial sz=28} " Footnotes"
+P
+  R{color=1A1A1A font=Arial sz=19} "This sentence has a footnote"
+  R{color=1D4ED8 font=Arial sz=16} "[1]"
+  R{color=1A1A1A font=Arial sz=19} ", and this one has another"
+  R{color=1D4ED8 font=Arial sz=16} "[2]"
+  R{color=1A1A1A font=Arial sz=19} "."
+  R{color=1A1A1A font=Arial sz=19} " The "
+  R{color=1A1A1A font=Arial sz=19} "numbers should be colored, and both notes should appear at the end of"
+  R{color=1A1A1A font=Arial sz=19} " the "
+  R{color=1A1A1A font=Arial sz=19} "document under a short"
+  R{color=1A1A1A font=Arial sz=19} " line."
+P
+  R{color=B4B4B4 sz=16} "────────────────────────────────"
+P
+  R{color=555555 font=Arial sz=16} "1. "
+  R{color=555555 font=Arial sz=16} "The first footnote, with "
+  R{color=555555 font=Arial sz=16} "bold"
+  R{color=555555 font=Arial sz=16} " text."
+P
+  R{color=555555 font=Arial sz=16} "2. "
+  R{color=555555 font=Arial sz=16} "The second"
+  R{color=555555 font=Arial sz=16} " footnote."

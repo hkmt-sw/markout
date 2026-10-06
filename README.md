@@ -27,7 +27,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.2.2 to pin one).
+# Look up the latest release tag (or set VERSION=v1.3.0 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -133,70 +133,54 @@ The output format is inferred from the file extension:
 ## Themes
 
 A theme decides how the output looks: page size and margins, fonts, sizes,
-spacing and colors. Pick one on the **Theme** tab of the settings (`F2`, then
-`Tab`), or per conversion:
+spacing, colors, and headers and footers. Five come built in:
+
+| `--theme` | Look |
+| --- | --- |
+| `default` | The standard markout look |
+| `classic` | Serif type, wide margins, restrained color: like a book or a paper |
+| `modern` | Sans-serif and airy, with one vivid accent color |
+| `compact` | Small type and narrow margins: long technical documents on fewer pages |
+| `report` | A business report: title and date in the header, page numbers in the footer |
+
+| classic | modern | report |
+| --- | --- | --- |
+| ![classic](docs/themes/classic.png) | ![modern](docs/themes/modern.png) | ![report](docs/themes/report.png) |
+
+Pick one on the **Theme** tab of the settings (`F2`, then `Tab`), or per
+conversion:
 
 ```sh
-./markout --theme mytheme.toml input.md output.pdf
+./markout --theme report input.md output.pdf
 ./markout --list-themes
 ```
 
-To make your own, start from a copy of the default and delete what you do not
-want to change:
+![The Theme tab of the settings dialog, listing the built-in themes with report selected](docs/screenshot-themes.png)
 
-```sh
-./markout --export-theme > mytheme.toml
-```
-
-A theme file is TOML and lists only what differs from the theme it extends:
+**Your own theme** is a small text file that lists what it changes:
 
 ```toml
 extends = "default"
 
-[page]
-size   = "A4"
-margin = "25mm"
-
 [fonts]
-body    = "serif"     # sans, serif and mono are built in
-heading = "sans"
+body = "serif"
 
-[heading.h1]
-size  = 28
+[heading]
 color = "#7A1E1E"
-```
-
-Put the file in the themes directory that `--list-themes` prints and it shows
-up by name, in the TUI too. Fonts of your own are loaded from `.ttf` files:
-
-```toml
-[fonts]
-heading = "brand"
-
-[fonts.family.brand]
-regular = "Brand-Regular.ttf"   # relative to the theme file
-bold    = "Brand-Bold.ttf"
-name    = "Brand Sans"          # what the font is called, for DOCX
-```
-
-A theme can also put a header and a footer on every page:
-
-```toml
-[header]
-left  = "{title}"
-right = "{date}"
-rule  = true            # a line under the header
 
 [footer]
 center = "Page {page} of {pages}"
 ```
 
-`{title}`, `{author}` and `{date}` come from the document's front matter (the
-title falls back to its first heading); `{page}` and `{pages}` are the page
-number and count.
+```sh
+./markout --export-theme > mytheme.toml     # every setting, to start from
+./markout --theme mytheme.toml input.md output.pdf
+```
 
-PDF embeds the fonts. DOCX only names them: whoever opens the document needs
-the font installed, or their word processor substitutes another.
+The [theme guide](docs/themes.md) walks through making one, with every
+setting, your own fonts, and headers and footers. To check a theme, convert
+[`fixtures/showcase.md`](fixtures/showcase.md): it contains every element
+with a note on what it should look like.
 
 ## Update notifications
 
@@ -292,9 +276,10 @@ equivalent and stay as text: `@mentions`, issue references such as `#123` or
 | `internal/parse`   | Markdown → AST (goldmark), per-flavor syntax     |
 | `internal/render`  | AST → DOCX / PDF renderers                       |
 | `internal/convert` | Conversion orchestration                        |
-| `internal/theme`   | How documents look (page, fonts, sizes, colors) |
+| `internal/theme`   | Themes: the built-in ones and theme files       |
 | `internal/settings`| Saved preferences (the selected flavor)         |
 | `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor |
+| `docs`             | The [theme guide](docs/themes.md) and pictures  |
 | `cmd/debug`        | Dumps the parsed AST as JSON for debugging       |
 
 ## Contributing

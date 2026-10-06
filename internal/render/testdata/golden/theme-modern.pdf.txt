@@ -1,0 +1,326 @@
+p1 rect  x=70.9 y=70.9 w=453.5 h=67.0 fill=#F9FAFB stroke=#E5E7EB/1.0
+p1 text  x=78.9 y=78.9 Arial-Bold/10.5 "Title: " #6B7280
+p1 text  x=106.8 y=78.9 Arial/10.5 "markout showcase" #1F2937
+p1 text  x=78.9 y=95.9 Arial-Bold/10.5 "Author: " #6B7280
+p1 text  x=119.6 y=95.9 Arial/10.5 "The markout project" #1F2937
+p1 text  x=78.9 y=112.9 Arial-Bold/10.5 "Date: " #6B7280
+p1 text  x=108.0 y=112.9 Arial/10.5 "2026-10-06" #1F2937
+p1 text  x=70.9 y=153.9 Arial-Bold/30 "markout" #4F46E5
+p1 text  x=197.5 y=153.9 Arial-Bold/30 "showcase" #4F46E5
+p1 text  x=70.9 y=205.9 Arial/10.5 "This document contains every kind of element markout can render, each with" #1F2937
+p1 text  x=431.3 y=205.9 Arial/10.5 "a" #1F2937
+p1 text  x=440.1 y=205.9 Arial/10.5 "short note saying" #1F2937
+p1 text  x=70.9 y=222.9 Arial/10.5 "what you should see. Convert it to PDF and to DOCX and" #1F2937
+p1 text  x=341.4 y=222.9 Arial/10.5 "read" #1F2937
+p1 text  x=365.3 y=222.9 Arial/10.5 "through the result: if every note is" #1F2937
+p1 text  x=70.9 y=239.9 Arial/10.5 "true, the output is" #1F2937
+p1 text  x=154.8 y=239.9 Arial/10.5 "fine." #1F2937
+p1 rect  x=70.9 y=266.9 w=453.5 h=46.0 fill=#F3F4F6 stroke=#F3F4F6/1.0
+p1 text  x=80.9 y=276.9 Courier/9 "markout fixtures/showcase.md showcase.pdf" #1F2937
+p1 text  x=80.9 y=289.9 Courier/9 "markout fixtures/showcase.md showcase.docx" #1F2937
+p1 text  x=70.9 y=320.9 Arial/10.5 "Above this heading there should be a panel listing the title, author and" #1F2937
+p1 text  x=398.1 y=320.9 Arial/10.5 "date." #1F2937
+p1 text  x=70.9 y=371.9 Arial-Bold/19 "1." #111827
+p1 text  x=92.0 y=371.9 Arial-Bold/19 "Headings" #111827
+p1 text  x=70.9 y=406.9 Arial/10.5 "The six heading levels follow, each smaller than the one" #1F2937
+p1 text  x=333.9 y=406.9 Arial/10.5 "before." #1F2937
+p1 text  x=70.9 y=441.9 Arial-Bold/30 "Heading level" #4F46E5
+p1 text  x=272.4 y=441.9 Arial-Bold/30 "1" #4F46E5
+p1 text  x=70.9 y=517.9 Arial-Bold/19 "Heading level" #111827
+p1 text  x=198.5 y=517.9 Arial-Bold/19 "2" #111827
+p1 text  x=70.9 y=570.9 Arial-Bold/14 "Heading level" #111827
+p1 text  x=164.9 y=570.9 Arial-Bold/14 "3" #111827
+p1 text  x=70.9 y=612.9 Arial-Bold/12 "Heading level" #111827
+p1 text  x=151.5 y=612.9 Arial-Bold/12 "4" #111827
+p1 text  x=70.9 y=645.9 Arial-Bold/11 "Heading level" #111827
+p1 text  x=144.8 y=645.9 Arial-Bold/11 "5" #111827
+p1 text  x=70.9 y=677.9 Arial-Bold/10.5 "Heading level" #111827
+p1 text  x=141.4 y=677.9 Arial-Bold/10.5 "6" #111827
+p1 text  x=70.9 y=723.9 Arial-Bold/19 "2. Text" #111827
+p1 text  x=136.3 y=723.9 Arial-Bold/19 "formatting" #111827
+p2 text  x=70.9 y=70.9 Arial/10.5 "Each word in quotes should look the way it describes itself: \"" #1F2937
+p2 text  x=351.0 y=70.9 Arial-Bold/10.5 "bold" #1F2937
+p2 text  x=373.1 y=70.9 Arial/10.5 "\"," #1F2937
+p2 text  x=382.7 y=70.9 Arial/10.5 "\"" #1F2937
+p2 text  x=386.4 y=70.9 Arial-Italic/10.5 "italic" #1F2937
+p2 text  x=407.4 y=70.9 Arial/10.5 "\", \"" #1F2937
+p2 text  x=420.6 y=70.9 Arial-BoldItalic/10.5 "bold italic" #1F2937
+p2 text  x=469.6 y=70.9 Arial/10.5 "\", \"" #1F2937
+p2 text  x=482.8 y=72.5 Courier/9.5 "inline" #BE185D
+p2 text  x=70.9 y=89.5 Courier/9.5 "code" #BE185D
+p2 text  x=93.7 y=87.9 Arial/10.5 "\" (monospace," #1F2937
+p2 text  x=163.9 y=87.9 Arial/10.5 "colored)," #1F2937
+p2 text  x=207.6 y=87.9 Arial/10.5 "\"" #1F2937
+p2 text  x=211.3 y=87.9 Arial/10.5 "struck through" #9CA3AF
+p2 line  x=211.3 y=94.0 to x=277.8 y=94.0 #9CA3AF/0.6
+p2 text  x=277.8 y=87.9 Arial/10.5 "\" (with a line through it), \"" #1F2937
+p2 text  x=394.3 y=87.9 Arial/10.5 "underlined" #1F2937
+p2 line  x=394.3 y=99.4 to x=443.3 y=99.4 #1F2937/0.6
+p2 text  x=443.3 y=87.9 Arial/10.5 "\"," #1F2937
+p2 text  x=452.9 y=87.9 Arial/10.5 "\"" #1F2937
+p2 rect  x=456.6 y=86.9 w=50.8 h=13.5 fill=#FFF082
+p2 text  x=456.6 y=87.9 Arial/10.5 "highlighted" #1F2937
+p2 text  x=507.3 y=87.9 Arial/10.5 "\"" #1F2937
+p2 text  x=70.9 y=104.9 Arial/10.5 "(on a colored" #1F2937
+p2 text  x=135.0 y=104.9 Arial/10.5 "background)." #1F2937
+p2 text  x=70.9 y=131.9 Arial/10.5 "Water is H" #1F2937
+p2 text  x=119.8 y=136.4 Arial/8 "2" #1F2937
+p2 text  x=124.3 y=131.9 Arial/10.5 "O (the 2 sits below the line) and Einstein" #1F2937
+p2 text  x=315.0 y=131.9 Arial/10.5 "wrote" #1F2937
+p2 text  x=343.5 y=131.9 Arial/10.5 "E = mc" #1F2937
+p2 text  x=376.5 y=130.9 Arial/8 "2" #1F2937
+p2 text  x=383.8 y=131.9 Arial/10.5 "(the 2 sits above" #1F2937
+p2 text  x=463.7 y=131.9 Arial/10.5 "it)." #1F2937
+p2 text  x=70.9 y=158.9 Arial/10.5 "A paragraph long enough to wrap should fill the line and continue on the" #1F2937
+p2 text  x=408.0 y=158.9 Arial/10.5 "next" #1F2937
+p2 text  x=430.8 y=158.9 Arial/10.5 "one without any" #1F2937
+p2 text  x=70.9 y=175.9 Arial/10.5 "word being cut in half or running past the right margin," #1F2937
+p2 text  x=324.6 y=175.9 Arial/10.5 "which" #1F2937
+p2 text  x=354.3 y=175.9 Arial/10.5 "this sentence is here to demonstrate" #1F2937
+p2 text  x=70.9 y=192.9 Arial/10.5 "by simply being" #1F2937
+p2 text  x=146.1 y=192.9 Arial/10.5 "long." #1F2937
+p2 text  x=70.9 y=219.9 Arial/10.5 "Escaped characters appear without their backslash: *not italic*, # not" #1F2937
+p2 text  x=392.8 y=219.9 Arial/10.5 "a" #1F2937
+p2 text  x=401.6 y=219.9 Arial/10.5 "heading, [not a link]. A" #1F2937
+p2 text  x=70.9 y=236.9 Arial/10.5 "copyright sign from an entity:" #1F2937
+p2 text  x=207.9 y=236.9 Arial/10.5 "©." #1F2937
+p2 text  x=70.9 y=287.9 Arial-Bold/19 "3." #111827
+p2 text  x=92.0 y=287.9 Arial-Bold/19 "Links" #111827
+p2 text  x=70.9 y=322.9 Arial/10.5 "A" #1F2937
+p2 text  x=80.8 y=322.9 Arial/10.5 "link with text" #4F46E5
+p2 text  x=140.8 y=322.9 Arial/10.5 "and a bare" #1F2937
+p2 text  x=193.9 y=322.9 Arial/10.5 "address," #1F2937
+p2 text  x=237.1 y=322.9 Arial/10.5 "https://example.com/bare" #4F46E5
+p2 text  x=354.9 y=322.9 Arial/10.5 ", should both be colored and" #1F2937
+p2 text  x=70.9 y=339.9 Arial/10.5 "clickable." #1F2937
+p2 text  x=70.9 y=390.9 Arial-Bold/19 "4." #111827
+p2 text  x=92.0 y=390.9 Arial-Bold/19 "Lists" #111827
+p2 text  x=70.9 y=425.9 Arial/10.5 "Three bullets, the second with two nested ones" #1F2937
+p2 text  x=289.6 y=425.9 Arial/10.5 ":" #1F2937
+p2 text  x=90.9 y=452.9 Arial/10.5 "• " #1F2937
+p2 text  x=97.4 y=452.9 Arial/10.5 "First" #1F2937
+p2 text  x=120.7 y=452.9 Arial/10.5 "item" #1F2937
+p2 text  x=90.9 y=469.9 Arial/10.5 "• " #1F2937
+p2 text  x=97.4 y=469.9 Arial/10.5 "Second item, with" #1F2937
+p2 text  x=183.2 y=469.9 Arial-Bold/10.5 "bold" #1F2937
+p2 text  x=208.2 y=469.9 Arial/10.5 "and" #1F2937
+p2 text  x=228.6 y=471.5 Courier/9.5 "code" #BE185D
+p2 text  x=254.3 y=469.9 Arial/10.5 "inside" #1F2937
+p2 text  x=284.7 y=469.9 Arial/10.5 "it" #1F2937
+p2 text  x=110.9 y=486.9 Arial/10.5 "◦ " #1F2937
+p2 text  x=117.5 y=486.9 Arial/10.5 "Nested item" #1F2937
+p2 text  x=176.4 y=486.9 Arial/10.5 "one" #1F2937
+p2 text  x=110.9 y=503.9 Arial/10.5 "◦ " #1F2937
+p2 text  x=117.5 y=503.9 Arial/10.5 "Nested item" #1F2937
+p2 text  x=176.4 y=503.9 Arial/10.5 "two" #1F2937
+p2 text  x=90.9 y=520.9 Arial/10.5 "• " #1F2937
+p2 text  x=97.4 y=520.9 Arial/10.5 "Third item, long enough to wrap onto a second line so that you can check" #1F2937
+p2 text  x=440.4 y=520.9 Arial/10.5 "the" #1F2937
+p2 text  x=457.9 y=520.9 Arial/10.5 "continuation" #1F2937
+p2 text  x=90.9 y=537.9 Arial/10.5 "line starts under the first one and not at the page" #1F2937
+p2 text  x=319.5 y=537.9 Arial/10.5 "margin" #1F2937
+p2 text  x=70.9 y=562.9 Arial/10.5 "Three numbered items" #1F2937
+p2 text  x=176.4 y=562.9 Arial/10.5 ":" #1F2937
+p2 text  x=90.9 y=589.9 Arial/10.5 "1. " #1F2937
+p2 text  x=102.5 y=589.9 Arial/10.5 "First" #1F2937
+p2 text  x=90.9 y=606.9 Arial/10.5 "2. " #1F2937
+p2 text  x=102.5 y=606.9 Arial/10.5 "Second" #1F2937
+p2 text  x=90.9 y=623.9 Arial/10.5 "3. " #1F2937
+p2 text  x=102.5 y=623.9 Arial/10.5 "Third" #1F2937
+p2 text  x=70.9 y=648.9 Arial/10.5 "A task list, the first box checked and the second empty" #1F2937
+p2 text  x=324.0 y=648.9 Arial/10.5 ":" #1F2937
+p2 text  x=90.9 y=675.9 Arial/10.5 "[x] " #1F2937
+p2 text  x=104.8 y=675.9 Arial/10.5 "Done" #1F2937
+p2 text  x=90.9 y=692.9 Arial/10.5 "[ ] " #1F2937
+p2 text  x=102.5 y=692.9 Arial/10.5 "Still to" #1F2937
+p2 text  x=134.0 y=692.9 Arial/10.5 "do" #1F2937
+p2 text  x=70.9 y=741.9 Arial-Bold/19 "5." #111827
+p2 text  x=92.0 y=741.9 Arial-Bold/19 "Tables" #111827
+p3 text  x=70.9 y=70.9 Arial/10.5 "A table with a shaded header row, borders, and the numbers in the third" #1F2937
+p3 text  x=407.4 y=70.9 Arial/10.5 "column" #1F2937
+p3 text  x=444.1 y=70.9 Arial/10.5 "right-aligned." #1F2937
+p3 text  x=70.9 y=87.9 Arial/10.5 "The last row has formatting and a long cell that" #1F2937
+p3 text  x=291.3 y=87.9 Arial/10.5 "wraps." #1F2937
+p3 rect  x=70.9 y=114.9 w=85.6 h=26.0 fill=#EEF2FF stroke=#E5E7EB/0.5
+p3 rect  x=156.5 y=114.9 w=312.3 h=26.0 fill=#EEF2FF stroke=#E5E7EB/0.5
+p3 rect  x=468.8 y=114.9 w=55.6 h=26.0 fill=#EEF2FF stroke=#E5E7EB/0.5
+p3 text  x=76.9 y=120.9 Arial-Bold/10.5 "Element" #1F2937
+p3 text  x=162.5 y=120.9 Arial-Bold/10.5 "Example" #1F2937
+p3 text  x=488.1 y=120.9 Arial-Bold/10.5 "Count" #1F2937
+p3 rect  x=70.9 y=140.9 w=85.6 h=26.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 rect  x=156.5 y=140.9 w=312.3 h=26.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 rect  x=468.8 y=140.9 w=55.6 h=26.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 text  x=76.9 y=146.9 Arial/10.5 "Plain" #1F2937
+p3 text  x=162.5 y=146.9 Arial/10.5 "text" #1F2937
+p3 text  x=512.6 y=146.9 Arial/10.5 "1" #1F2937
+p3 rect  x=70.9 y=166.9 w=85.6 h=26.0 fill=#FAFAFA stroke=#E5E7EB/0.5
+p3 rect  x=156.5 y=166.9 w=312.3 h=26.0 fill=#FAFAFA stroke=#E5E7EB/0.5
+p3 rect  x=468.8 y=166.9 w=55.6 h=26.0 fill=#FAFAFA stroke=#E5E7EB/0.5
+p3 text  x=76.9 y=172.9 Arial/10.5 "Formatted" #1F2937
+p3 text  x=162.5 y=172.9 Arial-Bold/10.5 "bold" #1F2937
+p3 text  x=184.6 y=172.9 Arial/10.5 "," #1F2937
+p3 text  x=190.4 y=172.9 Arial-Italic/10.5 "italic" #1F2937
+p3 text  x=211.4 y=172.9 Arial/10.5 "," #1F2937
+p3 text  x=217.3 y=174.5 Courier/9.5 "code" #BE185D
+p3 text  x=506.7 y=172.9 Arial/10.5 "22" #1F2937
+p3 rect  x=70.9 y=192.9 w=85.6 h=40.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 rect  x=156.5 y=192.9 w=312.3 h=40.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 rect  x=468.8 y=192.9 w=55.6 h=40.0 fill=#FFFFFF stroke=#E5E7EB/0.5
+p3 text  x=76.9 y=198.9 Arial/10.5 "Long" #1F2937
+p3 text  x=162.5 y=198.9 Arial/10.5 "A cell with enough text that it has to wrap onto more than one" #1F2937
+p3 text  x=162.5 y=212.9 Arial/10.5 "line inside its" #1F2937
+p3 text  x=225.5 y=212.9 Arial/10.5 "column" #1F2937
+p3 text  x=500.9 y=198.9 Arial/10.5 "333" #1F2937
+p3 text  x=70.9 y=264.9 Arial-Bold/19 "6." #111827
+p3 text  x=92.0 y=264.9 Arial-Bold/19 "Code" #111827
+p3 text  x=70.9 y=299.9 Arial/10.5 "A code block in a monospace font on a shaded panel, with its" #1F2937
+p3 text  x=358.4 y=299.9 Arial/10.5 "indentation" #1F2937
+p3 text  x=412.7 y=299.9 Arial/10.5 "preserved" #1F2937
+p3 text  x=459.3 y=299.9 Arial/10.5 ":" #1F2937
+p3 rect  x=70.9 y=326.9 w=453.5 h=85.0 fill=#F3F4F6 stroke=#F3F4F6/0.5
+p3 text  x=80.9 y=336.9 Courier/9 "func main() {" #1F2937
+p3 text  x=80.9 y=349.9 Courier/9 "\tif ok := convert(); !ok {" #1F2937
+p3 text  x=80.9 y=362.9 Courier/9 "\t\tfmt.Println(\"failed\")" #1F2937
+p3 text  x=80.9 y=375.9 Courier/9 "\t}" #1F2937
+p3 text  x=80.9 y=388.9 Courier/9 "}" #1F2937
+p3 text  x=70.9 y=443.9 Arial-Bold/19 "7." #111827
+p3 text  x=92.0 y=443.9 Arial-Bold/19 "Quotes" #111827
+p3 text  x=70.9 y=478.9 Arial/10.5 "A quote, set off from the text by a bar on the left" #1F2937
+p3 text  x=292.4 y=478.9 Arial/10.5 ":" #1F2937
+p3 text  x=90.9 y=505.9 Arial/10.5 "The first paragraph of the quote, with" #1F2937
+p3 text  x=265.2 y=505.9 Arial-Italic/10.5 "emphasis" #1F2937
+p3 text  x=310.1 y=505.9 Arial/10.5 "." #1F2937
+p3 line  x=75.9 y=505.9 to x=75.9 y=522.9 #4F46E5/2.0
+p3 text  x=90.9 y=526.9 Arial/10.5 "The second paragraph of the" #1F2937
+p3 text  x=228.5 y=526.9 Arial/10.5 "quote." #1F2937
+p3 line  x=75.9 y=526.9 to x=75.9 y=543.9 #4F46E5/2.0
+p3 text  x=70.9 y=571.9 Arial-Bold/19 "8." #111827
+p3 text  x=92.0 y=571.9 Arial-Bold/19 "Callouts" #111827
+p3 text  x=70.9 y=606.9 Arial/10.5 "Five boxes with a colored bar and title: blue note, green tip," #1F2937
+p3 text  x=348.5 y=606.9 Arial/10.5 "purple" #1F2937
+p3 text  x=380.5 y=606.9 Arial/10.5 "important, amber caution, red" #1F2937
+p3 text  x=70.9 y=623.9 Arial/10.5 "warning." #1F2937
+p3 rect  x=70.9 y=650.9 w=453.5 h=50.0 fill=#DBEAFE
+p3 line  x=70.9 y=650.9 to x=70.9 y=700.9 #3B82F6/3.0
+p3 text  x=78.9 y=658.9 Arial-Bold/10.5 "NOTE" #3B82F6
+p3 text  x=78.9 y=675.9 Arial/10.5 "Something worth" #1F2937
+p3 text  x=160.5 y=675.9 Arial/10.5 "knowing." #1F2937
+p3 rect  x=70.9 y=708.9 w=453.5 h=50.0 fill=#DCFCE7
+p3 line  x=70.9 y=708.9 to x=70.9 y=758.9 #22C55E/3.0
+p3 text  x=78.9 y=716.9 Arial-Bold/10.5 "TIP" #22C55E
+p3 text  x=78.9 y=733.9 Arial/10.5 "A helpful hint, with" #1F2937
+p3 text  x=166.9 y=733.9 Arial-Bold/10.5 "bold" #1F2937
+p3 text  x=191.9 y=733.9 Arial/10.5 "and" #1F2937
+p3 text  x=212.4 y=735.5 Courier/9.5 "code" #BE185D
+p3 text  x=235.2 y=733.9 Arial/10.5 "." #1F2937
+p4 rect  x=70.9 y=70.9 w=453.5 h=50.0 fill=#F3E8FF
+p4 line  x=70.9 y=70.9 to x=70.9 y=120.9 #A855F7/3.0
+p4 text  x=78.9 y=78.9 Arial-Bold/10.5 "IMPORTANT" #A855F7
+p4 text  x=78.9 y=95.9 Arial/10.5 "Something you must not" #1F2937
+p4 text  x=194.9 y=95.9 Arial/10.5 "miss." #1F2937
+p4 rect  x=70.9 y=128.9 w=453.5 h=50.0 fill=#FEF9C3
+p4 line  x=70.9 y=128.9 to x=70.9 y=178.9 #EAB308/3.0
+p4 text  x=78.9 y=136.9 Arial-Bold/10.5 "CAUTION" #EAB308
+p4 text  x=78.9 y=153.9 Arial/10.5 "Take care with" #1F2937
+p4 text  x=150.0 y=153.9 Arial/10.5 "this." #1F2937
+p4 rect  x=70.9 y=186.9 w=453.5 h=67.0 fill=#FEE2E2
+p4 line  x=70.9 y=186.9 to x=70.9 y=253.9 #EF4444/3.0
+p4 text  x=78.9 y=194.9 Arial-Bold/10.5 "WARNING" #EF4444
+p4 text  x=78.9 y=211.9 Arial/10.5 "This can go wrong. The text of this callout is long enough to wrap, and" #1F2937
+p4 text  x=407.2 y=211.9 Arial/10.5 "the" #1F2937
+p4 text  x=424.7 y=211.9 Arial/10.5 "box should grow to" #1F2937
+p4 text  x=78.9 y=228.9 Arial/10.5 "contain all of" #1F2937
+p4 text  x=140.7 y=228.9 Arial/10.5 "it." #1F2937
+p4 text  x=70.9 y=285.9 Arial-Bold/19 "9." #111827
+p4 text  x=92.0 y=285.9 Arial-Bold/19 "Rule" #111827
+p4 text  x=70.9 y=320.9 Arial/10.5 "A horizontal line across the page" #1F2937
+p4 text  x=226.0 y=320.9 Arial/10.5 "follows." #1F2937
+p4 line  x=70.9 y=359.9 to x=524.4 y=359.9 #E5E7EB/1.0
+p4 text  x=70.9 y=395.9 Arial-Bold/19 "10." #111827
+p4 text  x=102.5 y=395.9 Arial-Bold/19 "Math" #111827
+p4 text  x=70.9 y=430.9 Arial/10.5 "Formulas are shown as their LaTeX source in a distinct color, not" #1F2937
+p4 text  x=375.9 y=430.9 Arial/10.5 "typeset." #1F2937
+p4 text  x=415.5 y=430.9 Arial/10.5 "Inline:" #1F2937
+p4 text  x=446.4 y=430.9 Arial-Italic/10.5 "E = mc^2" #7C3AED
+p4 text  x=493.0 y=430.9 Arial/10.5 "and" #1F2937
+p4 text  x=70.9 y=447.9 Arial-Italic/10.5 "a^2 + b^2 = c^2" #7C3AED
+p4 text  x=144.0 y=447.9 Arial/10.5 ". On a line of its own, centered" #1F2937
+p4 text  x=285.6 y=447.9 Arial/10.5 ":" #1F2937
+p4 text  x=229.6 y=474.9 Arial-Italic/10.5 "\\int_0^1 x^2 \\, dx = \\frac{1}{3}" #7C3AED
+p4 text  x=70.9 y=525.9 Arial-Bold/19 "11." #111827
+p4 text  x=102.5 y=525.9 Arial-Bold/19 "Diagram" #111827
+p4 text  x=70.9 y=560.9 Arial/10.5 "Diagram source is shown in a labeled panel, not drawn" #1F2937
+p4 text  x=325.8 y=560.9 Arial/10.5 ":" #1F2937
+p4 rect  x=70.9 y=587.9 w=453.5 h=72.0 fill=#ECFDF5 stroke=#10B981/0.5
+p4 text  x=80.9 y=597.9 Arial-Bold/10.5 "Mermaid Diagram" #065F46
+p4 text  x=80.9 y=610.9 Courier/9 "graph LR" #065F46
+p4 text  x=80.9 y=623.9 Courier/9 "    Markdown --> PDF" #065F46
+p4 text  x=80.9 y=636.9 Courier/9 "    Markdown --> DOCX" #065F46
+p4 text  x=70.9 y=691.9 Arial-Bold/19 "12. Definition" #111827
+p4 text  x=195.3 y=691.9 Arial-Bold/19 "list" #111827
+p4 text  x=70.9 y=726.9 Arial/10.5 "A bold term with its definition indented below it" #1F2937
+p4 text  x=286.0 y=726.9 Arial/10.5 ":" #1F2937
+p4 text  x=70.9 y=753.9 Arial-Bold/10.5 "Markdown" #1F2937
+p5 text  x=90.9 y=70.9 Arial/10.5 "A plain-text format for writing structured" #1F2937
+p5 text  x=276.9 y=70.9 Arial/10.5 "documents." #1F2937
+p5 text  x=70.9 y=91.9 Arial-Bold/10.5 "Flavor" #1F2937
+p5 text  x=90.9 y=108.9 Arial/10.5 "A dialect of Markdown, such as the one GitHub" #1F2937
+p5 text  x=312.5 y=108.9 Arial/10.5 "uses." #1F2937
+p5 text  x=70.9 y=157.9 Arial-Bold/19 "13." #111827
+p5 text  x=102.5 y=157.9 Arial-Bold/19 "Images" #111827
+p5 text  x=70.9 y=192.9 Arial/10.5 "An image that does not exist shows a placeholder with its description" #1F2937
+p5 text  x=393.4 y=192.9 Arial/10.5 "and" #1F2937
+p5 text  x=413.8 y=192.9 Arial/10.5 "path instead of a" #1F2937
+p5 text  x=70.9 y=209.9 Arial/10.5 "picture" #1F2937
+p5 text  x=102.4 y=209.9 Arial/10.5 ":" #1F2937
+p5 text  x=70.9 y=236.9 Arial-Italic/10.5 "[IMG] A missing picture" #6B7280
+p5 text  x=70.9 y=253.9 Arial/9 "does-not-exist.png" #4F46E5
+p5 text  x=70.9 y=302.9 Arial-Bold/19 "14. Inline diff and color" #111827
+p5 text  x=282.8 y=302.9 Arial-Bold/19 "chips" #111827
+p5 text  x=70.9 y=337.9 Arial/10.5 "An addition is" #1F2937
+p5 text  x=136.8 y=337.9 Arial/10.5 "green and underlined" #16A34A
+p5 line  x=136.8 y=349.4 to x=236.0 y=349.4 #16A34A/0.6
+p5 text  x=236.0 y=337.9 Arial/10.5 ", a removal is {- red and" #1F2937
+p5 text  x=349.7 y=337.9 Arial/10.5 "struck" #1F2937
+p5 text  x=380.6 y=337.9 Arial/10.5 "through -}. A color code such" #1F2937
+p5 text  x=70.9 y=354.9 Arial/10.5 "as" #1F2937
+p5 rect  x=84.9 y=354.9 w=10.0 h=10.0 fill=#2563EB
+p5 text  x=96.9 y=356.5 Courier/9.5 "#2563EB" #BE185D
+p5 text  x=139.7 y=354.9 Arial/10.5 "is preceded by a small square" #1F2937
+p5 text  x=282.0 y=354.9 Arial/10.5 "of" #1F2937
+p5 text  x=293.7 y=354.9 Arial/10.5 "that" #1F2937
+p5 text  x=314.1 y=354.9 Arial/10.5 "color." #1F2937
+p5 text  x=70.9 y=405.9 Arial-Bold/19 "15." #111827
+p5 text  x=102.5 y=405.9 Arial-Bold/19 "Emoji" #111827
+p5 text  x=70.9 y=440.9 Arial/10.5 "Emoji shortcodes become emoji in DOCX:" #1F2937
+p5 text  x=269.7 y=440.9 Arial/10.5 ". In PDF they are" #1F2937
+p5 text  x=351.9 y=440.9 Arial/10.5 "left" #1F2937
+p5 text  x=368.8 y=440.9 Arial/10.5 "out, because the built-in fonts" #1F2937
+p5 text  x=70.9 y=457.9 Arial/10.5 "have no" #1F2937
+p5 text  x=111.1 y=457.9 Arial/10.5 "emoji." #1F2937
+p5 text  x=70.9 y=508.9 Arial-Bold/19 "16." #111827
+p5 text  x=102.5 y=508.9 Arial-Bold/19 "Footnotes" #111827
+p5 text  x=70.9 y=543.9 Arial/10.5 "This sentence has a footnote" #1F2937
+p5 text  x=205.6 y=543.9 Arial/10.5 "[1]" #4F46E5
+p5 text  x=217.3 y=543.9 Arial/10.5 ", and this one has another" #1F2937
+p5 text  x=338.6 y=543.9 Arial/10.5 "[2]" #4F46E5
+p5 text  x=350.2 y=543.9 Arial/10.5 "." #1F2937
+p5 text  x=356.1 y=543.9 Arial/10.5 "The" #1F2937
+p5 text  x=377.0 y=543.9 Arial/10.5 "numbers should be colored," #1F2937
+p5 text  x=70.9 y=560.9 Arial/10.5 "and both notes should appear at the end of" #1F2937
+p5 text  x=273.9 y=560.9 Arial/10.5 "the" #1F2937
+p5 text  x=291.4 y=560.9 Arial/10.5 "document under a short" #1F2937
+p5 text  x=405.1 y=560.9 Arial/10.5 "line." #1F2937
+p5 line  x=70.9 y=607.9 to x=206.9 y=607.9 #E5E7EB/0.5
+p5 text  x=70.9 y=617.9 Arial/9 "1. " #1F2937
+p5 text  x=80.9 y=617.9 Arial/9 "The first footnote, with" #1F2937
+p5 text  x=171.8 y=617.9 Arial-Bold/9 "bold" #1F2937
+p5 text  x=193.2 y=617.9 Arial/9 "text." #1F2937
+p5 text  x=70.9 y=635.9 Arial/9 "2. " #1F2937
+p5 text  x=80.9 y=635.9 Arial/9 "The second" #1F2937
+p5 text  x=130.4 y=635.9 Arial/9 "footnote." #1F2937
+p1 text  x=519.4 y=802.0 Arial/9 "1" #9CA3AF
+p2 text  x=519.4 y=802.0 Arial/9 "2" #9CA3AF
+p3 text  x=519.4 y=802.0 Arial/9 "3" #9CA3AF
+p4 text  x=519.4 y=802.0 Arial/9 "4" #9CA3AF
+p5 text  x=519.4 y=802.0 Arial/9 "5" #9CA3AF

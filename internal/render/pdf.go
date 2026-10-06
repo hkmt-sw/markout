@@ -472,7 +472,23 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 
 		for j := 0; j < numCols; j++ {
 			x := colX(j) + cellPadding
-			r.drawLinesAt(laidOut[j], x, x, r.currentY+cellPadding, lineHeight)
+			inner := colWidthsPt[j] - 2*cellPadding
+			for li, line := range laidOut[j] {
+				// Each line is placed by the column's alignment
+				offset := 0.0
+				if j < len(t.Alignments) {
+					switch t.Alignments[j] {
+					case ast.AlignRight:
+						offset = inner - line.width()
+					case ast.AlignCenter:
+						offset = (inner - line.width()) / 2
+					}
+				}
+				if offset < 0 {
+					offset = 0
+				}
+				r.drawLine(line, x+offset, r.currentY+cellPadding+float64(li)*lineHeight, lineHeight)
+			}
 		}
 		r.resetText()
 		r.currentY += rowH

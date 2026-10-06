@@ -1,0 +1,97 @@
+description = "A business report: title and date in the header, page numbers in the footer"
+
+[page]
+margin     = "25mm"
+margin-top = "30mm"
+
+[fonts]
+body    = "sans"
+heading = "sans"
+code    = "mono"
+
+[text]
+size              = 10.5
+line-height       = 15.5
+paragraph-spacing = 8
+color             = "#1F2933"
+muted             = "#52606D"
+faint             = "#9AA5B1"
+
+[heading]
+color = "#1E3A8A"
+
+[heading.h1]
+size = 26
+line-height = 31
+space-before = 12
+space-after = 14
+
+[heading.h2]
+size = 17
+line-height = 22
+space-before = 20
+space-after = 8
+
+[heading.h3]
+size = 13.5
+line-height = 18
+space-before = 14
+space-after = 6
+
+[heading.h4]
+size = 11.5
+line-height = 16
+space-before = 12
+space-after = 5
+
+[heading.h5]
+size = 10.5
+line-height = 15.5
+
+[heading.h6]
+size = 10.5
+line-height = 15.5
+color = "#52606D"
+
+[link]
+color = "#1D4ED8"
+
+[code]
+color           = "#9F1239"
+block-size      = 9
+block-line-height = 12
+block-color     = "#1F2933"
+background      = "#F5F7FA"
+border          = "#CBD2D9"
+
+[table]
+cell-padding      = 5
+border            = "#CBD2D9"
+header-background = "#DBEAFE"
+row-background    = "#FFFFFF"
+stripe-background = "#F5F7FA"
+
+[quote]
+bar = "#1E3A8A"
+
+[rule]
+color = "#CBD2D9"
+
+[box]
+background = "#F5F7FA"
+border     = "#CBD2D9"
+
+[footnote]
+rule = "#CBD2D9"
+
+[header]
+left  = "{title}"
+right = "{date}"
+color = "#52606D"
+rule  = true
+
+[footer]
+left  = "{author}"
+right = "Page {page} of {pages}"
+color = "#52606D"
+rule  = true

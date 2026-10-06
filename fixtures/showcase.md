@@ -79,8 +79,8 @@ A task list, the first box checked and the second empty:
 
 ## 5. Tables
 
-A table with a shaded header row, borders, and the third column right-aligned
-in DOCX. The last row has formatting and a long cell that wraps.
+A table with a shaded header row, borders, and the numbers in the third column
+right-aligned. The last row has formatting and a long cell that wraps.
 
 | Element | Example | Count |
 | :------ | :------ | ----: |

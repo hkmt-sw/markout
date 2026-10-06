@@ -136,23 +136,23 @@ p2 text  x=88.9 y=540.7 Arial/11 "Still to" #1A1A2E
 p2 text  x=121.8 y=540.7 Arial/11 "do" #1A1A2E
 p2 text  x=56.7 y=580.7 Arial-Bold/20 "5." #000000
 p2 text  x=78.9 y=580.7 Arial-Bold/20 "Tables" #000000
-p2 text  x=56.7 y=614.7 Arial/11 "A table with a shaded header row, borders, and the third column" #1A1A2E
-p2 text  x=372.0 y=614.7 Arial/11 "right-aligned" #1A1A2E
-p2 text  x=435.5 y=614.7 Arial/11 "in DOCX. The last" #1A1A2E
-p2 text  x=56.7 y=630.7 Arial/11 "row has formatting and a long cell that" #1A1A2E
-p2 text  x=245.5 y=630.7 Arial/11 "wraps." #1A1A2E
+p2 text  x=56.7 y=614.7 Arial/11 "A table with a shaded header row, borders, and the numbers in the third" #1A1A2E
+p2 text  x=409.2 y=614.7 Arial/11 "column" #1A1A2E
+p2 text  x=447.7 y=614.7 Arial/11 "right-aligned. The" #1A1A2E
+p2 text  x=56.7 y=630.7 Arial/11 "last row has formatting and a long cell that" #1A1A2E
+p2 text  x=265.6 y=630.7 Arial/11 "wraps." #1A1A2E
 p2 rect  x=56.7 y=654.7 w=88.2 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p2 rect  x=144.9 y=654.7 w=336.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p2 rect  x=481.5 y=654.7 w=57.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p2 text  x=60.7 y=658.7 Arial-Bold/11 "Element" #1A1A2E
 p2 text  x=148.9 y=658.7 Arial-Bold/11 "Example" #1A1A2E
-p2 text  x=485.5 y=658.7 Arial-Bold/11 "Count" #1A1A2E
+p2 text  x=502.9 y=658.7 Arial-Bold/11 "Count" #1A1A2E
 p2 rect  x=56.7 y=675.7 w=88.2 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p2 rect  x=144.9 y=675.7 w=336.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p2 rect  x=481.5 y=675.7 w=57.1 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p2 text  x=60.7 y=679.7 Arial/11 "Plain" #1A1A2E
 p2 text  x=148.9 y=679.7 Arial/11 "text" #1A1A2E
-p2 text  x=485.5 y=679.7 Arial/11 "1" #1A1A2E
+p2 text  x=528.5 y=679.7 Arial/11 "1" #1A1A2E
 p2 rect  x=56.7 y=696.7 w=88.2 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
 p2 rect  x=144.9 y=696.7 w=336.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
 p2 rect  x=481.5 y=696.7 w=57.1 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
@@ -162,7 +162,7 @@ p2 text  x=172.1 y=700.7 Arial/11 "," #1A1A2E
 p2 text  x=178.2 y=700.7 Arial-Italic/11 "italic" #1A1A2E
 p2 text  x=200.2 y=700.7 Arial/11 "," #1A1A2E
 p2 text  x=206.3 y=702.3 Courier/10 "code" #CF222E
-p2 text  x=485.5 y=700.7 Arial/11 "22" #1A1A2E
+p2 text  x=522.4 y=700.7 Arial/11 "22" #1A1A2E
 p2 rect  x=56.7 y=717.7 w=88.2 h=34.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p2 rect  x=144.9 y=717.7 w=336.6 h=34.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p2 rect  x=481.5 y=717.7 w=57.1 h=34.0 fill=#FFFFFF stroke=#D1D5DE/0.5
@@ -170,7 +170,7 @@ p2 text  x=60.7 y=721.7 Arial/11 "Long" #1A1A2E
 p2 text  x=148.9 y=721.7 Arial/11 "A cell with enough text that it has to wrap onto more than one line" #1A1A2E
 p2 text  x=148.9 y=734.7 Arial/11 "inside its" #1A1A2E
 p2 text  x=194.7 y=734.7 Arial/11 "column" #1A1A2E
-p2 text  x=485.5 y=721.7 Arial/11 "333" #1A1A2E
+p2 text  x=516.2 y=721.7 Arial/11 "333" #1A1A2E
 p3 text  x=56.7 y=56.7 Arial-Bold/20 "6." #000000
 p3 text  x=78.9 y=56.7 Arial-Bold/20 "Code" #000000
 p3 text  x=56.7 y=90.7 Arial/11 "A code block in a monospace font on a shaded panel, with its" #1A1A2E

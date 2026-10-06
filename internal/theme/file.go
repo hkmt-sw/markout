@@ -1,6 +1,7 @@
 package theme
 
 import (
+	"embed"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -52,9 +53,26 @@ type Loader struct {
 	UserDir string
 }
 
+//go:embed builtin/*.toml
+var builtinFiles embed.FS
+
 // builtin holds the themes that ship with markout besides the default, as
 // theme file text by name.
-var builtin = map[string]string{}
+var builtin = func() map[string]string {
+	out := map[string]string{}
+	entries, err := builtinFiles.ReadDir("builtin")
+	if err != nil {
+		panic(err)
+	}
+	for _, e := range entries {
+		data, err := builtinFiles.ReadFile("builtin/" + e.Name())
+		if err != nil {
+			panic(err)
+		}
+		out[strings.TrimSuffix(e.Name(), Ext)] = string(data)
+	}
+	return out
+}()
 
 // List returns the themes that can be selected by name: the built-in ones
 // first, then the user's, each group in alphabetical order with the default

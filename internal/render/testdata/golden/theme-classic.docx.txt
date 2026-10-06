@@ -1,0 +1,465 @@
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/4/DDDAD0 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F7F6F2 w=8503}
+      P
+        R{b color=555555 font=Times New Roman sz=23} "Title: "
+        R{color=222222 font=Times New Roman sz=23} "markout showcase"
+      P
+        R{b color=555555 font=Times New Roman sz=23} "Author: "
+        R{color=222222 font=Times New Roman sz=23} "The markout project"
+      P
+        R{b color=555555 font=Times New Roman sz=23} "Date: "
+        R{color=222222 font=Times New Roman sz=23} "2026-10-06"
+P
+  R{b color=111111 font=Times New Roman sz=52} "markout"
+  R{b color=111111 font=Times New Roman sz=52} " showcase"
+P
+  R{color=222222 font=Times New Roman sz=23} "This document contains every kind of element markout can render, each with"
+  R{color=222222 font=Times New Roman sz=23} " a "
+  R{color=222222 font=Times New Roman sz=23} "short note saying what you should see. Convert it to PDF and to DOCX and"
+  R{color=222222 font=Times New Roman sz=23} " read "
+  R{color=222222 font=Times New Roman sz=23} "through the result: if every note is true, the output is"
+  R{color=222222 font=Times New Roman sz=23} " fine."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/4/DDDAD0 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F7F6F2 w=8503}
+      P
+        R{font=Courier New sz=18} "markout fixtures/showcase.md showcase.pdf"
+        R "<br>"
+        R{font=Courier New sz=18} "markout fixtures/showcase.md showcase.docx"
+P
+  R{color=222222 font=Times New Roman sz=23} "Above this heading there should be a panel listing the title, author and"
+  R{color=222222 font=Times New Roman sz=23} " date."
+P
+  R{b color=111111 font=Times New Roman sz=38} "1."
+  R{b color=111111 font=Times New Roman sz=38} " Headings"
+P
+  R{color=222222 font=Times New Roman sz=23} "The six heading levels follow, each smaller than the one"
+  R{color=222222 font=Times New Roman sz=23} " before."
+P
+  R{b color=111111 font=Times New Roman sz=52} "Heading level"
+  R{b color=111111 font=Times New Roman sz=52} " 1"
+P
+  R{b color=111111 font=Times New Roman sz=38} "Heading level"
+  R{b color=111111 font=Times New Roman sz=38} " 2"
+P
+  R{b color=111111 font=Times New Roman sz=30} "Heading level"
+  R{b color=111111 font=Times New Roman sz=30} " 3"
+P
+  R{b color=111111 font=Times New Roman sz=26} "Heading level"
+  R{b color=111111 font=Times New Roman sz=26} " 4"
+P
+  R{b color=111111 font=Times New Roman sz=24} "Heading level"
+  R{b color=111111 font=Times New Roman sz=24} " 5"
+P
+  R{b color=111111 font=Times New Roman sz=23} "Heading level"
+  R{b color=111111 font=Times New Roman sz=23} " 6"
+P
+  R{b color=111111 font=Times New Roman sz=38} "2. Text"
+  R{b color=111111 font=Times New Roman sz=38} " formatting"
+P
+  R{color=222222 font=Times New Roman sz=23} "Each word in quotes should look the way it describes itself: \""
+  R{b color=222222 font=Times New Roman sz=23} "bold"
+  R{color=222222 font=Times New Roman sz=23} "\", "
+  R{color=222222 font=Times New Roman sz=23} "\""
+  R{color=222222 font=Times New Roman i sz=23} "italic"
+  R{color=222222 font=Times New Roman sz=23} "\", \""
+  R{b color=222222 font=Times New Roman i sz=23} "bold italic"
+  R{color=222222 font=Times New Roman sz=23} "\", \""
+  R{color=5B2C2C font=Courier New sz=23} "inline code"
+  R{color=222222 font=Times New Roman sz=23} "\" (monospace,"
+  R{color=222222 font=Times New Roman sz=23} " colored), "
+  R{color=222222 font=Times New Roman sz=23} "\""
+  R{color=888888 font=Times New Roman strike sz=23} "struck through"
+  R{color=222222 font=Times New Roman sz=23} "\" (with a line through it), \""
+  R{color=222222 font=Times New Roman sz=23 u=single} "underlined"
+  R{color=222222 font=Times New Roman sz=23} "\", "
+  R{color=222222 font=Times New Roman sz=23} "\""
+  R{color=222222 font=Times New Roman highlight=yellow sz=23} "highlighted"
+  R{color=222222 font=Times New Roman sz=23} "\" (on a colored"
+  R{color=222222 font=Times New Roman sz=23} " background)."
+P
+  R{color=222222 font=Times New Roman sz=23} "Water is H"
+  R{color=222222 font=Times New Roman sz=23} "₂"
+  R{color=222222 font=Times New Roman sz=23} "O (the 2 sits below the line) and Einstein"
+  R{color=222222 font=Times New Roman sz=23} " wrote "
+  R{color=222222 font=Times New Roman sz=23} "E = mc"
+  R{color=222222 font=Times New Roman sz=23} "²"
+  R{color=222222 font=Times New Roman sz=23} " (the 2 sits above"
+  R{color=222222 font=Times New Roman sz=23} " it)."
+P
+  R{color=222222 font=Times New Roman sz=23} "A paragraph long enough to wrap should fill the line and continue on the"
+  R{color=222222 font=Times New Roman sz=23} " next "
+  R{color=222222 font=Times New Roman sz=23} "one without any word being cut in half or running past the right margin,"
+  R{color=222222 font=Times New Roman sz=23} " which "
+  R{color=222222 font=Times New Roman sz=23} "this sentence is here to demonstrate by simply being"
+  R{color=222222 font=Times New Roman sz=23} " long."
+P
+  R{color=222222 font=Times New Roman sz=23} "Escaped characters appear without their backslash: *not italic*, # not"
+  R{color=222222 font=Times New Roman sz=23} " a "
+  R{color=222222 font=Times New Roman sz=23} "heading, [not a link]. A copyright sign from an entity:"
+  R{color=222222 font=Times New Roman sz=23} " ©."
+P
+  R{b color=111111 font=Times New Roman sz=38} "3."
+  R{b color=111111 font=Times New Roman sz=38} " Links"
+P
+  R{color=222222 font=Times New Roman sz=23} "A "
+  R{color=1F3A5F font=Times New Roman link=https://example.com rStyle=Hyperlink sz=23 u=single} "link with text"
+  R{color=222222 font=Times New Roman sz=23} " and a bare"
+  R{color=222222 font=Times New Roman sz=23} " address, "
+  R{color=1F3A5F font=Times New Roman link=https://example.com/bare rStyle=Hyperlink sz=23 u=single} "https://example.com/bare"
+  R{color=222222 font=Times New Roman sz=23} ", should both be colored and"
+  R{color=222222 font=Times New Roman sz=23} " clickable."
+P
+  R{b color=111111 font=Times New Roman sz=38} "4."
+  R{b color=111111 font=Times New Roman sz=38} " Lists"
+P
+  R{color=222222 font=Times New Roman sz=23} "Three bullets, the second with two nested ones"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P
+  R{font=Times New Roman sz=23} "    •  "
+  R{color=222222 font=Times New Roman sz=23} "First"
+  R{color=222222 font=Times New Roman sz=23} " item"
+P
+  R{font=Times New Roman sz=23} "    •  "
+  R{color=222222 font=Times New Roman sz=23} "Second item, with "
+  R{b color=222222 font=Times New Roman sz=23} "bold"
+  R{color=222222 font=Times New Roman sz=23} " and "
+  R{color=5B2C2C font=Courier New sz=23} "code"
+  R{color=222222 font=Times New Roman sz=23} " inside"
+  R{color=222222 font=Times New Roman sz=23} " it"
+P
+  R{font=Times New Roman sz=23} "        ◦  "
+  R{color=222222 font=Times New Roman sz=23} "Nested item"
+  R{color=222222 font=Times New Roman sz=23} " one"
+P
+  R{font=Times New Roman sz=23} "        ◦  "
+  R{color=222222 font=Times New Roman sz=23} "Nested item"
+  R{color=222222 font=Times New Roman sz=23} " two"
+P
+  R{font=Times New Roman sz=23} "    •  "
+  R{color=222222 font=Times New Roman sz=23} "Third item, long enough to wrap onto a second line so that you can check"
+  R{color=222222 font=Times New Roman sz=23} " the "
+  R{color=222222 font=Times New Roman sz=23} "continuation line starts under the first one and not at the page"
+  R{color=222222 font=Times New Roman sz=23} " margin"
+P
+  R{color=222222 font=Times New Roman sz=23} "Three numbered items"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P
+  R{font=Times New Roman sz=23} "    1.  "
+  R{color=222222 font=Times New Roman sz=23} "First"
+P
+  R{font=Times New Roman sz=23} "    2.  "
+  R{color=222222 font=Times New Roman sz=23} "Second"
+P
+  R{font=Times New Roman sz=23} "    3.  "
+  R{color=222222 font=Times New Roman sz=23} "Third"
+P
+  R{color=222222 font=Times New Roman sz=23} "A task list, the first box checked and the second empty"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P
+  R{font=Times New Roman sz=23} "    ☑  "
+  R{color=222222 font=Times New Roman sz=23} "Done"
+P
+  R{font=Times New Roman sz=23} "    ☐  "
+  R{color=222222 font=Times New Roman sz=23} "Still to"
+  R{color=222222 font=Times New Roman sz=23} " do"
+P
+  R{b color=111111 font=Times New Roman sz=38} "5."
+  R{b color=111111 font=Times New Roman sz=38} " Tables"
+P
+  R{color=222222 font=Times New Roman sz=23} "A table with a shaded header row, borders, and the numbers in the third"
+  R{color=222222 font=Times New Roman sz=23} " column "
+  R{color=222222 font=Times New Roman sz=23} "right-aligned. The last row has formatting and a long cell that"
+  R{color=222222 font=Times New Roman sz=23} " wraps."
+TABLE
+  COL w=850
+  COL w=6803
+  COL w=850
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=EFEDE6 w=850}
+      P
+        R{b font=Times New Roman sz=23} "Element"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=EFEDE6 w=6803}
+      P
+        R{b font=Times New Roman sz=23} "Example"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=EFEDE6 w=850}
+      P{jc=right}
+        R{b font=Times New Roman sz=23} "Count"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P
+        R{font=Times New Roman sz=23} "Plain"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=6803}
+      P
+        R{font=Times New Roman sz=23} "text"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Times New Roman sz=23} "1"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P
+        R{font=Times New Roman sz=23} "Formatted"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=6803}
+      P
+        R{font=Times New Roman sz=23} "bold"
+        R{font=Times New Roman sz=23} ", "
+        R{font=Times New Roman sz=23} "italic"
+        R{font=Times New Roman sz=23} ", "
+        R{font=Times New Roman sz=23} "code"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Times New Roman sz=23} "22"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P
+        R{font=Times New Roman sz=23} "Long"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=6803}
+      P
+        R{font=Times New Roman sz=23} "A cell with enough text that it has to wrap onto more than one line inside its"
+        R{font=Times New Roman sz=23} " column"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Times New Roman sz=23} "333"
+P
+  R{b color=111111 font=Times New Roman sz=38} "6."
+  R{b color=111111 font=Times New Roman sz=38} " Code"
+P
+  R{color=222222 font=Times New Roman sz=23} "A code block in a monospace font on a shaded panel, with its"
+  R{color=222222 font=Times New Roman sz=23} " indentation "
+  R{color=222222 font=Times New Roman sz=23} "preserved"
+  R{color=222222 font=Times New Roman sz=23} ":"
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/4/DDDAD0 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F7F6F2 w=8503}
+      P
+        R{font=Courier New sz=18} "func main() {"
+        R "<br>"
+        R{font=Courier New sz=18} "\tif ok := convert(); !ok {"
+        R "<br>"
+        R{font=Courier New sz=18} "\t\tfmt.Println(\"failed\")"
+        R "<br>"
+        R{font=Courier New sz=18} "\t}"
+        R "<br>"
+        R{font=Courier New sz=18} "}"
+P
+  R{b color=111111 font=Times New Roman sz=38} "7."
+  R{b color=111111 font=Times New Roman sz=38} " Quotes"
+P
+  R{color=222222 font=Times New Roman sz=23} "A quote, set off from the text by a bar on the left"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P
+  R{color=9A968A font=Times New Roman} "│ "
+  R{color=222222 font=Times New Roman sz=23} "The first paragraph of the quote, with "
+  R{color=222222 font=Times New Roman i sz=23} "emphasis"
+  R{color=222222 font=Times New Roman sz=23} "."
+P
+  R{color=9A968A font=Times New Roman} "│ "
+  R{color=222222 font=Times New Roman sz=23} "The second paragraph of the"
+  R{color=222222 font=Times New Roman sz=23} " quote."
+P
+  R{b color=111111 font=Times New Roman sz=38} "8."
+  R{b color=111111 font=Times New Roman sz=38} " Callouts"
+P
+  R{color=222222 font=Times New Roman sz=23} "Five boxes with a colored bar and title: blue note, green tip,"
+  R{color=222222 font=Times New Roman sz=23} " purple "
+  R{color=222222 font=Times New Roman sz=23} "important, amber caution, red"
+  R{color=222222 font=Times New Roman sz=23} " warning."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/24/3B82F6 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=DBEAFE w=8503}
+      P
+        R{b color=3B82F6 font=Times New Roman sz=23} "NOTE"
+      P
+        R{color=222222 font=Times New Roman sz=23} "Something worth"
+        R{color=222222 font=Times New Roman sz=23} " knowing."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/24/22C55E border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=DCFCE7 w=8503}
+      P
+        R{b color=22C55E font=Times New Roman sz=23} "TIP"
+      P
+        R{color=222222 font=Times New Roman sz=23} "A helpful hint, with "
+        R{b color=222222 font=Times New Roman sz=23} "bold"
+        R{color=222222 font=Times New Roman sz=23} " and "
+        R{color=5B2C2C font=Courier New sz=23} "code"
+        R{color=222222 font=Times New Roman sz=23} "."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/24/A855F7 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F3E8FF w=8503}
+      P
+        R{b color=A855F7 font=Times New Roman sz=23} "IMPORTANT"
+      P
+        R{color=222222 font=Times New Roman sz=23} "Something you must not"
+        R{color=222222 font=Times New Roman sz=23} " miss."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/24/EAB308 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=FEF9C3 w=8503}
+      P
+        R{b color=EAB308 font=Times New Roman sz=23} "CAUTION"
+      P
+        R{color=222222 font=Times New Roman sz=23} "Take care with"
+        R{color=222222 font=Times New Roman sz=23} " this."
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/24/EF4444 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=FEE2E2 w=8503}
+      P
+        R{b color=EF4444 font=Times New Roman sz=23} "WARNING"
+      P
+        R{color=222222 font=Times New Roman sz=23} "This can go wrong. The text of this callout is long enough to wrap, and"
+        R{color=222222 font=Times New Roman sz=23} " the "
+        R{color=222222 font=Times New Roman sz=23} "box should grow to contain all of"
+        R{color=222222 font=Times New Roman sz=23} " it."
+P
+  R{b color=111111 font=Times New Roman sz=38} "9."
+  R{b color=111111 font=Times New Roman sz=38} " Rule"
+P
+  R{color=222222 font=Times New Roman sz=23} "A horizontal line across the page"
+  R{color=222222 font=Times New Roman sz=23} " follows."
+P{jc=center}
+  R{color=9A968A sz=23} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b color=111111 font=Times New Roman sz=38} "10."
+  R{b color=111111 font=Times New Roman sz=38} " Math"
+P
+  R{color=222222 font=Times New Roman sz=23} "Formulas are shown as their LaTeX source in a distinct color, not"
+  R{color=222222 font=Times New Roman sz=23} " typeset. "
+  R{color=222222 font=Times New Roman sz=23} "Inline: "
+  R{color=7C3AED font=Times New Roman i sz=23} "E = mc^2"
+  R{color=222222 font=Times New Roman sz=23} " and "
+  R{color=7C3AED font=Times New Roman i sz=23} "a^2 + b^2 = c^2"
+  R{color=222222 font=Times New Roman sz=23} ". On a line of its own, centered"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P{jc=center}
+  R{color=7C3AED font=Times New Roman i sz=23} "\\int_0^1 x^2 \\, dx = \\frac{1}{3}"
+P
+  R{b color=111111 font=Times New Roman sz=38} "11."
+  R{b color=111111 font=Times New Roman sz=38} " Diagram"
+P
+  R{color=222222 font=Times New Roman sz=23} "Diagram source is shown in a labeled panel, not drawn"
+  R{color=222222 font=Times New Roman sz=23} ":"
+TABLE
+  COL w=8503
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=8503}
+      P
+        R{b color=065F46 font=Times New Roman sz=23} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Courier New sz=18} "graph LR"
+        R "<br>"
+        R{color=065F46 font=Courier New sz=18} "    Markdown --> PDF"
+        R "<br>"
+        R{color=065F46 font=Courier New sz=18} "    Markdown --> DOCX"
+P
+  R{b color=111111 font=Times New Roman sz=38} "12. Definition"
+  R{b color=111111 font=Times New Roman sz=38} " list"
+P
+  R{color=222222 font=Times New Roman sz=23} "A bold term with its definition indented below it"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P
+  R{b color=222222 font=Times New Roman sz=23} "Markdown"
+P
+  R{sz=23} "    "
+  R{color=222222 font=Times New Roman sz=23} "A plain-text format for writing structured"
+  R{color=222222 font=Times New Roman sz=23} " documents."
+P
+  R{b color=222222 font=Times New Roman sz=23} "Flavor"
+P
+  R{sz=23} "    "
+  R{color=222222 font=Times New Roman sz=23} "A dialect of Markdown, such as the one GitHub"
+  R{color=222222 font=Times New Roman sz=23} " uses."
+P
+  R{b color=111111 font=Times New Roman sz=38} "13."
+  R{b color=111111 font=Times New Roman sz=38} " Images"
+P
+  R{color=222222 font=Times New Roman sz=23} "An image that does not exist shows a placeholder with its description"
+  R{color=222222 font=Times New Roman sz=23} " and "
+  R{color=222222 font=Times New Roman sz=23} "path instead of a picture"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P{jc=center}
+  R{color=555555 font=Times New Roman i sz=23} "🖼 A missing picture"
+  R "<br>"
+  R{color=1F3A5F font=Times New Roman sz=18 u=single} "does-not-exist.png"
+P
+  R{b color=111111 font=Times New Roman sz=38} "14. Inline diff and color"
+  R{b color=111111 font=Times New Roman sz=38} " chips"
+P
+  R{color=222222 font=Times New Roman sz=23} "An addition is "
+  R{color=16A34A font=Times New Roman sz=23 u=single} "green and underlined"
+  R{color=222222 font=Times New Roman sz=23} ", a removal is {- red and"
+  R{color=222222 font=Times New Roman sz=23} " struck "
+  R{color=222222 font=Times New Roman sz=23} "through -}. A color code such as "
+  R{color=5B2C2C font=Courier New sz=23} "#2563EB"
+  R{color=2563EB font=Times New Roman sz=23} "■ "
+  R{color=222222 font=Times New Roman sz=23} " is preceded by a small square"
+  R{color=222222 font=Times New Roman sz=23} " of "
+  R{color=222222 font=Times New Roman sz=23} "that"
+  R{color=222222 font=Times New Roman sz=23} " color."
+P
+  R{b color=111111 font=Times New Roman sz=38} "15."
+  R{b color=111111 font=Times New Roman sz=38} " Emoji"
+P
+  R{color=222222 font=Times New Roman sz=23} "Emoji shortcodes become emoji in DOCX: "
+  R{color=222222 font=Times New Roman sz=23} "🚀"
+  R{color=222222 font=Times New Roman sz=23} " "
+  R{color=222222 font=Times New Roman sz=23} "🎉"
+  R{color=222222 font=Times New Roman sz=23} ". In PDF they are"
+  R{color=222222 font=Times New Roman sz=23} " left "
+  R{color=222222 font=Times New Roman sz=23} "out, because the built-in fonts have no"
+  R{color=222222 font=Times New Roman sz=23} " emoji."
+P
+  R{b color=111111 font=Times New Roman sz=38} "16."
+  R{b color=111111 font=Times New Roman sz=38} " Footnotes"
+P
+  R{color=222222 font=Times New Roman sz=23} "This sentence has a footnote"
+  R{color=1F3A5F font=Times New Roman sz=18} "[1]"
+  R{color=222222 font=Times New Roman sz=23} ", and this one has another"
+  R{color=1F3A5F font=Times New Roman sz=18} "[2]"
+  R{color=222222 font=Times New Roman sz=23} "."
+  R{color=222222 font=Times New Roman sz=23} " The "
+  R{color=222222 font=Times New Roman sz=23} "numbers should be colored, and both notes should appear at the end of"
+  R{color=222222 font=Times New Roman sz=23} " the "
+  R{color=222222 font=Times New Roman sz=23} "document under a short"
+  R{color=222222 font=Times New Roman sz=23} " line."
+P
+  R{color=9A968A sz=18} "────────────────────────────────"
+P
+  R{color=555555 font=Times New Roman sz=18} "1. "
+  R{color=555555 font=Times New Roman sz=18} "The first footnote, with "
+  R{color=555555 font=Times New Roman sz=18} "bold"
+  R{color=555555 font=Times New Roman sz=18} " text."
+P
+  R{color=555555 font=Times New Roman sz=18} "2. "
+  R{color=555555 font=Times New Roman sz=18} "The second"
+  R{color=555555 font=Times New Roman sz=18} " footnote."

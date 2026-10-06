@@ -4,23 +4,14 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [1.3.0] - Unreleased
+## [1.3.0] - 2026-10-06
 
-### Changed
-
-- PDF output shows inline formatting everywhere text appears. Bold, italic,
-  inline code, links, strikethrough, underline, highlight, superscript and
-  subscript used to be drawn only in paragraphs; headings, list items, table
-  cells, quotes, callouts, definition lists and footnotes showed plain text.
-- Inline code in PDF sits on the baseline of the surrounding text and is no
-  longer preceded by an over-wide space.
-- Long terms and definitions of a definition list wrap in PDF instead of
-  running off the page.
-- In PDF, the text of lists, quotes and footnotes uses the same ink color as
-  paragraphs (it was pure black).
+Themes: choose how the output looks, or design your own.
 
 ### Added
 
+- Four more built-in themes next to the default: `classic`, `modern`,
+  `compact` and `report`. See the [theme guide](docs/themes.md).
 - Themes. A theme file (TOML) sets page size and margins, fonts, sizes,
   spacing and colors, and extends another theme so it lists only what it
   changes. Select one with `--theme NAME|FILE` or on the new Theme tab of the
@@ -36,6 +27,21 @@ All notable changes to markout are listed here. The format follows
   height) and landscape orientation, in both formats.
 - `fixtures/showcase.md`, a document with every element and a note on what
   each should look like, for checking a conversion by eye.
+
+### Changed
+
+- PDF output shows inline formatting everywhere text appears. Bold, italic,
+  inline code, links, strikethrough, underline, highlight, superscript and
+  subscript used to be drawn only in paragraphs; headings, list items, table
+  cells, quotes, callouts, definition lists and footnotes showed plain text.
+- Inline code in PDF sits on the baseline of the surrounding text and is no
+  longer preceded by an over-wide space.
+- Long terms and definitions of a definition list wrap in PDF instead of
+  running off the page.
+- In PDF, the text of lists, quotes and footnotes uses the same ink color as
+  paragraphs (it was pure black).
+- PDF tables honor column alignment (`:---:`, `---:`), as DOCX already did.
+- The settings dialog (`F2`) has two tabs, Flavor and Theme.
 
 ### Fixed
 

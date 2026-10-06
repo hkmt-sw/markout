@@ -1,0 +1,106 @@
+description = "Small type and narrow margins: long technical documents on fewer pages"
+
+[page]
+margin = "15mm"
+
+[fonts]
+body    = "sans"
+heading = "sans"
+code    = "mono"
+
+[text]
+size              = 9.5
+line-height       = 13
+paragraph-spacing = 5
+color             = "#1A1A1A"
+muted             = "#555555"
+faint             = "#888888"
+
+[heading]
+color = "#000000"
+
+[heading.h1]
+size = 18
+line-height = 22
+space-before = 10
+space-after = 6
+
+[heading.h2]
+size = 14
+line-height = 18
+space-before = 10
+space-after = 5
+
+[heading.h3]
+size = 12
+line-height = 15
+space-before = 8
+space-after = 4
+
+[heading.h4]
+size = 10.5
+line-height = 14
+space-before = 6
+space-after = 3
+
+[heading.h5]
+size = 10
+line-height = 13
+space-before = 6
+space-after = 3
+
+[heading.h6]
+size = 9.5
+line-height = 13
+space-before = 6
+space-after = 3
+
+[link]
+color = "#1D4ED8"
+
+[code]
+color           = "#B42318"
+block-size      = 8
+block-line-height = 10.5
+padding         = 5
+space-after     = 5
+block-color     = "#1A1A1A"
+background      = "#F4F4F4"
+border          = "#D4D4D4"
+
+[list]
+indent      = 14
+space-after = 4
+
+[table]
+cell-padding      = 3
+line-height       = 11.5
+space-after       = 6
+border            = "#C8C8C8"
+header-background = "#EDEDED"
+row-background    = "#FFFFFF"
+stripe-background = "#F8F8F8"
+
+[quote]
+indent      = 14
+bar         = "#B4B4B4"
+space-after = 3
+
+[rule]
+space = 6
+
+[alert]
+padding     = 5
+space-after = 5
+
+[footnote]
+size        = 8
+line-height = 11
+
+[caption]
+size = 8
+
+[footer]
+right = "{page} / {pages}"
+size  = 7.5
+color = "#888888"

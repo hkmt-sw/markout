@@ -115,7 +115,7 @@ func TestExtendsAndOrientation(t *testing.T) {
 	for _, info := range l.List() {
 		names = append(names, info.Name)
 	}
-	if got := strings.Join(names, ","); got != "default,base,byfile,child" {
+	if got := strings.Join(names, ","); got != "default,classic,compact,modern,report,base,byfile,child" {
 		t.Errorf("List() = %s", got)
 	}
 
