@@ -1,6 +1,8 @@
 package render
 
 import (
+	"archive/zip"
+	"io"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -150,5 +152,106 @@ func TestThemeChangesLayout(t *testing.T) {
 		if !strings.Contains(outline, want) {
 			t.Errorf("missing %s in:\n%s", want, outline)
 		}
+	}
+}
+
+// A theme file's fonts and page reach the output: the built-in serif, a font
+// loaded from a TTF file, and a landscape Letter page.
+func TestThemeFileFontsAndPage(t *testing.T) {
+	dir := t.TempDir()
+	// Any TrueType file will do as "the user's font": use an embedded one.
+	if err := os.WriteFile(filepath.Join(dir, "Brand.ttf"), fontSerifBold, 0o644); err != nil {
+		t.Fatal(err)
+	}
+	themePath := filepath.Join(dir, "t.toml")
+	os.WriteFile(themePath, []byte(`
+[page]
+size = "Letter"
+orientation = "landscape"
+margin = "1in"
+
+[fonts]
+body = "serif"
+heading = "brand"
+
+[fonts.family.brand]
+regular = "Brand.ttf"
+name = "Brand Sans"
+`), 0o644)
+	set, err := theme.Loader{}.Load(themePath)
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parse.ParseFlavor([]byte("# Title\n\nBody **bold** and `code`.\n"), flavor.Default(), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	r := NewPdfRenderer()
+	r.opts = Options{Theme: &set}
+	r.trace = &strings.Builder{}
+	pdfPath := filepath.Join(dir, "out.pdf")
+	if err := r.RenderToFile(doc, pdfPath); err != nil {
+		t.Fatal(err)
+	}
+	trace := r.trace.String()
+	for _, want := range []string{
+		`x=72.0 y=92.0 Custom-brand/24 "Title"`, // 1in margins; the family has no bold of its own
+		`Serif/11 "Body"`, `Serif-Bold/11 "bold"`, `Courier/10 "code"`,
+	} {
+		if !strings.Contains(trace, want) {
+			t.Errorf("missing %s in:\n%s", want, trace)
+		}
+	}
+	if r.pageWidth != 792 || r.pageHeight != 612 || r.contentWidth != 792-144 {
+		t.Errorf("the PDF page is %gx%g with %g for text, want landscape Letter with 1in margins", r.pageWidth, r.pageHeight, r.contentWidth)
+	}
+
+	out := filepath.Join(dir, "out.docx")
+	if err := RenderDocx(doc, out, Options{Theme: &set}); err != nil {
+		t.Fatal(err)
+	}
+	outline := docxOutline(t, out)
+	for _, want := range []string{`font=Brand Sans`, `font=Times New Roman`} {
+		if !strings.Contains(outline, want) {
+			t.Errorf("missing %s in:\n%s", want, outline)
+		}
+	}
+	xml := docxPart(t, out, "word/document.xml")
+	if !strings.Contains(xml, `w:w="15840"`) || !strings.Contains(xml, `w:h="12240"`) || !strings.Contains(xml, "landscape") {
+		t.Errorf("the DOCX page is not landscape Letter: %s", xml[strings.Index(xml, "<w:sectPr"):])
+	}
+}
+
+func docxPart(t *testing.T, path, name string) string {
+	t.Helper()
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer zr.Close()
+	for _, f := range zr.File {
+		if f.Name == name {
+			rc, _ := f.Open()
+			defer rc.Close()
+			data, _ := io.ReadAll(rc)
+			return string(data)
+		}
+	}
+	t.Fatalf("%s not found", name)
+	return ""
+}
+
+func TestTTFAscent(t *testing.T) {
+	for name, tt := range map[string]struct {
+		data []byte
+		want float64
+	}{"sans": {fontSansRegular, 0.905}, "mono": {fontMonoRegular, 0.833}, "serif": {fontSerifRegular, 0.891}} {
+		if got := ttfAscent(tt.data); got < tt.want-0.001 || got > tt.want+0.001 {
+			t.Errorf("%s: ascent %.4f, want %.3f", name, got, tt.want)
+		}
+	}
+	if got := ttfAscent([]byte("not a font")); got != 0.9 {
+		t.Errorf("unreadable font: %g", got)
 	}
 }

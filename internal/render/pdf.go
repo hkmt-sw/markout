@@ -98,6 +98,7 @@ type PdfRenderer struct {
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
 	opts         Options                  // base directory and image loading policy
 	t            theme.Theme              // how everything looks
+	families     map[string]*pdfFamily    // fonts loaded for this document
 
 	// trace, when set, receives one line for everything drawn: the page, the
 	// position, the font and the text. Tests compare it with a recorded
@@ -154,8 +155,7 @@ func (r *PdfRenderer) setupDocument() error {
 	r.marginTop, r.marginBottom = page.MarginTop, page.MarginBottom
 	r.contentWidth = page.ContentWidth()
 
-	// Register UTF-8 fonts
-	if err := r.registerUTF8Fonts(); err != nil {
+	if err := r.loadFonts(); err != nil {
 		return err
 	}
 
@@ -163,60 +163,14 @@ func (r *PdfRenderer) setupDocument() error {
 	return nil
 }
 
-// registerUTF8Fonts loads the embedded Liberation fonts. The family names are
-// kept ("Arial"/"Courier") so the rest of the renderer is unchanged; the glyphs
-// come from the embedded data, which works on every OS and covers Hungarian.
-func (r *PdfRenderer) registerUTF8Fonts() error {
-	fonts := []struct {
-		family string
-		data   []byte
-	}{
-		{"Arial", fontSansRegular},
-		{"Arial-Bold", fontSansBold},
-		{"Arial-Italic", fontSansItalic},
-		{"Arial-BoldItalic", fontSansBoldItalic},
-		{"Courier", fontMonoRegular},
-	}
-	for _, f := range fonts {
-		if err := r.pdf.AddTTFFontData(f.family, f.data); err != nil {
-			return err
-		}
-	}
-	return nil
-}
+func (r *PdfRenderer) bodyFont() string    { return r.t.Fonts.Body }
+func (r *PdfRenderer) headingFont() string { return r.t.Fonts.Heading }
+func (r *PdfRenderer) codeFont() string    { return r.t.Fonts.Code }
 
-// The font families loaded into the PDF, by the name a theme refers to them.
-const (
-	familySans = "Arial"
-	familyMono = "Courier"
-)
-
-// family resolves a theme font name to a loaded family.
-func family(name string) string {
-	if name == "mono" {
-		return familyMono
-	}
-	return familySans
-}
-
-func (r *PdfRenderer) bodyFont() string    { return family(r.t.Fonts.Body) }
-func (r *PdfRenderer) headingFont() string { return family(r.t.Fonts.Heading) }
-func (r *PdfRenderer) codeFont() string    { return family(r.t.Fonts.Code) }
-
-// setFont selects a loaded family in a style ("", "B", "I" or "BI"; the
-// monospace family has only the regular one) and size.
-func (r *PdfRenderer) setFont(name string, style string, size float64) {
-	fontName := name
-	if name == familySans {
-		switch style {
-		case "B":
-			fontName = "Arial-Bold"
-		case "I":
-			fontName = "Arial-Italic"
-		case "BI":
-			fontName = "Arial-BoldItalic"
-		}
-	}
+// setFont selects a font by the theme's name for its family ("sans", "mono",
+// ...), a style ("", "B", "I" or "BI") and a size.
+func (r *PdfRenderer) setFont(family string, style string, size float64) {
+	fontName := r.family(family).fontName(style)
 	r.pdf.SetFont(fontName, "", size)
 	r.font = fmt.Sprintf("%s/%g", fontName, size)
 }
@@ -766,7 +720,7 @@ func (r *PdfRenderer) renderImagePlaceholder(img ast.Image) {
 	// Show URL
 	if img.URL != "" {
 		r.setFont(r.bodyFont(), "", r.t.Caption.Size)
-		r.textColor(r.t.Link)
+		r.textColor(r.t.Link.Color)
 
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
@@ -874,7 +828,7 @@ func (r *PdfRenderer) renderMathBlock(math ast.MathBlock) {
 	r.checkPageBreak(lineHeight)
 
 	r.setFont(r.bodyFont(), "I", r.t.Text.Size)
-	r.textColor(r.t.Math)
+	r.textColor(r.t.Colors.Math)
 
 	// Center the math expression
 	textWidth, _ := r.pdf.MeasureTextWidth(math.Expression)
@@ -930,7 +884,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 
 	// Items
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)
-	r.textColor(r.t.Link)
+	r.textColor(r.t.Link.Color)
 	for _, item := range toc.Items {
 		r.checkPageBreak(lineHeight)
 		indent := float64(item.Level-1) * r.t.List.Indent

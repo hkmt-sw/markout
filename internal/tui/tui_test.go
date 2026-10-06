@@ -23,6 +23,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 func key(s string) tea.KeyMsg {
@@ -380,7 +381,7 @@ func TestFlavorPickerSelectsAndSaves(t *testing.T) {
 	if !m.pickFlavor {
 		t.Fatal("expected F2 to open the flavor dialog")
 	}
-	if !strings.Contains(m.View(), "Markdown flavor") {
+	if !strings.Contains(m.View(), "Settings") || !strings.Contains(m.View(), "Tab") {
 		t.Fatal("expected the dialog to be drawn")
 	}
 
@@ -676,7 +677,7 @@ func TestUpdateNoticeAndToggle(t *testing.T) {
 	if !m.pickFlavor || !m.settings.NoUpdateCheck {
 		t.Fatal("u should toggle the update check and keep the dialog open")
 	}
-	if !strings.Contains(m.View(), "Update check: off") || m.updateNotice() != "" {
+	if !strings.Contains(m.View(), "Updates: off") || m.updateNotice() != "" {
 		t.Error("dialog or notice does not reflect the check being off")
 	}
 	if last := (*saved)[len(*saved)-1]; !last.NoUpdateCheck {
@@ -712,5 +713,106 @@ func TestUpdateCheckFailureIsSilent(t *testing.T) {
 	next, _ = m.Update(m.Init()())
 	if next.(Model).updateTo != "" {
 		t.Error("announced the version that is already running")
+	}
+}
+
+// themeModel has a themes directory with one good and one broken theme.
+func themeModel(t *testing.T) (Model, *[]settings.Settings) {
+	t.Helper()
+	themes := t.TempDir()
+	os.WriteFile(filepath.Join(themes, "crimson.toml"), []byte("description = \"Red headings\"\n\n[heading]\ncolor = \"#AA0000\"\n"), 0o644)
+	os.WriteFile(filepath.Join(themes, "broken.toml"), []byte("[text]\nsizee = 1\n"), 0o644)
+
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Title\n\ntext\n"), 0o644)
+	m := newAt(dir)
+	m.themes = theme.Loader{UserDir: themes}
+	m.settings.Flavor = flavor.DefaultID
+	m.format = formatDOCX
+	var saved []settings.Settings
+	m.saveSettings = func(s settings.Settings) error {
+		saved = append(saved, s)
+		return nil
+	}
+	cursorOn(t, &m, "doc.md")
+	return m, &saved
+}
+
+func TestThemeTabSelectsSavesAndStylesTheOutput(t *testing.T) {
+	m, saved := themeModel(t)
+	if !strings.Contains(m.View(), "Theme:   default") {
+		t.Fatal("the Convert box should show the default theme")
+	}
+
+	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(tea.KeyMsg{Type: tea.KeyTab})
+	m = next.(Model)
+	view := m.View()
+	for _, want := range []string{"default", "crimson", "broken", "Your own themes"} {
+		if !strings.Contains(view, want) {
+			t.Errorf("the Theme tab does not show %q", want)
+		}
+	}
+
+	// The list is default, broken, crimson: move to crimson and select it.
+	for m.themeList[m.themeCursor].Name != "crimson" {
+		next, _ = m.Update(key("down"))
+		m = next.(Model)
+	}
+	if !strings.Contains(m.View(), "Red headings") {
+		t.Error("the description of the highlighted theme is not shown")
+	}
+	next, _ = m.Update(key("enter"))
+	m = next.(Model)
+	if m.pickFlavor || m.themeRef != "crimson" {
+		t.Fatalf("after Enter: open=%v theme=%q", m.pickFlavor, m.themeRef)
+	}
+	if len(*saved) != 1 || (*saved)[0].Theme != "crimson" || (*saved)[0].Flavor != flavor.DefaultID {
+		t.Fatalf("saved %+v, want the theme without losing the flavor", *saved)
+	}
+	if !strings.Contains(m.View(), "Theme:   crimson") {
+		t.Error("the Convert box does not show the chosen theme")
+	}
+
+	// The conversion uses it: the heading is red in the document.
+	out := filepath.Join(m.cwd, "doc.docx")
+	_, cmd := m.Update(key("enter"))
+	done, ok := findConvertDone(cmd())
+	if !ok || done.err != nil {
+		t.Fatalf("conversion did not succeed: %+v", done)
+	}
+	if !strings.Contains(docxBody(t, out), "AA0000") {
+		t.Error("the heading color from the theme is not in the output")
+	}
+}
+
+func TestBrokenThemeIsShownButNotSelected(t *testing.T) {
+	m, saved := themeModel(t)
+	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(tea.KeyMsg{Type: tea.KeyTab})
+	m = next.(Model)
+	for m.themeList[m.themeCursor].Name != "broken" {
+		next, _ = m.Update(key("down"))
+		m = next.(Model)
+	}
+	if !strings.Contains(m.View(), "cannot be used") {
+		t.Error("the broken theme's problem is not shown in the list")
+	}
+	next, _ = m.Update(key("enter"))
+	m = next.(Model)
+	if m.themeRef != "" || len(*saved) != 0 || m.statusKind != statusError || !strings.Contains(m.status, "sizee") {
+		t.Fatalf("a broken theme was selected: theme=%q saved=%d status=%q", m.themeRef, len(*saved), m.status)
+	}
+}
+
+// A theme that stops loading (the file was edited or removed) is reported at
+// conversion time instead of silently falling back.
+func TestMissingThemeFailsTheConversion(t *testing.T) {
+	m, _ := themeModel(t)
+	m.themeRef = "gone"
+	next, cmd := m.Update(key("enter"))
+	m = next.(Model)
+	if cmd != nil || m.converting || m.statusKind != statusError || !strings.Contains(m.status, "gone") {
+		t.Fatalf("converting=%v status=%q", m.converting, m.status)
 	}
 }

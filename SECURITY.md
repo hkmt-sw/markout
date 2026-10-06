@@ -27,6 +27,8 @@ Knowing this helps judge whether something is a vulnerability:
   resolves to a private address is not recognized as local.
 - With the GitLab flavor, `::include{file=…}` reads the named file, but only
   from the directory of the document or below it.
+- A theme you select can name font files (`.ttf`), which are read and, in
+  PDF, embedded in the output. A document cannot select a theme.
 - Nothing is uploaded, and no code from the document is executed.
 - Independently of any document, the TUI asks the GitHub API for the latest
   release at most once a day, sending only the markout version, to announce

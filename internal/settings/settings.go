@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 // EnvPath names an environment variable that overrides the settings file
@@ -18,6 +19,9 @@ const EnvPath = "MARKOUT_CONFIG"
 type Settings struct {
 	// Flavor is the ID of the Markdown flavor used for conversions.
 	Flavor string `json:"flavor"`
+
+	// Theme is the name or file path of the theme that styles the output.
+	Theme string `json:"theme,omitempty"`
 
 	// NoUpdateCheck turns off the automatic check for a newer release.
 	NoUpdateCheck bool `json:"no_update_check,omitempty"`
@@ -76,6 +80,21 @@ func Save(s Settings) error {
 		return err
 	}
 	return os.WriteFile(path, append(data, '\n'), 0o644)
+}
+
+// ThemesDir is where the user's own themes are kept, next to the settings
+// file: one NAME.toml per theme.
+func ThemesDir() string {
+	path, err := Path()
+	if err != nil {
+		return ""
+	}
+	return filepath.Join(filepath.Dir(path), "themes")
+}
+
+// Themes finds themes by name, including the user's own.
+func Themes() theme.Loader {
+	return theme.Loader{UserDir: ThemesDir()}
 }
 
 // MarkdownFlavor resolves the configured flavor, falling back to the default.

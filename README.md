@@ -99,7 +99,7 @@ Run with no arguments to launch the full-screen UI:
 ```
 
 It's a single Midnight-Commander-style window: a file list on top, a docked
-**Convert** box below (flavor / format / output / status), and a function-key
+**Convert** box below (flavor / theme / format / output / status), and a function-key
 bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 
 | Key            | Action                                         |
@@ -108,7 +108,7 @@ bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 | `→` / `Enter`  | Enter a directory                              |
 | `←`            | Go up a directory                              |
 | `Enter`        | Convert the highlighted `.md` file             |
-| `F2`           | Settings: Markdown flavor, update check        |
+| `F2`           | Settings: Markdown flavor, theme, update check |
 | `F3`           | Toggle output format (DOCX ⇄ PDF)              |
 | `F4`           | Edit the output path by hand                   |
 | `o`            | Open the last converted file                   |
@@ -129,6 +129,58 @@ The output format is inferred from the file extension:
 ./markout --list-flavors                        # show the supported flavors
 ./markout --remote-images allow input.md out.pdf # download images referenced by URL
 ```
+
+## Themes
+
+A theme decides how the output looks: page size and margins, fonts, sizes,
+spacing and colors. Pick one on the **Theme** tab of the settings (`F2`, then
+`Tab`), or per conversion:
+
+```sh
+./markout --theme mytheme.toml input.md output.pdf
+./markout --list-themes
+```
+
+To make your own, start from a copy of the default and delete what you do not
+want to change:
+
+```sh
+./markout --export-theme > mytheme.toml
+```
+
+A theme file is TOML and lists only what differs from the theme it extends:
+
+```toml
+extends = "default"
+
+[page]
+size   = "A4"
+margin = "25mm"
+
+[fonts]
+body    = "serif"     # sans, serif and mono are built in
+heading = "sans"
+
+[heading.h1]
+size  = 28
+color = "#7A1E1E"
+```
+
+Put the file in the themes directory that `--list-themes` prints and it shows
+up by name, in the TUI too. Fonts of your own are loaded from `.ttf` files:
+
+```toml
+[fonts]
+heading = "brand"
+
+[fonts.family.brand]
+regular = "Brand-Regular.ttf"   # relative to the theme file
+bold    = "Brand-Bold.ttf"
+name    = "Brand Sans"          # what the font is called, for DOCX
+```
+
+PDF embeds the fonts. DOCX only names them: whoever opens the document needs
+the font installed, or their word processor substitutes another.
 
 ## Update notifications
 

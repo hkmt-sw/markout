@@ -28,6 +28,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/convert"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
+	"github.com/hkmt-sw/markout/internal/theme"
 	"github.com/hkmt-sw/markout/internal/update"
 )
 
@@ -160,7 +161,13 @@ type Model struct {
 	updateTo string                                // a newer release to announce, or ""
 
 	pickFlavor   bool // the settings dialog is open
-	flavorCursor int  // highlighted row in the settings dialog
+	flavorCursor int  // highlighted row on the Flavor tab
+
+	themes      theme.Loader // finds themes by name
+	themeRef    string       // name or file of the theme used for conversions
+	settingsTab int          // tab of the settings dialog: 0 = Flavor, 1 = Theme
+	themeList   []theme.Info // themes shown on the Theme tab, read when the dialog opens
+	themeCursor int          // highlighted row on the Theme tab
 
 	confirmRemote bool                 // asking whether to download the document's remote images
 	remoteHosts   []convert.RemoteHost // the servers those images are on
@@ -184,6 +191,7 @@ type Model struct {
 // Config is what the TUI is started with.
 type Config struct {
 	Flavor   flavor.Flavor     // Markdown flavor to start with
+	Theme    string            // name or file of the theme to start with
 	Settings settings.Settings // saved preferences
 	Version  string            // version of this build, for the update check
 }
@@ -197,6 +205,8 @@ func New(cfg Config) Model {
 	}
 	m := newAt(cwd)
 	m.flavor = cfg.Flavor
+	m.themes = settings.Themes()
+	m.themeRef = cfg.Theme
 	m.settings = cfg.Settings
 	m.saveSettings = settings.Save
 	m.version = cfg.Version
@@ -463,10 +473,19 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case "f2", "s":
 		m.pickFlavor = true
+		m.settingsTab = 0
 		m.flavorCursor = 0
 		for i, f := range flavor.All() {
 			if f.ID == m.flavor.ID {
 				m.flavorCursor = i
+			}
+		}
+		// Read the themes now, so one added while markout runs shows up
+		m.themeList = m.themes.List()
+		m.themeCursor = 0
+		for i, t := range m.themeList {
+			if t.Name == m.themeName() {
+				m.themeCursor = i
 			}
 		}
 
@@ -628,12 +647,21 @@ func (m Model) cancelRemote() Model {
 // whether the user agreed to download the document's remote images.
 func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd) {
 	format := m.format
-	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages}
 	m.confirmOverwrite = false
 	m.confirmRemote = false
 	m.remoteHosts = nil
 	m.pendingIn = ""
 	m.pendingOut = ""
+
+	// The theme is read for each conversion, so edits to a theme file take
+	// effect without restarting.
+	look, err := m.themes.Load(m.themeRef)
+	if err != nil {
+		m.status = err.Error()
+		m.statusKind = statusError
+		return m, nil
+	}
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look}
 	m.converting = true
 	m.status = "converting…"
 	m.statusKind = statusInfo
@@ -678,19 +706,26 @@ func (m Model) cancelOverwrite() Model {
 // flavors, Enter selects and saves the highlighted one, Esc leaves it as is.
 func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	flavors := flavor.All()
+	cursor, count := &m.flavorCursor, len(flavors)
+	if m.settingsTab == 1 {
+		cursor, count = &m.themeCursor, len(m.themeList)
+	}
+
 	switch msg.String() {
 	case "up", "k":
-		if m.flavorCursor > 0 {
-			m.flavorCursor--
+		if *cursor > 0 {
+			*cursor--
 		}
 	case "down", "j":
-		if m.flavorCursor < len(flavors)-1 {
-			m.flavorCursor++
+		if *cursor < count-1 {
+			*cursor++
 		}
 	case "home", "g":
-		m.flavorCursor = 0
+		*cursor = 0
 	case "end", "G":
-		m.flavorCursor = len(flavors) - 1
+		*cursor = count - 1
+	case "tab", "shift+tab", "left", "right", "h", "l":
+		m.settingsTab = 1 - m.settingsTab
 	case "esc", "f2", "q", "ctrl+g":
 		m.pickFlavor = false
 	case "u", "U":
@@ -706,17 +741,45 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			m.statusKind = statusError
 		}
 	case "enter":
+		what := ""
+		if m.settingsTab == 0 {
+			m.flavor = flavors[m.flavorCursor]
+			m.settings.Flavor = m.flavor.ID
+			what = "flavor: " + m.flavor.Name
+		} else {
+			if len(m.themeList) == 0 {
+				return m, nil
+			}
+			chosen := m.themeList[m.themeCursor]
+			// A theme that does not load stays unselected; its description
+			// already says why.
+			if _, err := m.themes.Load(chosen.Name); err != nil {
+				m.status = err.Error()
+				m.statusKind = statusError
+				m.pickFlavor = false
+				return m, nil
+			}
+			m.themeRef = chosen.Name
+			m.settings.Theme = chosen.Name
+			what = "theme: " + chosen.Name
+		}
 		m.pickFlavor = false
-		m.flavor = flavors[m.flavorCursor]
-		m.settings.Flavor = m.flavor.ID
-		m.status = "flavor: " + m.flavor.Name
+		m.status = what
 		m.statusKind = statusInfo
 		if err := m.save(); err != nil {
-			m.status = "flavor set, but not saved: " + err.Error()
+			m.status = what + ", but not saved: " + err.Error()
 			m.statusKind = statusError
 		}
 	}
 	return m, nil
+}
+
+// themeName is the theme used for conversions, as shown to the user.
+func (m Model) themeName() string {
+	if m.themeRef == "" {
+		return theme.DefaultName
+	}
+	return m.themeRef
 }
 
 // updateSearch handles keys while incremental search (Ctrl+S) is active.
@@ -821,10 +884,10 @@ func (m Model) matchFrom(q string, start, dir int) (int, bool) {
 
 // listHeight is the number of file rows that fit on screen.
 func (m Model) listHeight() int {
-	// Chrome: top border(1) + cwd(1) + convert box [sep+flavor+format+output+
-	// status](5) + fkey sep(1) + fkey(1) + bottom border(1) = 10 lines around
-	// the list.
-	h := m.height - 10
+	// Chrome: top border(1) + cwd(1) + convert box [sep+flavor+theme+format+
+	// output+status](6) + fkey sep(1) + fkey(1) + bottom border(1) = 11 lines
+	// around the list.
+	h := m.height - 11
 	if h < 1 {
 		h = 1
 	}
@@ -861,6 +924,7 @@ func (m Model) View() string {
 	// Convert box.
 	lines = append(lines, m.borderSep("Convert"))
 	lines = append(lines, m.row(m.flavorLine()))
+	lines = append(lines, m.row(m.themeLine()))
 	lines = append(lines, m.row(m.formatLine()))
 	lines = append(lines, m.row(m.outputLine()))
 	lines = append(lines, m.row(m.statusLine()))
@@ -969,10 +1033,25 @@ func (m Model) remoteButton(label string, idx int) string {
 		Padding(0, 2).Render(label)
 }
 
-// flavorDialog renders the settings dialog: the list of Markdown flavors with
-// the description of the highlighted one underneath.
+// flavorDialog renders the settings dialog: a Flavor tab and a Theme tab,
+// each a list with the description of the highlighted entry underneath.
 func (m Model) flavorDialog() string {
-	flavors := flavor.All()
+	type item struct {
+		name, description string
+		current           bool
+	}
+	var items []item
+	cursor := m.flavorCursor
+	if m.settingsTab == 0 {
+		for _, f := range flavor.All() {
+			items = append(items, item{f.Name, f.Description, f.ID == m.flavor.ID})
+		}
+	} else {
+		cursor = m.themeCursor
+		for _, t := range m.themeList {
+			items = append(items, item{t.Name, t.Description, t.Name == m.themeName()})
+		}
+	}
 
 	w := 62
 	if w > m.width-4 {
@@ -983,17 +1062,17 @@ func (m Model) flavorDialog() string {
 		inner = 10
 	}
 
-	// Show as many flavors as fit, scrolled to keep the cursor in view.
-	visible := m.height - 10
-	if visible > len(flavors) {
-		visible = len(flavors)
+	// Show as many entries as fit, scrolled to keep the cursor in view.
+	visible := m.height - 12
+	if visible > len(items) {
+		visible = len(items)
 	}
 	if visible < 1 {
 		visible = 1
 	}
 	first := 0
-	if m.flavorCursor >= visible {
-		first = m.flavorCursor - visible + 1
+	if cursor >= visible {
+		first = cursor - visible + 1
 	}
 
 	updates := "on"
@@ -1001,33 +1080,52 @@ func (m Model) flavorDialog() string {
 		updates = "off"
 	}
 
-	rows := []string{titleStyle.Render("Settings · Markdown flavor"), ""}
-	for i := first; i < first+visible; i++ {
-		f := flavors[i]
+	tab := func(label string, idx int) string {
+		if m.settingsTab == idx {
+			return formatActive.Render(label)
+		}
+		return formatInactive.Render(label)
+	}
+	rows := []string{titleStyle.Render("Settings") + "   " + tab("Flavor", 0) + " " + tab("Theme", 1), ""}
+
+	description := ""
+	for i := first; i < first+visible && i < len(items); i++ {
+		it := items[i]
 		mark := "  "
-		if f.ID == m.flavor.ID {
+		if it.current {
 			mark = " ✓"
 		}
-		name := truncRight(f.Name, inner-4)
+		name := truncRight(printable(it.name), inner-4)
 		line := "  " + name + strings.Repeat(" ", inner-4-lipgloss.Width(name)) + mark
 		switch {
-		case i == m.flavorCursor:
+		case i == cursor:
 			line = cursorStyle.Render("▶" + line[1:])
-		case f.ID == m.flavor.ID:
+			description = it.description
+		case it.current:
 			line = lipgloss.NewStyle().Foreground(colSuccess).Render(line)
 		default:
 			line = fileStyle.Render(line)
 		}
 		rows = append(rows, line)
 	}
+	if m.settingsTab == 1 {
+		// Say where a theme of one's own goes
+		hint := ""
+		if dir := m.themes.UserDir; dir != "" {
+			const label = "Your own themes: "
+			hint = label + truncLeft(printable(dir), inner-len(label))
+		}
+		rows = append(rows, dimStyle.Render(hint))
+	}
 	rows = append(rows,
 		"",
-		lipgloss.NewStyle().Foreground(colMuted).Width(inner).Height(2).Render(flavors[m.flavorCursor].Description),
+		lipgloss.NewStyle().Foreground(colMuted).Width(inner).Height(2).Render(printable(description)),
 		"",
-		keyStyle.Render("↑↓")+" "+keyDescStyle.Render("Select")+"   "+
-			keyStyle.Render("↵")+" "+keyDescStyle.Render("Save")+"   "+
-			keyStyle.Render("u")+" "+keyDescStyle.Render("Update check: "+updates)+"   "+
-			keyStyle.Render("Esc")+" "+keyDescStyle.Render("Cancel"),
+		keyStyle.Render("↑↓")+" "+keyDescStyle.Render("Select")+"  "+
+			keyStyle.Render("Tab")+" "+keyDescStyle.Render("Switch")+"  "+
+			keyStyle.Render("↵")+" "+keyDescStyle.Render("Save")+"  "+
+			keyStyle.Render("u")+" "+keyDescStyle.Render("Updates: "+updates)+"  "+
+			keyStyle.Render("Esc")+" "+keyDescStyle.Render("Close"),
 	)
 
 	return lipgloss.NewStyle().
@@ -1196,6 +1294,10 @@ func (m Model) flavorLine() string {
 	return labelStyle.Render("Flavor:  ") + pathStyle.Render(m.flavor.Name)
 }
 
+func (m Model) themeLine() string {
+	return labelStyle.Render("Theme:   ") + pathStyle.Render(printable(m.themeName()))
+}
+
 func (m Model) formatLine() string {
 	docx, pdf := formatInactive.Render("DOCX"), formatInactive.Render("PDF")
 	if m.format == formatDOCX {
@@ -1255,7 +1357,7 @@ func (m Model) keyBar() string {
 		keys = [][2]string{
 			{"↵", "Convert"},
 			{"^S", "Find"},
-			{"F2", "Flavor"},
+			{"F2", "Settings"},
 			{"F3", "Format"},
 			{"F4", "Output"},
 		}

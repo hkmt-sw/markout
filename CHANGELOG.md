@@ -21,6 +21,16 @@ All notable changes to markout are listed here. The format follows
 
 ### Added
 
+- Themes. A theme file (TOML) sets page size and margins, fonts, sizes,
+  spacing and colors, and extends another theme so it lists only what it
+  changes. Select one with `--theme NAME|FILE` or on the new Theme tab of the
+  settings (`F2`, `Tab`); `--list-themes` and `--export-theme` help with
+  making your own. Themes placed in the themes directory are available by
+  name.
+- A built-in serif font for PDF, and fonts of your own loaded from `.ttf`
+  files named in a theme.
+- Paper sizes other than A4 (A3, A5, Letter, Legal, Tabloid, or any width and
+  height) and landscape orientation, in both formats.
 - `fixtures/showcase.md`, a document with every element and a note on what
   each should look like, for checking a conversion by eye.
 
