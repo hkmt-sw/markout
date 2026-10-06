@@ -1,52 +1,51 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=64.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "Pandoc Markdown"
-p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: "
-p1 text  x=107.4 y=80.7 Arial/11 "Jane Doe"
-p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: "
-p1 text  x=95.2 y=96.7 Arial/11 "2026-10-06"
-p1 text  x=56.7 y=148.7 Arial-Bold/24 "Pandoc"
-p1 text  x=56.7 y=188.7 Arial/11 "H"
-p1 text  x=64.6 y=193.7 Arial/8 "2"
-p1 text  x=69.1 y=188.7 Arial/11 "O is water and 2"
-p1 text  x=149.1 y=187.7 Arial/8 "10"
-p1 text  x=161.0 y=188.7 Arial/11 "is 1024."
-p1 text  x=202.6 y=188.7 Arial/11 "“"
-p1 text  x=206.3 y=188.7 Arial/11 "Smart quotes"
-p1 text  x=271.6 y=188.7 Arial/11 "”"
-p1 text  x=278.3 y=188.7 Arial/11 "–"
-p1 text  x=287.5 y=188.7 Arial/11 "and dashes"
-p1 text  x=344.4 y=188.7 Arial/11 "…"
-p1 text  x=56.7 y=212.7 Arial/11 "An inline note."
-p1 text  x=126.3 y=212.7 Arial/11 "[1]"
-p1 text  x=141.6 y=212.7 Arial/11 "A"
-p1 text  x=152.0 y=212.7 Arial/11 "small span"
-p1 line  x=152.0 y=224.7 to x=204.5 y=224.7
-p1 text  x=207.6 y=212.7 Arial/11 "and"
-p1 rect  x=229.0 y=211.7 w=36.7 h=14.0 F
-p1 text  x=229.0 y=212.7 Arial/11 "marked"
-p1 text  x=265.6 y=212.7 Arial/11 "."
-p1 rect  x=56.7 y=236.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=236.7 to x=56.7 y=284.7
-p1 text  x=64.7 y=244.7 Arial-Bold/11 "WARNING"
-p1 text  x=64.7 y=260.7 Arial/11 "A fenced div with a known class becomes a callout"
-p1 text  x=311.5 y=260.7 Arial/11 "."
-p1 rect  x=56.7 y=292.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=292.7 to x=56.7 y=340.7
-p1 text  x=64.7 y=300.7 Arial-Bold/11 "Quarto style"
-p1 text  x=64.7 y=316.7 Arial/11 "Works too"
-p1 text  x=114.2 y=316.7 Arial/11 "."
-p1 text  x=56.7 y=348.7 Arial/11 "Unknown divs keep their content"
-p1 text  x=215.6 y=348.7 Arial/11 "."
-p1 rect  x=56.7 y=372.7 w=481.9 h=40.0 FD
-p1 text  x=64.7 y=380.7 Courier/9 "print(\"hi\")"
-p1 text  x=64.7 y=392.7 Courier/9 " "
-p1 text  x=56.7 y=420.7 Arial-Bold/11 "Term"
-p1 text  x=76.7 y=436.7 Arial/11 "Definition"
-p1 text  x=56.7 y=460.7 Arial-Italic/11 "[IMG] Figure"
-p1 text  x=56.7 y=476.7 Arial/9 "fig.png"
-p1 text  x=262.7 y=500.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0"
-p1 line  x=56.7 y=544.7 to x=201.3 y=544.7
-p1 text  x=56.7 y=554.7 Arial/9 "1. "
-p1 text  x=66.7 y=554.7 Arial/9 "It lives in the text"
-p1 text  x=133.6 y=554.7 Arial/9 "."
+p1 rect  x=56.7 y=56.7 w=481.9 h=64.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "Pandoc Markdown" #1A1A2E
+p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: " #4A4A68
+p1 text  x=107.4 y=80.7 Arial/11 "Jane Doe" #1A1A2E
+p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: " #4A4A68
+p1 text  x=95.2 y=96.7 Arial/11 "2026-10-06" #1A1A2E
+p1 text  x=56.7 y=148.7 Arial-Bold/24 "Pandoc" #000000
+p1 text  x=56.7 y=188.7 Arial/11 "H" #1A1A2E
+p1 text  x=64.6 y=193.7 Arial/8 "2" #1A1A2E
+p1 text  x=69.1 y=188.7 Arial/11 "O is water and 2" #1A1A2E
+p1 text  x=149.1 y=187.7 Arial/8 "10" #1A1A2E
+p1 text  x=161.0 y=188.7 Arial/11 "is 1024." #1A1A2E
+p1 text  x=202.6 y=188.7 Arial/11 "“" #1A1A2E
+p1 text  x=206.3 y=188.7 Arial/11 "Smart quotes" #1A1A2E
+p1 text  x=271.6 y=188.7 Arial/11 "”" #1A1A2E
+p1 text  x=278.3 y=188.7 Arial/11 "–" #1A1A2E
+p1 text  x=287.5 y=188.7 Arial/11 "and dashes" #1A1A2E
+p1 text  x=344.4 y=188.7 Arial/11 "…" #1A1A2E
+p1 text  x=56.7 y=212.7 Arial/11 "An inline note." #1A1A2E
+p1 text  x=126.3 y=212.7 Arial/11 "[1]" #2563EB
+p1 text  x=141.6 y=212.7 Arial/11 "A" #1A1A2E
+p1 text  x=152.0 y=212.7 Arial/11 "small span" #1A1A2E
+p1 line  x=152.0 y=224.7 to x=204.5 y=224.7 #1A1A2E/0.6
+p1 text  x=207.6 y=212.7 Arial/11 "and" #1A1A2E
+p1 rect  x=229.0 y=211.7 w=36.7 h=14.0 fill=#FFF082
+p1 text  x=229.0 y=212.7 Arial/11 "marked" #1A1A2E
+p1 text  x=265.6 y=212.7 Arial/11 "." #1A1A2E
+p1 rect  x=56.7 y=236.7 w=481.9 h=48.0 fill=#FEE2E2
+p1 line  x=56.7 y=236.7 to x=56.7 y=284.7 #EF4444/3.0
+p1 text  x=64.7 y=244.7 Arial-Bold/11 "WARNING" #EF4444
+p1 text  x=64.7 y=260.7 Arial/11 "A fenced div with a known class becomes a callout" #1A1A2E
+p1 text  x=311.5 y=260.7 Arial/11 "." #1A1A2E
+p1 rect  x=56.7 y=292.7 w=481.9 h=48.0 fill=#DCFCE7
+p1 line  x=56.7 y=292.7 to x=56.7 y=340.7 #22C55E/3.0
+p1 text  x=64.7 y=300.7 Arial-Bold/11 "Quarto style" #22C55E
+p1 text  x=64.7 y=316.7 Arial/11 "Works too" #1A1A2E
+p1 text  x=114.2 y=316.7 Arial/11 "." #1A1A2E
+p1 text  x=56.7 y=348.7 Arial/11 "Unknown divs keep their content" #1A1A2E
+p1 text  x=215.6 y=348.7 Arial/11 "." #1A1A2E
+p1 rect  x=56.7 y=372.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=380.7 Courier/9 "print(\"hi\")" #000000
+p1 text  x=56.7 y=408.7 Arial-Bold/11 "Term" #1A1A2E
+p1 text  x=76.7 y=424.7 Arial/11 "Definition" #1A1A2E
+p1 text  x=56.7 y=448.7 Arial-Italic/11 "[IMG] Figure" #4A4A68
+p1 text  x=56.7 y=464.7 Arial/9 "fig.png" #2563EB
+p1 text  x=262.7 y=488.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
+p1 line  x=56.7 y=532.7 to x=201.3 y=532.7 #B4B4B4/0.5
+p1 text  x=56.7 y=542.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=542.7 Arial/9 "It lives in the text" #1A1A2E
+p1 text  x=133.6 y=542.7 Arial/9 "." #1A1A2E

@@ -1,10 +1,11 @@
 package render
 
 import (
+	"math"
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
-	"github.com/hkmt-sw/markout/internal/config"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 // Every block of text in the PDF (paragraphs, headings, list items, table
@@ -16,19 +17,18 @@ import (
 // textStyle is the base look of a block of text; the formatting of individual
 // runs is applied on top of it.
 type textStyle struct {
-	size       int // font size of normal text, in points
+	font       string  // font family
+	size       float64 // font size of normal text, in points
 	bold       bool
 	italic     bool
-	color      config.RGB
+	color      theme.Color
 	lineHeight float64
 }
 
-var (
-	colorBody  = config.RGB{R: 26, G: 26, B: 46}
-	colorBlack = config.RGB{}
-
-	bodyStyle = textStyle{size: 11, color: colorBody, lineHeight: 16}
-)
+// bodyStyle is the style of ordinary text.
+func (r *PdfRenderer) bodyStyle() textStyle {
+	return textStyle{font: r.bodyFont(), size: r.t.Text.Size, color: r.t.Text.Color, lineHeight: r.t.Text.LineHeight}
+}
 
 // fragment is a piece of one run on one line: one or more words that share
 // their formatting and are drawn with a single call.
@@ -38,9 +38,9 @@ type fragment struct {
 	run      ast.InlineRun
 	font     string // family passed to setFont
 	style    string // "", "B", "I" or "BI"
-	size     int
+	size     float64
 	yShift   float64 // superscripts and subscripts leave the line
-	color    config.RGB
+	color    theme.Color
 	chip     bool // a color swatch is drawn before the text
 }
 
@@ -72,7 +72,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	if base.bold {
 		baseStyle = "B"
 	}
-	r.setFont("Arial", baseStyle, base.size)
+	r.setFont(base.font, baseStyle, base.size)
 	baseSpace, _ := r.pdf.MeasureTextWidth(" ")
 
 	breakLine := func() {
@@ -94,7 +94,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 			continue
 		}
 
-		f := fragment{run: run, font: "Arial", size: base.size, color: base.color}
+		f := fragment{run: run, font: base.font, size: base.size, color: base.color}
 		bold, italic := run.Bold || base.bold, run.Italic || run.Math || base.italic
 		switch {
 		case bold && italic:
@@ -106,33 +106,33 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		}
 		// Superscripts and subscripts are set smaller and shifted off the line.
 		if run.Superscript || run.Subscript {
-			f.size = int(float64(base.size)*0.73 + 0.5)
+			f.size = math.Round(base.size * 0.73)
 			f.yShift = -1
 			if run.Subscript {
-				f.yShift = float64(base.size-f.size) + 2
+				f.yShift = base.size - f.size + 2
 			}
 		}
 		if run.Code {
-			f.font, f.style, f.size = "Courier", "", base.size-1
+			f.font, f.style, f.size = r.codeFont(), "", base.size-1
 			// Text is placed by the top of its box, and the monospace font
 			// has a lower ascent: move it down onto the shared baseline.
-			f.yShift = sansAscent*float64(base.size) - monoAscent*float64(f.size)
+			f.yShift = sansAscent*base.size - monoAscent*f.size
 		}
 		switch {
 		case run.Math:
-			f.color = config.ColorMathTextRGB
+			f.color = r.t.Math
 		case run.Link != "":
-			f.color = config.ColorLinkRGB
+			f.color = r.t.Link
 		case run.Inserted:
-			f.color = config.ColorSuccessRGB
+			f.color = r.t.Inserted
 		case run.Deleted:
-			f.color = config.ColorCodeAccentRGB
+			f.color = r.t.Deleted
 		case run.Code:
-			f.color = config.ColorCodeAccentRGB
+			f.color = r.t.Code.Color
 		case run.FootnoteIndex > 0:
-			f.color = config.ColorLinkRGB
+			f.color = r.t.Link
 		case run.Strikethrough:
-			f.color = config.ColorTextTertiaryRGB
+			f.color = r.t.Text.Faint
 		}
 
 		r.setFont(f.font, f.style, f.size)
@@ -226,19 +226,17 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 	for _, f := range line.frags {
 		x, y := x0+f.x, y0+f.yShift
 		r.setFont(f.font, f.style, f.size)
-		r.pdf.SetTextColor(f.color.R, f.color.G, f.color.B)
+		r.textColor(f.color)
 
 		if f.chip {
-			c := hexStringToRGB(strings.TrimPrefix(f.run.ColorChip, "#"))
-			r.pdf.SetFillColor(c.R, c.G, c.B)
+			r.fillColor(hexStringToRGB(strings.TrimPrefix(f.run.ColorChip, "#")))
 			r.rect(x-chipWidth, y0, 10, 10, "F")
-			r.pdf.SetFillColor(255, 255, 255)
+			r.fillColor(theme.White)
 		}
 		if f.run.Highlight {
-			c := config.ColorHighlightRGB
-			r.pdf.SetFillColor(c.R, c.G, c.B)
-			r.rect(x, y0-1, f.width, float64(f.size)+3, "F")
-			r.pdf.SetFillColor(255, 255, 255)
+			r.fillColor(r.t.Highlight)
+			r.rect(x, y0-1, f.width, f.size+3, "F")
+			r.fillColor(theme.White)
 		}
 
 		r.pdf.SetX(x)
@@ -252,26 +250,26 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 		underline := f.run.Underline || f.run.Inserted
 		strike := f.run.Strikethrough || f.run.Deleted
 		if underline || strike {
-			r.pdf.SetStrokeColor(f.color.R, f.color.G, f.color.B)
-			r.pdf.SetLineWidth(0.6)
+			r.strokeColor(f.color)
+			r.lineWidth(0.6)
 			if underline {
-				ly := y + float64(f.size) + 1
+				ly := y + f.size + 1
 				r.line(x, ly, x+f.width, ly)
 			}
 			if strike {
-				ly := y + float64(f.size)*0.58
+				ly := y + f.size*0.58
 				r.line(x, ly, x+f.width, ly)
 			}
-			r.pdf.SetStrokeColor(0, 0, 0)
-			r.pdf.SetLineWidth(0.5)
+			r.strokeColor(theme.Black)
+			r.lineWidth(0.5)
 		}
 	}
 }
 
 // resetText restores the font and color the rest of the renderer starts from.
 func (r *PdfRenderer) resetText() {
-	r.pdf.SetTextColor(0, 0, 0)
-	r.setFont("Arial", "", 11)
+	r.textColor(theme.Black)
+	r.setFont(r.bodyFont(), "", r.t.Text.Size)
 }
 
 // renderRuns lays out and draws runs as a block of text starting at x that

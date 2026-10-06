@@ -1,0 +1,465 @@
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
+      P
+        R{b color=4A4A68 font=Georgia} "Title: "
+        R{color=1A1A2E font=Georgia} "markout showcase"
+      P
+        R{b color=4A4A68 font=Georgia} "Author: "
+        R{color=1A1A2E font=Georgia} "The markout project"
+      P
+        R{b color=4A4A68 font=Georgia} "Date: "
+        R{color=1A1A2E font=Georgia} "2026-10-06"
+P
+  R{b font=Georgia sz=56} "markout"
+  R{b font=Georgia sz=56} " showcase"
+P
+  R{color=1A1A2E font=Georgia} "This document contains every kind of element markout can render, each with"
+  R{color=1A1A2E font=Georgia} " a "
+  R{color=1A1A2E font=Georgia} "short note saying what you should see. Convert it to PDF and to DOCX and"
+  R{color=1A1A2E font=Georgia} " read "
+  R{color=1A1A2E font=Georgia} "through the result: if every note is true, the output is"
+  R{color=1A1A2E font=Georgia} " fine."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
+      P
+        R{font=Consolas sz=19} "markout fixtures/showcase.md showcase.pdf"
+        R "<br>"
+        R{font=Consolas sz=19} "markout fixtures/showcase.md showcase.docx"
+P
+  R{color=1A1A2E font=Georgia} "Above this heading there should be a panel listing the title, author and"
+  R{color=1A1A2E font=Georgia} " date."
+P
+  R{b font=Georgia sz=44} "1."
+  R{b font=Georgia sz=44} " Headings"
+P
+  R{color=1A1A2E font=Georgia} "The six heading levels follow, each smaller than the one"
+  R{color=1A1A2E font=Georgia} " before."
+P
+  R{b font=Georgia sz=56} "Heading level"
+  R{b font=Georgia sz=56} " 1"
+P
+  R{b font=Georgia sz=44} "Heading level"
+  R{b font=Georgia sz=44} " 2"
+P
+  R{b font=Georgia sz=34} "Heading level"
+  R{b font=Georgia sz=34} " 3"
+P
+  R{b font=Georgia sz=28} "Heading level"
+  R{b font=Georgia sz=28} " 4"
+P
+  R{b font=Georgia sz=24} "Heading level"
+  R{b font=Georgia sz=24} " 5"
+P
+  R{b font=Georgia} "Heading level"
+  R{b font=Georgia} " 6"
+P
+  R{b font=Georgia sz=44} "2. Text"
+  R{b font=Georgia sz=44} " formatting"
+P
+  R{color=1A1A2E font=Georgia} "Each word in quotes should look the way it describes itself: \""
+  R{b color=1A1A2E font=Georgia} "bold"
+  R{color=1A1A2E font=Georgia} "\", "
+  R{color=1A1A2E font=Georgia} "\""
+  R{color=1A1A2E font=Georgia i} "italic"
+  R{color=1A1A2E font=Georgia} "\", \""
+  R{b color=1A1A2E font=Georgia i} "bold italic"
+  R{color=1A1A2E font=Georgia} "\", \""
+  R{color=CF222E font=Consolas} "inline code"
+  R{color=1A1A2E font=Georgia} "\" (monospace,"
+  R{color=1A1A2E font=Georgia} " colored), "
+  R{color=1A1A2E font=Georgia} "\""
+  R{color=8888A0 font=Georgia strike} "struck through"
+  R{color=1A1A2E font=Georgia} "\" (with a line through it), \""
+  R{color=1A1A2E font=Georgia u=single} "underlined"
+  R{color=1A1A2E font=Georgia} "\", "
+  R{color=1A1A2E font=Georgia} "\""
+  R{color=1A1A2E font=Georgia highlight=yellow} "highlighted"
+  R{color=1A1A2E font=Georgia} "\" (on a colored"
+  R{color=1A1A2E font=Georgia} " background)."
+P
+  R{color=1A1A2E font=Georgia} "Water is H"
+  R{color=1A1A2E font=Georgia} "₂"
+  R{color=1A1A2E font=Georgia} "O (the 2 sits below the line) and Einstein"
+  R{color=1A1A2E font=Georgia} " wrote "
+  R{color=1A1A2E font=Georgia} "E = mc"
+  R{color=1A1A2E font=Georgia} "²"
+  R{color=1A1A2E font=Georgia} " (the 2 sits above"
+  R{color=1A1A2E font=Georgia} " it)."
+P
+  R{color=1A1A2E font=Georgia} "A paragraph long enough to wrap should fill the line and continue on the"
+  R{color=1A1A2E font=Georgia} " next "
+  R{color=1A1A2E font=Georgia} "one without any word being cut in half or running past the right margin,"
+  R{color=1A1A2E font=Georgia} " which "
+  R{color=1A1A2E font=Georgia} "this sentence is here to demonstrate by simply being"
+  R{color=1A1A2E font=Georgia} " long."
+P
+  R{color=1A1A2E font=Georgia} "Escaped characters appear without their backslash: *not italic*, # not"
+  R{color=1A1A2E font=Georgia} " a "
+  R{color=1A1A2E font=Georgia} "heading, [not a link]. A copyright sign from an entity:"
+  R{color=1A1A2E font=Georgia} " ©."
+P
+  R{b font=Georgia sz=44} "3."
+  R{b font=Georgia sz=44} " Links"
+P
+  R{color=1A1A2E font=Georgia} "A "
+  R{color=2563EB font=Georgia link=https://example.com rStyle=Hyperlink u=single} "link with text"
+  R{color=1A1A2E font=Georgia} " and a bare"
+  R{color=1A1A2E font=Georgia} " address, "
+  R{color=2563EB font=Georgia link=https://example.com/bare rStyle=Hyperlink u=single} "https://example.com/bare"
+  R{color=1A1A2E font=Georgia} ", should both be colored and"
+  R{color=1A1A2E font=Georgia} " clickable."
+P
+  R{b font=Georgia sz=44} "4."
+  R{b font=Georgia sz=44} " Lists"
+P
+  R{color=1A1A2E font=Georgia} "Three bullets, the second with two nested ones"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "First"
+  R{color=1A1A2E font=Georgia} " item"
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Second item, with "
+  R{b color=1A1A2E font=Georgia} "bold"
+  R{color=1A1A2E font=Georgia} " and "
+  R{color=CF222E font=Consolas} "code"
+  R{color=1A1A2E font=Georgia} " inside"
+  R{color=1A1A2E font=Georgia} " it"
+P
+  R{font=Georgia} "        ◦  "
+  R{color=1A1A2E font=Georgia} "Nested item"
+  R{color=1A1A2E font=Georgia} " one"
+P
+  R{font=Georgia} "        ◦  "
+  R{color=1A1A2E font=Georgia} "Nested item"
+  R{color=1A1A2E font=Georgia} " two"
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Third item, long enough to wrap onto a second line so that you can check"
+  R{color=1A1A2E font=Georgia} " the "
+  R{color=1A1A2E font=Georgia} "continuation line starts under the first one and not at the page"
+  R{color=1A1A2E font=Georgia} " margin"
+P
+  R{color=1A1A2E font=Georgia} "Three numbered items"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{font=Georgia} "    1.  "
+  R{color=1A1A2E font=Georgia} "First"
+P
+  R{font=Georgia} "    2.  "
+  R{color=1A1A2E font=Georgia} "Second"
+P
+  R{font=Georgia} "    3.  "
+  R{color=1A1A2E font=Georgia} "Third"
+P
+  R{color=1A1A2E font=Georgia} "A task list, the first box checked and the second empty"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Done"
+P
+  R{font=Georgia} "    ☐  "
+  R{color=1A1A2E font=Georgia} "Still to"
+  R{color=1A1A2E font=Georgia} " do"
+P
+  R{b font=Georgia sz=44} "5."
+  R{b font=Georgia sz=44} " Tables"
+P
+  R{color=1A1A2E font=Georgia} "A table with a shaded header row, borders, and the third column"
+  R{color=1A1A2E font=Georgia} " right-aligned "
+  R{color=1A1A2E font=Georgia} "in DOCX. The last row has formatting and a long cell that"
+  R{color=1A1A2E font=Georgia} " wraps."
+TABLE
+  COL w=850
+  COL w=7370
+  COL w=850
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
+      P
+        R{b font=Georgia} "Element"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=7370}
+      P
+        R{b font=Georgia} "Example"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
+      P{jc=right}
+        R{b font=Georgia} "Count"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
+      P
+        R{font=Georgia} "Plain"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=7370}
+      P
+        R{font=Georgia} "text"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Georgia} "1"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
+      P
+        R{font=Georgia} "Formatted"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=7370}
+      P
+        R{font=Georgia} "bold"
+        R{font=Georgia} ", "
+        R{font=Georgia} "italic"
+        R{font=Georgia} ", "
+        R{font=Georgia} "code"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
+      P{jc=right}
+        R{font=Georgia} "22"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
+      P
+        R{font=Georgia} "Long"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=7370}
+      P
+        R{font=Georgia} "A cell with enough text that it has to wrap onto more than one line inside its"
+        R{font=Georgia} " column"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
+      P{jc=right}
+        R{font=Georgia} "333"
+P
+  R{b font=Georgia sz=44} "6."
+  R{b font=Georgia sz=44} " Code"
+P
+  R{color=1A1A2E font=Georgia} "A code block in a monospace font on a shaded panel, with its"
+  R{color=1A1A2E font=Georgia} " indentation "
+  R{color=1A1A2E font=Georgia} "preserved"
+  R{color=1A1A2E font=Georgia} ":"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
+      P
+        R{font=Consolas sz=19} "func main() {"
+        R "<br>"
+        R{font=Consolas sz=19} "\tif ok := convert(); !ok {"
+        R "<br>"
+        R{font=Consolas sz=19} "\t\tfmt.Println(\"failed\")"
+        R "<br>"
+        R{font=Consolas sz=19} "\t}"
+        R "<br>"
+        R{font=Consolas sz=19} "}"
+P
+  R{b font=Georgia sz=44} "7."
+  R{b font=Georgia sz=44} " Quotes"
+P
+  R{color=1A1A2E font=Georgia} "A quote, set off from the text by a bar on the left"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{color=3B82F6 font=Georgia} "│ "
+  R{color=1A1A2E font=Georgia} "The first paragraph of the quote, with "
+  R{color=1A1A2E font=Georgia i} "emphasis"
+  R{color=1A1A2E font=Georgia} "."
+P
+  R{color=3B82F6 font=Georgia} "│ "
+  R{color=1A1A2E font=Georgia} "The second paragraph of the"
+  R{color=1A1A2E font=Georgia} " quote."
+P
+  R{b font=Georgia sz=44} "8."
+  R{b font=Georgia sz=44} " Callouts"
+P
+  R{color=1A1A2E font=Georgia} "Five boxes with a colored bar and title: blue note, green tip,"
+  R{color=1A1A2E font=Georgia} " purple "
+  R{color=1A1A2E font=Georgia} "important, amber caution, red"
+  R{color=1A1A2E font=Georgia} " warning."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
+      P
+        R{b color=3B82F6 font=Georgia} "NOTE"
+      P
+        R{color=1A1A2E font=Georgia} "Something worth"
+        R{color=1A1A2E font=Georgia} " knowing."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
+      P
+        R{b color=22C55E font=Georgia} "TIP"
+      P
+        R{color=1A1A2E font=Georgia} "A helpful hint, with "
+        R{b color=1A1A2E font=Georgia} "bold"
+        R{color=1A1A2E font=Georgia} " and "
+        R{color=CF222E font=Consolas} "code"
+        R{color=1A1A2E font=Georgia} "."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/A855F7 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F3E8FF w=9070}
+      P
+        R{b color=A855F7 font=Georgia} "IMPORTANT"
+      P
+        R{color=1A1A2E font=Georgia} "Something you must not"
+        R{color=1A1A2E font=Georgia} " miss."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EAB308 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEF9C3 w=9070}
+      P
+        R{b color=EAB308 font=Georgia} "CAUTION"
+      P
+        R{color=1A1A2E font=Georgia} "Take care with"
+        R{color=1A1A2E font=Georgia} " this."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
+      P
+        R{b color=EF4444 font=Georgia} "WARNING"
+      P
+        R{color=1A1A2E font=Georgia} "This can go wrong. The text of this callout is long enough to wrap, and"
+        R{color=1A1A2E font=Georgia} " the "
+        R{color=1A1A2E font=Georgia} "box should grow to contain all of"
+        R{color=1A1A2E font=Georgia} " it."
+P
+  R{b font=Georgia sz=44} "9."
+  R{b font=Georgia sz=44} " Rule"
+P
+  R{color=1A1A2E font=Georgia} "A horizontal line across the page"
+  R{color=1A1A2E font=Georgia} " follows."
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "10."
+  R{b font=Georgia sz=44} " Math"
+P
+  R{color=1A1A2E font=Georgia} "Formulas are shown as their LaTeX source in a distinct color, not"
+  R{color=1A1A2E font=Georgia} " typeset. "
+  R{color=1A1A2E font=Georgia} "Inline: "
+  R{color=7C3AED font=Georgia i} "E = mc^2"
+  R{color=1A1A2E font=Georgia} " and "
+  R{color=7C3AED font=Georgia i} "a^2 + b^2 = c^2"
+  R{color=1A1A2E font=Georgia} ". On a line of its own, centered"
+  R{color=1A1A2E font=Georgia} ":"
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "\\int_0^1 x^2 \\, dx = \\frac{1}{3}"
+P
+  R{b font=Georgia sz=44} "11."
+  R{b font=Georgia sz=44} " Diagram"
+P
+  R{color=1A1A2E font=Georgia} "Diagram source is shown in a labeled panel, not drawn"
+  R{color=1A1A2E font=Georgia} ":"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
+      P
+        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Consolas sz=19} "graph LR"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    Markdown --> PDF"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    Markdown --> DOCX"
+P
+  R{b font=Georgia sz=44} "12. Definition"
+  R{b font=Georgia sz=44} " list"
+P
+  R{color=1A1A2E font=Georgia} "A bold term with its definition indented below it"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{b color=1A1A2E font=Georgia} "Markdown"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "A plain-text format for writing structured"
+  R{color=1A1A2E font=Georgia} " documents."
+P
+  R{b color=1A1A2E font=Georgia} "Flavor"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "A dialect of Markdown, such as the one GitHub"
+  R{color=1A1A2E font=Georgia} " uses."
+P
+  R{b font=Georgia sz=44} "13."
+  R{b font=Georgia sz=44} " Images"
+P
+  R{color=1A1A2E font=Georgia} "An image that does not exist shows a placeholder with its description"
+  R{color=1A1A2E font=Georgia} " and "
+  R{color=1A1A2E font=Georgia} "path instead of a picture"
+  R{color=1A1A2E font=Georgia} ":"
+P{jc=center}
+  R{color=4A4A68 font=Georgia i} "🖼 A missing picture"
+  R "<br>"
+  R{color=2563EB font=Georgia sz=18 u=single} "does-not-exist.png"
+P
+  R{b font=Georgia sz=44} "14. Inline diff and color"
+  R{b font=Georgia sz=44} " chips"
+P
+  R{color=1A1A2E font=Georgia} "An addition is "
+  R{color=16A34A font=Georgia u=single} "green and underlined"
+  R{color=1A1A2E font=Georgia} ", a removal is {- red and"
+  R{color=1A1A2E font=Georgia} " struck "
+  R{color=1A1A2E font=Georgia} "through -}. A color code such as "
+  R{color=CF222E font=Consolas} "#2563EB"
+  R{color=2563EB font=Georgia} "■ "
+  R{color=1A1A2E font=Georgia} " is preceded by a small square"
+  R{color=1A1A2E font=Georgia} " of "
+  R{color=1A1A2E font=Georgia} "that"
+  R{color=1A1A2E font=Georgia} " color."
+P
+  R{b font=Georgia sz=44} "15."
+  R{b font=Georgia sz=44} " Emoji"
+P
+  R{color=1A1A2E font=Georgia} "Emoji shortcodes become emoji in DOCX: "
+  R{color=1A1A2E font=Georgia} "🚀"
+  R{color=1A1A2E font=Georgia} " "
+  R{color=1A1A2E font=Georgia} "🎉"
+  R{color=1A1A2E font=Georgia} ". In PDF they are"
+  R{color=1A1A2E font=Georgia} " left "
+  R{color=1A1A2E font=Georgia} "out, because the built-in fonts have no"
+  R{color=1A1A2E font=Georgia} " emoji."
+P
+  R{b font=Georgia sz=44} "16."
+  R{b font=Georgia sz=44} " Footnotes"
+P
+  R{color=1A1A2E font=Georgia} "This sentence has a footnote"
+  R{color=2563EB font=Georgia sz=18} "[1]"
+  R{color=1A1A2E font=Georgia} ", and this one has another"
+  R{color=2563EB font=Georgia sz=18} "[2]"
+  R{color=1A1A2E font=Georgia} "."
+  R{color=1A1A2E font=Georgia} " The "
+  R{color=1A1A2E font=Georgia} "numbers should be colored, and both notes should appear at the end of"
+  R{color=1A1A2E font=Georgia} " the "
+  R{color=1A1A2E font=Georgia} "document under a short"
+  R{color=1A1A2E font=Georgia} " line."
+P
+  R{color=B4B4B4 sz=18} "────────────────────────────────"
+P
+  R{color=4A4A68 font=Georgia sz=18} "1. "
+  R{color=4A4A68 font=Georgia sz=18} "The first footnote, with "
+  R{color=4A4A68 font=Georgia sz=18} "bold"
+  R{color=4A4A68 font=Georgia sz=18} " text."
+P
+  R{color=4A4A68 font=Georgia sz=18} "2. "
+  R{color=4A4A68 font=Georgia sz=18} "The second"
+  R{color=4A4A68 font=Georgia sz=18} " footnote."

@@ -1,261 +1,259 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=80.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "GitLab Flavored Markdown Test"
-p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: "
-p1 text  x=107.4 y=80.7 Arial/11 "Markout Team"
-p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: "
-p1 text  x=95.2 y=96.7 Arial/11 "2026-02-22 00:00:00 +0000 UTC"
-p1 text  x=64.7 y=112.7 Arial-Bold/11 "version: "
-p1 text  x=110.5 y=112.7 Arial/11 "1.0"
-p1 text  x=56.7 y=164.7 Arial-Bold/24 "GitLab Flavored Markdown"
-p1 text  x=371.1 y=164.7 Arial-Bold/24 "Features"
-p1 text  x=56.7 y=204.7 Arial/11 "This document demonstrates all GitLab-specific Markdown extensions supported by"
-p1 text  x=467.3 y=204.7 Arial/11 "Markout."
-p1 text  x=56.7 y=236.7 Arial-Bold/16 "Table of Contents"
-p1 text  x=56.7 y=260.7 Arial/11 "GitLab Flavored Markdown Features"
-p1 text  x=76.7 y=276.7 Arial/11 "1. Alerts / Callouts"
-p1 text  x=76.7 y=292.7 Arial/11 "2. Mermaid Diagrams"
-p1 text  x=76.7 y=308.7 Arial/11 "3. Color Chips"
-p1 text  x=76.7 y=324.7 Arial/11 "4. Description Lists"
-p1 text  x=76.7 y=340.7 Arial/11 "5. Math (LaTeX)"
-p1 text  x=96.7 y=356.7 Arial/11 "Inline Math"
-p1 text  x=96.7 y=372.7 Arial/11 "Block Math"
-p1 text  x=76.7 y=388.7 Arial/11 "6. Table of Contents"
-p1 text  x=76.7 y=404.7 Arial/11 "7. Front Matter"
-p1 text  x=76.7 y=420.7 Arial/11 "Mixed Content Test"
-p1 text  x=96.7 y=436.7 Arial/11 "Tables Still Work"
-p1 text  x=96.7 y=452.7 Arial/11 "Lists Still Work"
-p1 text  x=96.7 y=468.7 Arial/11 "Task Lists Still Work"
-p1 line  x=56.7 y=504.7 to x=538.6 y=504.7
-p1 text  x=56.7 y=534.7 Arial-Bold/20 "1. Alerts /"
-p1 text  x=152.2 y=534.7 Arial-Bold/20 "Callouts"
-p1 rect  x=56.7 y=568.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=568.7 to x=56.7 y=616.7
-p1 text  x=64.7 y=576.7 Arial-Bold/11 "NOTE"
-p1 text  x=64.7 y=592.7 Arial/11 "This is a note callout. Use it to highlight information that users should take into"
-p1 text  x=447.1 y=592.7 Arial/11 "account."
-p1 rect  x=56.7 y=624.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=624.7 to x=56.7 y=672.7
-p1 text  x=64.7 y=632.7 Arial-Bold/11 "TIP"
-p1 text  x=64.7 y=648.7 Arial/11 "This is a tip callout. Use it to provide helpful advice or"
-p1 text  x=326.8 y=648.7 Arial/11 "shortcuts."
-p1 rect  x=56.7 y=680.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=680.7 to x=56.7 y=728.7
-p1 text  x=64.7 y=688.7 Arial-Bold/11 "IMPORTANT"
-p1 text  x=64.7 y=704.7 Arial/11 "This is an important callout. Use it to highlight crucial"
-p1 text  x=323.7 y=704.7 Arial/11 "information."
-p1 rect  x=56.7 y=736.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=736.7 to x=56.7 y=784.7
-p1 text  x=64.7 y=744.7 Arial-Bold/11 "CAUTION"
-p1 text  x=64.7 y=760.7 Arial/11 "This is a caution callout. Use it to advise users to be"
-p1 text  x=320.7 y=760.7 Arial/11 "careful."
-p2 rect  x=56.7 y=56.7 w=481.9 h=48.0 F
-p2 line  x=56.7 y=56.7 to x=56.7 y=104.7
-p2 text  x=64.7 y=64.7 Arial-Bold/11 "WARNING"
-p2 text  x=64.7 y=80.7 Arial/11 "This is a warning callout. Use it to highlight dangerous or destructive"
-p2 text  x=399.5 y=80.7 Arial/11 "actions."
-p2 text  x=56.7 y=112.7 Arial/11 "Regular blockquotes still work as expected"
-p2 text  x=264.5 y=112.7 Arial/11 ":"
-p2 text  x=76.7 y=136.7 Arial-Italic/11 "This is a normal"
-p2 text  x=157.3 y=136.7 Arial-Italic/11 "blockquote."
-p2 text  x=216.6 y=136.7 Arial-Italic/11 "It should render as"
-p2 text  x=310.7 y=136.7 Arial-Italic/11 "before."
-p2 line  x=61.7 y=136.7 to x=61.7 y=152.7
-p2 line  x=56.7 y=168.7 to x=538.6 y=168.7
-p2 text  x=56.7 y=198.7 Arial-Bold/20 "2. Mermaid"
-p2 text  x=166.6 y=198.7 Arial-Bold/20 "Diagrams"
-p2 rect  x=56.7 y=232.7 w=481.9 h=112.0 FD
-p2 text  x=64.7 y=240.7 Arial-Bold/11 "Mermaid Diagram"
-p2 text  x=64.7 y=252.7 Courier/9 "graph TD"
-p2 text  x=64.7 y=264.7 Courier/9 "    A[Start] --> B{Decision}"
-p2 text  x=64.7 y=276.7 Courier/9 "    B -->|Yes| C[Action 1]"
-p2 text  x=64.7 y=288.7 Courier/9 "    B -->|No| D[Action 2]"
-p2 text  x=64.7 y=300.7 Courier/9 "    C --> E[End]"
-p2 text  x=64.7 y=312.7 Courier/9 "    D --> E"
-p2 text  x=64.7 y=324.7 Courier/9 " "
-p2 rect  x=56.7 y=352.7 w=481.9 h=100.0 FD
-p2 text  x=64.7 y=360.7 Arial-Bold/11 "Mermaid Diagram"
-p2 text  x=64.7 y=372.7 Courier/9 "sequenceDiagram"
-p2 text  x=64.7 y=384.7 Courier/9 "    participant Client"
-p2 text  x=64.7 y=396.7 Courier/9 "    participant Server"
-p2 text  x=64.7 y=408.7 Courier/9 "    Client->>Server: Request"
-p2 text  x=64.7 y=420.7 Courier/9 "    Server-->>Client: Response"
-p2 text  x=64.7 y=432.7 Courier/9 " "
-p2 line  x=56.7 y=472.7 to x=538.6 y=472.7
-p2 text  x=56.7 y=502.7 Arial-Bold/20 "3. Color"
-p2 text  x=136.6 y=502.7 Arial-Bold/20 "Chips"
-p2 text  x=56.7 y=536.7 Arial/11 "Inline color swatches for hex color codes"
-p2 text  x=254.7 y=536.7 Arial/11 ":"
-p2 text  x=76.7 y=560.7 Arial/11 "• "
-p2 text  x=83.6 y=560.7 Arial/11 "Red:"
-p2 rect  x=109.9 y=560.7 w=10.0 h=10.0 F
-p2 text  x=121.9 y=562.3 Courier/10 "#FF0000"
-p2 text  x=76.7 y=576.7 Arial/11 "• "
-p2 text  x=83.6 y=576.7 Arial/11 "Green:"
-p2 rect  x=120.2 y=576.7 w=10.0 h=10.0 F
-p2 text  x=132.2 y=578.3 Courier/10 "#00FF00"
-p2 text  x=76.7 y=592.7 Arial/11 "• "
-p2 text  x=83.6 y=592.7 Arial/11 "Blue:"
-p2 rect  x=111.7 y=592.7 w=10.0 h=10.0 F
-p2 text  x=123.7 y=594.3 Courier/10 "#0000FF"
-p2 text  x=76.7 y=608.7 Arial/11 "• "
-p2 text  x=83.6 y=608.7 Arial/11 "Short form:"
-p2 rect  x=141.0 y=608.7 w=10.0 h=10.0 F
-p2 text  x=153.0 y=610.3 Courier/10 "#F00"
-p2 text  x=76.7 y=624.7 Arial/11 "• "
-p2 text  x=83.6 y=624.7 Arial/11 "With alpha:"
-p2 rect  x=141.6 y=624.7 w=10.0 h=10.0 F
-p2 text  x=153.6 y=626.3 Courier/10 "#FF000080"
-p2 text  x=76.7 y=640.7 Arial/11 "• "
-p2 text  x=83.6 y=640.7 Arial/11 "Coral:"
-p2 rect  x=116.0 y=640.7 w=10.0 h=10.0 F
-p2 text  x=128.0 y=642.3 Courier/10 "#FF7F50"
-p2 text  x=76.7 y=656.7 Arial/11 "• "
-p2 text  x=83.6 y=656.7 Arial/11 "Teal:"
-p2 rect  x=111.1 y=656.7 w=10.0 h=10.0 F
-p2 text  x=123.1 y=658.3 Courier/10 "#008080"
-p2 text  x=56.7 y=678.7 Arial/11 "Regular inline code is unaffected:"
-p2 text  x=222.3 y=680.3 Courier/10 "console.log(\"hello\")"
-p2 line  x=56.7 y=714.7 to x=538.6 y=714.7
-p2 text  x=56.7 y=744.7 Arial-Bold/20 "4. Description"
-p2 text  x=194.4 y=744.7 Arial-Bold/20 "Lists"
-p3 text  x=56.7 y=56.7 Arial-Bold/11 "HTTP"
-p3 text  x=88.4 y=56.7 Arial-Bold/11 "Methods"
-p3 text  x=76.7 y=72.7 Arial/11 "GET - Retrieve a"
-p3 text  x=162.2 y=72.7 Arial/11 "resource"
-p3 text  x=76.7 y=88.7 Arial/11 "POST - Create a new"
-p3 text  x=184.8 y=88.7 Arial/11 "resource"
-p3 text  x=76.7 y=104.7 Arial/11 "PUT - Update an existing"
-p3 text  x=202.5 y=104.7 Arial/11 "resource"
-p3 text  x=56.7 y=124.7 Arial-Bold/11 "Status"
-p3 text  x=93.3 y=124.7 Arial-Bold/11 "Codes"
-p3 text  x=76.7 y=140.7 Arial/11 "200 -"
-p3 text  x=104.8 y=140.7 Arial/11 "OK"
-p3 text  x=76.7 y=156.7 Arial/11 "404 - Not"
-p3 text  x=124.9 y=156.7 Arial/11 "Found"
-p3 text  x=76.7 y=172.7 Arial/11 "500 - Internal Server"
-p3 text  x=179.9 y=172.7 Arial/11 "Error"
-p3 text  x=56.7 y=192.7 Arial-Bold/11 "Markdown"
-p3 text  x=76.7 y=208.7 Arial/11 "A lightweight markup language for creating formatted"
-p3 text  x=337.6 y=208.7 Arial/11 "text"
-p3 line  x=56.7 y=244.7 to x=538.6 y=244.7
-p3 text  x=56.7 y=274.7 Arial-Bold/20 "5. Math"
-p3 text  x=131.1 y=274.7 Arial-Bold/20 "(LaTeX)"
-p3 text  x=56.7 y=322.7 Arial-Bold/16 "Inline"
-p3 text  x=102.8 y=322.7 Arial-Bold/16 "Math"
-p3 text  x=56.7 y=350.7 Arial/11 "The quadratic formula is"
-p3 text  x=177.7 y=350.7 Arial-Italic/11 "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"
-p3 text  x=354.7 y=350.7 Arial/11 "and Euler's identity is"
-p3 text  x=461.3 y=350.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0"
-p3 text  x=531.2 y=350.7 Arial/11 "."
-p3 text  x=56.7 y=388.7 Arial-Bold/16 "Block"
-p3 text  x=104.7 y=388.7 Arial-Bold/16 "Math"
-p3 text  x=187.4 y=416.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
-p3 text  x=183.3 y=440.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
-p3 line  x=56.7 y=476.7 to x=538.6 y=476.7
-p3 text  x=56.7 y=506.7 Arial-Bold/20 "6. Table of"
-p3 text  x=161.0 y=506.7 Arial-Bold/20 "Contents"
-p3 text  x=56.7 y=540.7 Arial/11 "The"
-p3 text  x=78.7 y=542.3 Courier/10 "[[_TOC_]]"
-p3 text  x=135.7 y=540.7 Arial/11 "marker above generates a table of contents from all headings in the document."
-p3 text  x=56.7 y=556.7 Arial/11 "This is a GitLab-specific feature commonly used in wiki pages and"
-p3 text  x=381.1 y=556.7 Arial/11 "documentation."
-p3 line  x=56.7 y=592.7 to x=538.6 y=592.7
-p3 text  x=56.7 y=622.7 Arial-Bold/20 "7. Front"
-p3 text  x=135.5 y=622.7 Arial-Bold/20 "Matter"
-p3 text  x=56.7 y=656.7 Arial/11 "The YAML front matter at the top of this document (between"
-p3 text  x=351.7 y=658.3 Courier/10 "---"
-p3 text  x=372.8 y=656.7 Arial/11 "delimiters) is parsed and"
-p3 text  x=56.7 y=672.7 Arial/11 "rendered as a styled metadata block. It supports standard fields like"
-p3 text  x=388.5 y=674.3 Courier/10 "title"
-p3 text  x=418.5 y=672.7 Arial/11 ","
-p3 text  x=424.6 y=674.3 Courier/10 "author"
-p3 text  x=460.6 y=672.7 Arial/11 ", and"
-p3 text  x=488.0 y=674.3 Courier/10 "date"
-p3 text  x=512.0 y=672.7 Arial/11 ", plus"
-p3 text  x=56.7 y=688.7 Arial/11 "arbitrary custom"
-p3 text  x=138.6 y=688.7 Arial/11 "fields."
-p3 line  x=56.7 y=724.7 to x=538.6 y=724.7
-p3 text  x=56.7 y=754.7 Arial-Bold/20 "Mixed Content"
-p3 text  x=199.9 y=754.7 Arial-Bold/20 "Test"
-p4 text  x=56.7 y=56.7 Arial/11 "This section tests that all features work alongside standard Markdown"
-p4 text  x=395.8 y=56.7 Arial/11 ":"
-p4 text  x=56.7 y=94.7 Arial-Bold/16 "Tables Still"
-p4 text  x=145.5 y=94.7 Arial-Bold/16 "Work"
-p4 rect  x=56.7 y=122.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=122.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=126.7 Arial-Bold/11 "Feature"
-p4 text  x=361.9 y=126.7 Arial-Bold/11 "Status"
-p4 rect  x=56.7 y=143.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=143.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=147.7 Arial/11 "Alerts"
-p4 text  x=361.9 y=147.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=164.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=164.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=168.7 Arial/11 "Mermaid"
-p4 text  x=361.9 y=168.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=185.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=185.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=189.7 Arial/11 "Color"
-p4 text  x=90.0 y=189.7 Arial/11 "Chips"
-p4 text  x=361.9 y=189.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=206.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=206.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=210.7 Arial/11 "Description"
-p4 text  x=118.7 y=210.7 Arial/11 "Lists"
-p4 text  x=361.9 y=210.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=227.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=227.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=231.7 Arial/11 "Math"
-p4 text  x=361.9 y=231.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=248.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=248.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=252.7 Arial/11 "TOC"
-p4 text  x=361.9 y=252.7 Arial/11 "Supported"
-p4 rect  x=56.7 y=269.7 w=301.2 h=21.0 FD
-p4 rect  x=357.9 y=269.7 w=180.7 h=21.0 FD
-p4 text  x=60.7 y=273.7 Arial/11 "Front"
-p4 text  x=89.4 y=273.7 Arial/11 "Matter"
-p4 text  x=361.9 y=273.7 Arial/11 "Supported"
-p4 text  x=56.7 y=312.7 Arial-Bold/16 "Lists Still"
-p4 text  x=132.1 y=312.7 Arial-Bold/16 "Work"
-p4 text  x=76.7 y=340.7 Arial/11 "1. "
-p4 text  x=88.9 y=340.7 Arial/11 "First"
-p4 text  x=113.3 y=340.7 Arial/11 "item"
-p4 text  x=76.7 y=356.7 Arial/11 "2. "
-p4 text  x=88.9 y=356.7 Arial/11 "Second"
-p4 text  x=129.2 y=356.7 Arial/11 "item"
-p4 text  x=96.7 y=372.7 Arial/11 "a. "
-p4 text  x=108.9 y=372.7 Arial/11 "Nested"
-p4 text  x=146.8 y=372.7 Arial/11 "bullet"
-p4 text  x=96.7 y=388.7 Arial/11 "b. "
-p4 text  x=108.9 y=388.7 Arial/11 "Another nested"
-p4 text  x=186.5 y=388.7 Arial/11 "bullet"
-p4 text  x=76.7 y=404.7 Arial/11 "3. "
-p4 text  x=88.9 y=404.7 Arial/11 "Third"
-p4 text  x=117.0 y=404.7 Arial/11 "item"
-p4 text  x=56.7 y=440.7 Arial-Bold/16 "Task Lists Still"
-p4 text  x=173.0 y=440.7 Arial-Bold/16 "Work"
-p4 text  x=76.7 y=468.7 Arial/11 "[x] "
-p4 text  x=91.3 y=468.7 Arial/11 "Implement"
-p4 text  x=145.7 y=468.7 Arial/11 "alerts"
-p4 text  x=76.7 y=484.7 Arial/11 "[x] "
-p4 text  x=91.3 y=484.7 Arial/11 "Implement"
-p4 text  x=145.7 y=484.7 Arial/11 "mermaid"
-p4 text  x=76.7 y=500.7 Arial/11 "[x] "
-p4 text  x=91.3 y=500.7 Arial/11 "Implement color"
-p4 text  x=172.6 y=500.7 Arial/11 "chips"
-p4 text  x=76.7 y=516.7 Arial/11 "[x] "
-p4 text  x=91.3 y=516.7 Arial/11 "Implement description"
-p4 text  x=201.9 y=516.7 Arial/11 "lists"
-p4 text  x=76.7 y=532.7 Arial/11 "[x] "
-p4 text  x=91.3 y=532.7 Arial/11 "Implement"
-p4 text  x=145.7 y=532.7 Arial/11 "math"
-p4 text  x=76.7 y=548.7 Arial/11 "[x] "
-p4 text  x=91.3 y=548.7 Arial/11 "Implement"
-p4 text  x=145.7 y=548.7 Arial/11 "TOC"
-p4 text  x=76.7 y=564.7 Arial/11 "[x] "
-p4 text  x=91.3 y=564.7 Arial/11 "Implement front"
-p4 text  x=170.7 y=564.7 Arial/11 "matter"
-p4 line  x=56.7 y=598.7 to x=538.6 y=598.7
-p4 text  x=56.7 y=610.7 Arial-Italic/11 "This document was generated to test GitLab Flavored Markdown support in Markout."
+p1 rect  x=56.7 y=56.7 w=481.9 h=80.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "GitLab Flavored Markdown Test" #1A1A2E
+p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: " #4A4A68
+p1 text  x=107.4 y=80.7 Arial/11 "Markout Team" #1A1A2E
+p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: " #4A4A68
+p1 text  x=95.2 y=96.7 Arial/11 "2026-02-22" #1A1A2E
+p1 text  x=64.7 y=112.7 Arial-Bold/11 "version: " #4A4A68
+p1 text  x=110.5 y=112.7 Arial/11 "1.0" #1A1A2E
+p1 text  x=56.7 y=164.7 Arial-Bold/24 "GitLab Flavored Markdown" #000000
+p1 text  x=371.1 y=164.7 Arial-Bold/24 "Features" #000000
+p1 text  x=56.7 y=204.7 Arial/11 "This document demonstrates all GitLab-specific Markdown extensions supported by" #1A1A2E
+p1 text  x=467.3 y=204.7 Arial/11 "Markout." #1A1A2E
+p1 text  x=56.7 y=236.7 Arial-Bold/16 "Table of Contents" #1A1A2E
+p1 text  x=56.7 y=260.7 Arial/11 "GitLab Flavored Markdown Features" #2563EB
+p1 text  x=76.7 y=276.7 Arial/11 "1. Alerts / Callouts" #2563EB
+p1 text  x=76.7 y=292.7 Arial/11 "2. Mermaid Diagrams" #2563EB
+p1 text  x=76.7 y=308.7 Arial/11 "3. Color Chips" #2563EB
+p1 text  x=76.7 y=324.7 Arial/11 "4. Description Lists" #2563EB
+p1 text  x=76.7 y=340.7 Arial/11 "5. Math (LaTeX)" #2563EB
+p1 text  x=96.7 y=356.7 Arial/11 "Inline Math" #2563EB
+p1 text  x=96.7 y=372.7 Arial/11 "Block Math" #2563EB
+p1 text  x=76.7 y=388.7 Arial/11 "6. Table of Contents" #2563EB
+p1 text  x=76.7 y=404.7 Arial/11 "7. Front Matter" #2563EB
+p1 text  x=76.7 y=420.7 Arial/11 "Mixed Content Test" #2563EB
+p1 text  x=96.7 y=436.7 Arial/11 "Tables Still Work" #2563EB
+p1 text  x=96.7 y=452.7 Arial/11 "Lists Still Work" #2563EB
+p1 text  x=96.7 y=468.7 Arial/11 "Task Lists Still Work" #2563EB
+p1 line  x=56.7 y=504.7 to x=538.6 y=504.7 #B4B4B4/1.0
+p1 text  x=56.7 y=534.7 Arial-Bold/20 "1. Alerts /" #000000
+p1 text  x=152.2 y=534.7 Arial-Bold/20 "Callouts" #000000
+p1 rect  x=56.7 y=568.7 w=481.9 h=48.0 fill=#DBEAFE
+p1 line  x=56.7 y=568.7 to x=56.7 y=616.7 #3B82F6/3.0
+p1 text  x=64.7 y=576.7 Arial-Bold/11 "NOTE" #3B82F6
+p1 text  x=64.7 y=592.7 Arial/11 "This is a note callout. Use it to highlight information that users should take into" #1A1A2E
+p1 text  x=447.1 y=592.7 Arial/11 "account." #1A1A2E
+p1 rect  x=56.7 y=624.7 w=481.9 h=48.0 fill=#DCFCE7
+p1 line  x=56.7 y=624.7 to x=56.7 y=672.7 #22C55E/3.0
+p1 text  x=64.7 y=632.7 Arial-Bold/11 "TIP" #22C55E
+p1 text  x=64.7 y=648.7 Arial/11 "This is a tip callout. Use it to provide helpful advice or" #1A1A2E
+p1 text  x=326.8 y=648.7 Arial/11 "shortcuts." #1A1A2E
+p1 rect  x=56.7 y=680.7 w=481.9 h=48.0 fill=#F3E8FF
+p1 line  x=56.7 y=680.7 to x=56.7 y=728.7 #A855F7/3.0
+p1 text  x=64.7 y=688.7 Arial-Bold/11 "IMPORTANT" #A855F7
+p1 text  x=64.7 y=704.7 Arial/11 "This is an important callout. Use it to highlight crucial" #1A1A2E
+p1 text  x=323.7 y=704.7 Arial/11 "information." #1A1A2E
+p1 rect  x=56.7 y=736.7 w=481.9 h=48.0 fill=#FEF9C3
+p1 line  x=56.7 y=736.7 to x=56.7 y=784.7 #EAB308/3.0
+p1 text  x=64.7 y=744.7 Arial-Bold/11 "CAUTION" #EAB308
+p1 text  x=64.7 y=760.7 Arial/11 "This is a caution callout. Use it to advise users to be" #1A1A2E
+p1 text  x=320.7 y=760.7 Arial/11 "careful." #1A1A2E
+p2 rect  x=56.7 y=56.7 w=481.9 h=48.0 fill=#FEE2E2
+p2 line  x=56.7 y=56.7 to x=56.7 y=104.7 #EF4444/3.0
+p2 text  x=64.7 y=64.7 Arial-Bold/11 "WARNING" #EF4444
+p2 text  x=64.7 y=80.7 Arial/11 "This is a warning callout. Use it to highlight dangerous or destructive" #1A1A2E
+p2 text  x=399.5 y=80.7 Arial/11 "actions." #1A1A2E
+p2 text  x=56.7 y=112.7 Arial/11 "Regular blockquotes still work as expected" #1A1A2E
+p2 text  x=264.5 y=112.7 Arial/11 ":" #1A1A2E
+p2 text  x=76.7 y=136.7 Arial-Italic/11 "This is a normal" #1A1A2E
+p2 text  x=157.3 y=136.7 Arial-Italic/11 "blockquote." #1A1A2E
+p2 text  x=216.6 y=136.7 Arial-Italic/11 "It should render as" #1A1A2E
+p2 text  x=310.7 y=136.7 Arial-Italic/11 "before." #1A1A2E
+p2 line  x=61.7 y=136.7 to x=61.7 y=152.7 #B4B4B4/3.0
+p2 line  x=56.7 y=168.7 to x=538.6 y=168.7 #B4B4B4/1.0
+p2 text  x=56.7 y=198.7 Arial-Bold/20 "2. Mermaid" #000000
+p2 text  x=166.6 y=198.7 Arial-Bold/20 "Diagrams" #000000
+p2 rect  x=56.7 y=232.7 w=481.9 h=100.0 fill=#ECFDF5 stroke=#10B981/0.5
+p2 text  x=64.7 y=240.7 Arial-Bold/11 "Mermaid Diagram" #065F46
+p2 text  x=64.7 y=252.7 Courier/9 "graph TD" #065F46
+p2 text  x=64.7 y=264.7 Courier/9 "    A[Start] --> B{Decision}" #065F46
+p2 text  x=64.7 y=276.7 Courier/9 "    B -->|Yes| C[Action 1]" #065F46
+p2 text  x=64.7 y=288.7 Courier/9 "    B -->|No| D[Action 2]" #065F46
+p2 text  x=64.7 y=300.7 Courier/9 "    C --> E[End]" #065F46
+p2 text  x=64.7 y=312.7 Courier/9 "    D --> E" #065F46
+p2 rect  x=56.7 y=340.7 w=481.9 h=88.0 fill=#ECFDF5 stroke=#10B981/0.5
+p2 text  x=64.7 y=348.7 Arial-Bold/11 "Mermaid Diagram" #065F46
+p2 text  x=64.7 y=360.7 Courier/9 "sequenceDiagram" #065F46
+p2 text  x=64.7 y=372.7 Courier/9 "    participant Client" #065F46
+p2 text  x=64.7 y=384.7 Courier/9 "    participant Server" #065F46
+p2 text  x=64.7 y=396.7 Courier/9 "    Client->>Server: Request" #065F46
+p2 text  x=64.7 y=408.7 Courier/9 "    Server-->>Client: Response" #065F46
+p2 line  x=56.7 y=448.7 to x=538.6 y=448.7 #B4B4B4/1.0
+p2 text  x=56.7 y=478.7 Arial-Bold/20 "3. Color" #000000
+p2 text  x=136.6 y=478.7 Arial-Bold/20 "Chips" #000000
+p2 text  x=56.7 y=512.7 Arial/11 "Inline color swatches for hex color codes" #1A1A2E
+p2 text  x=254.7 y=512.7 Arial/11 ":" #1A1A2E
+p2 text  x=76.7 y=536.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=536.7 Arial/11 "Red:" #1A1A2E
+p2 rect  x=109.9 y=536.7 w=10.0 h=10.0 fill=#FF0000
+p2 text  x=121.9 y=538.3 Courier/10 "#FF0000" #CF222E
+p2 text  x=76.7 y=552.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=552.7 Arial/11 "Green:" #1A1A2E
+p2 rect  x=120.2 y=552.7 w=10.0 h=10.0 fill=#00FF00
+p2 text  x=132.2 y=554.3 Courier/10 "#00FF00" #CF222E
+p2 text  x=76.7 y=568.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=568.7 Arial/11 "Blue:" #1A1A2E
+p2 rect  x=111.7 y=568.7 w=10.0 h=10.0 fill=#0000FF
+p2 text  x=123.7 y=570.3 Courier/10 "#0000FF" #CF222E
+p2 text  x=76.7 y=584.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=584.7 Arial/11 "Short form:" #1A1A2E
+p2 rect  x=141.0 y=584.7 w=10.0 h=10.0 fill=#FF0000
+p2 text  x=153.0 y=586.3 Courier/10 "#F00" #CF222E
+p2 text  x=76.7 y=600.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=600.7 Arial/11 "With alpha:" #1A1A2E
+p2 rect  x=141.6 y=600.7 w=10.0 h=10.0 fill=#FF0000
+p2 text  x=153.6 y=602.3 Courier/10 "#FF000080" #CF222E
+p2 text  x=76.7 y=616.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=616.7 Arial/11 "Coral:" #1A1A2E
+p2 rect  x=116.0 y=616.7 w=10.0 h=10.0 fill=#FF7F50
+p2 text  x=128.0 y=618.3 Courier/10 "#FF7F50" #CF222E
+p2 text  x=76.7 y=632.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=632.7 Arial/11 "Teal:" #1A1A2E
+p2 rect  x=111.1 y=632.7 w=10.0 h=10.0 fill=#008080
+p2 text  x=123.1 y=634.3 Courier/10 "#008080" #CF222E
+p2 text  x=56.7 y=654.7 Arial/11 "Regular inline code is unaffected:" #1A1A2E
+p2 text  x=222.3 y=656.3 Courier/10 "console.log(\"hello\")" #CF222E
+p2 line  x=56.7 y=690.7 to x=538.6 y=690.7 #B4B4B4/1.0
+p2 text  x=56.7 y=720.7 Arial-Bold/20 "4. Description" #000000
+p2 text  x=194.4 y=720.7 Arial-Bold/20 "Lists" #000000
+p2 text  x=56.7 y=754.7 Arial-Bold/11 "HTTP" #1A1A2E
+p2 text  x=88.4 y=754.7 Arial-Bold/11 "Methods" #1A1A2E
+p3 text  x=76.7 y=56.7 Arial/11 "GET - Retrieve a" #1A1A2E
+p3 text  x=162.2 y=56.7 Arial/11 "resource" #1A1A2E
+p3 text  x=76.7 y=72.7 Arial/11 "POST - Create a new" #1A1A2E
+p3 text  x=184.8 y=72.7 Arial/11 "resource" #1A1A2E
+p3 text  x=76.7 y=88.7 Arial/11 "PUT - Update an existing" #1A1A2E
+p3 text  x=202.5 y=88.7 Arial/11 "resource" #1A1A2E
+p3 text  x=56.7 y=108.7 Arial-Bold/11 "Status" #1A1A2E
+p3 text  x=93.3 y=108.7 Arial-Bold/11 "Codes" #1A1A2E
+p3 text  x=76.7 y=124.7 Arial/11 "200 -" #1A1A2E
+p3 text  x=104.8 y=124.7 Arial/11 "OK" #1A1A2E
+p3 text  x=76.7 y=140.7 Arial/11 "404 - Not" #1A1A2E
+p3 text  x=124.9 y=140.7 Arial/11 "Found" #1A1A2E
+p3 text  x=76.7 y=156.7 Arial/11 "500 - Internal Server" #1A1A2E
+p3 text  x=179.9 y=156.7 Arial/11 "Error" #1A1A2E
+p3 text  x=56.7 y=176.7 Arial-Bold/11 "Markdown" #1A1A2E
+p3 text  x=76.7 y=192.7 Arial/11 "A lightweight markup language for creating formatted" #1A1A2E
+p3 text  x=337.6 y=192.7 Arial/11 "text" #1A1A2E
+p3 line  x=56.7 y=228.7 to x=538.6 y=228.7 #B4B4B4/1.0
+p3 text  x=56.7 y=258.7 Arial-Bold/20 "5. Math" #000000
+p3 text  x=131.1 y=258.7 Arial-Bold/20 "(LaTeX)" #000000
+p3 text  x=56.7 y=306.7 Arial-Bold/16 "Inline" #000000
+p3 text  x=102.8 y=306.7 Arial-Bold/16 "Math" #000000
+p3 text  x=56.7 y=334.7 Arial/11 "The quadratic formula is" #1A1A2E
+p3 text  x=177.7 y=334.7 Arial-Italic/11 "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}" #7C3AED
+p3 text  x=354.7 y=334.7 Arial/11 "and Euler's identity is" #1A1A2E
+p3 text  x=461.3 y=334.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
+p3 text  x=531.2 y=334.7 Arial/11 "." #1A1A2E
+p3 text  x=56.7 y=372.7 Arial-Bold/16 "Block" #000000
+p3 text  x=104.7 y=372.7 Arial-Bold/16 "Math" #000000
+p3 text  x=187.4 y=400.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n" #7C3AED
+p3 text  x=183.3 y=424.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}" #7C3AED
+p3 line  x=56.7 y=460.7 to x=538.6 y=460.7 #B4B4B4/1.0
+p3 text  x=56.7 y=490.7 Arial-Bold/20 "6. Table of" #000000
+p3 text  x=161.0 y=490.7 Arial-Bold/20 "Contents" #000000
+p3 text  x=56.7 y=524.7 Arial/11 "The" #1A1A2E
+p3 text  x=78.7 y=526.3 Courier/10 "[[_TOC_]]" #CF222E
+p3 text  x=135.7 y=524.7 Arial/11 "marker above generates a table of contents from all headings in the document." #1A1A2E
+p3 text  x=56.7 y=540.7 Arial/11 "This is a GitLab-specific feature commonly used in wiki pages and" #1A1A2E
+p3 text  x=381.1 y=540.7 Arial/11 "documentation." #1A1A2E
+p3 line  x=56.7 y=576.7 to x=538.6 y=576.7 #B4B4B4/1.0
+p3 text  x=56.7 y=606.7 Arial-Bold/20 "7. Front" #000000
+p3 text  x=135.5 y=606.7 Arial-Bold/20 "Matter" #000000
+p3 text  x=56.7 y=640.7 Arial/11 "The YAML front matter at the top of this document (between" #1A1A2E
+p3 text  x=351.7 y=642.3 Courier/10 "---" #CF222E
+p3 text  x=372.8 y=640.7 Arial/11 "delimiters) is parsed and" #1A1A2E
+p3 text  x=56.7 y=656.7 Arial/11 "rendered as a styled metadata block. It supports standard fields like" #1A1A2E
+p3 text  x=388.5 y=658.3 Courier/10 "title" #CF222E
+p3 text  x=418.5 y=656.7 Arial/11 "," #1A1A2E
+p3 text  x=424.6 y=658.3 Courier/10 "author" #CF222E
+p3 text  x=460.6 y=656.7 Arial/11 ", and" #1A1A2E
+p3 text  x=488.0 y=658.3 Courier/10 "date" #CF222E
+p3 text  x=512.0 y=656.7 Arial/11 ", plus" #1A1A2E
+p3 text  x=56.7 y=672.7 Arial/11 "arbitrary custom" #1A1A2E
+p3 text  x=138.6 y=672.7 Arial/11 "fields." #1A1A2E
+p3 line  x=56.7 y=708.7 to x=538.6 y=708.7 #B4B4B4/1.0
+p3 text  x=56.7 y=738.7 Arial-Bold/20 "Mixed Content" #000000
+p3 text  x=199.9 y=738.7 Arial-Bold/20 "Test" #000000
+p4 text  x=56.7 y=56.7 Arial/11 "This section tests that all features work alongside standard Markdown" #1A1A2E
+p4 text  x=395.8 y=56.7 Arial/11 ":" #1A1A2E
+p4 text  x=56.7 y=94.7 Arial-Bold/16 "Tables Still" #000000
+p4 text  x=145.5 y=94.7 Arial-Bold/16 "Work" #000000
+p4 rect  x=56.7 y=122.7 w=301.2 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=122.7 w=180.7 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=126.7 Arial-Bold/11 "Feature" #1A1A2E
+p4 text  x=361.9 y=126.7 Arial-Bold/11 "Status" #1A1A2E
+p4 rect  x=56.7 y=143.7 w=301.2 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=143.7 w=180.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=147.7 Arial/11 "Alerts" #1A1A2E
+p4 text  x=361.9 y=147.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=164.7 w=301.2 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=164.7 w=180.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=168.7 Arial/11 "Mermaid" #1A1A2E
+p4 text  x=361.9 y=168.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=185.7 w=301.2 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=185.7 w=180.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=189.7 Arial/11 "Color" #1A1A2E
+p4 text  x=90.0 y=189.7 Arial/11 "Chips" #1A1A2E
+p4 text  x=361.9 y=189.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=206.7 w=301.2 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=206.7 w=180.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=210.7 Arial/11 "Description" #1A1A2E
+p4 text  x=118.7 y=210.7 Arial/11 "Lists" #1A1A2E
+p4 text  x=361.9 y=210.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=227.7 w=301.2 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=227.7 w=180.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=231.7 Arial/11 "Math" #1A1A2E
+p4 text  x=361.9 y=231.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=248.7 w=301.2 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=248.7 w=180.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=252.7 Arial/11 "TOC" #1A1A2E
+p4 text  x=361.9 y=252.7 Arial/11 "Supported" #1A1A2E
+p4 rect  x=56.7 y=269.7 w=301.2 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 rect  x=357.9 y=269.7 w=180.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p4 text  x=60.7 y=273.7 Arial/11 "Front" #1A1A2E
+p4 text  x=89.4 y=273.7 Arial/11 "Matter" #1A1A2E
+p4 text  x=361.9 y=273.7 Arial/11 "Supported" #1A1A2E
+p4 text  x=56.7 y=312.7 Arial-Bold/16 "Lists Still" #000000
+p4 text  x=132.1 y=312.7 Arial-Bold/16 "Work" #000000
+p4 text  x=76.7 y=340.7 Arial/11 "1. " #1A1A2E
+p4 text  x=88.9 y=340.7 Arial/11 "First" #1A1A2E
+p4 text  x=113.3 y=340.7 Arial/11 "item" #1A1A2E
+p4 text  x=76.7 y=356.7 Arial/11 "2. " #1A1A2E
+p4 text  x=88.9 y=356.7 Arial/11 "Second" #1A1A2E
+p4 text  x=129.2 y=356.7 Arial/11 "item" #1A1A2E
+p4 text  x=96.7 y=372.7 Arial/11 "a. " #1A1A2E
+p4 text  x=108.9 y=372.7 Arial/11 "Nested" #1A1A2E
+p4 text  x=146.8 y=372.7 Arial/11 "bullet" #1A1A2E
+p4 text  x=96.7 y=388.7 Arial/11 "b. " #1A1A2E
+p4 text  x=108.9 y=388.7 Arial/11 "Another nested" #1A1A2E
+p4 text  x=186.5 y=388.7 Arial/11 "bullet" #1A1A2E
+p4 text  x=76.7 y=404.7 Arial/11 "3. " #1A1A2E
+p4 text  x=88.9 y=404.7 Arial/11 "Third" #1A1A2E
+p4 text  x=117.0 y=404.7 Arial/11 "item" #1A1A2E
+p4 text  x=56.7 y=440.7 Arial-Bold/16 "Task Lists Still" #000000
+p4 text  x=173.0 y=440.7 Arial-Bold/16 "Work" #000000
+p4 text  x=76.7 y=468.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=468.7 Arial/11 "Implement" #1A1A2E
+p4 text  x=145.7 y=468.7 Arial/11 "alerts" #1A1A2E
+p4 text  x=76.7 y=484.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=484.7 Arial/11 "Implement" #1A1A2E
+p4 text  x=145.7 y=484.7 Arial/11 "mermaid" #1A1A2E
+p4 text  x=76.7 y=500.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=500.7 Arial/11 "Implement color" #1A1A2E
+p4 text  x=172.6 y=500.7 Arial/11 "chips" #1A1A2E
+p4 text  x=76.7 y=516.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=516.7 Arial/11 "Implement description" #1A1A2E
+p4 text  x=201.9 y=516.7 Arial/11 "lists" #1A1A2E
+p4 text  x=76.7 y=532.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=532.7 Arial/11 "Implement" #1A1A2E
+p4 text  x=145.7 y=532.7 Arial/11 "math" #1A1A2E
+p4 text  x=76.7 y=548.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=548.7 Arial/11 "Implement" #1A1A2E
+p4 text  x=145.7 y=548.7 Arial/11 "TOC" #1A1A2E
+p4 text  x=76.7 y=564.7 Arial/11 "[x] " #1A1A2E
+p4 text  x=91.3 y=564.7 Arial/11 "Implement front" #1A1A2E
+p4 text  x=170.7 y=564.7 Arial/11 "matter" #1A1A2E
+p4 line  x=56.7 y=598.7 to x=538.6 y=598.7 #B4B4B4/1.0
+p4 text  x=56.7 y=610.7 Arial-Italic/11 "This document was generated to test GitLab Flavored Markdown support in Markout." #1A1A2E

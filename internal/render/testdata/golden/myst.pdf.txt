@@ -1,42 +1,41 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "MyST sample"
-p1 text  x=56.7 y=116.7 Arial-Bold/24 "MyST"
-p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents"
-p1 text  x=56.7 y=188.7 Arial/11 "MyST"
-p1 text  x=76.7 y=204.7 Arial/11 "Directives"
-p1 text  x=76.7 y=220.7 Arial/11 "Roles"
-p1 text  x=56.7 y=262.7 Arial-Bold/20 "Directives"
-p1 rect  x=56.7 y=296.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=296.7 to x=56.7 y=344.7
-p1 text  x=64.7 y=304.7 Arial-Bold/11 "NOTE"
-p1 text  x=64.7 y=320.7 Arial/11 "A backtick directive with"
-p1 text  x=184.4 y=320.7 Arial-Bold/11 "markup"
-p1 text  x=224.1 y=320.7 Arial/11 "."
-p1 rect  x=56.7 y=352.7 w=481.9 h=64.0 F
-p1 line  x=56.7 y=352.7 to x=56.7 y=416.7
-p1 text  x=64.7 y=360.7 Arial-Bold/11 "WARNING"
-p1 text  x=64.7 y=376.7 Arial/11 "Careful"
-p1 text  x=64.7 y=392.7 Arial/11 "A colon"
-p1 text  x=104.4 y=392.7 Arial/11 "directive."
-p1 rect  x=56.7 y=424.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=424.7 to x=56.7 y=472.7
-p1 text  x=64.7 y=432.7 Arial-Bold/11 "Custom title"
-p1 text  x=64.7 y=448.7 Arial/11 "Body"
-p1 text  x=92.8 y=448.7 Arial/11 "text."
-p1 rect  x=56.7 y=480.7 w=481.9 h=40.0 FD
-p1 text  x=64.7 y=488.7 Courier/9 "print(\"hello\")"
-p1 text  x=64.7 y=500.7 Courier/9 " "
-p1 text  x=259.4 y=528.7 Arial-Italic/11 "a^2 + b^2 = c^2"
-p1 text  x=56.7 y=552.7 Arial-Italic/11 "[IMG] A plot"
-p1 text  x=56.7 y=568.7 Arial/9 "plot.png"
-p1 text  x=56.7 y=592.7 Arial/11 "The"
-p1 text  x=78.7 y=592.7 Arial/11 "caption."
-p1 text  x=56.7 y=634.7 Arial-Bold/20 "Roles"
-p1 text  x=56.7 y=668.7 Arial/11 "Inline"
-p1 text  x=86.0 y=668.7 Arial-Italic/11 "x_i"
-p1 text  x=100.1 y=668.7 Arial/11 ", H"
-p1 text  x=114.1 y=673.7 Arial/8 "2"
-p1 text  x=118.6 y=668.7 Arial/11 "O, a link title and"
-p1 text  x=203.4 y=670.3 Courier/10 "Ctrl"
-p1 text  x=227.4 y=668.7 Arial/11 "."
+p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "MyST sample" #1A1A2E
+p1 text  x=56.7 y=116.7 Arial-Bold/24 "MyST" #000000
+p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents" #1A1A2E
+p1 text  x=56.7 y=188.7 Arial/11 "MyST" #2563EB
+p1 text  x=76.7 y=204.7 Arial/11 "Directives" #2563EB
+p1 text  x=76.7 y=220.7 Arial/11 "Roles" #2563EB
+p1 text  x=56.7 y=262.7 Arial-Bold/20 "Directives" #000000
+p1 rect  x=56.7 y=296.7 w=481.9 h=48.0 fill=#DBEAFE
+p1 line  x=56.7 y=296.7 to x=56.7 y=344.7 #3B82F6/3.0
+p1 text  x=64.7 y=304.7 Arial-Bold/11 "NOTE" #3B82F6
+p1 text  x=64.7 y=320.7 Arial/11 "A backtick directive with" #1A1A2E
+p1 text  x=184.4 y=320.7 Arial-Bold/11 "markup" #1A1A2E
+p1 text  x=224.1 y=320.7 Arial/11 "." #1A1A2E
+p1 rect  x=56.7 y=352.7 w=481.9 h=64.0 fill=#FEE2E2
+p1 line  x=56.7 y=352.7 to x=56.7 y=416.7 #EF4444/3.0
+p1 text  x=64.7 y=360.7 Arial-Bold/11 "WARNING" #EF4444
+p1 text  x=64.7 y=376.7 Arial/11 "Careful" #1A1A2E
+p1 text  x=64.7 y=392.7 Arial/11 "A colon" #1A1A2E
+p1 text  x=104.4 y=392.7 Arial/11 "directive." #1A1A2E
+p1 rect  x=56.7 y=424.7 w=481.9 h=48.0 fill=#DCFCE7
+p1 line  x=56.7 y=424.7 to x=56.7 y=472.7 #22C55E/3.0
+p1 text  x=64.7 y=432.7 Arial-Bold/11 "Custom title" #22C55E
+p1 text  x=64.7 y=448.7 Arial/11 "Body" #1A1A2E
+p1 text  x=92.8 y=448.7 Arial/11 "text." #1A1A2E
+p1 rect  x=56.7 y=480.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=488.7 Courier/9 "print(\"hello\")" #000000
+p1 text  x=259.4 y=516.7 Arial-Italic/11 "a^2 + b^2 = c^2" #7C3AED
+p1 text  x=56.7 y=540.7 Arial-Italic/11 "[IMG] A plot" #4A4A68
+p1 text  x=56.7 y=556.7 Arial/9 "plot.png" #2563EB
+p1 text  x=56.7 y=580.7 Arial/11 "The" #1A1A2E
+p1 text  x=78.7 y=580.7 Arial/11 "caption." #1A1A2E
+p1 text  x=56.7 y=622.7 Arial-Bold/20 "Roles" #000000
+p1 text  x=56.7 y=656.7 Arial/11 "Inline" #1A1A2E
+p1 text  x=86.0 y=656.7 Arial-Italic/11 "x_i" #7C3AED
+p1 text  x=100.1 y=656.7 Arial/11 ", H" #1A1A2E
+p1 text  x=114.1 y=661.7 Arial/8 "2" #1A1A2E
+p1 text  x=118.6 y=656.7 Arial/11 "O, a link title and" #1A1A2E
+p1 text  x=203.4 y=658.3 Courier/10 "Ctrl" #CF222E
+p1 text  x=227.4 y=656.7 Arial/11 "." #1A1A2E

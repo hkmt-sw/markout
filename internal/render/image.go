@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/xml"
 	"errors"
+	"github.com/hkmt-sw/markout/internal/theme"
 	"regexp"
 	"strconv"
 	"strings"
@@ -29,6 +30,16 @@ type Options struct {
 	// RemoteImages allows images referenced by http(s) URL to be downloaded.
 	// When false they are left as placeholders and nothing is fetched.
 	RemoteImages bool
+	// Theme is how the document looks; nil means the default theme.
+	Theme *theme.Set
+}
+
+// theme returns the theme to render with.
+func (o Options) theme() theme.Set {
+	if o.Theme != nil {
+		return *o.Theme
+	}
+	return theme.Default()
 }
 
 // ErrRemoteImageSkipped is returned for an image that would have to be

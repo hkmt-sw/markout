@@ -16,6 +16,21 @@ All notable changes to markout are listed here. The format follows
   longer preceded by an over-wide space.
 - Long terms and definitions of a definition list wrap in PDF instead of
   running off the page.
+- In PDF, the text of lists, quotes and footnotes uses the same ink color as
+  paragraphs (it was pure black).
+
+### Added
+
+- `fixtures/showcase.md`, a document with every element and a note on what
+  each should look like, for checking a conversion by eye.
+
+### Fixed
+
+- A front matter date written without quotes was shown as a full timestamp
+  (`2026-10-06 00:00:00 +0000 UTC`); it is shown as written.
+- PDF code blocks and diagram panels ended with an empty line.
+- The PDF metadata panel left empty rows for values it does not show, and
+  extra front matter fields appeared in a different order from run to run.
 
 ## [1.2.2] - 2026-10-06
 
