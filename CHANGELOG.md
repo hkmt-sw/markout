@@ -4,6 +4,19 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.0] - Unreleased
+
+### Changed
+
+- PDF output shows inline formatting everywhere text appears. Bold, italic,
+  inline code, links, strikethrough, underline, highlight, superscript and
+  subscript used to be drawn only in paragraphs; headings, list items, table
+  cells, quotes, callouts, definition lists and footnotes showed plain text.
+- Inline code in PDF sits on the baseline of the surrounding text and is no
+  longer preceded by an over-wide space.
+- Long terms and definitions of a definition list wrap in PDF instead of
+  running off the page.
+
 ## [1.2.2] - 2026-10-06
 
 ### Added

@@ -326,214 +326,18 @@ func (r *PdfRenderer) renderHeading(h ast.Heading) {
 	r.currentY += spaceBefore
 	r.checkPageBreak(lineHeight)
 
-	r.setFont("Arial", "B", fontSize)
-	text := r.runsToPlainText(h.Runs)
-	r.renderText(text, r.marginLeft, lineHeight)
+	style := textStyle{size: fontSize, bold: true, color: colorBlack, lineHeight: lineHeight}
+	r.drawLines(r.layout(h.Runs, style, r.contentWidth, r.contentWidth), r.marginLeft, r.marginLeft, lineHeight)
 
 	r.currentY += spaceAfter
-	r.setFont("Arial", "", 11)
 }
 
 func (r *PdfRenderer) renderParagraph(p ast.Paragraph) {
-	lineHeight := 16.0
-	r.checkPageBreak(lineHeight)
+	r.checkPageBreak(bodyStyle.lineHeight)
 
-	r.renderRuns(p.Runs, r.marginLeft, lineHeight)
+	r.renderRuns(p.Runs, bodyStyle, r.marginLeft, r.contentWidth)
 
 	r.currentY += 8 // Paragraph spacing
-}
-
-// renderRuns renders inline runs with proper formatting and clickable links
-func (r *PdfRenderer) renderRuns(runs []ast.InlineRun, startX float64, lineHeight float64) {
-	if len(runs) == 0 {
-		return
-	}
-
-	r.pdf.SetX(startX)
-	r.pdf.SetY(r.currentY)
-	currentX := startX
-	needSpace := false // the previous run ended in whitespace
-
-	for _, run := range runs {
-		// Get text to render
-		text := run.Text
-		if run.FootnoteIndex > 0 {
-			text = "[" + itoa(run.FootnoteIndex) + "]"
-		} else {
-			// Strip emojis that can't be rendered by standard fonts
-			text = stripEmojis(text)
-		}
-
-		if text == "" {
-			continue
-		}
-
-		// Set font based on formatting
-		fontSize := 11
-		style := ""
-		if run.Bold && run.Italic {
-			style = "BI"
-		} else if run.Bold {
-			style = "B"
-		} else if run.Italic || run.Math {
-			style = "I"
-		}
-
-		// Superscripts and subscripts are set smaller and shifted off the line.
-		yShift := 0.0
-		if run.Superscript || run.Subscript {
-			fontSize = 8
-			yShift = -1
-			if run.Subscript {
-				yShift = 5
-			}
-		}
-
-		if run.Code {
-			fontSize = 10
-			r.setFont("Courier", "", fontSize)
-		} else {
-			r.setFont("Arial", style, fontSize)
-		}
-
-		// Set color
-		textColor := config.RGB{R: 26, G: 26, B: 46} // Normal text
-		switch {
-		case run.Math:
-			textColor = config.ColorMathTextRGB
-		case run.Link != "":
-			textColor = config.ColorLinkRGB
-		case run.Inserted:
-			textColor = config.ColorSuccessRGB
-		case run.Deleted:
-			textColor = config.ColorCodeAccentRGB
-		case run.Code:
-			textColor = config.ColorCodeAccentRGB
-		case run.FootnoteIndex > 0:
-			textColor = config.ColorLinkRGB
-		case run.Strikethrough:
-			textColor = config.ColorTextTertiaryRGB
-		}
-		r.pdf.SetTextColor(textColor.R, textColor.G, textColor.B)
-
-		// Color chip: render a colored square before the hex code
-		if run.ColorChip != "" {
-			chipColor := hexStringToRGB(strings.TrimPrefix(run.ColorChip, "#"))
-			r.pdf.SetFillColor(chipColor.R, chipColor.G, chipColor.B)
-			r.rect(currentX, r.currentY, 10, 10, "F")
-			currentX += 12
-			r.pdf.SetFillColor(255, 255, 255) // Reset
-		}
-
-		// Word wrap within this run. A space is only laid out where the source
-		// has whitespace, so adjacent runs ("x" + superscript "2", bold text
-		// followed by a comma) stay together.
-		spaceWidth, _ := r.pdf.MeasureTextWidth(" ")
-		words := strings.Fields(text)
-		leadingSpace := strings.TrimLeft(text, " \t\n") != text
-		for i, word := range words {
-			wordWidth, _ := r.pdf.MeasureTextWidth(word)
-			gap := i > 0 || leadingSpace || needSpace
-			joined := gap && i > 0 // the gap is inside this run and takes its decoration
-
-			if gap && currentX > startX {
-				currentX += spaceWidth
-			}
-
-			// Check if word fits on current line
-			if currentX+wordWidth > startX+r.contentWidth && currentX > startX {
-				// Move to next line
-				r.currentY += lineHeight
-				r.checkPageBreak(lineHeight)
-				currentX = startX
-				joined = false
-			}
-
-			decoStart := currentX
-			if joined {
-				decoStart -= spaceWidth
-			}
-			y := r.currentY + yShift
-
-			if run.Highlight {
-				c := config.ColorHighlightRGB
-				r.pdf.SetFillColor(c.R, c.G, c.B)
-				r.rect(decoStart, r.currentY-1, currentX+wordWidth-decoStart, float64(fontSize)+3, "F")
-				r.pdf.SetFillColor(255, 255, 255) // Reset
-			}
-
-			// Render the word
-			r.pdf.SetX(currentX)
-			r.pdf.SetY(y)
-			r.cell(word)
-
-			if run.Link != "" {
-				// Add clickable link: AddExternalLink(url, x, y, w, h)
-				r.pdf.AddExternalLink(run.Link, currentX, r.currentY-2, wordWidth, lineHeight)
-			}
-
-			underline := run.Underline || run.Inserted
-			strike := run.Strikethrough || run.Deleted
-			if underline || strike {
-				r.pdf.SetStrokeColor(textColor.R, textColor.G, textColor.B)
-				r.pdf.SetLineWidth(0.6)
-				if underline {
-					ly := y + float64(fontSize) + 1
-					r.line(decoStart, ly, currentX+wordWidth, ly)
-				}
-				if strike {
-					ly := y + float64(fontSize)*0.58
-					r.line(decoStart, ly, currentX+wordWidth, ly)
-				}
-				r.pdf.SetStrokeColor(0, 0, 0)
-				r.pdf.SetLineWidth(0.5)
-			}
-
-			currentX += wordWidth
-		}
-		needSpace = strings.TrimRight(text, " \t\n") != text
-	}
-
-	r.currentY += lineHeight
-	r.pdf.SetTextColor(0, 0, 0)
-	r.setFont("Arial", "", 11)
-}
-
-func (r *PdfRenderer) renderText(text string, x float64, lineHeight float64) {
-	words := strings.Fields(text)
-	if len(words) == 0 {
-		return
-	}
-
-	currentLine := ""
-
-	for _, word := range words {
-		testLine := currentLine
-		if testLine != "" {
-			testLine += " "
-		}
-		testLine += word
-
-		testWidth, _ := r.pdf.MeasureTextWidth(testLine)
-		if testWidth > r.contentWidth && currentLine != "" {
-			r.checkPageBreak(lineHeight)
-			r.pdf.SetX(x)
-			r.pdf.SetY(r.currentY)
-			r.cell(currentLine)
-			r.currentY += lineHeight
-			currentLine = word
-		} else {
-			currentLine = testLine
-		}
-	}
-
-	if currentLine != "" {
-		r.checkPageBreak(lineHeight)
-		r.pdf.SetX(x)
-		r.pdf.SetY(r.currentY)
-		r.cell(currentLine)
-		r.currentY += lineHeight
-	}
 }
 
 func (r *PdfRenderer) renderList(l ast.List) {
@@ -571,63 +375,15 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 		r.cell(bulletText)
 
 		bulletWidth, _ := r.pdf.MeasureTextWidth(bulletText)
-		text := r.runsToPlainText(item.Runs)
-		startX := r.marginLeft + indent + bulletWidth
 
-		words := strings.Fields(text)
-		if len(words) > 0 {
-			currentLine := ""
-			firstLine := true
-			remainingWidth := r.contentWidth - indent - bulletWidth
-
-			for _, word := range words {
-				testLine := currentLine
-				if testLine != "" {
-					testLine += " "
-				}
-				testLine += word
-
-				testWidth, _ := r.pdf.MeasureTextWidth(testLine)
-				maxWidth := remainingWidth
-				if !firstLine {
-					maxWidth = r.contentWidth - indent
-				}
-
-				if testWidth > maxWidth && currentLine != "" {
-					if firstLine {
-						r.pdf.SetX(startX)
-						r.pdf.SetY(r.currentY)
-						r.cell(currentLine)
-						r.currentY += lineHeight
-						firstLine = false
-					} else {
-						r.checkPageBreak(lineHeight)
-						r.pdf.SetX(r.marginLeft + indent)
-						r.pdf.SetY(r.currentY)
-						r.cell(currentLine)
-						r.currentY += lineHeight
-					}
-					currentLine = word
-				} else {
-					currentLine = testLine
-				}
-			}
-
-			if currentLine != "" {
-				if firstLine {
-					r.pdf.SetX(startX)
-					r.pdf.SetY(r.currentY)
-					r.cell(currentLine)
-				} else {
-					r.checkPageBreak(lineHeight)
-					r.pdf.SetX(r.marginLeft + indent)
-					r.pdf.SetY(r.currentY)
-					r.cell(currentLine)
-				}
-				r.currentY += lineHeight
-			}
-		} else {
+		// The first line starts after the bullet; the following lines start
+		// under it.
+		style := textStyle{size: 11, color: colorBlack, lineHeight: lineHeight}
+		lines := r.layout(item.Runs, style, r.contentWidth-indent-bulletWidth, r.contentWidth-indent)
+		if len(lines) == 0 {
 			r.currentY += lineHeight
+		} else {
+			r.drawLines(lines, r.marginLeft+indent+bulletWidth, r.marginLeft+indent, lineHeight)
 		}
 
 		if len(item.Children) > 0 {
@@ -695,72 +451,33 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		return x
 	}
 
-	// wrapText splits text into lines that fit within maxWidth
-	wrapText := func(text string, maxWidth float64) []string {
-		if maxWidth <= 0 {
-			return []string{text}
-		}
-		words := strings.Fields(text)
-		if len(words) == 0 {
-			return []string{""}
-		}
-		var lines []string
-		currentLine := ""
-		for _, word := range words {
-			testLine := currentLine
-			if testLine != "" {
-				testLine += " "
-			}
-			testLine += word
-			w, _ := r.pdf.MeasureTextWidth(testLine)
-			if w > maxWidth && currentLine != "" {
-				lines = append(lines, currentLine)
-				currentLine = word
-			} else {
-				currentLine = testLine
-			}
-		}
-		if currentLine != "" {
-			lines = append(lines, currentLine)
-		}
-		if len(lines) == 0 {
-			lines = []string{""}
-		}
-		return lines
-	}
-
-	// calcRowHeight returns the row height needed for the tallest cell
-	calcRowHeight := func(cells []ast.TableCell, bold bool) (float64, [][]string) {
-		if bold {
-			r.setFont("Arial", "B", 11)
-		} else {
-			r.setFont("Arial", "", 11)
-		}
+	// layoutRow lays out every cell of a row and returns the row height
+	// needed for the tallest one.
+	layoutRow := func(cells []ast.TableCell, bold bool) (float64, [][]textLine) {
+		style := textStyle{size: 11, bold: bold, color: colorBody, lineHeight: lineHeight}
 		maxLines := 1
-		wrappedTexts := make([][]string, numCols)
+		laidOut := make([][]textLine, numCols)
 		for j := 0; j < numCols; j++ {
-			text := ""
-			if j < len(cells) {
-				text = r.runsToPlainText(cells[j].Runs)
+			if j >= len(cells) {
+				continue
 			}
 			innerWidth := colWidthsPt[j] - 2*cellPadding
-			lines := wrapText(text, innerWidth)
-			wrappedTexts[j] = lines
-			if len(lines) > maxLines {
-				maxLines = len(lines)
+			laidOut[j] = r.layout(cells[j].Runs, style, innerWidth, innerWidth)
+			if len(laidOut[j]) > maxLines {
+				maxLines = len(laidOut[j])
 			}
 		}
 		h := float64(maxLines)*lineHeight + 2*cellPadding
 		if h < minRowHeight {
 			h = minRowHeight
 		}
-		return h, wrappedTexts
+		return h, laidOut
 	}
 
 	// drawRow renders backgrounds + text for one row. All cell backgrounds are
 	// drawn first, then all text, so any text that overflows a narrow column is
 	// not painted over by the next column's background.
-	drawRow := func(wrappedTexts [][]string, rowH float64, isHeader bool, rowIdx int) {
+	drawRow := func(laidOut [][]textLine, rowH float64, isHeader bool, rowIdx int) {
 		r.pdf.SetStrokeColor(209, 213, 222)
 
 		if isHeader {
@@ -774,20 +491,11 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 			r.rect(colX(j), r.currentY, colWidthsPt[j], rowH, "FD")
 		}
 
-		if isHeader {
-			r.setFont("Arial", "B", 11)
-		} else {
-			r.setFont("Arial", "", 11)
-		}
-		r.pdf.SetTextColor(26, 26, 46)
 		for j := 0; j < numCols; j++ {
-			x := colX(j)
-			for li, line := range wrappedTexts[j] {
-				r.pdf.SetX(x + cellPadding)
-				r.pdf.SetY(r.currentY + cellPadding + float64(li)*lineHeight)
-				r.cell(line)
-			}
+			x := colX(j) + cellPadding
+			r.drawLinesAt(laidOut[j], x, x, r.currentY+cellPadding, lineHeight)
 		}
+		r.resetText()
 		r.currentY += rowH
 	}
 
@@ -796,17 +504,16 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		if len(headerCells) == 0 {
 			return
 		}
-		rowH, wrappedTexts := calcRowHeight(headerCells, true)
+		rowH, laidOut := layoutRow(headerCells, true)
 		r.checkPageBreak(rowH)
-		drawRow(wrappedTexts, rowH, true, 0)
-		r.setFont("Arial", "", 11)
+		drawRow(laidOut, rowH, true, 0)
 	}
 
 	renderHeader()
 
 	// Render data rows
 	for rowIdx, row := range t.Rows {
-		rowH, wrappedTexts := calcRowHeight(row.Cells, false)
+		rowH, laidOut := layoutRow(row.Cells, false)
 
 		if r.currentY+rowH > r.pageHeight-r.marginBottom {
 			r.addPage()
@@ -814,7 +521,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 			renderHeader()
 		}
 
-		drawRow(wrappedTexts, rowH, false, rowIdx)
+		drawRow(laidOut, rowH, false, rowIdx)
 	}
 
 	r.currentY += 8
@@ -832,42 +539,8 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 			r.checkPageBreak(lineHeight)
 			startY := r.currentY
 
-			r.setFont("Arial", "I", 11)
-			text := r.runsToPlainText(e.Runs)
-
-			words := strings.Fields(text)
-			if len(words) > 0 {
-				currentLine := ""
-				remainingWidth := r.contentWidth - indent
-
-				for _, word := range words {
-					testLine := currentLine
-					if testLine != "" {
-						testLine += " "
-					}
-					testLine += word
-
-					testWidth, _ := r.pdf.MeasureTextWidth(testLine)
-					if testWidth > remainingWidth && currentLine != "" {
-						r.checkPageBreak(lineHeight)
-						r.pdf.SetX(r.marginLeft + indent)
-						r.pdf.SetY(r.currentY)
-						r.cell(currentLine)
-						r.currentY += lineHeight
-						currentLine = word
-					} else {
-						currentLine = testLine
-					}
-				}
-
-				if currentLine != "" {
-					r.checkPageBreak(lineHeight)
-					r.pdf.SetX(r.marginLeft + indent)
-					r.pdf.SetY(r.currentY)
-					r.cell(currentLine)
-					r.currentY += lineHeight
-				}
-			}
+			style := textStyle{size: 11, italic: true, color: colorBlack, lineHeight: lineHeight}
+			r.renderRuns(e.Runs, style, r.marginLeft+indent, r.contentWidth-indent)
 
 			endY := r.currentY
 
@@ -1088,13 +761,13 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	lineHeight := 16.0
 	padding := 8.0
 
-	// Wrap the content first so the box can be sized to it
-	r.setFont("Arial", "", 11)
-	var contentLines []string
+	// Lay the content out first so the box can be sized to it
+	style := textStyle{size: 11, color: colorBody, lineHeight: lineHeight}
+	var contentLines []textLine
 	for _, elem := range alert.Elements {
 		if p, ok := elem.(ast.Paragraph); ok {
-			wrapped := r.wrapText(r.runsToPlainText(p.Runs), r.contentWidth-2*padding)
-			contentLines = append(contentLines, wrapped...)
+			width := r.contentWidth - 2*padding
+			contentLines = append(contentLines, r.layout(p.Runs, style, width, width)...)
 		}
 	}
 	blockHeight := float64(len(contentLines)+1)*lineHeight + 2*padding
@@ -1121,40 +794,13 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	r.currentY = startY + padding + lineHeight
 
 	// Content
-	r.setFont("Arial", "", 11)
-	r.pdf.SetTextColor(26, 26, 46)
-	for _, line := range contentLines {
-		r.pdf.SetX(r.marginLeft + padding)
-		r.pdf.SetY(r.currentY)
-		r.cell(line)
-		r.currentY += lineHeight
-	}
+	x := r.marginLeft + padding
+	r.drawLinesAt(contentLines, x, x, r.currentY, lineHeight)
+	r.resetText()
 
 	r.currentY = startY + blockHeight + 8
 	r.pdf.SetStrokeColor(0, 0, 0)
 	r.pdf.SetTextColor(0, 0, 0)
-}
-
-// wrapText breaks text into lines that fit maxWidth in the current font.
-func (r *PdfRenderer) wrapText(text string, maxWidth float64) []string {
-	var lines []string
-	current := ""
-	for _, word := range strings.Fields(text) {
-		candidate := word
-		if current != "" {
-			candidate = current + " " + word
-		}
-		if w, _ := r.pdf.MeasureTextWidth(candidate); w > maxWidth && current != "" {
-			lines = append(lines, current)
-			current = word
-		} else {
-			current = candidate
-		}
-	}
-	if current != "" {
-		lines = append(lines, current)
-	}
-	return lines
 }
 
 func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
@@ -1233,23 +879,14 @@ func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
 		r.checkPageBreak(lineHeight)
 
 		// Term - bold
-		r.setFont("Arial", "B", 11)
-		r.pdf.SetTextColor(26, 26, 46)
-		text := r.runsToPlainText(item.Term)
-		r.pdf.SetX(r.marginLeft)
-		r.pdf.SetY(r.currentY)
-		r.cell(text)
-		r.currentY += lineHeight
+		term := textStyle{size: 11, bold: true, color: colorBody, lineHeight: lineHeight}
+		r.renderRuns(item.Term, term, r.marginLeft, r.contentWidth)
 
 		// Definitions - indented
-		r.setFont("Arial", "", 11)
-		for _, def := range item.Definitions {
+		def := textStyle{size: 11, color: colorBody, lineHeight: lineHeight}
+		for _, runs := range item.Definitions {
 			r.checkPageBreak(lineHeight)
-			text := r.runsToPlainText(def)
-			r.pdf.SetX(r.marginLeft + indent)
-			r.pdf.SetY(r.currentY)
-			r.cell(text)
-			r.currentY += lineHeight
+			r.renderRuns(runs, def, r.marginLeft+indent, r.contentWidth-indent)
 		}
 		r.currentY += 4
 	}
@@ -1393,22 +1030,6 @@ func hexStringToRGB(hex string) config.RGB {
 	return config.RGB{R: r, G: g, B: b}
 }
 
-func (r *PdfRenderer) runsToPlainText(runs []ast.InlineRun) string {
-	var sb strings.Builder
-	for _, run := range runs {
-		if run.FootnoteIndex > 0 {
-			// Add superscript footnote reference
-			sb.WriteString("[")
-			sb.WriteString(itoa(run.FootnoteIndex))
-			sb.WriteString("]")
-		} else {
-			// Strip emojis that can't be rendered
-			sb.WriteString(stripEmojis(run.Text))
-		}
-	}
-	return sb.String()
-}
-
 // itoa converts int to string without importing strconv
 func itoa(n int) string {
 	if n == 0 {
@@ -1447,62 +1068,17 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 		prefixWidth, _ := r.pdf.MeasureTextWidth(prefix)
 
-		// Render footnote content
+		// Render footnote content: the first line follows the number, the
+		// rest are indented.
+		style := textStyle{size: 9, color: colorBlack, lineHeight: lineHeight}
 		for _, elem := range fn.Elements {
-			if p, ok := elem.(ast.Paragraph); ok {
-				text := r.runsToPlainText(p.Runs)
-				r.pdf.SetX(r.marginLeft + prefixWidth)
-				r.pdf.SetY(r.currentY)
-
-				// Word wrap
-				words := strings.Fields(text)
-				remainingWidth := r.contentWidth - prefixWidth
-				currentLine := ""
-				firstLine := true
-
-				for _, word := range words {
-					testLine := currentLine
-					if testLine != "" {
-						testLine += " "
-					}
-					testLine += word
-
-					testWidth, _ := r.pdf.MeasureTextWidth(testLine)
-					maxWidth := remainingWidth
-					if !firstLine {
-						maxWidth = r.contentWidth - 20 // Indent continuation
-					}
-
-					if testWidth > maxWidth && currentLine != "" {
-						if firstLine {
-							r.cell(currentLine)
-							r.currentY += lineHeight
-							firstLine = false
-						} else {
-							r.checkPageBreak(lineHeight)
-							r.pdf.SetX(r.marginLeft + 20)
-							r.pdf.SetY(r.currentY)
-							r.cell(currentLine)
-							r.currentY += lineHeight
-						}
-						currentLine = word
-					} else {
-						currentLine = testLine
-					}
-				}
-
-				if currentLine != "" {
-					if firstLine {
-						r.cell(currentLine)
-					} else {
-						r.checkPageBreak(lineHeight)
-						r.pdf.SetX(r.marginLeft + 20)
-						r.pdf.SetY(r.currentY)
-						r.cell(currentLine)
-					}
-					r.currentY += lineHeight
-				}
+			p, ok := elem.(ast.Paragraph)
+			if !ok {
+				continue
 			}
+			lines := r.layout(p.Runs, style, r.contentWidth-prefixWidth, r.contentWidth-20)
+			r.drawLines(lines, r.marginLeft+prefixWidth, r.marginLeft+20, lineHeight)
+			r.setFont("Arial", "", 9)
 		}
 		r.currentY += 4 // Space between footnotes
 	}
