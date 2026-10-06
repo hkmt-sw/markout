@@ -25,6 +25,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/convert"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
+	"github.com/hkmt-sw/markout/internal/theme"
 	"github.com/hkmt-sw/markout/internal/tui"
 	"github.com/hkmt-sw/markout/internal/update"
 )
@@ -38,6 +39,7 @@ func main() {
 	var positional []string
 	flavorID := ""
 	remote := "" // --remote-images: ask, allow or deny
+	themeRef := ""
 
 	args := os.Args[1:]
 	for i := 0; i < len(args); i++ {
@@ -55,6 +57,24 @@ func main() {
 		case arg == "--check-update":
 			checkUpdate()
 			return
+		case arg == "--list-themes" || arg == "--themes":
+			printThemes()
+			return
+		case arg == "--export-theme":
+			name := theme.DefaultName
+			if i+1 < len(args) {
+				name = args[i+1]
+			}
+			exportTheme(name)
+			return
+		case arg == "-t" || arg == "--theme":
+			if i+1 >= len(args) {
+				fail("%s needs a theme name or file (see --list-themes)", arg)
+			}
+			i++
+			themeRef = args[i]
+		case strings.HasPrefix(arg, "--theme="):
+			themeRef = strings.TrimPrefix(arg, "--theme=")
 		case arg == "-f" || arg == "--flavor":
 			if i+1 >= len(args) {
 				fail("%s needs a flavor name (see --list-flavors)", arg)
@@ -87,10 +107,19 @@ func main() {
 		fl = chosen
 	}
 
+	// The theme, likewise.
+	if themeRef == "" {
+		themeRef = saved.Theme
+	}
+	look, err := settings.Themes().Load(themeRef)
+	if err != nil {
+		fail("%v", err)
+	}
+
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
-		opts := convert.Options{Flavor: fl}
+		opts := convert.Options{Flavor: fl, Theme: &look}
 		opts.RemoteImages = allowRemoteImages(input, opts, remote)
 		if err := convert.ConvertFileWith(input, output, convert.FormatUnknown, opts); err != nil {
 			fail("%v", err)
@@ -100,7 +129,7 @@ func main() {
 	}
 
 	// Interactive mode.
-	if err := tui.Run(tui.Config{Flavor: fl, Settings: saved, Version: buildVersion()}); err != nil {
+	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Settings: saved, Version: buildVersion()}); err != nil {
 		fail("%v", err)
 	}
 }
@@ -179,6 +208,29 @@ func printable(s string) string {
 	}, s)
 }
 
+func printThemes() {
+	current := settings.Load().Theme
+	if current == "" {
+		current = theme.DefaultName
+	}
+	for _, t := range settings.Themes().List() {
+		mark := " "
+		if t.Name == current {
+			mark = "*"
+		}
+		fmt.Printf("%s %-14s %s\n", mark, t.Name, t.Description)
+	}
+	fmt.Printf("\n* = saved default (change it with F2 in the TUI)\nYour own themes go in %s\n", settings.ThemesDir())
+}
+
+func exportTheme(name string) {
+	set, err := settings.Themes().Load(name)
+	if err != nil {
+		fail("%v", err)
+	}
+	fmt.Print(theme.Export(set))
+}
+
 // buildVersion is the version set at release time, or, for a binary built
 // with "go install module@version", the module version Go recorded.
 func buildVersion() string {
@@ -228,6 +280,10 @@ Options:
   -f, --flavor <name>             Markdown flavor to interpret the input as
                                   (default: the one saved in the TUI settings)
       --list-flavors              List the supported flavors
+  -t, --theme <name|file.toml>    Theme that styles the output (default: the
+                                  one saved in the TUI settings)
+      --list-themes               List the available themes
+      --export-theme [name]       Print a theme as a file to start your own from
       --check-update              Ask GitHub whether a newer release exists
       --remote-images <mode>      Images referenced by URL: ask (default in a
                                   terminal), allow, or deny (default otherwise)

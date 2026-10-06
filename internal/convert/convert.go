@@ -13,6 +13,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/parse"
 	"github.com/hkmt-sw/markout/internal/render"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 // OutputFormat represents the output file format
@@ -86,6 +87,8 @@ type Options struct {
 	// named in the document who opened it, and a document can point at
 	// addresses on the local network. See RemoteImageHosts.
 	RemoteImages bool
+	// Theme is how the output looks; nil means the default theme.
+	Theme *theme.Set
 }
 
 // ConvertFile converts a Markdown file to the specified output format using
@@ -116,7 +119,7 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		return err
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages}
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme}
 
 	// Render to output format
 	switch format {

@@ -47,7 +47,7 @@ func Default() Set {
 			{Size: 12, LineHeight: 16, SpaceBefore: 10, SpaceAfter: 6},
 			{Size: 11, LineHeight: 14, SpaceBefore: 10, SpaceAfter: 6},
 		},
-		Link: Hex("2563EB"),
+		Link: Link{Color: Hex("2563EB")},
 		Code: Code{
 			Color:     Hex("CF222E"),
 			BlockSize: 9, BlockLineHeight: 12, Padding: 8, SpaceAfter: 8,
@@ -59,17 +59,17 @@ func Default() Set {
 			Border: Hex("D1D5DE"), HeaderBackground: Hex("F1F3F9"),
 			RowBackground: White, StripeBackground: Hex("F8F9FC"),
 		},
-		Quote:     Quote{Indent: 20, BarWidth: 3, SpaceAfter: 4, Bar: Hex("B4B4B4"), Italic: true},
-		Rule:      Rule{Width: 1, Space: 12, Color: Hex("B4B4B4")},
-		Alert:     alerts,
-		Box:       box,
-		Diagram:   diagram,
-		Footnote:  Footnote{Size: 9, LineHeight: 14, Rule: Hex("B4B4B4")},
-		Caption:   Caption{Size: 9},
-		Math:      Hex("7C3AED"),
-		Highlight: Hex("FFF082"),
-		Inserted:  Hex("16A34A"),
-		Deleted:   Hex("CF222E"),
+		Quote:    Quote{Indent: 20, BarWidth: 3, SpaceAfter: 4, Bar: Hex("B4B4B4"), Italic: true},
+		Rule:     Rule{Width: 1, Space: 12, Color: Hex("B4B4B4")},
+		Alert:    alerts,
+		Box:      box,
+		Diagram:  diagram,
+		Footnote: Footnote{Size: 9, LineHeight: 14, Rule: Hex("B4B4B4")},
+		Caption:  Caption{Size: 9},
+		Colors: Colors{
+			Math: Hex("7C3AED"), Highlight: Hex("FFF082"),
+			Inserted: Hex("16A34A"), Deleted: Hex("CF222E"),
+		},
 	}
 
 	docx := pdf

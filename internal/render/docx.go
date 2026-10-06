@@ -74,7 +74,15 @@ func (r *DocxRenderer) setupDocument() {
 	if err != nil {
 		return // Ignore error for setup
 	}
-	section.SetPageSize(domain.PageSizeA4)
+	// A4, to the twip, unless the theme asks for another size
+	size := domain.PageSizeA4
+	if page := r.t.Page; page.Width > page.Height || !near(page.Width, 595.28) || !near(page.Height, 841.89) {
+		size = domain.PageSize{Width: twips(page.Width), Height: twips(page.Height)}
+		if page.Width > page.Height {
+			section.SetOrientation(domain.OrientationLandscape)
+		}
+	}
+	section.SetPageSize(size)
 	section.SetMargins(domain.Margins{
 		Top:    twips(r.t.Page.MarginTop),
 		Bottom: twips(r.t.Page.MarginBottom),
@@ -191,13 +199,13 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
 		run.SetSize(halfPoints(r.t.Footnote.Size))
 		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		run.SetColor(docxColor(r.t.Link))
+		run.SetColor(docxColor(r.t.Link.Color))
 		return nil
 	}
 
 	// Handle hyperlinks
 	if astRun.Link != "" {
-		run.SetColor(docxColor(r.t.Link)) // Electric blue for links
+		run.SetColor(docxColor(r.t.Link.Color)) // Electric blue for links
 		run.SetUnderline(domain.UnderlineSingle)
 		run.SetSize(halfPoints(r.t.Text.Size))
 		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
@@ -213,7 +221,7 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 		run.SetSize(halfPoints(r.t.Text.Size))
 		run.SetItalic(true)
 		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		run.SetColor(docxColor(r.t.Math))
+		run.SetColor(docxColor(r.t.Colors.Math))
 		return nil
 	}
 
@@ -276,11 +284,11 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	}
 	if astRun.Inserted {
 		run.SetUnderline(domain.UnderlineSingle)
-		run.SetColor(docxColor(r.t.Inserted))
+		run.SetColor(docxColor(r.t.Colors.Inserted))
 	}
 	if astRun.Deleted {
 		run.SetStrike(true)
-		run.SetColor(docxColor(r.t.Deleted))
+		run.SetColor(docxColor(r.t.Colors.Deleted))
 	}
 
 	return nil
@@ -905,7 +913,7 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 			return err
 		}
 		urlTextRun.SetText(img.URL)
-		urlTextRun.SetColor(docxColor(r.t.Link))
+		urlTextRun.SetColor(docxColor(r.t.Link.Color))
 		urlTextRun.SetUnderline(domain.UnderlineSingle)
 		urlTextRun.SetSize(halfPoints(r.t.Caption.Size))
 		urlTextRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
@@ -1133,7 +1141,7 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 	run.SetItalic(true)
 	run.SetSize(halfPoints(r.t.Text.Size))
 	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
-	run.SetColor(docxColor(r.t.Math))
+	run.SetColor(docxColor(r.t.Colors.Math))
 
 	return nil
 }
@@ -1239,7 +1247,7 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 		run.SetText(item.Title)
 		run.SetSize(halfPoints(r.t.Text.Size))
 		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		run.SetColor(docxColor(r.t.Link))
+		run.SetColor(docxColor(r.t.Link.Color))
 	}
 
 	return nil
@@ -1329,6 +1337,11 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	}
 
 	return nil
+}
+
+// near reports whether two lengths in points are within a point of each other.
+func near(a, b float64) bool {
+	return a-b < 1 && b-a < 1
 }
 
 // twips converts points to twentieths of a point, the unit of DOCX lengths.

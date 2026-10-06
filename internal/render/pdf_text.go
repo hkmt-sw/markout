@@ -48,14 +48,7 @@ type textLine struct {
 	frags []fragment
 }
 
-const (
-	chipWidth = 12.0
-
-	// Ascent of the embedded Liberation Sans and Liberation Mono fonts, as a
-	// fraction of the font size.
-	sansAscent = 0.905
-	monoAscent = 0.833
-)
+const chipWidth = 12.0
 
 // layout breaks runs into lines. The first line may be narrower or wider than
 // the rest (a list item's first line starts after its bullet).
@@ -116,21 +109,21 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 			f.font, f.style, f.size = r.codeFont(), "", base.size-1
 			// Text is placed by the top of its box, and the monospace font
 			// has a lower ascent: move it down onto the shared baseline.
-			f.yShift = sansAscent*base.size - monoAscent*f.size
+			f.yShift = r.family(base.font).ascent*base.size - r.family(f.font).ascent*f.size
 		}
 		switch {
 		case run.Math:
-			f.color = r.t.Math
+			f.color = r.t.Colors.Math
 		case run.Link != "":
-			f.color = r.t.Link
+			f.color = r.t.Link.Color
 		case run.Inserted:
-			f.color = r.t.Inserted
+			f.color = r.t.Colors.Inserted
 		case run.Deleted:
-			f.color = r.t.Deleted
+			f.color = r.t.Colors.Deleted
 		case run.Code:
 			f.color = r.t.Code.Color
 		case run.FootnoteIndex > 0:
-			f.color = r.t.Link
+			f.color = r.t.Link.Color
 		case run.Strikethrough:
 			f.color = r.t.Text.Faint
 		}
@@ -234,7 +227,7 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 			r.fillColor(theme.White)
 		}
 		if f.run.Highlight {
-			r.fillColor(r.t.Highlight)
+			r.fillColor(r.t.Colors.Highlight)
 			r.rect(x, y0-1, f.width, f.size+3, "F")
 			r.fillColor(theme.White)
 		}

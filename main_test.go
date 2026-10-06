@@ -1,8 +1,10 @@
 package main
 
 import (
+	"archive/zip"
 	"bytes"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -187,4 +189,97 @@ func TestCLIUsesSavedFlavor(t *testing.T) {
 	if !strings.Contains(r.stdout, "* gitlab") || strings.Contains(r.stdout, "* markout") {
 		t.Errorf("saved flavor is not the current one:\n%s", r.stdout)
 	}
+}
+
+func TestCLIThemes(t *testing.T) {
+	dir := t.TempDir()
+	writeDoc(t, dir, "doc.md", "# Title\n\ntext\n")
+	// The user's themes live next to the settings file.
+	if err := os.Mkdir(filepath.Join(dir, "themes"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	writeDoc(t, filepath.Join(dir, "themes"), "crimson.toml", "description = \"Red headings\"\n\n[heading]\ncolor = \"#AA0000\"\n")
+
+	r := markout(t, dir, "--list-themes")
+	if r.code != 0 || !strings.Contains(r.stdout, "* default") || !strings.Contains(r.stdout, "crimson") ||
+		!strings.Contains(r.stdout, "Red headings") || !strings.Contains(r.stdout, filepath.Join(dir, "themes")) {
+		t.Errorf("--list-themes: %+v", r)
+	}
+
+	// An exported theme is a complete theme file that loads again.
+	r = markout(t, dir, "--export-theme")
+	if r.code != 0 || !strings.Contains(r.stdout, "[heading.h1]") || !strings.Contains(r.stdout, "[docx.fonts]") {
+		t.Fatalf("--export-theme: exit %d, %d bytes", r.code, len(r.stdout))
+	}
+	writeDoc(t, dir, "exported.toml", r.stdout)
+	if r := markout(t, dir, "--theme", "exported.toml", "doc.md", "exported.pdf"); r.code != 0 {
+		t.Errorf("converting with the exported theme: %+v", r)
+	}
+
+	// By name from the themes directory, and by file path.
+	writeDoc(t, dir, "local.toml", "[heading]\ncolor = \"#00AA00\"\n")
+	for args, color := range map[string]string{"--theme crimson": "AA0000", "-t local.toml": "00AA00", "--theme=./local.toml": "00AA00"} {
+		out := color + strings.ReplaceAll(args, " ", "") + ".docx"
+		out = strings.NewReplacer("/", "", "=", "").Replace(out)
+		r := markout(t, dir, append(strings.Fields(args), "doc.md", out)...)
+		if r.code != 0 {
+			t.Fatalf("%s: %+v", args, r)
+		}
+		if body := docxDocument(t, filepath.Join(dir, out)); !strings.Contains(body, color) {
+			t.Errorf("%s: the theme's heading color %s is not in the output", args, color)
+		}
+	}
+
+	// The saved theme is the default for conversions.
+	writeDoc(t, dir, "config.json", `{"flavor": "markout", "theme": "crimson"}`)
+	if r := markout(t, dir, "doc.md", "saved.docx"); r.code != 0 || !strings.Contains(docxDocument(t, filepath.Join(dir, "saved.docx")), "AA0000") {
+		t.Errorf("the saved theme was not used: %+v", r)
+	}
+	if r := markout(t, dir, "--list-themes"); !strings.Contains(r.stdout, "* crimson") {
+		t.Errorf("the saved theme is not marked as current:\n%s", r.stdout)
+	}
+
+	// Problems are reported, with the setting that is wrong.
+	writeDoc(t, dir, "bad.toml", "[text]\nsizee = 12\n")
+	failures := []struct {
+		args []string
+		want string
+	}{
+		{[]string{"--theme", "nope", "doc.md", "x.pdf"}, `no theme named "nope"`},
+		{[]string{"--theme", "bad.toml", "doc.md", "x.pdf"}, "text.sizee is not a setting"},
+		{[]string{"--export-theme", "nope"}, "no theme named"},
+		{[]string{"--theme"}, "needs a theme name"},
+	}
+	for _, f := range failures {
+		r := markout(t, dir, f.args...)
+		if r.code != 1 || !strings.Contains(r.stderr, f.want) {
+			t.Errorf("%v: exit %d, stderr %q; want exit 1 mentioning %q", f.args, r.code, r.stderr, f.want)
+		}
+	}
+}
+
+// docxDocument returns the main document XML of a DOCX file.
+func docxDocument(t *testing.T, path string) string {
+	t.Helper()
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer zr.Close()
+	for _, f := range zr.File {
+		if f.Name == "word/document.xml" {
+			rc, err := f.Open()
+			if err != nil {
+				t.Fatal(err)
+			}
+			defer rc.Close()
+			data, err := io.ReadAll(rc)
+			if err != nil {
+				t.Fatal(err)
+			}
+			return string(data)
+		}
+	}
+	t.Fatal("word/document.xml not found")
+	return ""
 }
