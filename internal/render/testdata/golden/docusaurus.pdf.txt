@@ -1,22 +1,22 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "Docusaurus"
-p1 text  x=56.7 y=116.7 Arial-Bold/24 "Docusaurus"
-p1 rect  x=56.7 y=156.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=156.7 to x=56.7 y=204.7
-p1 text  x=64.7 y=164.7 Arial-Bold/11 "NOTE"
-p1 text  x=64.7 y=180.7 Arial/11 "Plain"
-p1 text  x=92.2 y=180.7 Arial/11 "admonition."
-p1 rect  x=56.7 y=212.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=212.7 to x=56.7 y=260.7
-p1 text  x=64.7 y=220.7 Arial-Bold/11 "Pro tip"
-p1 text  x=64.7 y=236.7 Arial/11 "With a bracketed"
-p1 text  x=150.2 y=236.7 Arial/11 "title."
-p1 rect  x=56.7 y=268.7 w=481.9 h=48.0 F
-p1 line  x=56.7 y=268.7 to x=56.7 y=316.7
-p1 text  x=64.7 y=276.7 Arial-Bold/11 "Take care"
-p1 text  x=64.7 y=292.7 Arial/11 "With a plain"
-p1 text  x=125.2 y=292.7 Arial/11 "title."
-p1 rect  x=56.7 y=324.7 w=481.9 h=40.0 FD
-p1 text  x=64.7 y=332.7 Courier/9 "console.log(\"hi\");"
-p1 text  x=64.7 y=344.7 Courier/9 " "
+p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "Docusaurus" #1A1A2E
+p1 text  x=56.7 y=116.7 Arial-Bold/24 "Docusaurus" #000000
+p1 rect  x=56.7 y=156.7 w=481.9 h=48.0 fill=#DBEAFE
+p1 line  x=56.7 y=156.7 to x=56.7 y=204.7 #3B82F6/3.0
+p1 text  x=64.7 y=164.7 Arial-Bold/11 "NOTE" #3B82F6
+p1 text  x=64.7 y=180.7 Arial/11 "Plain" #1A1A2E
+p1 text  x=92.2 y=180.7 Arial/11 "admonition." #1A1A2E
+p1 rect  x=56.7 y=212.7 w=481.9 h=48.0 fill=#DCFCE7
+p1 line  x=56.7 y=212.7 to x=56.7 y=260.7 #22C55E/3.0
+p1 text  x=64.7 y=220.7 Arial-Bold/11 "Pro tip" #22C55E
+p1 text  x=64.7 y=236.7 Arial/11 "With a bracketed" #1A1A2E
+p1 text  x=150.2 y=236.7 Arial/11 "title." #1A1A2E
+p1 rect  x=56.7 y=268.7 w=481.9 h=48.0 fill=#FEE2E2
+p1 line  x=56.7 y=268.7 to x=56.7 y=316.7 #EF4444/3.0
+p1 text  x=64.7 y=276.7 Arial-Bold/11 "Take care" #EF4444
+p1 text  x=64.7 y=292.7 Arial/11 "With a plain" #1A1A2E
+p1 text  x=125.2 y=292.7 Arial/11 "title." #1A1A2E
+p1 rect  x=56.7 y=324.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=332.7 Courier/9 "console.log(\"hi\");" #000000
+p1 text  x=64.7 y=344.7 Courier/9 " " #000000

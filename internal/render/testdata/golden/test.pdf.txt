@@ -1,665 +1,665 @@
-p1 text  x=56.7 y=76.7 Arial-Bold/24 "GitHub Flavored Markdown (GFM) - Teljes"
-p1 text  x=56.7 y=104.7 Arial-Bold/24 "Referencia"
-p1 text  x=56.7 y=144.7 Arial/11 "Ez a dokumentum a GFM összes elemét bemutatja"
-p1 text  x=309.6 y=144.7 Arial/11 "példákkal."
-p1 line  x=56.7 y=180.7 to x=538.6 y=180.7
-p1 text  x=56.7 y=210.7 Arial-Bold/20 "1. Fejlécek"
-p1 text  x=163.3 y=210.7 Arial-Bold/20 "(Headings)"
-p1 text  x=56.7 y=264.7 Arial-Bold/24 "H1 - Legnagyobb"
-p1 text  x=257.8 y=264.7 Arial-Bold/24 "fejléc"
-p1 text  x=56.7 y=322.7 Arial-Bold/20 "H2 - Másodlagos"
-p1 text  x=221.0 y=322.7 Arial-Bold/20 "fejléc"
-p1 text  x=56.7 y=370.7 Arial-Bold/16 "H3 - Harmadlagos"
-p1 text  x=197.1 y=370.7 Arial-Bold/16 "fejléc"
-p1 text  x=56.7 y=410.7 Arial-Bold/14 "H4 - Negyedszintű"
-p1 text  x=181.8 y=410.7 Arial-Bold/14 "fejléc"
-p1 text  x=56.7 y=444.7 Arial-Bold/12 "H5 - Ötödszintű"
-p1 text  x=148.6 y=444.7 Arial-Bold/12 "fejléc"
-p1 text  x=56.7 y=476.7 Arial-Bold/11 "H6 - Legkisebb"
-p1 text  x=137.9 y=476.7 Arial-Bold/11 "fejléc"
-p1 text  x=56.7 y=496.7 Arial/11 "Alternatív szintaxis H1 és H2 esetén"
-p1 text  x=233.3 y=496.7 Arial/11 ":"
-p1 text  x=56.7 y=540.7 Arial-Bold/24 "Alternatív"
-p1 text  x=174.0 y=540.7 Arial-Bold/24 "H1"
-p1 text  x=56.7 y=598.7 Arial-Bold/20 "Alternatív"
-p1 text  x=154.4 y=598.7 Arial-Bold/20 "H2"
-p1 line  x=56.7 y=644.7 to x=538.6 y=644.7
-p1 text  x=56.7 y=674.7 Arial-Bold/20 "2. Szövegformázás (Text"
-p1 text  x=295.5 y=674.7 Arial-Bold/20 "Formatting)"
-p1 text  x=56.7 y=708.7 Arial-Bold/11 "Félkövér szöveg"
-p1 text  x=145.3 y=708.7 Arial/11 "vagy"
-p1 text  x=171.5 y=708.7 Arial-Bold/11 "így is félkövér"
-p1 text  x=56.7 y=732.7 Arial-Italic/11 "Dőlt szöveg"
-p1 text  x=117.2 y=732.7 Arial/11 "vagy"
-p1 text  x=143.5 y=732.7 Arial-Italic/11 "így is dőlt"
-p1 text  x=56.7 y=756.7 Arial-BoldItalic/11 "Félkövér és dőlt"
-p1 text  x=143.4 y=756.7 Arial/11 "vagy"
-p1 text  x=169.7 y=756.7 Arial-BoldItalic/11 "így is"
-p2 text  x=56.7 y=56.7 Arial/11 "Áthúzott szöveg"
-p2 line  x=56.7 y=63.1 to x=134.9 y=63.1
-p2 text  x=137.9 y=56.7 Arial/11 "(GFM"
-p2 text  x=169.1 y=56.7 Arial/11 "specifikus)"
-p2 text  x=56.7 y=80.7 Arial/11 "Ez egy"
-p2 text  x=93.3 y=82.3 Courier/10 "inline kód"
-p2 text  x=156.4 y=80.7 Arial/11 "a"
-p2 text  x=165.6 y=80.7 Arial/11 "szövegben."
-p2 line  x=56.7 y=116.7 to x=538.6 y=116.7
-p2 text  x=56.7 y=146.7 Arial-Bold/20 "3. Listák"
-p2 text  x=142.2 y=146.7 Arial-Bold/20 "(Lists)"
-p2 text  x=56.7 y=194.7 Arial-Bold/16 "Felsorolás (Unordered"
-p2 text  x=231.7 y=194.7 Arial-Bold/16 "List)"
-p2 text  x=76.7 y=222.7 Arial/11 "• "
-p2 text  x=83.6 y=222.7 Arial/11 "Első"
-p2 text  x=108.0 y=222.7 Arial/11 "elem"
-p2 text  x=76.7 y=238.7 Arial/11 "• "
-p2 text  x=83.6 y=238.7 Arial/11 "Második"
-p2 text  x=127.6 y=238.7 Arial/11 "elem"
-p2 text  x=96.7 y=254.7 Arial/11 "◦ "
-p2 text  x=103.6 y=254.7 Arial/11 "Beágyazott"
-p2 text  x=161.7 y=254.7 Arial/11 "elem"
-p2 text  x=96.7 y=270.7 Arial/11 "◦ "
-p2 text  x=103.6 y=270.7 Arial/11 "Még egy"
-p2 text  x=148.9 y=270.7 Arial/11 "beágyazott"
-p2 text  x=116.7 y=286.7 Arial/11 "▪ "
-p2 text  x=123.6 y=286.7 Arial/11 "Harmadik"
-p2 text  x=173.7 y=286.7 Arial/11 "szint"
-p2 text  x=76.7 y=302.7 Arial/11 "• "
-p2 text  x=83.6 y=302.7 Arial/11 "Harmadik"
-p2 text  x=133.7 y=302.7 Arial/11 "elem"
-p2 text  x=56.7 y=324.7 Arial/11 "Alternatív jelölők"
-p2 text  x=137.3 y=324.7 Arial/11 ":"
-p2 text  x=76.7 y=348.7 Arial/11 "• "
-p2 text  x=83.6 y=348.7 Arial/11 "Csillaggal"
-p2 text  x=76.7 y=370.7 Arial/11 "• "
-p2 text  x=83.6 y=370.7 Arial/11 "Plusszal"
-p2 text  x=56.7 y=406.7 Arial-Bold/16 "Számozott lista (Ordered"
-p2 text  x=249.4 y=406.7 Arial-Bold/16 "List)"
-p2 text  x=76.7 y=434.7 Arial/11 "1. "
-p2 text  x=88.9 y=434.7 Arial/11 "Első"
-p2 text  x=113.3 y=434.7 Arial/11 "lépés"
-p2 text  x=76.7 y=450.7 Arial/11 "2. "
-p2 text  x=88.9 y=450.7 Arial/11 "Második"
-p2 text  x=132.9 y=450.7 Arial/11 "lépés"
-p2 text  x=96.7 y=466.7 Arial/11 "a. "
-p2 text  x=108.9 y=466.7 Arial/11 "Allépés"
-p2 text  x=148.0 y=466.7 Arial/11 "A"
-p2 text  x=96.7 y=482.7 Arial/11 "b. "
-p2 text  x=108.9 y=482.7 Arial/11 "Allépés"
-p2 text  x=148.0 y=482.7 Arial/11 "B"
-p2 text  x=76.7 y=498.7 Arial/11 "3. "
-p2 text  x=88.9 y=498.7 Arial/11 "Harmadik"
-p2 text  x=139.0 y=498.7 Arial/11 "lépés"
-p2 text  x=56.7 y=520.7 Arial/11 "A számok nem számítanak, automatikusan számozódik"
-p2 text  x=327.4 y=520.7 Arial/11 ":"
-p2 text  x=76.7 y=544.7 Arial/11 "1. "
-p2 text  x=88.9 y=544.7 Arial/11 "Első"
-p2 text  x=76.7 y=560.7 Arial/11 "2. "
-p2 text  x=88.9 y=560.7 Arial/11 "Második"
-p2 text  x=76.7 y=576.7 Arial/11 "3. "
-p2 text  x=88.9 y=576.7 Arial/11 "Harmadik"
-p2 text  x=56.7 y=612.7 Arial-Bold/16 "Feladatlista / Checkbox (Task List) - GFM"
-p2 text  x=372.9 y=612.7 Arial-Bold/16 "specifikus"
-p2 text  x=76.7 y=640.7 Arial/11 "[x] "
-p2 text  x=91.3 y=640.7 Arial/11 "Befejezett"
-p2 text  x=143.3 y=640.7 Arial/11 "feladat"
-p2 text  x=76.7 y=656.7 Arial/11 "[x] "
-p2 text  x=91.3 y=656.7 Arial/11 "Ez is"
-p2 text  x=118.2 y=656.7 Arial/11 "kész"
-p2 text  x=76.7 y=672.7 Arial/11 "[ ] "
-p2 text  x=88.9 y=672.7 Arial/11 "Még nem"
-p2 text  x=137.8 y=672.7 Arial/11 "kész"
-p2 text  x=76.7 y=688.7 Arial/11 "[ ] "
-p2 text  x=88.9 y=688.7 Arial/11 "Ez sincs"
-p2 text  x=132.9 y=688.7 Arial/11 "kész"
-p2 text  x=96.7 y=704.7 Arial/11 "[ ] "
-p2 text  x=108.9 y=704.7 Arial/11 "Beágyazott"
-p2 text  x=166.9 y=704.7 Arial/11 "feladat"
-p2 text  x=96.7 y=720.7 Arial/11 "[x] "
-p2 text  x=111.3 y=720.7 Arial/11 "Beágyazott kész"
-p2 text  x=195.0 y=720.7 Arial/11 "feladat"
-p2 line  x=56.7 y=754.7 to x=538.6 y=754.7
-p3 text  x=56.7 y=56.7 Arial-Bold/20 "4. Linkek"
-p3 text  x=147.7 y=56.7 Arial-Bold/20 "(Links)"
-p3 text  x=56.7 y=104.7 Arial-Bold/16 "Inline"
-p3 text  x=102.8 y=104.7 Arial-Bold/16 "link"
-p3 text  x=56.7 y=132.7 Arial/11 "Látható szöveg"
-p3 text  x=56.7 y=156.7 Arial/11 "Link címmel"
-p3 text  x=56.7 y=194.7 Arial-Bold/16 "Automatikus linkek (Autolinks) - GFM"
-p3 text  x=345.3 y=194.7 Arial-Bold/16 "specifikus"
-p3 text  x=56.7 y=222.7 Arial/11 "Egyszerűen beírt URL:"
-p3 text  x=170.9 y=222.7 Arial/11 "https://github.com"
-p3 text  x=56.7 y=246.7 Arial/11 "Email automatikus link:"
-p3 text  x=172.1 y=246.7 Arial/11 "info@example.com"
-p3 text  x=56.7 y=284.7 Arial-Bold/16 "Referencia stílusú"
-p3 text  x=198.8 y=284.7 Arial-Bold/16 "linkek"
-p3 text  x=56.7 y=312.7 Arial/11 "Ez egy referencia link"
-p3 text  x=56.7 y=336.7 Arial/11 "Ez is referencia"
-p3 text  x=56.7 y=374.7 Arial-Bold/16 "Relatív"
-p3 text  x=113.6 y=374.7 Arial-Bold/16 "linkek"
-p3 text  x=56.7 y=402.7 Arial/11 "Másik fájl"
-p3 text  x=56.7 y=426.7 Arial/11 "Képek mappa"
-p3 line  x=56.7 y=462.7 to x=538.6 y=462.7
-p3 text  x=56.7 y=492.7 Arial-Bold/20 "5. Képek"
-p3 text  x=144.4 y=492.7 Arial-Bold/20 "(Images)"
-p3 text  x=56.7 y=540.7 Arial-Bold/16 "Inline"
-p3 text  x=102.8 y=540.7 Arial-Bold/16 "kép"
-p3 text  x=56.7 y=568.7 Arial-Italic/11 "[IMG] Alt szöveg"
-p3 text  x=56.7 y=584.7 Arial/9 "https://via.placeholder.com/150x100"
-p3 text  x=56.7 y=622.7 Arial-Bold/16 "Referencia stílusú"
-p3 text  x=198.8 y=622.7 Arial-Bold/16 "kép"
-p3 text  x=56.7 y=650.7 Arial-Italic/11 "[IMG] Logo"
-p3 text  x=56.7 y=666.7 Arial/9 "https://via.placeholder.com/200x50"
-p3 text  x=56.7 y=704.7 Arial-Bold/16 "Kép"
-p3 text  x=91.3 y=704.7 Arial-Bold/16 "linkként"
-p3 text  x=56.7 y=732.7 Arial-Italic/11 "[IMG] Kattintható kép"
-p3 text  x=56.7 y=748.7 Arial/9 "https://via.placeholder.com/100x100"
-p4 line  x=56.7 y=56.7 to x=538.6 y=56.7
-p4 text  x=56.7 y=86.7 Arial-Bold/20 "6. Kódblokkok (Code"
-p4 text  x=260.9 y=86.7 Arial-Bold/20 "Blocks)"
-p4 text  x=56.7 y=134.7 Arial-Bold/16 "Inline"
-p4 text  x=102.8 y=134.7 Arial-Bold/16 "kód"
-p4 text  x=56.7 y=162.7 Arial/11 "Használd a"
-p4 text  x=114.8 y=164.3 Courier/10 "console.log()"
-p4 text  x=195.8 y=162.7 Arial/11 "függvényt"
-p4 text  x=246.5 y=162.7 Arial/11 "debugoláshoz."
-p4 text  x=56.7 y=200.7 Arial-Bold/16 "Behúzással (4 szóköz vagy 1"
-p4 text  x=279.7 y=200.7 Arial-Bold/16 "tab)"
-p4 rect  x=56.7 y=228.7 w=481.9 h=64.0 FD
-p4 text  x=64.7 y=236.7 Courier/9 "function hello() {"
-p4 text  x=64.7 y=248.7 Courier/9 "    console.log(\"Hello\");"
-p4 text  x=64.7 y=260.7 Courier/9 "}"
-p4 text  x=64.7 y=272.7 Courier/9 " "
-p4 text  x=56.7 y=314.7 Arial-Bold/16 "Kerített kódblokk (Fenced Code Block) - GFM"
-p4 text  x=404.8 y=314.7 Arial-Bold/16 "specifikus"
-p4 rect  x=56.7 y=342.7 w=481.9 h=52.0 FD
-p4 text  x=64.7 y=350.7 Courier/9 "Nincs nyelvjelölés"
-p4 text  x=64.7 y=362.7 Courier/9 "Egyszerű szöveg"
-p4 text  x=64.7 y=374.7 Courier/9 " "
-p4 text  x=56.7 y=416.7 Arial-Bold/16 "Szintaxis kiemelés"
-p4 text  x=202.4 y=416.7 Arial-Bold/16 "nyelvjelöléssel"
-p4 rect  x=56.7 y=444.7 w=481.9 h=100.0 FD
-p4 text  x=64.7 y=452.7 Courier/9 "function greet(name) {"
-p4 text  x=64.7 y=464.7 Courier/9 "    return `Hello, ${name}!`;"
-p4 text  x=64.7 y=476.7 Courier/9 "}"
-p4 text  x=64.7 y=488.7 Courier/9 " "
-p4 text  x=64.7 y=500.7 Courier/9 "const result = greet(\"Világ\");"
-p4 text  x=64.7 y=512.7 Courier/9 "console.log(result);"
-p4 text  x=64.7 y=524.7 Courier/9 " "
-p4 rect  x=56.7 y=552.7 w=481.9 h=100.0 FD
-p4 text  x=64.7 y=560.7 Courier/9 "def greet(name):"
-p4 text  x=64.7 y=572.7 Courier/9 "    \"\"\"Üdvözlő függvény\"\"\""
-p4 text  x=64.7 y=584.7 Courier/9 "    return f\"Hello, {name}!\""
-p4 text  x=64.7 y=596.7 Courier/9 " "
-p4 text  x=64.7 y=608.7 Courier/9 "if __name__ == \"__main__\":"
-p4 text  x=64.7 y=620.7 Courier/9 "    print(greet(\"Világ\"))"
-p4 text  x=64.7 y=632.7 Courier/9 " "
-p5 rect  x=56.7 y=56.7 w=481.9 h=136.0 FD
-p5 text  x=64.7 y=64.7 Courier/9 "SELECT "
-p5 text  x=64.7 y=76.7 Courier/9 "    u.name,"
-p5 text  x=64.7 y=88.7 Courier/9 "    COUNT(o.id) as order_count"
-p5 text  x=64.7 y=100.7 Courier/9 "FROM users u"
-p5 text  x=64.7 y=112.7 Courier/9 "LEFT JOIN orders o ON u.id = o.user_id"
-p5 text  x=64.7 y=124.7 Courier/9 "WHERE u.created_at > '2024-01-01'"
-p5 text  x=64.7 y=136.7 Courier/9 "GROUP BY u.id"
-p5 text  x=64.7 y=148.7 Courier/9 "HAVING order_count > 5"
-p5 text  x=64.7 y=160.7 Courier/9 "ORDER BY order_count DESC;"
-p5 text  x=64.7 y=172.7 Courier/9 " "
-p5 rect  x=56.7 y=200.7 w=481.9 h=88.0 FD
-p5 text  x=64.7 y=208.7 Courier/9 "#!/bin/bash"
-p5 text  x=64.7 y=220.7 Courier/9 "echo \"Hello World\""
-p5 text  x=64.7 y=232.7 Courier/9 "for i in {1..5}; do"
-p5 text  x=64.7 y=244.7 Courier/9 "    echo \"Iteration $i\""
-p5 text  x=64.7 y=256.7 Courier/9 "done"
-p5 text  x=64.7 y=268.7 Courier/9 " "
-p5 rect  x=56.7 y=296.7 w=481.9 h=112.0 FD
-p5 text  x=64.7 y=304.7 Courier/9 "{"
-p5 text  x=64.7 y=316.7 Courier/9 "  \"name\": \"projekt\","
-p5 text  x=64.7 y=328.7 Courier/9 "  \"version\": \"1.0.0\","
-p5 text  x=64.7 y=340.7 Courier/9 "  \"dependencies\": {"
-p5 text  x=64.7 y=352.7 Courier/9 "    \"docx\": \"^9.0.0\""
-p5 text  x=64.7 y=364.7 Courier/9 "  }"
-p5 text  x=64.7 y=376.7 Courier/9 "}"
-p5 text  x=64.7 y=388.7 Courier/9 " "
-p5 rect  x=56.7 y=416.7 w=481.9 h=76.0 FD
-p5 text  x=64.7 y=424.7 Courier/9 "procedure TForm1.Button1Click(Sender: TObject);"
-p5 text  x=64.7 y=436.7 Courier/9 "begin"
-p5 text  x=64.7 y=448.7 Courier/9 "  ShowMessage('Hello Delphi!');"
-p5 text  x=64.7 y=460.7 Courier/9 "end;"
-p5 text  x=64.7 y=472.7 Courier/9 " "
-p5 line  x=56.7 y=512.7 to x=538.6 y=512.7
-p5 text  x=56.7 y=542.7 Arial-Bold/20 "7. Táblázatok (Tables) - GFM"
-p5 text  x=332.0 y=542.7 Arial-Bold/20 "specifikus"
-p5 text  x=56.7 y=590.7 Arial-Bold/16 "Alapvető"
-p5 text  x=128.6 y=590.7 Arial-Bold/16 "táblázat"
-p5 rect  x=56.7 y=618.7 w=160.6 h=21.0 FD
-p5 rect  x=217.3 y=618.7 w=160.6 h=21.0 FD
-p5 rect  x=378.0 y=618.7 w=160.6 h=21.0 FD
-p5 text  x=60.7 y=622.7 Arial-Bold/11 "Fejléc"
-p5 text  x=94.9 y=622.7 Arial-Bold/11 "1"
-p5 text  x=221.3 y=622.7 Arial-Bold/11 "Fejléc"
-p5 text  x=255.5 y=622.7 Arial-Bold/11 "2"
-p5 text  x=382.0 y=622.7 Arial-Bold/11 "Fejléc"
-p5 text  x=416.2 y=622.7 Arial-Bold/11 "3"
-p5 rect  x=56.7 y=639.7 w=160.6 h=21.0 FD
-p5 rect  x=217.3 y=639.7 w=160.6 h=21.0 FD
-p5 rect  x=378.0 y=639.7 w=160.6 h=21.0 FD
-p5 text  x=60.7 y=643.7 Arial/11 "Cella"
-p5 text  x=88.8 y=643.7 Arial/11 "1"
-p5 text  x=221.3 y=643.7 Arial/11 "Cella"
-p5 text  x=249.4 y=643.7 Arial/11 "2"
-p5 text  x=382.0 y=643.7 Arial/11 "Cella"
-p5 text  x=410.1 y=643.7 Arial/11 "3"
-p5 rect  x=56.7 y=660.7 w=160.6 h=21.0 FD
-p5 rect  x=217.3 y=660.7 w=160.6 h=21.0 FD
-p5 rect  x=378.0 y=660.7 w=160.6 h=21.0 FD
-p5 text  x=60.7 y=664.7 Arial/11 "Cella"
-p5 text  x=88.8 y=664.7 Arial/11 "4"
-p5 text  x=221.3 y=664.7 Arial/11 "Cella"
-p5 text  x=249.4 y=664.7 Arial/11 "5"
-p5 text  x=382.0 y=664.7 Arial/11 "Cella"
-p5 text  x=410.1 y=664.7 Arial/11 "6"
-p5 text  x=56.7 y=703.7 Arial-Bold/16 "Igazítás"
-p5 rect  x=56.7 y=731.7 w=235.4 h=21.0 FD
-p5 rect  x=292.1 y=731.7 w=132.1 h=21.0 FD
-p5 rect  x=424.2 y=731.7 w=114.4 h=21.0 FD
-p5 text  x=60.7 y=735.7 Arial-Bold/11 "Balra"
-p5 text  x=296.1 y=735.7 Arial-Bold/11 "Középre"
-p5 text  x=428.2 y=735.7 Arial-Bold/11 "Jobbra"
-p5 rect  x=56.7 y=752.7 w=235.4 h=21.0 FD
-p5 rect  x=292.1 y=752.7 w=132.1 h=21.0 FD
-p5 rect  x=424.2 y=752.7 w=114.4 h=21.0 FD
-p5 text  x=60.7 y=756.7 Arial/11 "bal"
-p5 text  x=296.1 y=756.7 Arial/11 "közép"
-p5 text  x=428.2 y=756.7 Arial/11 "jobb"
-p6 rect  x=56.7 y=56.7 w=235.4 h=21.0 FD
-p6 rect  x=292.1 y=56.7 w=132.1 h=21.0 FD
-p6 rect  x=424.2 y=56.7 w=114.4 h=21.0 FD
-p6 text  x=60.7 y=60.7 Arial-Bold/11 "Balra"
-p6 text  x=296.1 y=60.7 Arial-Bold/11 "Középre"
-p6 text  x=428.2 y=60.7 Arial-Bold/11 "Jobbra"
-p6 rect  x=56.7 y=77.7 w=235.4 h=21.0 FD
-p6 rect  x=292.1 y=77.7 w=132.1 h=21.0 FD
-p6 rect  x=424.2 y=77.7 w=114.4 h=21.0 FD
-p6 text  x=60.7 y=81.7 Arial/11 "szöveg"
-p6 text  x=296.1 y=81.7 Arial/11 "szöveg"
-p6 text  x=428.2 y=81.7 Arial/11 "123"
-p6 rect  x=56.7 y=98.7 w=235.4 h=21.0 FD
-p6 rect  x=292.1 y=98.7 w=132.1 h=21.0 FD
-p6 rect  x=424.2 y=98.7 w=114.4 h=21.0 FD
-p6 text  x=60.7 y=102.7 Arial/11 "hosszabb"
-p6 text  x=110.8 y=102.7 Arial/11 "szöveg"
-p6 text  x=296.1 y=102.7 Arial/11 "rövid"
-p6 text  x=428.2 y=102.7 Arial/11 "45678"
-p6 text  x=56.7 y=141.7 Arial-Bold/16 "Formázás"
-p6 text  x=135.8 y=141.7 Arial-Bold/16 "táblázatban"
-p6 rect  x=56.7 y=169.7 w=134.3 h=21.0 FD
-p6 rect  x=191.0 y=169.7 w=213.3 h=21.0 FD
-p6 rect  x=404.3 y=169.7 w=134.3 h=21.0 FD
-p6 text  x=60.7 y=173.7 Arial-Bold/11 "Funkció"
-p6 text  x=195.0 y=173.7 Arial-Bold/11 "Szintaxis"
-p6 text  x=408.3 y=173.7 Arial-Bold/11 "Eredmény"
-p6 rect  x=56.7 y=190.7 w=134.3 h=21.0 FD
-p6 rect  x=191.0 y=190.7 w=213.3 h=21.0 FD
-p6 rect  x=404.3 y=190.7 w=134.3 h=21.0 FD
-p6 text  x=60.7 y=194.7 Arial/11 "Félkövér"
-p6 text  x=195.0 y=196.3 Courier/10 "**szöveg**"
-p6 text  x=408.3 y=194.7 Arial-Bold/11 "szöveg"
-p6 rect  x=56.7 y=211.7 w=134.3 h=21.0 FD
-p6 rect  x=191.0 y=211.7 w=213.3 h=21.0 FD
-p6 rect  x=404.3 y=211.7 w=134.3 h=21.0 FD
-p6 text  x=60.7 y=215.7 Arial/11 "Dőlt"
-p6 text  x=195.0 y=217.3 Courier/10 "*szöveg*"
-p6 text  x=408.3 y=215.7 Arial-Italic/11 "szöveg"
-p6 rect  x=56.7 y=232.7 w=134.3 h=21.0 FD
-p6 rect  x=191.0 y=232.7 w=213.3 h=21.0 FD
-p6 rect  x=404.3 y=232.7 w=134.3 h=21.0 FD
-p6 text  x=60.7 y=236.7 Arial/11 "Kód"
-p6 text  x=195.0 y=238.3 Courier/10 "`kód`"
-p6 text  x=408.3 y=238.3 Courier/10 "kód"
-p6 rect  x=56.7 y=253.7 w=134.3 h=21.0 FD
-p6 rect  x=191.0 y=253.7 w=213.3 h=21.0 FD
-p6 rect  x=404.3 y=253.7 w=134.3 h=21.0 FD
-p6 text  x=60.7 y=257.7 Arial/11 "Link"
-p6 text  x=195.0 y=259.3 Courier/10 "[szöveg](url)"
-p6 text  x=408.3 y=257.7 Arial/11 "szöveg"
-p6 line  x=56.7 y=294.7 to x=538.6 y=294.7
-p6 text  x=56.7 y=324.7 Arial-Bold/20 "8. Idézetek"
-p6 text  x=163.3 y=324.7 Arial-Bold/20 "(Blockquotes)"
-p6 text  x=76.7 y=358.7 Arial-Italic/11 "Ez egy"
-p6 text  x=113.3 y=358.7 Arial-Italic/11 "idézet."
-p6 text  x=148.8 y=358.7 Arial-Italic/11 "Több sorban is"
-p6 text  x=224.5 y=358.7 Arial-Italic/11 "folytatható."
-p6 line  x=61.7 y=358.7 to x=61.7 y=374.7
-p6 text  x=76.7 y=378.7 Arial-Italic/11 "Idézet több"
-p6 text  x=134.1 y=378.7 Arial-Italic/11 "bekezdéssel."
-p6 line  x=61.7 y=378.7 to x=61.7 y=394.7
-p6 text  x=76.7 y=398.7 Arial-Italic/11 "Második bekezdés az"
-p6 text  x=185.5 y=398.7 Arial-Italic/11 "idézetben."
-p6 line  x=61.7 y=398.7 to x=61.7 y=414.7
-p6 text  x=76.7 y=418.7 Arial-Italic/11 "Beágyazott idézet"
-p6 text  x=164.1 y=418.7 Arial-Italic/11 ":"
-p6 line  x=61.7 y=418.7 to x=61.7 y=434.7
-p6 text  x=76.7 y=438.7 Arial-Italic/11 "Ez egy beágyazott"
-p6 text  x=170.2 y=438.7 Arial-Italic/11 "idézet."
-p6 text  x=205.6 y=438.7 Arial-Italic/11 "Még egy"
-p6 text  x=250.8 y=438.7 Arial-Italic/11 "sor."
-p6 line  x=61.7 y=438.7 to x=61.7 y=454.7
-p6 text  x=76.7 y=458.7 Arial-Italic/11 "Vissza az első"
-p6 text  x=150.0 y=458.7 Arial-Italic/11 "szintre."
-p6 line  x=61.7 y=458.7 to x=61.7 y=474.7
-p6 text  x=76.7 y=478.7 Arial-BoldItalic/11 "Formázott idézet"
-p6 line  x=61.7 y=478.7 to x=61.7 y=494.7
-p6 text  x=76.7 y=498.7 Arial/11 "• "
-p6 text  x=83.6 y=498.7 Arial/11 "Lista az"
-p6 text  x=124.5 y=498.7 Arial/11 "idézetben"
-p6 text  x=76.7 y=514.7 Arial/11 "• "
-p6 text  x=83.6 y=514.7 Arial/11 "Második"
-p6 text  x=127.6 y=514.7 Arial/11 "elem"
-p6 text  x=76.7 y=538.3 Courier/10 "Kód is lehet benne"
-p6 line  x=61.7 y=536.7 to x=61.7 y=552.7
-p6 line  x=56.7 y=568.7 to x=538.6 y=568.7
-p6 text  x=56.7 y=598.7 Arial-Bold/20 "9. Vízszintes vonal (Horizontal"
-p6 text  x=348.7 y=598.7 Arial-Bold/20 "Rule)"
-p6 text  x=56.7 y=632.7 Arial/11 "Három féle módon"
-p6 text  x=147.1 y=632.7 Arial/11 ":"
-p6 line  x=56.7 y=668.7 to x=538.6 y=668.7
-p6 line  x=56.7 y=692.7 to x=538.6 y=692.7
-p6 line  x=56.7 y=716.7 to x=538.6 y=716.7
-p6 line  x=56.7 y=740.7 to x=538.6 y=740.7
-p7 text  x=56.7 y=56.7 Arial-Bold/20 "10. Escape karakterek"
-p7 text  x=271.2 y=56.7 Arial-Bold/20 "(Escaping)"
-p7 text  x=56.7 y=90.7 Arial/11 "Speciális karakterek megjelenítése backslash-sel"
-p7 text  x=296.2 y=90.7 Arial/11 ":"
-p7 text  x=56.7 y=114.7 Arial/11 "*Ez nem lesz"
-p7 text  x=123.9 y=114.7 Arial/11 "dőlt*"
-p7 text  x=56.7 y=138.7 Arial/11 "# Ez nem lesz"
-p7 text  x=128.8 y=138.7 Arial/11 "fejléc"
-p7 text  x=56.7 y=162.7 Arial/11 "[Ez nem lesz link]"
-p7 text  x=142.2 y=162.7 Arial/11 "(url)"
-p7 text  x=56.7 y=186.7 Arial/11 "Backslash:"
-p7 text  x=112.9 y=186.7 Arial/11 "\\"
-p7 text  x=56.7 y=210.7 Arial/11 "Backtick:"
-p7 text  x=103.7 y=210.7 Arial/11 "`"
-p7 text  x=56.7 y=234.7 Arial/11 "Pipe táblázatban:"
-p7 text  x=144.7 y=234.7 Arial/11 "|"
-p7 line  x=56.7 y=270.7 to x=538.6 y=270.7
-p7 text  x=56.7 y=300.7 Arial-Bold/20 "11. HTML"
-p7 text  x=151.1 y=300.7 Arial-Bold/20 "támogatás"
-p7 text  x=56.7 y=334.7 Arial/11 "GFM támogatja a nyers HTML-t"
-p7 text  x=211.2 y=334.7 Arial/11 ":"
-p7 text  x=56.7 y=358.7 Arial-Bold/11 "Kattints a részletekért (összecsukható)"
-p7 text  x=56.7 y=382.7 Arial/11 "Ez a tartalom rejtve van"
-p7 text  x=175.2 y=382.7 Arial/11 "alapból."
-p7 text  x=76.7 y=406.7 Arial/11 "• "
-p7 text  x=83.6 y=406.7 Arial/11 "Lista a"
-p7 text  x=119.0 y=406.7 Arial/11 "details-ben"
-p7 text  x=76.7 y=422.7 Arial/11 "• "
-p7 text  x=83.6 y=422.7 Arial/11 "Második"
-p7 text  x=127.6 y=422.7 Arial/11 "elem"
-p7 text  x=56.7 y=446.3 Courier/10 "Ctrl"
-p7 text  x=83.7 y=444.7 Arial/11 "+"
-p7 text  x=93.2 y=446.3 Courier/10 "C"
-p7 text  x=102.2 y=444.7 Arial/11 "-"
-p7 text  x=109.0 y=444.7 Arial/11 "másolás"
-p7 text  x=56.7 y=468.7 Arial/11 "H"
-p7 text  x=64.6 y=473.7 Arial/8 "2"
-p7 text  x=69.1 y=468.7 Arial/11 "O - alsó"
-p7 text  x=110.6 y=468.7 Arial/11 "index"
-p7 text  x=56.7 y=492.7 Arial/11 "E = mc"
-p7 text  x=91.2 y=491.7 Arial/8 "2"
-p7 text  x=98.7 y=492.7 Arial/11 "- felső"
-p7 text  x=131.7 y=492.7 Arial/11 "index"
-p7 rect  x=56.7 y=515.7 w=74.5 h=14.0 F
-p7 text  x=56.7 y=516.7 Arial/11 "Kiemelt szöveg"
-p7 text  x=56.7 y=540.7 Arial/11 "Sortörés HTML-lel"
-p7 text  x=148.9 y=540.7 Arial/11 "fent."
-p7 line  x=56.7 y=576.7 to x=538.6 y=576.7
-p7 text  x=56.7 y=606.7 Arial-Bold/20 "12. Lábjegyzetek (Footnotes) - GFM"
-p7 text  x=398.6 y=606.7 Arial-Bold/20 "kiterjesztés"
-p7 text  x=56.7 y=640.7 Arial/11 "Ez egy szöveg lábjegyzettel"
-p7 text  x=192.4 y=640.7 Arial/11 "[1]"
-p7 text  x=204.6 y=640.7 Arial/11 "."
-p7 text  x=56.7 y=664.7 Arial/11 "Még egy lábjegyzet"
-p7 text  x=151.4 y=664.7 Arial/11 "[2]"
-p7 text  x=166.7 y=664.7 Arial/11 "és egy nevesített"
-p7 text  x=249.8 y=664.7 Arial/11 "[3]"
-p7 text  x=262.0 y=664.7 Arial/11 "."
-p7 line  x=56.7 y=700.7 to x=538.6 y=700.7
-p7 text  x=56.7 y=730.7 Arial-Bold/20 "13. Definíciós lista - Egyes"
-p7 text  x=313.2 y=730.7 Arial-Bold/20 "implementációkban"
-p7 text  x=56.7 y=764.7 Arial-Bold/11 "Kifejezés"
-p8 text  x=76.7 y=56.7 Arial/11 "Definíció"
-p8 text  x=122.5 y=56.7 Arial/11 "itt"
-p8 text  x=56.7 y=76.7 Arial-Bold/11 "Másik"
-p8 text  x=90.3 y=76.7 Arial-Bold/11 "kifejezés"
-p8 text  x=76.7 y=92.7 Arial/11 "Első"
-p8 text  x=101.1 y=92.7 Arial/11 "definíció"
-p8 text  x=76.7 y=108.7 Arial/11 "Második"
-p8 text  x=120.7 y=108.7 Arial/11 "definíció"
-p8 line  x=56.7 y=144.7 to x=538.6 y=144.7
-p8 text  x=56.7 y=174.7 Arial-Bold/20 "14. Emoji - GFM"
-p8 text  x=212.1 y=174.7 Arial-Bold/20 "specifikus"
-p8 text  x=56.7 y=256.7 Arial/11 "Unicode emoji is működik:"
-p8 line  x=56.7 y=292.7 to x=538.6 y=292.7
-p8 text  x=56.7 y=322.7 Arial-Bold/20 "15. Megemlítések és hivatkozások - GitHub"
-p8 text  x=56.7 y=346.7 Arial-Bold/20 "specifikus"
-p8 text  x=56.7 y=394.7 Arial-Bold/16 "Felhasználó"
-p8 text  x=152.6 y=394.7 Arial-Bold/16 "megemlítése"
-p8 text  x=56.7 y=422.7 Arial/11 "@username (GitHubon"
-p8 text  x=173.0 y=422.7 Arial/11 "működik)"
-p8 text  x=56.7 y=460.7 Arial-Bold/16 "Issue/PR"
-p8 text  x=128.6 y=460.7 Arial-Bold/16 "hivatkozás"
-p8 text  x=56.7 y=488.7 Arial/11 "#123 (Issue vagy Pull Request"
-p8 text  x=208.8 y=488.7 Arial/11 "száma)"
-p8 text  x=56.7 y=526.7 Arial-Bold/16 "Commit"
-p8 text  x=120.6 y=526.7 Arial-Bold/16 "hivatkozás"
-p8 text  x=56.7 y=554.7 Arial/11 "SHA: a]5c3d2e1f (rövidített commit"
-p8 text  x=230.2 y=554.7 Arial/11 "hash)"
-p8 text  x=56.7 y=592.7 Arial-Bold/16 "Repository"
-p8 text  x=144.6 y=592.7 Arial-Bold/16 "hivatkozás"
-p8 text  x=56.7 y=620.7 Arial/11 "owner/repo#123"
-p8 line  x=56.7 y=656.7 to x=538.6 y=656.7
-p8 text  x=56.7 y=686.7 Arial-Bold/20 "16. Matematikai képletek - GFM"
-p8 text  x=357.7 y=686.7 Arial-Bold/20 "kiterjesztés"
-p8 text  x=56.7 y=720.7 Arial/11 "Inline matek:"
-p8 text  x=122.1 y=720.7 Arial-Italic/11 "E = mc^2"
-p8 text  x=56.7 y=744.7 Arial/11 "Blokk matek"
-p8 text  x=116.6 y=744.7 Arial/11 ":"
-p8 text  x=187.4 y=768.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
-p9 text  x=183.3 y=56.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
-p9 line  x=56.7 y=92.7 to x=538.6 y=92.7
-p9 text  x=56.7 y=122.7 Arial-Bold/20 "17. Mermaid diagramok - GFM"
-p9 text  x=346.5 y=122.7 Arial-Bold/20 "kiterjesztés"
-p9 rect  x=56.7 y=156.7 w=481.9 h=112.0 FD
-p9 text  x=64.7 y=164.7 Arial-Bold/11 "Mermaid Diagram"
-p9 text  x=64.7 y=176.7 Courier/9 "graph TD"
-p9 text  x=64.7 y=188.7 Courier/9 "    A[Start] --> B{Döntés}"
-p9 text  x=64.7 y=200.7 Courier/9 "    B -->|Igen| C[Művelet 1]"
-p9 text  x=64.7 y=212.7 Courier/9 "    B -->|Nem| D[Művelet 2]"
-p9 text  x=64.7 y=224.7 Courier/9 "    C --> E[Vége]"
-p9 text  x=64.7 y=236.7 Courier/9 "    D --> E"
-p9 text  x=64.7 y=248.7 Courier/9 " "
-p9 rect  x=56.7 y=276.7 w=481.9 h=100.0 FD
-p9 text  x=64.7 y=284.7 Arial-Bold/11 "Mermaid Diagram"
-p9 text  x=64.7 y=296.7 Courier/9 "sequenceDiagram"
-p9 text  x=64.7 y=308.7 Courier/9 "    participant K as Kliens"
-p9 text  x=64.7 y=320.7 Courier/9 "    participant S as Szerver"
-p9 text  x=64.7 y=332.7 Courier/9 "    K->>S: Kérés"
-p9 text  x=64.7 y=344.7 Courier/9 "    S-->>K: Válasz"
-p9 text  x=64.7 y=356.7 Courier/9 " "
-p9 line  x=56.7 y=396.7 to x=538.6 y=396.7
-p9 text  x=56.7 y=426.7 Arial-Bold/20 "18. Sortörések (Line"
-p9 text  x=253.2 y=426.7 Arial-Bold/20 "Breaks)"
-p9 text  x=56.7 y=460.7 Arial/11 "Egyszerű sortörés (két szóköz a sor végén)"
-p9 text  x=268.1 y=460.7 Arial/11 ":"
-p9 text  x=271.2 y=460.7 Arial/11 "Ez új sorban"
-p9 text  x=335.3 y=460.7 Arial/11 "van."
-p9 text  x=56.7 y=484.7 Arial/11 "Vagy üres sorral"
-p9 text  x=136.7 y=484.7 Arial/11 ":"
-p9 text  x=56.7 y=508.7 Arial/11 "Ez egy új"
-p9 text  x=104.9 y=508.7 Arial/11 "bekezdés."
-p9 text  x=56.7 y=532.7 Arial/11 "HTML sortörés: első sor"
-p9 text  x=177.0 y=532.7 Arial/11 "második"
-p9 text  x=221.0 y=532.7 Arial/11 "sor"
-p9 line  x=56.7 y=568.7 to x=538.6 y=568.7
-p9 text  x=56.7 y=598.7 Arial-Bold/20 "19. Speciális"
-p9 text  x=182.2 y=598.7 Arial-Bold/20 "linkek"
-p9 text  x=56.7 y=646.7 Arial-Bold/16 "Anchor linkek (dokumentumon"
-p9 text  x=296.5 y=646.7 Arial-Bold/16 "belüli)"
-p9 text  x=56.7 y=674.7 Arial/11 "Ugrás a táblázatokhoz"
-p9 text  x=56.7 y=698.7 Arial/11 "Vissza az elejére"
-p9 text  x=56.7 y=736.7 Arial-Bold/16 "Mailto"
-p9 text  x=107.3 y=736.7 Arial-Bold/16 "link"
-p9 text  x=56.7 y=764.7 Arial/11 "Küldj emailt"
-p10 text  x=56.7 y=56.7 Arial-Bold/16 "Tel"
-p10 text  x=84.2 y=56.7 Arial-Bold/16 "link"
-p10 text  x=56.7 y=84.7 Arial/11 "Hívj fel"
-p10 line  x=56.7 y=120.7 to x=538.6 y=120.7
-p10 text  x=56.7 y=150.7 Arial-Bold/20 "20. Összefoglaló"
-p10 text  x=219.9 y=150.7 Arial-Bold/20 "táblázat"
-p10 rect  x=56.7 y=184.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=184.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=184.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=184.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=188.7 Arial-Bold/11 "Elem"
-p10 text  x=247.4 y=188.7 Arial-Bold/11 "Alap"
-p10 text  x=274.3 y=188.7 Arial-Bold/11 "MD"
-p10 text  x=326.9 y=188.7 Arial-Bold/11 "GFM"
-p10 text  x=383.8 y=188.7 Arial-Bold/11 "Megjegyzés"
-p10 rect  x=56.7 y=205.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=205.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=205.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=205.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=209.7 Arial/11 "Fejlécek"
-p10 text  x=383.8 y=209.7 Arial/11 "H1-H6"
-p10 rect  x=56.7 y=226.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=226.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=226.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=226.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=230.7 Arial/11 "Félkövér/Dőlt"
-p10 text  x=383.8 y=232.3 Courier/10 "**"
-p10 text  x=398.9 y=230.7 Arial/11 "és"
-p10 text  x=413.5 y=232.3 Courier/10 "*"
-p10 rect  x=56.7 y=247.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=247.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=247.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=247.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=251.7 Arial/11 "Áthúzás"
-p10 text  x=383.8 y=253.3 Courier/10 "~~szöveg~~"
-p10 rect  x=56.7 y=268.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=268.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=268.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=268.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=272.7 Arial/11 "Listák"
-p10 text  x=383.8 y=274.3 Courier/10 "-"
-p10 text  x=389.8 y=272.7 Arial/11 ","
-p10 text  x=395.9 y=274.3 Courier/10 "*"
-p10 text  x=401.9 y=272.7 Arial/11 ","
-p10 text  x=408.0 y=274.3 Courier/10 "+"
-p10 text  x=414.0 y=272.7 Arial/11 ","
-p10 text  x=420.1 y=274.3 Courier/10 "1."
-p10 rect  x=56.7 y=289.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=289.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=289.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=289.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=293.7 Arial/11 "Tasklist"
-p10 text  x=383.8 y=295.3 Courier/10 "- [x]"
-p10 rect  x=56.7 y=310.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=310.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=310.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=310.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=314.7 Arial/11 "Linkek"
-p10 text  x=383.8 y=316.3 Courier/10 "[](url)"
-p10 rect  x=56.7 y=331.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=331.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=331.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=331.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=335.7 Arial/11 "Autolink"
-p10 text  x=383.8 y=335.7 Arial/11 "URL"
-p10 text  x=408.9 y=335.7 Arial/11 "automatikus"
-p10 rect  x=56.7 y=352.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=352.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=352.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=352.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=356.7 Arial/11 "Képek"
-p10 text  x=383.8 y=358.3 Courier/10 "![]()"
-p10 rect  x=56.7 y=373.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=373.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=373.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=373.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=377.7 Arial/11 "Kódblokk"
-p10 text  x=383.8 y=377.7 Arial/11 "``` vagy"
-p10 text  x=424.1 y=377.7 Arial/11 "behúzás"
-p10 rect  x=56.7 y=394.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=394.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=394.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=394.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=398.7 Arial/11 "Szintaxis"
-p10 text  x=107.7 y=398.7 Arial/11 "highlight"
-p10 text  x=383.8 y=398.7 Arial/11 "```"
-p10 text  x=394.8 y=398.7 Arial/11 "nyelv"
-p10 rect  x=56.7 y=415.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=415.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=415.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=415.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=419.7 Arial/11 "Táblázatok"
-p10 text  x=383.8 y=419.7 Arial/11 "Pipe"
-p10 text  x=408.9 y=419.7 Arial/11 "szintaxis"
-p10 rect  x=56.7 y=436.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=436.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=436.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=436.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=440.7 Arial/11 "Idézetek"
-p10 text  x=383.8 y=442.3 Courier/10 ">"
-p10 rect  x=56.7 y=457.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=457.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=457.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=457.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=461.7 Arial/11 "HR"
-p10 text  x=79.6 y=461.7 Arial/11 "vonal"
-p10 text  x=383.8 y=463.3 Courier/10 "---"
-p10 rect  x=56.7 y=478.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=478.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=478.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=478.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=482.7 Arial/11 "HTML"
-p10 text  x=383.8 y=482.7 Arial/11 "Részleges"
-p10 rect  x=56.7 y=499.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=499.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=499.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=499.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=503.7 Arial/11 "Lábjegyzet"
-p10 text  x=383.8 y=505.3 Courier/10 "[^1]"
-p10 rect  x=56.7 y=520.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=520.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=520.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=520.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=524.7 Arial/11 "Emoji"
-p10 text  x=383.8 y=526.3 Courier/10 ":emoji:"
-p10 rect  x=56.7 y=541.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=541.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=541.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=541.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=545.7 Arial/11 "Matek"
-p10 text  x=383.8 y=547.3 Courier/10 "$ és $$"
-p10 rect  x=56.7 y=562.7 w=186.7 h=21.0 FD
-p10 rect  x=243.4 y=562.7 w=79.5 h=21.0 FD
-p10 rect  x=322.9 y=562.7 w=56.9 h=21.0 FD
-p10 rect  x=379.8 y=562.7 w=158.8 h=21.0 FD
-p10 text  x=60.7 y=566.7 Arial/11 "Mermaid"
-p10 text  x=383.8 y=566.7 Arial/11 "```"
-p10 text  x=394.8 y=566.7 Arial/11 "mermaid"
-p10 line  x=56.7 y=603.7 to x=538.6 y=603.7
-p10 text  x=56.7 y=615.7 Arial-Italic/11 "Ez a dokumentum a GFM specifikáció alapján készült."
-p10 text  x=323.7 y=615.7 Arial-Italic/11 "Forrás:"
-p10 text  x=361.5 y=615.7 Arial/11 "https://github.github.com/gfm/"
-p10 line  x=56.7 y=659.7 to x=201.3 y=659.7
-p10 text  x=56.7 y=669.7 Arial/9 "1. "
-p10 text  x=66.7 y=669.7 Arial/9 "Ez az első lábjegyzet"
-p10 text  x=153.7 y=669.7 Arial/9 "tartalma."
-p10 text  x=56.7 y=687.7 Arial/9 "2. "
-p10 text  x=66.7 y=687.7 Arial/9 "Ez a második"
-p10 text  x=123.2 y=687.7 Arial/9 "lábjegyzet."
-p10 text  x=56.7 y=705.7 Arial/9 "3. "
-p10 text  x=66.7 y=705.7 Arial/9 "A lábjegyzeteknek lehet beszédes neve"
-p10 text  x=227.2 y=705.7 Arial/9 "is."
+p1 text  x=56.7 y=76.7 Arial-Bold/24 "GitHub Flavored Markdown (GFM) - Teljes" #000000
+p1 text  x=56.7 y=104.7 Arial-Bold/24 "Referencia" #000000
+p1 text  x=56.7 y=144.7 Arial/11 "Ez a dokumentum a GFM összes elemét bemutatja" #1A1A2E
+p1 text  x=309.6 y=144.7 Arial/11 "példákkal." #1A1A2E
+p1 line  x=56.7 y=180.7 to x=538.6 y=180.7 #B4B4B4/1.0
+p1 text  x=56.7 y=210.7 Arial-Bold/20 "1. Fejlécek" #000000
+p1 text  x=163.3 y=210.7 Arial-Bold/20 "(Headings)" #000000
+p1 text  x=56.7 y=264.7 Arial-Bold/24 "H1 - Legnagyobb" #000000
+p1 text  x=257.8 y=264.7 Arial-Bold/24 "fejléc" #000000
+p1 text  x=56.7 y=322.7 Arial-Bold/20 "H2 - Másodlagos" #000000
+p1 text  x=221.0 y=322.7 Arial-Bold/20 "fejléc" #000000
+p1 text  x=56.7 y=370.7 Arial-Bold/16 "H3 - Harmadlagos" #000000
+p1 text  x=197.1 y=370.7 Arial-Bold/16 "fejléc" #000000
+p1 text  x=56.7 y=410.7 Arial-Bold/14 "H4 - Negyedszintű" #000000
+p1 text  x=181.8 y=410.7 Arial-Bold/14 "fejléc" #000000
+p1 text  x=56.7 y=444.7 Arial-Bold/12 "H5 - Ötödszintű" #000000
+p1 text  x=148.6 y=444.7 Arial-Bold/12 "fejléc" #000000
+p1 text  x=56.7 y=476.7 Arial-Bold/11 "H6 - Legkisebb" #000000
+p1 text  x=137.9 y=476.7 Arial-Bold/11 "fejléc" #000000
+p1 text  x=56.7 y=496.7 Arial/11 "Alternatív szintaxis H1 és H2 esetén" #1A1A2E
+p1 text  x=233.3 y=496.7 Arial/11 ":" #1A1A2E
+p1 text  x=56.7 y=540.7 Arial-Bold/24 "Alternatív" #000000
+p1 text  x=174.0 y=540.7 Arial-Bold/24 "H1" #000000
+p1 text  x=56.7 y=598.7 Arial-Bold/20 "Alternatív" #000000
+p1 text  x=154.4 y=598.7 Arial-Bold/20 "H2" #000000
+p1 line  x=56.7 y=644.7 to x=538.6 y=644.7 #B4B4B4/1.0
+p1 text  x=56.7 y=674.7 Arial-Bold/20 "2. Szövegformázás (Text" #000000
+p1 text  x=295.5 y=674.7 Arial-Bold/20 "Formatting)" #000000
+p1 text  x=56.7 y=708.7 Arial-Bold/11 "Félkövér szöveg" #1A1A2E
+p1 text  x=145.3 y=708.7 Arial/11 "vagy" #1A1A2E
+p1 text  x=171.5 y=708.7 Arial-Bold/11 "így is félkövér" #1A1A2E
+p1 text  x=56.7 y=732.7 Arial-Italic/11 "Dőlt szöveg" #1A1A2E
+p1 text  x=117.2 y=732.7 Arial/11 "vagy" #1A1A2E
+p1 text  x=143.5 y=732.7 Arial-Italic/11 "így is dőlt" #1A1A2E
+p1 text  x=56.7 y=756.7 Arial-BoldItalic/11 "Félkövér és dőlt" #1A1A2E
+p1 text  x=143.4 y=756.7 Arial/11 "vagy" #1A1A2E
+p1 text  x=169.7 y=756.7 Arial-BoldItalic/11 "így is" #1A1A2E
+p2 text  x=56.7 y=56.7 Arial/11 "Áthúzott szöveg" #8888A0
+p2 line  x=56.7 y=63.1 to x=134.9 y=63.1 #8888A0/0.6
+p2 text  x=137.9 y=56.7 Arial/11 "(GFM" #1A1A2E
+p2 text  x=169.1 y=56.7 Arial/11 "specifikus)" #1A1A2E
+p2 text  x=56.7 y=80.7 Arial/11 "Ez egy" #1A1A2E
+p2 text  x=93.3 y=82.3 Courier/10 "inline kód" #CF222E
+p2 text  x=156.4 y=80.7 Arial/11 "a" #1A1A2E
+p2 text  x=165.6 y=80.7 Arial/11 "szövegben." #1A1A2E
+p2 line  x=56.7 y=116.7 to x=538.6 y=116.7 #B4B4B4/1.0
+p2 text  x=56.7 y=146.7 Arial-Bold/20 "3. Listák" #000000
+p2 text  x=142.2 y=146.7 Arial-Bold/20 "(Lists)" #000000
+p2 text  x=56.7 y=194.7 Arial-Bold/16 "Felsorolás (Unordered" #000000
+p2 text  x=231.7 y=194.7 Arial-Bold/16 "List)" #000000
+p2 text  x=76.7 y=222.7 Arial/11 "• " #000000
+p2 text  x=83.6 y=222.7 Arial/11 "Első" #000000
+p2 text  x=108.0 y=222.7 Arial/11 "elem" #000000
+p2 text  x=76.7 y=238.7 Arial/11 "• " #000000
+p2 text  x=83.6 y=238.7 Arial/11 "Második" #000000
+p2 text  x=127.6 y=238.7 Arial/11 "elem" #000000
+p2 text  x=96.7 y=254.7 Arial/11 "◦ " #000000
+p2 text  x=103.6 y=254.7 Arial/11 "Beágyazott" #000000
+p2 text  x=161.7 y=254.7 Arial/11 "elem" #000000
+p2 text  x=96.7 y=270.7 Arial/11 "◦ " #000000
+p2 text  x=103.6 y=270.7 Arial/11 "Még egy" #000000
+p2 text  x=148.9 y=270.7 Arial/11 "beágyazott" #000000
+p2 text  x=116.7 y=286.7 Arial/11 "▪ " #000000
+p2 text  x=123.6 y=286.7 Arial/11 "Harmadik" #000000
+p2 text  x=173.7 y=286.7 Arial/11 "szint" #000000
+p2 text  x=76.7 y=302.7 Arial/11 "• " #000000
+p2 text  x=83.6 y=302.7 Arial/11 "Harmadik" #000000
+p2 text  x=133.7 y=302.7 Arial/11 "elem" #000000
+p2 text  x=56.7 y=324.7 Arial/11 "Alternatív jelölők" #1A1A2E
+p2 text  x=137.3 y=324.7 Arial/11 ":" #1A1A2E
+p2 text  x=76.7 y=348.7 Arial/11 "• " #000000
+p2 text  x=83.6 y=348.7 Arial/11 "Csillaggal" #000000
+p2 text  x=76.7 y=370.7 Arial/11 "• " #000000
+p2 text  x=83.6 y=370.7 Arial/11 "Plusszal" #000000
+p2 text  x=56.7 y=406.7 Arial-Bold/16 "Számozott lista (Ordered" #000000
+p2 text  x=249.4 y=406.7 Arial-Bold/16 "List)" #000000
+p2 text  x=76.7 y=434.7 Arial/11 "1. " #000000
+p2 text  x=88.9 y=434.7 Arial/11 "Első" #000000
+p2 text  x=113.3 y=434.7 Arial/11 "lépés" #000000
+p2 text  x=76.7 y=450.7 Arial/11 "2. " #000000
+p2 text  x=88.9 y=450.7 Arial/11 "Második" #000000
+p2 text  x=132.9 y=450.7 Arial/11 "lépés" #000000
+p2 text  x=96.7 y=466.7 Arial/11 "a. " #000000
+p2 text  x=108.9 y=466.7 Arial/11 "Allépés" #000000
+p2 text  x=148.0 y=466.7 Arial/11 "A" #000000
+p2 text  x=96.7 y=482.7 Arial/11 "b. " #000000
+p2 text  x=108.9 y=482.7 Arial/11 "Allépés" #000000
+p2 text  x=148.0 y=482.7 Arial/11 "B" #000000
+p2 text  x=76.7 y=498.7 Arial/11 "3. " #000000
+p2 text  x=88.9 y=498.7 Arial/11 "Harmadik" #000000
+p2 text  x=139.0 y=498.7 Arial/11 "lépés" #000000
+p2 text  x=56.7 y=520.7 Arial/11 "A számok nem számítanak, automatikusan számozódik" #1A1A2E
+p2 text  x=327.4 y=520.7 Arial/11 ":" #1A1A2E
+p2 text  x=76.7 y=544.7 Arial/11 "1. " #000000
+p2 text  x=88.9 y=544.7 Arial/11 "Első" #000000
+p2 text  x=76.7 y=560.7 Arial/11 "2. " #000000
+p2 text  x=88.9 y=560.7 Arial/11 "Második" #000000
+p2 text  x=76.7 y=576.7 Arial/11 "3. " #000000
+p2 text  x=88.9 y=576.7 Arial/11 "Harmadik" #000000
+p2 text  x=56.7 y=612.7 Arial-Bold/16 "Feladatlista / Checkbox (Task List) - GFM" #000000
+p2 text  x=372.9 y=612.7 Arial-Bold/16 "specifikus" #000000
+p2 text  x=76.7 y=640.7 Arial/11 "[x] " #000000
+p2 text  x=91.3 y=640.7 Arial/11 "Befejezett" #000000
+p2 text  x=143.3 y=640.7 Arial/11 "feladat" #000000
+p2 text  x=76.7 y=656.7 Arial/11 "[x] " #000000
+p2 text  x=91.3 y=656.7 Arial/11 "Ez is" #000000
+p2 text  x=118.2 y=656.7 Arial/11 "kész" #000000
+p2 text  x=76.7 y=672.7 Arial/11 "[ ] " #000000
+p2 text  x=88.9 y=672.7 Arial/11 "Még nem" #000000
+p2 text  x=137.8 y=672.7 Arial/11 "kész" #000000
+p2 text  x=76.7 y=688.7 Arial/11 "[ ] " #000000
+p2 text  x=88.9 y=688.7 Arial/11 "Ez sincs" #000000
+p2 text  x=132.9 y=688.7 Arial/11 "kész" #000000
+p2 text  x=96.7 y=704.7 Arial/11 "[ ] " #000000
+p2 text  x=108.9 y=704.7 Arial/11 "Beágyazott" #000000
+p2 text  x=166.9 y=704.7 Arial/11 "feladat" #000000
+p2 text  x=96.7 y=720.7 Arial/11 "[x] " #000000
+p2 text  x=111.3 y=720.7 Arial/11 "Beágyazott kész" #000000
+p2 text  x=195.0 y=720.7 Arial/11 "feladat" #000000
+p2 line  x=56.7 y=754.7 to x=538.6 y=754.7 #B4B4B4/1.0
+p3 text  x=56.7 y=56.7 Arial-Bold/20 "4. Linkek" #000000
+p3 text  x=147.7 y=56.7 Arial-Bold/20 "(Links)" #000000
+p3 text  x=56.7 y=104.7 Arial-Bold/16 "Inline" #000000
+p3 text  x=102.8 y=104.7 Arial-Bold/16 "link" #000000
+p3 text  x=56.7 y=132.7 Arial/11 "Látható szöveg" #2563EB
+p3 text  x=56.7 y=156.7 Arial/11 "Link címmel" #2563EB
+p3 text  x=56.7 y=194.7 Arial-Bold/16 "Automatikus linkek (Autolinks) - GFM" #000000
+p3 text  x=345.3 y=194.7 Arial-Bold/16 "specifikus" #000000
+p3 text  x=56.7 y=222.7 Arial/11 "Egyszerűen beírt URL:" #1A1A2E
+p3 text  x=170.9 y=222.7 Arial/11 "https://github.com" #2563EB
+p3 text  x=56.7 y=246.7 Arial/11 "Email automatikus link:" #1A1A2E
+p3 text  x=172.1 y=246.7 Arial/11 "info@example.com" #2563EB
+p3 text  x=56.7 y=284.7 Arial-Bold/16 "Referencia stílusú" #000000
+p3 text  x=198.8 y=284.7 Arial-Bold/16 "linkek" #000000
+p3 text  x=56.7 y=312.7 Arial/11 "Ez egy referencia link" #2563EB
+p3 text  x=56.7 y=336.7 Arial/11 "Ez is referencia" #2563EB
+p3 text  x=56.7 y=374.7 Arial-Bold/16 "Relatív" #000000
+p3 text  x=113.6 y=374.7 Arial-Bold/16 "linkek" #000000
+p3 text  x=56.7 y=402.7 Arial/11 "Másik fájl" #2563EB
+p3 text  x=56.7 y=426.7 Arial/11 "Képek mappa" #2563EB
+p3 line  x=56.7 y=462.7 to x=538.6 y=462.7 #B4B4B4/1.0
+p3 text  x=56.7 y=492.7 Arial-Bold/20 "5. Képek" #000000
+p3 text  x=144.4 y=492.7 Arial-Bold/20 "(Images)" #000000
+p3 text  x=56.7 y=540.7 Arial-Bold/16 "Inline" #000000
+p3 text  x=102.8 y=540.7 Arial-Bold/16 "kép" #000000
+p3 text  x=56.7 y=568.7 Arial-Italic/11 "[IMG] Alt szöveg" #4A4A68
+p3 text  x=56.7 y=584.7 Arial/9 "https://via.placeholder.com/150x100" #2563EB
+p3 text  x=56.7 y=622.7 Arial-Bold/16 "Referencia stílusú" #000000
+p3 text  x=198.8 y=622.7 Arial-Bold/16 "kép" #000000
+p3 text  x=56.7 y=650.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
+p3 text  x=56.7 y=666.7 Arial/9 "https://via.placeholder.com/200x50" #2563EB
+p3 text  x=56.7 y=704.7 Arial-Bold/16 "Kép" #000000
+p3 text  x=91.3 y=704.7 Arial-Bold/16 "linkként" #000000
+p3 text  x=56.7 y=732.7 Arial-Italic/11 "[IMG] Kattintható kép" #4A4A68
+p3 text  x=56.7 y=748.7 Arial/9 "https://via.placeholder.com/100x100" #2563EB
+p4 line  x=56.7 y=56.7 to x=538.6 y=56.7 #B4B4B4/1.0
+p4 text  x=56.7 y=86.7 Arial-Bold/20 "6. Kódblokkok (Code" #000000
+p4 text  x=260.9 y=86.7 Arial-Bold/20 "Blocks)" #000000
+p4 text  x=56.7 y=134.7 Arial-Bold/16 "Inline" #000000
+p4 text  x=102.8 y=134.7 Arial-Bold/16 "kód" #000000
+p4 text  x=56.7 y=162.7 Arial/11 "Használd a" #1A1A2E
+p4 text  x=114.8 y=164.3 Courier/10 "console.log()" #CF222E
+p4 text  x=195.8 y=162.7 Arial/11 "függvényt" #1A1A2E
+p4 text  x=246.5 y=162.7 Arial/11 "debugoláshoz." #1A1A2E
+p4 text  x=56.7 y=200.7 Arial-Bold/16 "Behúzással (4 szóköz vagy 1" #000000
+p4 text  x=279.7 y=200.7 Arial-Bold/16 "tab)" #000000
+p4 rect  x=56.7 y=228.7 w=481.9 h=64.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p4 text  x=64.7 y=236.7 Courier/9 "function hello() {" #000000
+p4 text  x=64.7 y=248.7 Courier/9 "    console.log(\"Hello\");" #000000
+p4 text  x=64.7 y=260.7 Courier/9 "}" #000000
+p4 text  x=64.7 y=272.7 Courier/9 " " #000000
+p4 text  x=56.7 y=314.7 Arial-Bold/16 "Kerített kódblokk (Fenced Code Block) - GFM" #000000
+p4 text  x=404.8 y=314.7 Arial-Bold/16 "specifikus" #000000
+p4 rect  x=56.7 y=342.7 w=481.9 h=52.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p4 text  x=64.7 y=350.7 Courier/9 "Nincs nyelvjelölés" #000000
+p4 text  x=64.7 y=362.7 Courier/9 "Egyszerű szöveg" #000000
+p4 text  x=64.7 y=374.7 Courier/9 " " #000000
+p4 text  x=56.7 y=416.7 Arial-Bold/16 "Szintaxis kiemelés" #000000
+p4 text  x=202.4 y=416.7 Arial-Bold/16 "nyelvjelöléssel" #000000
+p4 rect  x=56.7 y=444.7 w=481.9 h=100.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p4 text  x=64.7 y=452.7 Courier/9 "function greet(name) {" #000000
+p4 text  x=64.7 y=464.7 Courier/9 "    return `Hello, ${name}!`;" #000000
+p4 text  x=64.7 y=476.7 Courier/9 "}" #000000
+p4 text  x=64.7 y=488.7 Courier/9 " " #000000
+p4 text  x=64.7 y=500.7 Courier/9 "const result = greet(\"Világ\");" #000000
+p4 text  x=64.7 y=512.7 Courier/9 "console.log(result);" #000000
+p4 text  x=64.7 y=524.7 Courier/9 " " #000000
+p4 rect  x=56.7 y=552.7 w=481.9 h=100.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p4 text  x=64.7 y=560.7 Courier/9 "def greet(name):" #000000
+p4 text  x=64.7 y=572.7 Courier/9 "    \"\"\"Üdvözlő függvény\"\"\"" #000000
+p4 text  x=64.7 y=584.7 Courier/9 "    return f\"Hello, {name}!\"" #000000
+p4 text  x=64.7 y=596.7 Courier/9 " " #000000
+p4 text  x=64.7 y=608.7 Courier/9 "if __name__ == \"__main__\":" #000000
+p4 text  x=64.7 y=620.7 Courier/9 "    print(greet(\"Világ\"))" #000000
+p4 text  x=64.7 y=632.7 Courier/9 " " #000000
+p5 rect  x=56.7 y=56.7 w=481.9 h=136.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p5 text  x=64.7 y=64.7 Courier/9 "SELECT " #000000
+p5 text  x=64.7 y=76.7 Courier/9 "    u.name," #000000
+p5 text  x=64.7 y=88.7 Courier/9 "    COUNT(o.id) as order_count" #000000
+p5 text  x=64.7 y=100.7 Courier/9 "FROM users u" #000000
+p5 text  x=64.7 y=112.7 Courier/9 "LEFT JOIN orders o ON u.id = o.user_id" #000000
+p5 text  x=64.7 y=124.7 Courier/9 "WHERE u.created_at > '2024-01-01'" #000000
+p5 text  x=64.7 y=136.7 Courier/9 "GROUP BY u.id" #000000
+p5 text  x=64.7 y=148.7 Courier/9 "HAVING order_count > 5" #000000
+p5 text  x=64.7 y=160.7 Courier/9 "ORDER BY order_count DESC;" #000000
+p5 text  x=64.7 y=172.7 Courier/9 " " #000000
+p5 rect  x=56.7 y=200.7 w=481.9 h=88.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p5 text  x=64.7 y=208.7 Courier/9 "#!/bin/bash" #000000
+p5 text  x=64.7 y=220.7 Courier/9 "echo \"Hello World\"" #000000
+p5 text  x=64.7 y=232.7 Courier/9 "for i in {1..5}; do" #000000
+p5 text  x=64.7 y=244.7 Courier/9 "    echo \"Iteration $i\"" #000000
+p5 text  x=64.7 y=256.7 Courier/9 "done" #000000
+p5 text  x=64.7 y=268.7 Courier/9 " " #000000
+p5 rect  x=56.7 y=296.7 w=481.9 h=112.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p5 text  x=64.7 y=304.7 Courier/9 "{" #000000
+p5 text  x=64.7 y=316.7 Courier/9 "  \"name\": \"projekt\"," #000000
+p5 text  x=64.7 y=328.7 Courier/9 "  \"version\": \"1.0.0\"," #000000
+p5 text  x=64.7 y=340.7 Courier/9 "  \"dependencies\": {" #000000
+p5 text  x=64.7 y=352.7 Courier/9 "    \"docx\": \"^9.0.0\"" #000000
+p5 text  x=64.7 y=364.7 Courier/9 "  }" #000000
+p5 text  x=64.7 y=376.7 Courier/9 "}" #000000
+p5 text  x=64.7 y=388.7 Courier/9 " " #000000
+p5 rect  x=56.7 y=416.7 w=481.9 h=76.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p5 text  x=64.7 y=424.7 Courier/9 "procedure TForm1.Button1Click(Sender: TObject);" #000000
+p5 text  x=64.7 y=436.7 Courier/9 "begin" #000000
+p5 text  x=64.7 y=448.7 Courier/9 "  ShowMessage('Hello Delphi!');" #000000
+p5 text  x=64.7 y=460.7 Courier/9 "end;" #000000
+p5 text  x=64.7 y=472.7 Courier/9 " " #000000
+p5 line  x=56.7 y=512.7 to x=538.6 y=512.7 #B4B4B4/1.0
+p5 text  x=56.7 y=542.7 Arial-Bold/20 "7. Táblázatok (Tables) - GFM" #000000
+p5 text  x=332.0 y=542.7 Arial-Bold/20 "specifikus" #000000
+p5 text  x=56.7 y=590.7 Arial-Bold/16 "Alapvető" #000000
+p5 text  x=128.6 y=590.7 Arial-Bold/16 "táblázat" #000000
+p5 rect  x=56.7 y=618.7 w=160.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 rect  x=217.3 y=618.7 w=160.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 rect  x=378.0 y=618.7 w=160.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 text  x=60.7 y=622.7 Arial-Bold/11 "Fejléc" #1A1A2E
+p5 text  x=94.9 y=622.7 Arial-Bold/11 "1" #1A1A2E
+p5 text  x=221.3 y=622.7 Arial-Bold/11 "Fejléc" #1A1A2E
+p5 text  x=255.5 y=622.7 Arial-Bold/11 "2" #1A1A2E
+p5 text  x=382.0 y=622.7 Arial-Bold/11 "Fejléc" #1A1A2E
+p5 text  x=416.2 y=622.7 Arial-Bold/11 "3" #1A1A2E
+p5 rect  x=56.7 y=639.7 w=160.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 rect  x=217.3 y=639.7 w=160.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 rect  x=378.0 y=639.7 w=160.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 text  x=60.7 y=643.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=88.8 y=643.7 Arial/11 "1" #1A1A2E
+p5 text  x=221.3 y=643.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=249.4 y=643.7 Arial/11 "2" #1A1A2E
+p5 text  x=382.0 y=643.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=410.1 y=643.7 Arial/11 "3" #1A1A2E
+p5 rect  x=56.7 y=660.7 w=160.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p5 rect  x=217.3 y=660.7 w=160.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p5 rect  x=378.0 y=660.7 w=160.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p5 text  x=60.7 y=664.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=88.8 y=664.7 Arial/11 "4" #1A1A2E
+p5 text  x=221.3 y=664.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=249.4 y=664.7 Arial/11 "5" #1A1A2E
+p5 text  x=382.0 y=664.7 Arial/11 "Cella" #1A1A2E
+p5 text  x=410.1 y=664.7 Arial/11 "6" #1A1A2E
+p5 text  x=56.7 y=703.7 Arial-Bold/16 "Igazítás" #000000
+p5 rect  x=56.7 y=731.7 w=235.4 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 rect  x=292.1 y=731.7 w=132.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 rect  x=424.2 y=731.7 w=114.4 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p5 text  x=60.7 y=735.7 Arial-Bold/11 "Balra" #1A1A2E
+p5 text  x=296.1 y=735.7 Arial-Bold/11 "Középre" #1A1A2E
+p5 text  x=428.2 y=735.7 Arial-Bold/11 "Jobbra" #1A1A2E
+p5 rect  x=56.7 y=752.7 w=235.4 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 rect  x=292.1 y=752.7 w=132.1 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 rect  x=424.2 y=752.7 w=114.4 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p5 text  x=60.7 y=756.7 Arial/11 "bal" #1A1A2E
+p5 text  x=296.1 y=756.7 Arial/11 "közép" #1A1A2E
+p5 text  x=428.2 y=756.7 Arial/11 "jobb" #1A1A2E
+p6 rect  x=56.7 y=56.7 w=235.4 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 rect  x=292.1 y=56.7 w=132.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 rect  x=424.2 y=56.7 w=114.4 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=60.7 Arial-Bold/11 "Balra" #1A1A2E
+p6 text  x=296.1 y=60.7 Arial-Bold/11 "Középre" #1A1A2E
+p6 text  x=428.2 y=60.7 Arial-Bold/11 "Jobbra" #1A1A2E
+p6 rect  x=56.7 y=77.7 w=235.4 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=292.1 y=77.7 w=132.1 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=424.2 y=77.7 w=114.4 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=81.7 Arial/11 "szöveg" #1A1A2E
+p6 text  x=296.1 y=81.7 Arial/11 "szöveg" #1A1A2E
+p6 text  x=428.2 y=81.7 Arial/11 "123" #1A1A2E
+p6 rect  x=56.7 y=98.7 w=235.4 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=292.1 y=98.7 w=132.1 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=424.2 y=98.7 w=114.4 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=102.7 Arial/11 "hosszabb" #1A1A2E
+p6 text  x=110.8 y=102.7 Arial/11 "szöveg" #1A1A2E
+p6 text  x=296.1 y=102.7 Arial/11 "rövid" #1A1A2E
+p6 text  x=428.2 y=102.7 Arial/11 "45678" #1A1A2E
+p6 text  x=56.7 y=141.7 Arial-Bold/16 "Formázás" #000000
+p6 text  x=135.8 y=141.7 Arial-Bold/16 "táblázatban" #000000
+p6 rect  x=56.7 y=169.7 w=134.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 rect  x=191.0 y=169.7 w=213.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 rect  x=404.3 y=169.7 w=134.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=173.7 Arial-Bold/11 "Funkció" #1A1A2E
+p6 text  x=195.0 y=173.7 Arial-Bold/11 "Szintaxis" #1A1A2E
+p6 text  x=408.3 y=173.7 Arial-Bold/11 "Eredmény" #1A1A2E
+p6 rect  x=56.7 y=190.7 w=134.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=191.0 y=190.7 w=213.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=404.3 y=190.7 w=134.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=194.7 Arial/11 "Félkövér" #1A1A2E
+p6 text  x=195.0 y=196.3 Courier/10 "**szöveg**" #CF222E
+p6 text  x=408.3 y=194.7 Arial-Bold/11 "szöveg" #1A1A2E
+p6 rect  x=56.7 y=211.7 w=134.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=191.0 y=211.7 w=213.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=404.3 y=211.7 w=134.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=215.7 Arial/11 "Dőlt" #1A1A2E
+p6 text  x=195.0 y=217.3 Courier/10 "*szöveg*" #CF222E
+p6 text  x=408.3 y=215.7 Arial-Italic/11 "szöveg" #1A1A2E
+p6 rect  x=56.7 y=232.7 w=134.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=191.0 y=232.7 w=213.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 rect  x=404.3 y=232.7 w=134.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=236.7 Arial/11 "Kód" #1A1A2E
+p6 text  x=195.0 y=238.3 Courier/10 "`kód`" #CF222E
+p6 text  x=408.3 y=238.3 Courier/10 "kód" #CF222E
+p6 rect  x=56.7 y=253.7 w=134.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=191.0 y=253.7 w=213.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 rect  x=404.3 y=253.7 w=134.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p6 text  x=60.7 y=257.7 Arial/11 "Link" #1A1A2E
+p6 text  x=195.0 y=259.3 Courier/10 "[szöveg](url)" #CF222E
+p6 text  x=408.3 y=257.7 Arial/11 "szöveg" #2563EB
+p6 line  x=56.7 y=294.7 to x=538.6 y=294.7 #B4B4B4/1.0
+p6 text  x=56.7 y=324.7 Arial-Bold/20 "8. Idézetek" #000000
+p6 text  x=163.3 y=324.7 Arial-Bold/20 "(Blockquotes)" #000000
+p6 text  x=76.7 y=358.7 Arial-Italic/11 "Ez egy" #000000
+p6 text  x=113.3 y=358.7 Arial-Italic/11 "idézet." #000000
+p6 text  x=148.8 y=358.7 Arial-Italic/11 "Több sorban is" #000000
+p6 text  x=224.5 y=358.7 Arial-Italic/11 "folytatható." #000000
+p6 line  x=61.7 y=358.7 to x=61.7 y=374.7 #B4B4B4/3.0
+p6 text  x=76.7 y=378.7 Arial-Italic/11 "Idézet több" #000000
+p6 text  x=134.1 y=378.7 Arial-Italic/11 "bekezdéssel." #000000
+p6 line  x=61.7 y=378.7 to x=61.7 y=394.7 #B4B4B4/3.0
+p6 text  x=76.7 y=398.7 Arial-Italic/11 "Második bekezdés az" #000000
+p6 text  x=185.5 y=398.7 Arial-Italic/11 "idézetben." #000000
+p6 line  x=61.7 y=398.7 to x=61.7 y=414.7 #B4B4B4/3.0
+p6 text  x=76.7 y=418.7 Arial-Italic/11 "Beágyazott idézet" #000000
+p6 text  x=164.1 y=418.7 Arial-Italic/11 ":" #000000
+p6 line  x=61.7 y=418.7 to x=61.7 y=434.7 #B4B4B4/3.0
+p6 text  x=76.7 y=438.7 Arial-Italic/11 "Ez egy beágyazott" #000000
+p6 text  x=170.2 y=438.7 Arial-Italic/11 "idézet." #000000
+p6 text  x=205.6 y=438.7 Arial-Italic/11 "Még egy" #000000
+p6 text  x=250.8 y=438.7 Arial-Italic/11 "sor." #000000
+p6 line  x=61.7 y=438.7 to x=61.7 y=454.7 #B4B4B4/3.0
+p6 text  x=76.7 y=458.7 Arial-Italic/11 "Vissza az első" #000000
+p6 text  x=150.0 y=458.7 Arial-Italic/11 "szintre." #000000
+p6 line  x=61.7 y=458.7 to x=61.7 y=474.7 #B4B4B4/3.0
+p6 text  x=76.7 y=478.7 Arial-BoldItalic/11 "Formázott idézet" #000000
+p6 line  x=61.7 y=478.7 to x=61.7 y=494.7 #B4B4B4/3.0
+p6 text  x=76.7 y=498.7 Arial/11 "• " #000000
+p6 text  x=83.6 y=498.7 Arial/11 "Lista az" #000000
+p6 text  x=124.5 y=498.7 Arial/11 "idézetben" #000000
+p6 text  x=76.7 y=514.7 Arial/11 "• " #000000
+p6 text  x=83.6 y=514.7 Arial/11 "Második" #000000
+p6 text  x=127.6 y=514.7 Arial/11 "elem" #000000
+p6 text  x=76.7 y=538.3 Courier/10 "Kód is lehet benne" #CF222E
+p6 line  x=61.7 y=536.7 to x=61.7 y=552.7 #B4B4B4/3.0
+p6 line  x=56.7 y=568.7 to x=538.6 y=568.7 #B4B4B4/1.0
+p6 text  x=56.7 y=598.7 Arial-Bold/20 "9. Vízszintes vonal (Horizontal" #000000
+p6 text  x=348.7 y=598.7 Arial-Bold/20 "Rule)" #000000
+p6 text  x=56.7 y=632.7 Arial/11 "Három féle módon" #1A1A2E
+p6 text  x=147.1 y=632.7 Arial/11 ":" #1A1A2E
+p6 line  x=56.7 y=668.7 to x=538.6 y=668.7 #B4B4B4/1.0
+p6 line  x=56.7 y=692.7 to x=538.6 y=692.7 #B4B4B4/1.0
+p6 line  x=56.7 y=716.7 to x=538.6 y=716.7 #B4B4B4/1.0
+p6 line  x=56.7 y=740.7 to x=538.6 y=740.7 #B4B4B4/1.0
+p7 text  x=56.7 y=56.7 Arial-Bold/20 "10. Escape karakterek" #000000
+p7 text  x=271.2 y=56.7 Arial-Bold/20 "(Escaping)" #000000
+p7 text  x=56.7 y=90.7 Arial/11 "Speciális karakterek megjelenítése backslash-sel" #1A1A2E
+p7 text  x=296.2 y=90.7 Arial/11 ":" #1A1A2E
+p7 text  x=56.7 y=114.7 Arial/11 "*Ez nem lesz" #1A1A2E
+p7 text  x=123.9 y=114.7 Arial/11 "dőlt*" #1A1A2E
+p7 text  x=56.7 y=138.7 Arial/11 "# Ez nem lesz" #1A1A2E
+p7 text  x=128.8 y=138.7 Arial/11 "fejléc" #1A1A2E
+p7 text  x=56.7 y=162.7 Arial/11 "[Ez nem lesz link]" #1A1A2E
+p7 text  x=142.2 y=162.7 Arial/11 "(url)" #1A1A2E
+p7 text  x=56.7 y=186.7 Arial/11 "Backslash:" #1A1A2E
+p7 text  x=112.9 y=186.7 Arial/11 "\\" #1A1A2E
+p7 text  x=56.7 y=210.7 Arial/11 "Backtick:" #1A1A2E
+p7 text  x=103.7 y=210.7 Arial/11 "`" #1A1A2E
+p7 text  x=56.7 y=234.7 Arial/11 "Pipe táblázatban:" #1A1A2E
+p7 text  x=144.7 y=234.7 Arial/11 "|" #1A1A2E
+p7 line  x=56.7 y=270.7 to x=538.6 y=270.7 #B4B4B4/1.0
+p7 text  x=56.7 y=300.7 Arial-Bold/20 "11. HTML" #000000
+p7 text  x=151.1 y=300.7 Arial-Bold/20 "támogatás" #000000
+p7 text  x=56.7 y=334.7 Arial/11 "GFM támogatja a nyers HTML-t" #1A1A2E
+p7 text  x=211.2 y=334.7 Arial/11 ":" #1A1A2E
+p7 text  x=56.7 y=358.7 Arial-Bold/11 "Kattints a részletekért (összecsukható)" #1A1A2E
+p7 text  x=56.7 y=382.7 Arial/11 "Ez a tartalom rejtve van" #1A1A2E
+p7 text  x=175.2 y=382.7 Arial/11 "alapból." #1A1A2E
+p7 text  x=76.7 y=406.7 Arial/11 "• " #000000
+p7 text  x=83.6 y=406.7 Arial/11 "Lista a" #000000
+p7 text  x=119.0 y=406.7 Arial/11 "details-ben" #000000
+p7 text  x=76.7 y=422.7 Arial/11 "• " #000000
+p7 text  x=83.6 y=422.7 Arial/11 "Második" #000000
+p7 text  x=127.6 y=422.7 Arial/11 "elem" #000000
+p7 text  x=56.7 y=446.3 Courier/10 "Ctrl" #CF222E
+p7 text  x=83.7 y=444.7 Arial/11 "+" #1A1A2E
+p7 text  x=93.2 y=446.3 Courier/10 "C" #CF222E
+p7 text  x=102.2 y=444.7 Arial/11 "-" #1A1A2E
+p7 text  x=109.0 y=444.7 Arial/11 "másolás" #1A1A2E
+p7 text  x=56.7 y=468.7 Arial/11 "H" #1A1A2E
+p7 text  x=64.6 y=473.7 Arial/8 "2" #1A1A2E
+p7 text  x=69.1 y=468.7 Arial/11 "O - alsó" #1A1A2E
+p7 text  x=110.6 y=468.7 Arial/11 "index" #1A1A2E
+p7 text  x=56.7 y=492.7 Arial/11 "E = mc" #1A1A2E
+p7 text  x=91.2 y=491.7 Arial/8 "2" #1A1A2E
+p7 text  x=98.7 y=492.7 Arial/11 "- felső" #1A1A2E
+p7 text  x=131.7 y=492.7 Arial/11 "index" #1A1A2E
+p7 rect  x=56.7 y=515.7 w=74.5 h=14.0 fill=#FFF082
+p7 text  x=56.7 y=516.7 Arial/11 "Kiemelt szöveg" #1A1A2E
+p7 text  x=56.7 y=540.7 Arial/11 "Sortörés HTML-lel" #1A1A2E
+p7 text  x=148.9 y=540.7 Arial/11 "fent." #1A1A2E
+p7 line  x=56.7 y=576.7 to x=538.6 y=576.7 #B4B4B4/1.0
+p7 text  x=56.7 y=606.7 Arial-Bold/20 "12. Lábjegyzetek (Footnotes) - GFM" #000000
+p7 text  x=398.6 y=606.7 Arial-Bold/20 "kiterjesztés" #000000
+p7 text  x=56.7 y=640.7 Arial/11 "Ez egy szöveg lábjegyzettel" #1A1A2E
+p7 text  x=192.4 y=640.7 Arial/11 "[1]" #2563EB
+p7 text  x=204.6 y=640.7 Arial/11 "." #1A1A2E
+p7 text  x=56.7 y=664.7 Arial/11 "Még egy lábjegyzet" #1A1A2E
+p7 text  x=151.4 y=664.7 Arial/11 "[2]" #2563EB
+p7 text  x=166.7 y=664.7 Arial/11 "és egy nevesített" #1A1A2E
+p7 text  x=249.8 y=664.7 Arial/11 "[3]" #2563EB
+p7 text  x=262.0 y=664.7 Arial/11 "." #1A1A2E
+p7 line  x=56.7 y=700.7 to x=538.6 y=700.7 #B4B4B4/1.0
+p7 text  x=56.7 y=730.7 Arial-Bold/20 "13. Definíciós lista - Egyes" #000000
+p7 text  x=313.2 y=730.7 Arial-Bold/20 "implementációkban" #000000
+p7 text  x=56.7 y=764.7 Arial-Bold/11 "Kifejezés" #1A1A2E
+p8 text  x=76.7 y=56.7 Arial/11 "Definíció" #1A1A2E
+p8 text  x=122.5 y=56.7 Arial/11 "itt" #1A1A2E
+p8 text  x=56.7 y=76.7 Arial-Bold/11 "Másik" #1A1A2E
+p8 text  x=90.3 y=76.7 Arial-Bold/11 "kifejezés" #1A1A2E
+p8 text  x=76.7 y=92.7 Arial/11 "Első" #1A1A2E
+p8 text  x=101.1 y=92.7 Arial/11 "definíció" #1A1A2E
+p8 text  x=76.7 y=108.7 Arial/11 "Második" #1A1A2E
+p8 text  x=120.7 y=108.7 Arial/11 "definíció" #1A1A2E
+p8 line  x=56.7 y=144.7 to x=538.6 y=144.7 #B4B4B4/1.0
+p8 text  x=56.7 y=174.7 Arial-Bold/20 "14. Emoji - GFM" #000000
+p8 text  x=212.1 y=174.7 Arial-Bold/20 "specifikus" #000000
+p8 text  x=56.7 y=256.7 Arial/11 "Unicode emoji is működik:" #1A1A2E
+p8 line  x=56.7 y=292.7 to x=538.6 y=292.7 #B4B4B4/1.0
+p8 text  x=56.7 y=322.7 Arial-Bold/20 "15. Megemlítések és hivatkozások - GitHub" #000000
+p8 text  x=56.7 y=346.7 Arial-Bold/20 "specifikus" #000000
+p8 text  x=56.7 y=394.7 Arial-Bold/16 "Felhasználó" #000000
+p8 text  x=152.6 y=394.7 Arial-Bold/16 "megemlítése" #000000
+p8 text  x=56.7 y=422.7 Arial/11 "@username (GitHubon" #1A1A2E
+p8 text  x=173.0 y=422.7 Arial/11 "működik)" #1A1A2E
+p8 text  x=56.7 y=460.7 Arial-Bold/16 "Issue/PR" #000000
+p8 text  x=128.6 y=460.7 Arial-Bold/16 "hivatkozás" #000000
+p8 text  x=56.7 y=488.7 Arial/11 "#123 (Issue vagy Pull Request" #1A1A2E
+p8 text  x=208.8 y=488.7 Arial/11 "száma)" #1A1A2E
+p8 text  x=56.7 y=526.7 Arial-Bold/16 "Commit" #000000
+p8 text  x=120.6 y=526.7 Arial-Bold/16 "hivatkozás" #000000
+p8 text  x=56.7 y=554.7 Arial/11 "SHA: a]5c3d2e1f (rövidített commit" #1A1A2E
+p8 text  x=230.2 y=554.7 Arial/11 "hash)" #1A1A2E
+p8 text  x=56.7 y=592.7 Arial-Bold/16 "Repository" #000000
+p8 text  x=144.6 y=592.7 Arial-Bold/16 "hivatkozás" #000000
+p8 text  x=56.7 y=620.7 Arial/11 "owner/repo#123" #1A1A2E
+p8 line  x=56.7 y=656.7 to x=538.6 y=656.7 #B4B4B4/1.0
+p8 text  x=56.7 y=686.7 Arial-Bold/20 "16. Matematikai képletek - GFM" #000000
+p8 text  x=357.7 y=686.7 Arial-Bold/20 "kiterjesztés" #000000
+p8 text  x=56.7 y=720.7 Arial/11 "Inline matek:" #1A1A2E
+p8 text  x=122.1 y=720.7 Arial-Italic/11 "E = mc^2" #7C3AED
+p8 text  x=56.7 y=744.7 Arial/11 "Blokk matek" #1A1A2E
+p8 text  x=116.6 y=744.7 Arial/11 ":" #1A1A2E
+p8 text  x=187.4 y=768.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n" #7C3AED
+p9 text  x=183.3 y=56.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}" #7C3AED
+p9 line  x=56.7 y=92.7 to x=538.6 y=92.7 #B4B4B4/1.0
+p9 text  x=56.7 y=122.7 Arial-Bold/20 "17. Mermaid diagramok - GFM" #000000
+p9 text  x=346.5 y=122.7 Arial-Bold/20 "kiterjesztés" #000000
+p9 rect  x=56.7 y=156.7 w=481.9 h=112.0 fill=#ECFDF5 stroke=#10B981/0.5
+p9 text  x=64.7 y=164.7 Arial-Bold/11 "Mermaid Diagram" #065F46
+p9 text  x=64.7 y=176.7 Courier/9 "graph TD" #065F46
+p9 text  x=64.7 y=188.7 Courier/9 "    A[Start] --> B{Döntés}" #065F46
+p9 text  x=64.7 y=200.7 Courier/9 "    B -->|Igen| C[Művelet 1]" #065F46
+p9 text  x=64.7 y=212.7 Courier/9 "    B -->|Nem| D[Művelet 2]" #065F46
+p9 text  x=64.7 y=224.7 Courier/9 "    C --> E[Vége]" #065F46
+p9 text  x=64.7 y=236.7 Courier/9 "    D --> E" #065F46
+p9 text  x=64.7 y=248.7 Courier/9 " " #065F46
+p9 rect  x=56.7 y=276.7 w=481.9 h=100.0 fill=#ECFDF5 stroke=#10B981/0.5
+p9 text  x=64.7 y=284.7 Arial-Bold/11 "Mermaid Diagram" #065F46
+p9 text  x=64.7 y=296.7 Courier/9 "sequenceDiagram" #065F46
+p9 text  x=64.7 y=308.7 Courier/9 "    participant K as Kliens" #065F46
+p9 text  x=64.7 y=320.7 Courier/9 "    participant S as Szerver" #065F46
+p9 text  x=64.7 y=332.7 Courier/9 "    K->>S: Kérés" #065F46
+p9 text  x=64.7 y=344.7 Courier/9 "    S-->>K: Válasz" #065F46
+p9 text  x=64.7 y=356.7 Courier/9 " " #065F46
+p9 line  x=56.7 y=396.7 to x=538.6 y=396.7 #B4B4B4/1.0
+p9 text  x=56.7 y=426.7 Arial-Bold/20 "18. Sortörések (Line" #000000
+p9 text  x=253.2 y=426.7 Arial-Bold/20 "Breaks)" #000000
+p9 text  x=56.7 y=460.7 Arial/11 "Egyszerű sortörés (két szóköz a sor végén)" #1A1A2E
+p9 text  x=268.1 y=460.7 Arial/11 ":" #1A1A2E
+p9 text  x=271.2 y=460.7 Arial/11 "Ez új sorban" #1A1A2E
+p9 text  x=335.3 y=460.7 Arial/11 "van." #1A1A2E
+p9 text  x=56.7 y=484.7 Arial/11 "Vagy üres sorral" #1A1A2E
+p9 text  x=136.7 y=484.7 Arial/11 ":" #1A1A2E
+p9 text  x=56.7 y=508.7 Arial/11 "Ez egy új" #1A1A2E
+p9 text  x=104.9 y=508.7 Arial/11 "bekezdés." #1A1A2E
+p9 text  x=56.7 y=532.7 Arial/11 "HTML sortörés: első sor" #1A1A2E
+p9 text  x=177.0 y=532.7 Arial/11 "második" #1A1A2E
+p9 text  x=221.0 y=532.7 Arial/11 "sor" #1A1A2E
+p9 line  x=56.7 y=568.7 to x=538.6 y=568.7 #B4B4B4/1.0
+p9 text  x=56.7 y=598.7 Arial-Bold/20 "19. Speciális" #000000
+p9 text  x=182.2 y=598.7 Arial-Bold/20 "linkek" #000000
+p9 text  x=56.7 y=646.7 Arial-Bold/16 "Anchor linkek (dokumentumon" #000000
+p9 text  x=296.5 y=646.7 Arial-Bold/16 "belüli)" #000000
+p9 text  x=56.7 y=674.7 Arial/11 "Ugrás a táblázatokhoz" #2563EB
+p9 text  x=56.7 y=698.7 Arial/11 "Vissza az elejére" #2563EB
+p9 text  x=56.7 y=736.7 Arial-Bold/16 "Mailto" #000000
+p9 text  x=107.3 y=736.7 Arial-Bold/16 "link" #000000
+p9 text  x=56.7 y=764.7 Arial/11 "Küldj emailt" #2563EB
+p10 text  x=56.7 y=56.7 Arial-Bold/16 "Tel" #000000
+p10 text  x=84.2 y=56.7 Arial-Bold/16 "link" #000000
+p10 text  x=56.7 y=84.7 Arial/11 "Hívj fel" #2563EB
+p10 line  x=56.7 y=120.7 to x=538.6 y=120.7 #B4B4B4/1.0
+p10 text  x=56.7 y=150.7 Arial-Bold/20 "20. Összefoglaló" #000000
+p10 text  x=219.9 y=150.7 Arial-Bold/20 "táblázat" #000000
+p10 rect  x=56.7 y=184.7 w=186.7 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=184.7 w=79.5 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=184.7 w=56.9 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=184.7 w=158.8 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=188.7 Arial-Bold/11 "Elem" #1A1A2E
+p10 text  x=247.4 y=188.7 Arial-Bold/11 "Alap" #1A1A2E
+p10 text  x=274.3 y=188.7 Arial-Bold/11 "MD" #1A1A2E
+p10 text  x=326.9 y=188.7 Arial-Bold/11 "GFM" #1A1A2E
+p10 text  x=383.8 y=188.7 Arial-Bold/11 "Megjegyzés" #1A1A2E
+p10 rect  x=56.7 y=205.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=205.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=205.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=205.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=209.7 Arial/11 "Fejlécek" #1A1A2E
+p10 text  x=383.8 y=209.7 Arial/11 "H1-H6" #1A1A2E
+p10 rect  x=56.7 y=226.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=226.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=226.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=226.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=230.7 Arial/11 "Félkövér/Dőlt" #1A1A2E
+p10 text  x=383.8 y=232.3 Courier/10 "**" #CF222E
+p10 text  x=398.9 y=230.7 Arial/11 "és" #1A1A2E
+p10 text  x=413.5 y=232.3 Courier/10 "*" #CF222E
+p10 rect  x=56.7 y=247.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=247.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=247.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=247.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=251.7 Arial/11 "Áthúzás" #1A1A2E
+p10 text  x=383.8 y=253.3 Courier/10 "~~szöveg~~" #CF222E
+p10 rect  x=56.7 y=268.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=268.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=268.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=268.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=272.7 Arial/11 "Listák" #1A1A2E
+p10 text  x=383.8 y=274.3 Courier/10 "-" #CF222E
+p10 text  x=389.8 y=272.7 Arial/11 "," #1A1A2E
+p10 text  x=395.9 y=274.3 Courier/10 "*" #CF222E
+p10 text  x=401.9 y=272.7 Arial/11 "," #1A1A2E
+p10 text  x=408.0 y=274.3 Courier/10 "+" #CF222E
+p10 text  x=414.0 y=272.7 Arial/11 "," #1A1A2E
+p10 text  x=420.1 y=274.3 Courier/10 "1." #CF222E
+p10 rect  x=56.7 y=289.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=289.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=289.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=289.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=293.7 Arial/11 "Tasklist" #1A1A2E
+p10 text  x=383.8 y=295.3 Courier/10 "- [x]" #CF222E
+p10 rect  x=56.7 y=310.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=310.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=310.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=310.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=314.7 Arial/11 "Linkek" #1A1A2E
+p10 text  x=383.8 y=316.3 Courier/10 "[](url)" #CF222E
+p10 rect  x=56.7 y=331.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=331.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=331.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=331.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=335.7 Arial/11 "Autolink" #1A1A2E
+p10 text  x=383.8 y=335.7 Arial/11 "URL" #1A1A2E
+p10 text  x=408.9 y=335.7 Arial/11 "automatikus" #1A1A2E
+p10 rect  x=56.7 y=352.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=352.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=352.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=352.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=356.7 Arial/11 "Képek" #1A1A2E
+p10 text  x=383.8 y=358.3 Courier/10 "![]()" #CF222E
+p10 rect  x=56.7 y=373.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=373.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=373.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=373.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=377.7 Arial/11 "Kódblokk" #1A1A2E
+p10 text  x=383.8 y=377.7 Arial/11 "``` vagy" #1A1A2E
+p10 text  x=424.1 y=377.7 Arial/11 "behúzás" #1A1A2E
+p10 rect  x=56.7 y=394.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=394.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=394.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=394.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=398.7 Arial/11 "Szintaxis" #1A1A2E
+p10 text  x=107.7 y=398.7 Arial/11 "highlight" #1A1A2E
+p10 text  x=383.8 y=398.7 Arial/11 "```" #1A1A2E
+p10 text  x=394.8 y=398.7 Arial/11 "nyelv" #1A1A2E
+p10 rect  x=56.7 y=415.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=415.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=415.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=415.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=419.7 Arial/11 "Táblázatok" #1A1A2E
+p10 text  x=383.8 y=419.7 Arial/11 "Pipe" #1A1A2E
+p10 text  x=408.9 y=419.7 Arial/11 "szintaxis" #1A1A2E
+p10 rect  x=56.7 y=436.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=436.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=436.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=436.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=440.7 Arial/11 "Idézetek" #1A1A2E
+p10 text  x=383.8 y=442.3 Courier/10 ">" #CF222E
+p10 rect  x=56.7 y=457.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=457.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=457.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=457.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=461.7 Arial/11 "HR" #1A1A2E
+p10 text  x=79.6 y=461.7 Arial/11 "vonal" #1A1A2E
+p10 text  x=383.8 y=463.3 Courier/10 "---" #CF222E
+p10 rect  x=56.7 y=478.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=478.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=478.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=478.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=482.7 Arial/11 "HTML" #1A1A2E
+p10 text  x=383.8 y=482.7 Arial/11 "Részleges" #1A1A2E
+p10 rect  x=56.7 y=499.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=499.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=499.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=499.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=503.7 Arial/11 "Lábjegyzet" #1A1A2E
+p10 text  x=383.8 y=505.3 Courier/10 "[^1]" #CF222E
+p10 rect  x=56.7 y=520.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=520.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=520.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=520.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=524.7 Arial/11 "Emoji" #1A1A2E
+p10 text  x=383.8 y=526.3 Courier/10 ":emoji:" #CF222E
+p10 rect  x=56.7 y=541.7 w=186.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=541.7 w=79.5 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=541.7 w=56.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=541.7 w=158.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=545.7 Arial/11 "Matek" #1A1A2E
+p10 text  x=383.8 y=547.3 Courier/10 "$ és $$" #CF222E
+p10 rect  x=56.7 y=562.7 w=186.7 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=243.4 y=562.7 w=79.5 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=322.9 y=562.7 w=56.9 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 rect  x=379.8 y=562.7 w=158.8 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p10 text  x=60.7 y=566.7 Arial/11 "Mermaid" #1A1A2E
+p10 text  x=383.8 y=566.7 Arial/11 "```" #1A1A2E
+p10 text  x=394.8 y=566.7 Arial/11 "mermaid" #1A1A2E
+p10 line  x=56.7 y=603.7 to x=538.6 y=603.7 #B4B4B4/1.0
+p10 text  x=56.7 y=615.7 Arial-Italic/11 "Ez a dokumentum a GFM specifikáció alapján készült." #1A1A2E
+p10 text  x=323.7 y=615.7 Arial-Italic/11 "Forrás:" #1A1A2E
+p10 text  x=361.5 y=615.7 Arial/11 "https://github.github.com/gfm/" #2563EB
+p10 line  x=56.7 y=659.7 to x=201.3 y=659.7 #B4B4B4/0.5
+p10 text  x=56.7 y=669.7 Arial/9 "1. " #000000
+p10 text  x=66.7 y=669.7 Arial/9 "Ez az első lábjegyzet" #000000
+p10 text  x=153.7 y=669.7 Arial/9 "tartalma." #000000
+p10 text  x=56.7 y=687.7 Arial/9 "2. " #000000
+p10 text  x=66.7 y=687.7 Arial/9 "Ez a második" #000000
+p10 text  x=123.2 y=687.7 Arial/9 "lábjegyzet." #000000
+p10 text  x=56.7 y=705.7 Arial/9 "3. " #000000
+p10 text  x=66.7 y=705.7 Arial/9 "A lábjegyzeteknek lehet beszédes neve" #000000
+p10 text  x=227.2 y=705.7 Arial/9 "is." #000000

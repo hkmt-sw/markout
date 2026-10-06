@@ -1,26 +1,26 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=48.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "kramdown sample"
-p1 text  x=64.7 y=80.7 Arial-Bold/11 "layout: "
-p1 text  x=103.8 y=80.7 Arial/11 "post"
-p1 text  x=56.7 y=132.7 Arial-Bold/24 "kramdown"
-p1 text  x=56.7 y=180.7 Arial-Bold/16 "Table of Contents"
-p1 text  x=56.7 y=204.7 Arial/11 "kramdown"
-p1 text  x=76.7 y=220.7 Arial/11 "Section"
-p1 text  x=56.7 y=262.7 Arial-Bold/20 "Section"
-p1 text  x=56.7 y=296.7 Arial/11 "A paragraph with a class"
-p1 text  x=177.1 y=296.7 Arial/11 "."
-p1 text  x=56.7 y=320.7 Arial-Italic/11 "[IMG] Logo"
-p1 text  x=56.7 y=336.7 Arial/9 "logo.png"
-p1 text  x=56.7 y=360.7 Arial/11 "Inline math"
-p1 text  x=113.5 y=360.7 Arial-Italic/11 "a^2"
-p1 text  x=133.9 y=360.7 Arial/11 "and"
-p1 text  x=155.3 y=360.7 Arial/11 "“"
-p1 text  x=159.0 y=360.7 Arial/11 "typographic"
-p1 text  x=215.9 y=360.7 Arial/11 "”"
-p1 text  x=222.6 y=360.7 Arial/11 "quotes"
-p1 text  x=258.6 y=360.7 Arial/11 "–"
-p1 text  x=267.8 y=360.7 Arial/11 "dashes"
-p1 text  x=303.2 y=360.7 Arial/11 "."
-p1 text  x=56.7 y=384.7 Arial-Bold/11 "Term"
-p1 text  x=76.7 y=400.7 Arial/11 "Definition"
+p1 rect  x=56.7 y=56.7 w=481.9 h=48.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "kramdown sample" #1A1A2E
+p1 text  x=64.7 y=80.7 Arial-Bold/11 "layout: " #4A4A68
+p1 text  x=103.8 y=80.7 Arial/11 "post" #1A1A2E
+p1 text  x=56.7 y=132.7 Arial-Bold/24 "kramdown" #000000
+p1 text  x=56.7 y=180.7 Arial-Bold/16 "Table of Contents" #1A1A2E
+p1 text  x=56.7 y=204.7 Arial/11 "kramdown" #2563EB
+p1 text  x=76.7 y=220.7 Arial/11 "Section" #2563EB
+p1 text  x=56.7 y=262.7 Arial-Bold/20 "Section" #000000
+p1 text  x=56.7 y=296.7 Arial/11 "A paragraph with a class" #1A1A2E
+p1 text  x=177.1 y=296.7 Arial/11 "." #1A1A2E
+p1 text  x=56.7 y=320.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
+p1 text  x=56.7 y=336.7 Arial/9 "logo.png" #2563EB
+p1 text  x=56.7 y=360.7 Arial/11 "Inline math" #1A1A2E
+p1 text  x=113.5 y=360.7 Arial-Italic/11 "a^2" #7C3AED
+p1 text  x=133.9 y=360.7 Arial/11 "and" #1A1A2E
+p1 text  x=155.3 y=360.7 Arial/11 "“" #1A1A2E
+p1 text  x=159.0 y=360.7 Arial/11 "typographic" #1A1A2E
+p1 text  x=215.9 y=360.7 Arial/11 "”" #1A1A2E
+p1 text  x=222.6 y=360.7 Arial/11 "quotes" #1A1A2E
+p1 text  x=258.6 y=360.7 Arial/11 "–" #1A1A2E
+p1 text  x=267.8 y=360.7 Arial/11 "dashes" #1A1A2E
+p1 text  x=303.2 y=360.7 Arial/11 "." #1A1A2E
+p1 text  x=56.7 y=384.7 Arial-Bold/11 "Term" #1A1A2E
+p1 text  x=76.7 y=400.7 Arial/11 "Definition" #1A1A2E

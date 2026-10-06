@@ -1,41 +1,41 @@
-p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 FD
-p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
-p1 text  x=94.0 y=64.7 Arial/11 "Azure DevOps wiki"
-p1 text  x=56.7 y=116.7 Arial-Bold/24 "Azure"
-p1 text  x=130.0 y=116.7 Arial-Bold/24 "DevOps"
-p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents"
-p1 text  x=56.7 y=188.7 Arial/11 "Azure DevOps"
-p1 text  x=76.7 y=204.7 Arial/11 "Diagram"
-p1 text  x=76.7 y=220.7 Arial/11 "Math"
-p1 text  x=76.7 y=236.7 Arial/11 "Sized image"
-p1 text  x=76.7 y=252.7 Arial/11 "Rest"
-p1 text  x=56.7 y=294.7 Arial-Bold/20 "Diagram"
-p1 rect  x=56.7 y=328.7 w=481.9 h=64.0 FD
-p1 text  x=64.7 y=336.7 Arial-Bold/11 "Mermaid Diagram"
-p1 text  x=64.7 y=348.7 Courier/9 "sequenceDiagram"
-p1 text  x=64.7 y=360.7 Courier/9 "    A->>B: Hello"
-p1 text  x=64.7 y=372.7 Courier/9 " "
-p1 text  x=56.7 y=418.7 Arial-Bold/20 "Math"
-p1 text  x=56.7 y=452.7 Arial/11 "Inline"
-p1 text  x=86.0 y=452.7 Arial-Italic/11 "a + b = c"
-p1 text  x=131.8 y=452.7 Arial/11 "and a block"
-p1 text  x=188.0 y=452.7 Arial/11 ":"
-p1 text  x=265.4 y=476.7 Arial-Italic/11 "\\int_0^1 x\\,dx"
-p1 text  x=56.7 y=518.7 Arial-Bold/20 "Sized"
-p1 text  x=114.4 y=518.7 Arial-Bold/20 "image"
-p1 text  x=56.7 y=552.7 Arial-Italic/11 "[IMG] Architecture"
-p1 text  x=56.7 y=568.7 Arial/9 "arch.png"
-p1 text  x=56.7 y=610.7 Arial-Bold/20 "Rest"
-p1 text  x=56.7 y=644.7 Arial/11 "Use"
-p1 text  x=79.3 y=644.7 Arial/11 "underline"
-p1 line  x=79.3 y=656.7 to x=124.5 y=656.7
-p1 text  x=127.6 y=644.7 Arial/11 "via HTML,"
-p1 text  x=180.7 y=644.7 Arial/11 "emoji and task lists"
-p1 text  x=273.6 y=644.7 Arial/11 ":"
-p1 text  x=76.7 y=668.7 Arial/11 "[x] "
-p1 text  x=91.3 y=668.7 Arial/11 "Plan"
-p1 text  x=76.7 y=684.7 Arial/11 "[ ] "
-p1 text  x=88.9 y=684.7 Arial/11 "Ship"
-p1 rect  x=56.7 y=706.7 w=481.9 h=40.0 FD
-p1 text  x=64.7 y=714.7 Courier/9 "graph TD; NotRendered-->InAzure;"
-p1 text  x=64.7 y=726.7 Courier/9 " "
+p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
+p1 text  x=94.0 y=64.7 Arial/11 "Azure DevOps wiki" #1A1A2E
+p1 text  x=56.7 y=116.7 Arial-Bold/24 "Azure" #000000
+p1 text  x=130.0 y=116.7 Arial-Bold/24 "DevOps" #000000
+p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents" #1A1A2E
+p1 text  x=56.7 y=188.7 Arial/11 "Azure DevOps" #2563EB
+p1 text  x=76.7 y=204.7 Arial/11 "Diagram" #2563EB
+p1 text  x=76.7 y=220.7 Arial/11 "Math" #2563EB
+p1 text  x=76.7 y=236.7 Arial/11 "Sized image" #2563EB
+p1 text  x=76.7 y=252.7 Arial/11 "Rest" #2563EB
+p1 text  x=56.7 y=294.7 Arial-Bold/20 "Diagram" #000000
+p1 rect  x=56.7 y=328.7 w=481.9 h=64.0 fill=#ECFDF5 stroke=#10B981/1.0
+p1 text  x=64.7 y=336.7 Arial-Bold/11 "Mermaid Diagram" #065F46
+p1 text  x=64.7 y=348.7 Courier/9 "sequenceDiagram" #065F46
+p1 text  x=64.7 y=360.7 Courier/9 "    A->>B: Hello" #065F46
+p1 text  x=64.7 y=372.7 Courier/9 " " #065F46
+p1 text  x=56.7 y=418.7 Arial-Bold/20 "Math" #000000
+p1 text  x=56.7 y=452.7 Arial/11 "Inline" #1A1A2E
+p1 text  x=86.0 y=452.7 Arial-Italic/11 "a + b = c" #7C3AED
+p1 text  x=131.8 y=452.7 Arial/11 "and a block" #1A1A2E
+p1 text  x=188.0 y=452.7 Arial/11 ":" #1A1A2E
+p1 text  x=265.4 y=476.7 Arial-Italic/11 "\\int_0^1 x\\,dx" #7C3AED
+p1 text  x=56.7 y=518.7 Arial-Bold/20 "Sized" #000000
+p1 text  x=114.4 y=518.7 Arial-Bold/20 "image" #000000
+p1 text  x=56.7 y=552.7 Arial-Italic/11 "[IMG] Architecture" #4A4A68
+p1 text  x=56.7 y=568.7 Arial/9 "arch.png" #2563EB
+p1 text  x=56.7 y=610.7 Arial-Bold/20 "Rest" #000000
+p1 text  x=56.7 y=644.7 Arial/11 "Use" #1A1A2E
+p1 text  x=79.3 y=644.7 Arial/11 "underline" #1A1A2E
+p1 line  x=79.3 y=656.7 to x=124.5 y=656.7 #1A1A2E/0.6
+p1 text  x=127.6 y=644.7 Arial/11 "via HTML," #1A1A2E
+p1 text  x=180.7 y=644.7 Arial/11 "emoji and task lists" #1A1A2E
+p1 text  x=273.6 y=644.7 Arial/11 ":" #1A1A2E
+p1 text  x=76.7 y=668.7 Arial/11 "[x] " #000000
+p1 text  x=91.3 y=668.7 Arial/11 "Plan" #000000
+p1 text  x=76.7 y=684.7 Arial/11 "[ ] " #000000
+p1 text  x=88.9 y=684.7 Arial/11 "Ship" #000000
+p1 rect  x=56.7 y=706.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=714.7 Courier/9 "graph TD; NotRendered-->InAzure;" #000000
+p1 text  x=64.7 y=726.7 Courier/9 " " #000000

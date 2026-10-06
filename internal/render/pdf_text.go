@@ -226,19 +226,19 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 	for _, f := range line.frags {
 		x, y := x0+f.x, y0+f.yShift
 		r.setFont(f.font, f.style, f.size)
-		r.pdf.SetTextColor(f.color.R, f.color.G, f.color.B)
+		r.textColor(f.color.R, f.color.G, f.color.B)
 
 		if f.chip {
 			c := hexStringToRGB(strings.TrimPrefix(f.run.ColorChip, "#"))
-			r.pdf.SetFillColor(c.R, c.G, c.B)
+			r.fillColor(c.R, c.G, c.B)
 			r.rect(x-chipWidth, y0, 10, 10, "F")
-			r.pdf.SetFillColor(255, 255, 255)
+			r.fillColor(255, 255, 255)
 		}
 		if f.run.Highlight {
 			c := config.ColorHighlightRGB
-			r.pdf.SetFillColor(c.R, c.G, c.B)
+			r.fillColor(c.R, c.G, c.B)
 			r.rect(x, y0-1, f.width, float64(f.size)+3, "F")
-			r.pdf.SetFillColor(255, 255, 255)
+			r.fillColor(255, 255, 255)
 		}
 
 		r.pdf.SetX(x)
@@ -252,8 +252,8 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 		underline := f.run.Underline || f.run.Inserted
 		strike := f.run.Strikethrough || f.run.Deleted
 		if underline || strike {
-			r.pdf.SetStrokeColor(f.color.R, f.color.G, f.color.B)
-			r.pdf.SetLineWidth(0.6)
+			r.strokeColor(f.color.R, f.color.G, f.color.B)
+			r.lineWidth(0.6)
 			if underline {
 				ly := y + float64(f.size) + 1
 				r.line(x, ly, x+f.width, ly)
@@ -262,15 +262,15 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 				ly := y + float64(f.size)*0.58
 				r.line(x, ly, x+f.width, ly)
 			}
-			r.pdf.SetStrokeColor(0, 0, 0)
-			r.pdf.SetLineWidth(0.5)
+			r.strokeColor(0, 0, 0)
+			r.lineWidth(0.5)
 		}
 	}
 }
 
 // resetText restores the font and color the rest of the renderer starts from.
 func (r *PdfRenderer) resetText() {
-	r.pdf.SetTextColor(0, 0, 0)
+	r.textColor(0, 0, 0)
 	r.setFont("Arial", "", 11)
 }
 

@@ -1,35 +1,35 @@
-p1 text  x=56.7 y=76.7 Arial-Bold/24 "Bitbucket"
-p1 text  x=56.7 y=124.7 Arial-Bold/16 "Table of Contents"
-p1 text  x=56.7 y=148.7 Arial/11 "Bitbucket"
-p1 text  x=76.7 y=164.7 Arial/11 "Features"
-p1 text  x=56.7 y=206.7 Arial-Bold/20 "Features"
-p1 text  x=56.7 y=240.7 Arial/11 "Tables,"
-p1 text  x=95.8 y=240.7 Arial/11 "deleted"
-p1 line  x=95.8 y=247.1 to x=131.9 y=247.1
-p1 text  x=134.9 y=240.7 Arial/11 "text, footnotes"
-p1 text  x=203.9 y=240.7 Arial/11 "[1]"
-p1 text  x=219.2 y=240.7 Arial/11 "and wiki links to"
-p1 text  x=299.2 y=240.7 Arial/11 "Home."
-p1 rect  x=56.7 y=264.7 w=240.9 h=21.0 FD
-p1 rect  x=297.6 y=264.7 w=240.9 h=21.0 FD
-p1 text  x=60.7 y=268.7 Arial-Bold/11 "A"
-p1 text  x=301.6 y=268.7 Arial-Bold/11 "B"
-p1 rect  x=56.7 y=285.7 w=240.9 h=21.0 FD
-p1 rect  x=297.6 y=285.7 w=240.9 h=21.0 FD
-p1 text  x=60.7 y=289.7 Arial/11 "1"
-p1 text  x=301.6 y=289.7 Arial/11 "2"
-p1 text  x=56.7 y=314.7 Arial-Bold/11 "Apple"
-p1 text  x=76.7 y=330.7 Arial/11 "A"
-p1 text  x=87.1 y=330.7 Arial/11 "fruit"
-p1 text  x=56.7 y=354.7 Arial/11 "The HTML spec is"
-p1 text  x=148.9 y=354.7 Arial/11 "long."
-p1 text  x=56.7 y=378.7 Arial/11 "Raw"
-p1 text  x=81.7 y=378.7 Arial/11 "<u>"
-p1 text  x=100.7 y=378.7 Arial/11 "HTML"
-p1 text  x=130.6 y=378.7 Arial/11 "</u>"
-p1 text  x=155.6 y=378.7 Arial/11 "is not"
-p1 text  x=185.0 y=378.7 Arial/11 "rendered."
-p1 line  x=56.7 y=422.7 to x=201.3 y=422.7
-p1 text  x=56.7 y=432.7 Arial/9 "1. "
-p1 text  x=66.7 y=432.7 Arial/9 "A"
-p1 text  x=75.2 y=432.7 Arial/9 "footnote."
+p1 text  x=56.7 y=76.7 Arial-Bold/24 "Bitbucket" #000000
+p1 text  x=56.7 y=124.7 Arial-Bold/16 "Table of Contents" #1A1A2E
+p1 text  x=56.7 y=148.7 Arial/11 "Bitbucket" #2563EB
+p1 text  x=76.7 y=164.7 Arial/11 "Features" #2563EB
+p1 text  x=56.7 y=206.7 Arial-Bold/20 "Features" #000000
+p1 text  x=56.7 y=240.7 Arial/11 "Tables," #1A1A2E
+p1 text  x=95.8 y=240.7 Arial/11 "deleted" #8888A0
+p1 line  x=95.8 y=247.1 to x=131.9 y=247.1 #8888A0/0.6
+p1 text  x=134.9 y=240.7 Arial/11 "text, footnotes" #1A1A2E
+p1 text  x=203.9 y=240.7 Arial/11 "[1]" #2563EB
+p1 text  x=219.2 y=240.7 Arial/11 "and wiki links to" #1A1A2E
+p1 text  x=299.2 y=240.7 Arial/11 "Home." #1A1A2E
+p1 rect  x=56.7 y=264.7 w=240.9 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p1 rect  x=297.6 y=264.7 w=240.9 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p1 text  x=60.7 y=268.7 Arial-Bold/11 "A" #1A1A2E
+p1 text  x=301.6 y=268.7 Arial-Bold/11 "B" #1A1A2E
+p1 rect  x=56.7 y=285.7 w=240.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p1 rect  x=297.6 y=285.7 w=240.9 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p1 text  x=60.7 y=289.7 Arial/11 "1" #1A1A2E
+p1 text  x=301.6 y=289.7 Arial/11 "2" #1A1A2E
+p1 text  x=56.7 y=314.7 Arial-Bold/11 "Apple" #1A1A2E
+p1 text  x=76.7 y=330.7 Arial/11 "A" #1A1A2E
+p1 text  x=87.1 y=330.7 Arial/11 "fruit" #1A1A2E
+p1 text  x=56.7 y=354.7 Arial/11 "The HTML spec is" #1A1A2E
+p1 text  x=148.9 y=354.7 Arial/11 "long." #1A1A2E
+p1 text  x=56.7 y=378.7 Arial/11 "Raw" #1A1A2E
+p1 text  x=81.7 y=378.7 Arial/11 "<u>" #1A1A2E
+p1 text  x=100.7 y=378.7 Arial/11 "HTML" #1A1A2E
+p1 text  x=130.6 y=378.7 Arial/11 "</u>" #1A1A2E
+p1 text  x=155.6 y=378.7 Arial/11 "is not" #1A1A2E
+p1 text  x=185.0 y=378.7 Arial/11 "rendered." #1A1A2E
+p1 line  x=56.7 y=422.7 to x=201.3 y=422.7 #B4B4B4/0.5
+p1 text  x=56.7 y=432.7 Arial/9 "1. " #000000
+p1 text  x=66.7 y=432.7 Arial/9 "A" #000000
+p1 text  x=75.2 y=432.7 Arial/9 "footnote." #000000
