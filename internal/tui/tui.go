@@ -8,6 +8,7 @@
 package tui
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/exec"
@@ -27,6 +28,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/convert"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
+	"github.com/hkmt-sw/markout/internal/update"
 )
 
 // format mirrors the two output formats the engine supports.
@@ -150,9 +152,15 @@ type Model struct {
 	searchMiss  bool   // true when the query matches nothing
 
 	flavor       flavor.Flavor                 // Markdown dialect used for conversions
+	settings     settings.Settings             // saved preferences
 	saveSettings func(settings.Settings) error // persists the settings; nil in tests
-	pickFlavor   bool                          // the settings dialog is open
-	flavorCursor int                           // highlighted row in the settings dialog
+
+	version  string                                // version of this build
+	latest   func(context.Context) (string, error) // asks for the newest release; nil in tests
+	updateTo string                                // a newer release to announce, or ""
+
+	pickFlavor   bool // the settings dialog is open
+	flavorCursor int  // highlighted row in the settings dialog
 
 	confirmRemote bool                 // asking whether to download the document's remote images
 	remoteHosts   []convert.RemoteHost // the servers those images are on
@@ -173,16 +181,32 @@ type Model struct {
 	quit bool
 }
 
-// New builds the model rooted at the current working directory. fl is the
-// Markdown flavor to start with; changes made in the settings dialog are saved.
-func New(fl flavor.Flavor) Model {
+// Config is what the TUI is started with.
+type Config struct {
+	Flavor   flavor.Flavor     // Markdown flavor to start with
+	Settings settings.Settings // saved preferences
+	Version  string            // version of this build, for the update check
+}
+
+// New builds the model rooted at the current working directory. Changes made
+// in the settings dialog are saved.
+func New(cfg Config) Model {
 	cwd, err := os.Getwd()
 	if err != nil {
 		cwd = "."
 	}
 	m := newAt(cwd)
-	m.flavor = fl
+	m.flavor = cfg.Flavor
+	m.settings = cfg.Settings
 	m.saveSettings = settings.Save
+	m.version = cfg.Version
+	m.latest = func(ctx context.Context) (string, error) {
+		return update.Latest(ctx, update.LatestReleaseAPI, cfg.Version)
+	}
+	// Announce a release found by an earlier check right away.
+	if !m.settings.NoUpdateCheck && update.Newer(m.settings.LatestVersion, m.version) {
+		m.updateTo = m.settings.LatestVersion
+	}
 	return m
 }
 
@@ -211,7 +235,34 @@ func newAt(dir string) Model {
 	return m
 }
 
-func (m Model) Init() tea.Cmd { return nil }
+// updateCheckedMsg carries the result of the background update check.
+type updateCheckedMsg struct {
+	latest string
+	err    error
+}
+
+// Init starts the update check, unless it is turned off, ran within the last
+// day, or this is a development build. It is the only network request markout
+// makes without being asked.
+func (m Model) Init() tea.Cmd {
+	if m.latest == nil || m.settings.NoUpdateCheck || !update.IsRelease(m.version) ||
+		time.Since(m.settings.UpdateCheckedAt) < update.Interval {
+		return nil
+	}
+	latest := m.latest
+	return func() tea.Msg {
+		v, err := latest(context.Background())
+		return updateCheckedMsg{latest: v, err: err}
+	}
+}
+
+// save persists the settings and reports whether that worked.
+func (m *Model) save() error {
+	if m.saveSettings == nil {
+		return nil
+	}
+	return m.saveSettings(m.settings)
+}
 
 // loadEntries reads m.cwd into m.entries, directories first then markdown files.
 func (m *Model) loadEntries() {
@@ -314,6 +365,19 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.status = "saved → " + msg.output
 			m.statusKind = statusSuccess
 			m.lastOutput = msg.output
+		}
+		return m, nil
+
+	case updateCheckedMsg:
+		// Offline or rate limited: stay quiet and try again next time.
+		if msg.err != nil {
+			return m, nil
+		}
+		m.settings.UpdateCheckedAt = time.Now()
+		m.settings.LatestVersion = msg.latest
+		_ = m.save()
+		if !m.settings.NoUpdateCheck && update.Newer(msg.latest, m.version) {
+			m.updateTo = msg.latest
 		}
 		return m, nil
 
@@ -629,16 +693,27 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.flavorCursor = len(flavors) - 1
 	case "esc", "f2", "q", "ctrl+g":
 		m.pickFlavor = false
+	case "u", "U":
+		// Takes effect at once; the dialog stays open.
+		m.settings.NoUpdateCheck = !m.settings.NoUpdateCheck
+		if m.settings.NoUpdateCheck {
+			m.updateTo = ""
+		} else if update.Newer(m.settings.LatestVersion, m.version) {
+			m.updateTo = m.settings.LatestVersion
+		}
+		if err := m.save(); err != nil {
+			m.status = "setting changed, but not saved: " + err.Error()
+			m.statusKind = statusError
+		}
 	case "enter":
 		m.pickFlavor = false
 		m.flavor = flavors[m.flavorCursor]
+		m.settings.Flavor = m.flavor.ID
 		m.status = "flavor: " + m.flavor.Name
 		m.statusKind = statusInfo
-		if m.saveSettings != nil {
-			if err := m.saveSettings(settings.Settings{Flavor: m.flavor.ID}); err != nil {
-				m.status = "flavor set, but not saved: " + err.Error()
-				m.statusKind = statusError
-			}
+		if err := m.save(); err != nil {
+			m.status = "flavor set, but not saved: " + err.Error()
+			m.statusKind = statusError
 		}
 	}
 	return m, nil
@@ -771,7 +846,7 @@ func (m Model) View() string {
 	inner := m.innerWidth()
 	var lines []string
 
-	lines = append(lines, m.borderTop("markout"))
+	lines = append(lines, m.borderTop("markout", m.updateNotice()))
 
 	// Current directory line.
 	cwd := m.cwd
@@ -921,6 +996,11 @@ func (m Model) flavorDialog() string {
 		first = m.flavorCursor - visible + 1
 	}
 
+	updates := "on"
+	if m.settings.NoUpdateCheck {
+		updates = "off"
+	}
+
 	rows := []string{titleStyle.Render("Settings · Markdown flavor"), ""}
 	for i := first; i < first+visible; i++ {
 		f := flavors[i]
@@ -946,6 +1026,7 @@ func (m Model) flavorDialog() string {
 		"",
 		keyStyle.Render("↑↓")+" "+keyDescStyle.Render("Select")+"   "+
 			keyStyle.Render("↵")+" "+keyDescStyle.Render("Save")+"   "+
+			keyStyle.Render("u")+" "+keyDescStyle.Render("Update check: "+updates)+"   "+
 			keyStyle.Render("Esc")+" "+keyDescStyle.Render("Cancel"),
 	)
 
@@ -1204,7 +1285,33 @@ func (m Model) row(content string) string {
 	return b + content + b
 }
 
-func (m Model) borderTop(title string) string { return m.hline("┌", "┐", title) }
+// borderTop draws the top border with the title on the left and, when there
+// is one, a notice on the right.
+func (m Model) borderTop(title, notice string) string {
+	line := m.hline("┌", "┐", title)
+	if notice == "" {
+		return line
+	}
+	label := " " + notice + " "
+	// Keep the title and a few dashes on either side; drop the notice if the
+	// window is too narrow for it.
+	room := m.innerWidth() - lipgloss.Width("─ "+title+" ") - 4
+	if lipgloss.Width(label) > room {
+		return line
+	}
+	start := m.width - 3 - lipgloss.Width(label)
+	return ansi.Truncate(line, start, "") +
+		lipgloss.NewStyle().Foreground(colSuccess).Bold(true).Render(label) +
+		borderStyle.Render("──┐")
+}
+
+// updateNotice is the text announcing a newer release, or "".
+func (m Model) updateNotice() string {
+	if m.updateTo == "" {
+		return ""
+	}
+	return m.updateTo + " is available · " + update.ReleasesPage
+}
 func (m Model) borderSep(title string) string { return m.hline("├", "┤", title) }
 func (m Model) borderBottom() string          { return m.hline("└", "┘", "") }
 
@@ -1290,10 +1397,9 @@ func openFile(path string) error {
 	}
 }
 
-// Run starts the TUI program with the given Markdown flavor selected and
-// blocks until the user quits.
-func Run(fl flavor.Flavor) error {
-	p := tea.NewProgram(New(fl), tea.WithAltScreen())
+// Run starts the TUI program and blocks until the user quits.
+func Run(cfg Config) error {
+	p := tea.NewProgram(New(cfg), tea.WithAltScreen())
 	_, err := p.Run()
 	return err
 }

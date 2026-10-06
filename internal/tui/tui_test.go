@@ -3,6 +3,8 @@ package tui
 import (
 	"archive/zip"
 	"bytes"
+	"context"
+	"errors"
 	"image"
 	"image/png"
 	"io"
@@ -14,8 +16,10 @@ import (
 	"strings"
 	"sync/atomic"
 	"testing"
+	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/settings"
@@ -581,5 +585,132 @@ func TestRemoteImagesDialogLoadAndCancel(t *testing.T) {
 	}
 	if n := hits.Load(); n != 1 {
 		t.Fatalf("loading made %d requests, want 1", n)
+	}
+}
+
+// updateModel is a model set up like a release build with a stubbed check.
+func updateModel(t *testing.T, version string) (Model, *int, *[]settings.Settings) {
+	t.Helper()
+	m := newAt(t.TempDir())
+	m.version = version
+	calls := 0
+	m.latest = func(context.Context) (string, error) {
+		calls++
+		return "v9.0.0", nil
+	}
+	var saved []settings.Settings
+	m.saveSettings = func(s settings.Settings) error {
+		saved = append(saved, s)
+		return nil
+	}
+	return m, &calls, &saved
+}
+
+func TestUpdateCheckRunsOnlyWhenDue(t *testing.T) {
+	m, _, _ := updateModel(t, "v1.0.0")
+	if m.Init() == nil {
+		t.Fatal("a release build with no earlier check should check")
+	}
+
+	m.settings.UpdateCheckedAt = time.Now().Add(-time.Hour)
+	if m.Init() != nil {
+		t.Error("checked again within a day")
+	}
+	m.settings.UpdateCheckedAt = time.Now().Add(-25 * time.Hour)
+	if m.Init() == nil {
+		t.Error("did not check after a day")
+	}
+
+	m.settings.NoUpdateCheck = true
+	if m.Init() != nil {
+		t.Error("checked although the check is turned off")
+	}
+
+	for _, dev := range []string{"dev", "v1.0.0-3-gabc123-dirty", ""} {
+		m, _, _ := updateModel(t, dev)
+		if m.Init() != nil {
+			t.Errorf("development build %q checked for updates", dev)
+		}
+	}
+
+	// The model tests use everywhere else must never reach the network.
+	if newAt(t.TempDir()).Init() != nil {
+		t.Error("a model without a version checked for updates")
+	}
+}
+
+func TestUpdateNoticeAndToggle(t *testing.T) {
+	m, calls, saved := updateModel(t, "v1.0.0")
+	next, _ := m.Update(tea.WindowSizeMsg{Width: 100, Height: 24})
+	m = next.(Model)
+
+	next, _ = m.Update(m.Init()())
+	m = next.(Model)
+	if *calls != 1 {
+		t.Fatalf("check ran %d times, want 1", *calls)
+	}
+	if !strings.Contains(m.View(), "v9.0.0 is available") {
+		t.Fatal("the newer release is not announced")
+	}
+	if len(*saved) != 1 || (*saved)[0].LatestVersion != "v9.0.0" || (*saved)[0].UpdateCheckedAt.IsZero() {
+		t.Fatalf("check result not saved: %+v", *saved)
+	}
+	if m.Init() != nil {
+		t.Error("would check again right after checking")
+	}
+
+	// Too narrow for the notice: the border must stay intact.
+	narrow, _ := m.Update(tea.WindowSizeMsg{Width: 40, Height: 24})
+	top := strings.Split(narrow.(Model).View(), "\n")[0]
+	if strings.Contains(top, "available") || lipgloss.Width(top) != 40 {
+		t.Errorf("narrow top border = %q (width %d)", top, lipgloss.Width(top))
+	}
+	if top := strings.Split(m.View(), "\n")[0]; lipgloss.Width(top) != 100 {
+		t.Errorf("top border with notice is %d wide, want 100", lipgloss.Width(top))
+	}
+
+	// u in the settings dialog turns the check off, saves, and hides the notice.
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(key("u"))
+	m = next.(Model)
+	if !m.pickFlavor || !m.settings.NoUpdateCheck {
+		t.Fatal("u should toggle the update check and keep the dialog open")
+	}
+	if !strings.Contains(m.View(), "Update check: off") || m.updateNotice() != "" {
+		t.Error("dialog or notice does not reflect the check being off")
+	}
+	if last := (*saved)[len(*saved)-1]; !last.NoUpdateCheck {
+		t.Errorf("toggle not saved: %+v", last)
+	}
+
+	// Turning it back on shows the remembered release again without a request.
+	next, _ = m.Update(key("u"))
+	m = next.(Model)
+	if !strings.Contains(m.updateNotice(), "v9.0.0 is available") || *calls != 1 {
+		t.Errorf("re-enabling: notice=%q, requests=%d", m.updateNotice(), *calls)
+	}
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyEsc})
+	if !strings.Contains(next.(Model).View(), "v9.0.0 is available") {
+		t.Error("the notice is not drawn after closing the dialog")
+	}
+}
+
+func TestUpdateCheckFailureIsSilent(t *testing.T) {
+	m, _, saved := updateModel(t, "v1.0.0")
+	m.latest = func(context.Context) (string, error) { return "", errors.New("offline") }
+	next, _ := m.Update(m.Init()())
+	m = next.(Model)
+	if m.updateTo != "" || len(*saved) != 0 || m.statusKind == statusError {
+		t.Fatalf("a failed check should change nothing: updateTo=%q saved=%d", m.updateTo, len(*saved))
+	}
+	if m.Init() == nil {
+		t.Error("a failed check should be retried on the next start")
+	}
+
+	// Same version or older: nothing to announce.
+	m, _, _ = updateModel(t, "v9.0.0")
+	next, _ = m.Update(m.Init()())
+	if next.(Model).updateTo != "" {
+		t.Error("announced the version that is already running")
 	}
 }

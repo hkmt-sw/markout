@@ -108,7 +108,7 @@ bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 | `→` / `Enter`  | Enter a directory                              |
 | `←`            | Go up a directory                              |
 | `Enter`        | Convert the highlighted `.md` file             |
-| `F2`           | Settings: choose the Markdown flavor           |
+| `F2`           | Settings: Markdown flavor, update check        |
 | `F3`           | Toggle output format (DOCX ⇄ PDF)              |
 | `F4`           | Edit the output path by hand                   |
 | `o`            | Open the last converted file                   |
@@ -128,6 +128,27 @@ The output format is inferred from the file extension:
 ./markout --flavor gitlab input.md output.pdf   # interpret as a specific flavor
 ./markout --list-flavors                        # show the supported flavors
 ./markout --remote-images allow input.md out.pdf # download images referenced by URL
+```
+
+## Update notifications
+
+When a newer release exists, the TUI says so in its top border:
+
+```
+┌─ markout ──────────── v1.3.0 is available · github.com/hkmt-sw/markout/releases ──┐
+```
+
+It only tells you; installing the new version is up to you (download the
+binary again, or `go install github.com/hkmt-sw/markout@latest`).
+
+To know, the TUI asks GitHub for the latest release when it starts, at most
+once a day. That request carries nothing but the markout version, though
+GitHub sees your IP address like any web server does. It is the one request
+markout makes without asking first, so you can turn it off: press `F2`, then
+`u`. Direct conversions from the command line never check. To look on demand:
+
+```sh
+./markout --check-update
 ```
 
 ## Images from the internet

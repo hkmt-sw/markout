@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/hkmt-sw/markout/internal/flavor"
 )
@@ -17,6 +18,13 @@ const EnvPath = "MARKOUT_CONFIG"
 type Settings struct {
 	// Flavor is the ID of the Markdown flavor used for conversions.
 	Flavor string `json:"flavor"`
+
+	// NoUpdateCheck turns off the automatic check for a newer release.
+	NoUpdateCheck bool `json:"no_update_check,omitempty"`
+	// UpdateCheckedAt and LatestVersion remember the last check, so it runs
+	// at most once a day.
+	UpdateCheckedAt time.Time `json:"update_checked_at,omitzero"`
+	LatestVersion   string    `json:"latest_version,omitempty"`
 }
 
 // Path returns the location of the settings file: $MARKOUT_CONFIG if set,
@@ -45,12 +53,13 @@ func Load() Settings {
 		return s
 	}
 	var stored Settings
-	if json.Unmarshal(data, &stored) == nil {
-		if _, ok := flavor.ByID(stored.Flavor); ok {
-			s.Flavor = stored.Flavor
-		}
+	if json.Unmarshal(data, &stored) != nil {
+		return s
 	}
-	return s
+	if _, ok := flavor.ByID(stored.Flavor); !ok {
+		stored.Flavor = flavor.DefaultID
+	}
+	return stored
 }
 
 // Save writes the settings file, creating its directory if needed.
