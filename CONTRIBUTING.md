@@ -79,6 +79,10 @@ A conversion runs through three stages:
   alone.
 - Add the flavor's sample document to `fixtures/flavors/` and its row to the
   table in the README.
+- A built-in theme is a file in `internal/theme/builtin/`; a new setting is
+  a field in `internal/theme/theme.go` with its `key` tag, read by both
+  renderers and described in `docs/themes.md` (a test checks the guide
+  mentions every setting).
 - Formatting that the document model cannot express yet also needs a field in
   `internal/ast` and support in both renderers.
 

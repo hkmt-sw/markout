@@ -1,0 +1,323 @@
+p1 rect  x=85.0 y=85.0 w=425.2 h=67.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
+p1 text  x=93.0 y=93.0 Serif-Bold/11.5 "Title: " #555555
+p1 text  x=122.7 y=93.0 Serif/11.5 "markout showcase" #222222
+p1 text  x=93.0 y=110.0 Serif-Bold/11.5 "Author: " #555555
+p1 text  x=135.5 y=110.0 Serif/11.5 "The markout project" #222222
+p1 text  x=93.0 y=127.0 Serif-Bold/11.5 "Date: " #555555
+p1 text  x=122.7 y=127.0 Serif/11.5 "2026-10-06" #222222
+p1 text  x=85.0 y=180.0 Serif-Bold/26 "markout" #111111
+p1 text  x=188.3 y=180.0 Serif-Bold/26 "showcase" #111111
+p1 text  x=85.0 y=223.0 Serif/11.5 "This document contains every kind of element markout can render, each with" #222222
+p1 text  x=443.3 y=223.0 Serif/11.5 "a" #222222
+p1 text  x=451.3 y=223.0 Serif/11.5 "short note" #222222
+p1 text  x=85.0 y=240.0 Serif/11.5 "saying what you should see. Convert it to PDF and to DOCX and" #222222
+p1 text  x=388.3 y=240.0 Serif/11.5 "read" #222222
+p1 text  x=410.9 y=240.0 Serif/11.5 "through the result: if" #222222
+p1 text  x=85.0 y=257.0 Serif/11.5 "every note is true, the output is" #222222
+p1 text  x=229.9 y=257.0 Serif/11.5 "fine." #222222
+p1 rect  x=85.0 y=282.0 w=425.2 h=41.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
+p1 text  x=93.0 y=290.0 Courier/9 "markout fixtures/showcase.md showcase.pdf" #222222
+p1 text  x=93.0 y=302.5 Courier/9 "markout fixtures/showcase.md showcase.docx" #222222
+p1 text  x=85.0 y=331.0 Serif/11.5 "Above this heading there should be a panel listing the title, author and" #222222
+p1 text  x=409.9 y=331.0 Serif/11.5 "date." #222222
+p1 text  x=85.0 y=374.0 Serif-Bold/19 "1." #111111
+p1 text  x=104.0 y=374.0 Serif-Bold/19 "Headings" #111111
+p1 text  x=85.0 y=406.0 Serif/11.5 "The six heading levels follow, each smaller than the one" #222222
+p1 text  x=346.3 y=406.0 Serif/11.5 "before." #222222
+p1 text  x=85.0 y=451.0 Serif-Bold/26 "Heading level" #111111
+p1 text  x=242.3 y=451.0 Serif-Bold/26 "1" #111111
+p1 text  x=85.0 y=512.0 Serif-Bold/19 "Heading level" #111111
+p1 text  x=200.0 y=512.0 Serif-Bold/19 "2" #111111
+p1 text  x=85.0 y=558.0 Serif-Bold/15 "Heading level" #111111
+p1 text  x=175.8 y=558.0 Serif-Bold/15 "3" #111111
+p1 text  x=85.0 y=596.0 Serif-Bold/13 "Heading level" #111111
+p1 text  x=163.7 y=596.0 Serif-Bold/13 "4" #111111
+p1 text  x=85.0 y=630.0 Serif-Bold/12 "Heading level" #111111
+p1 text  x=157.6 y=630.0 Serif-Bold/12 "5" #111111
+p1 text  x=85.0 y=662.0 Serif-Bold/11.5 "Heading level" #111111
+p1 text  x=154.6 y=662.0 Serif-Bold/11.5 "6" #111111
+p1 text  x=85.0 y=702.0 Serif-Bold/19 "2. Text" #111111
+p1 text  x=145.7 y=702.0 Serif-Bold/19 "formatting" #111111
+p1 text  x=85.0 y=734.0 Serif/11.5 "Each word in quotes should look the way it describes itself: \"" #222222
+p1 text  x=366.4 y=734.0 Serif-Bold/11.5 "bold" #222222
+p1 text  x=388.1 y=734.0 Serif/11.5 "\"," #222222
+p1 text  x=398.6 y=734.0 Serif/11.5 "\"" #222222
+p1 text  x=403.3 y=734.0 Serif-Italic/11.5 "italic" #222222
+p1 text  x=426.9 y=734.0 Serif/11.5 "\", \"" #222222
+p1 text  x=442.0 y=734.0 Serif-BoldItalic/11.5 "bold italic" #222222
+p1 text  x=488.9 y=734.0 Serif/11.5 "\", \"" #222222
+p2 text  x=85.0 y=86.5 Courier/10.5 "inline code" #5B2C2C
+p2 text  x=154.3 y=85.0 Serif/11.5 "\" (monospace," #222222
+p2 text  x=223.2 y=85.0 Serif/11.5 "colored)," #222222
+p2 text  x=267.2 y=85.0 Serif/11.5 "\"" #222222
+p2 text  x=271.9 y=85.0 Serif/11.5 "struck through" #888888
+p2 line  x=271.9 y=91.7 to x=338.6 y=91.7 #888888/0.6
+p2 text  x=338.6 y=85.0 Serif/11.5 "\" (with a line through it), \"" #222222
+p2 text  x=460.7 y=85.0 Serif/11.5 "underlined" #222222
+p2 line  x=460.7 y=97.5 to x=509.8 y=97.5 #222222/0.6
+p2 text  x=85.0 y=102.0 Serif/11.5 "\"," #222222
+p2 text  x=95.5 y=102.0 Serif/11.5 "\"" #222222
+p2 rect  x=100.2 y=101.0 w=52.3 h=14.5 fill=#FFF082
+p2 text  x=100.2 y=102.0 Serif/11.5 "highlighted" #222222
+p2 text  x=152.5 y=102.0 Serif/11.5 "\" (on a colored" #222222
+p2 text  x=223.6 y=102.0 Serif/11.5 "background)." #222222
+p2 text  x=85.0 y=127.0 Serif/11.5 "Water is H" #222222
+p2 text  x=134.8 y=132.5 Serif/8 "2" #222222
+p2 text  x=138.8 y=127.0 Serif/11.5 "O (the 2 sits below the line) and Einstein" #222222
+p2 text  x=329.3 y=127.0 Serif/11.5 "wrote" #222222
+p2 text  x=358.3 y=127.0 Serif/11.5 "E = mc" #222222
+p2 text  x=391.6 y=126.0 Serif/8 "2" #222222
+p2 text  x=398.5 y=127.0 Serif/11.5 "(the 2 sits above" #222222
+p2 text  x=476.3 y=127.0 Serif/11.5 "it)." #222222
+p2 text  x=85.0 y=152.0 Serif/11.5 "A paragraph long enough to wrap should fill the line and continue on the" #222222
+p2 text  x=422.7 y=152.0 Serif/11.5 "next" #222222
+p2 text  x=445.4 y=152.0 Serif/11.5 "one without" #222222
+p2 text  x=85.0 y=169.0 Serif/11.5 "any word being cut in half or running past the right margin," #222222
+p2 text  x=361.1 y=169.0 Serif/11.5 "which" #222222
+p2 text  x=392.1 y=169.0 Serif/11.5 "this sentence is here to" #222222
+p2 text  x=85.0 y=186.0 Serif/11.5 "demonstrate by simply being" #222222
+p2 text  x=221.0 y=186.0 Serif/11.5 "long." #222222
+p2 text  x=85.0 y=211.0 Serif/11.5 "Escaped characters appear without their backslash: *not italic*, # not" #222222
+p2 text  x=405.6 y=211.0 Serif/11.5 "a" #222222
+p2 text  x=413.6 y=211.0 Serif/11.5 "heading, [not a link]." #222222
+p2 text  x=85.0 y=228.0 Serif/11.5 "A copyright sign from an entity:" #222222
+p2 text  x=236.3 y=228.0 Serif/11.5 "©." #222222
+p2 text  x=85.0 y=271.0 Serif-Bold/19 "3." #111111
+p2 text  x=104.0 y=271.0 Serif-Bold/19 "Links" #111111
+p2 text  x=85.0 y=303.0 Serif/11.5 "A" #222222
+p2 text  x=96.2 y=303.0 Serif/11.5 "link with text" #1F3A5F
+p2 text  x=160.4 y=303.0 Serif/11.5 "and a bare" #222222
+p2 text  x=210.4 y=303.0 Serif/11.5 "address," #222222
+p2 text  x=250.7 y=303.0 Serif/11.5 "https://example.com/bare" #1F3A5F
+p2 text  x=367.1 y=303.0 Serif/11.5 ", should both be colored and" #222222
+p2 text  x=85.0 y=320.0 Serif/11.5 "clickable." #222222
+p2 text  x=85.0 y=363.0 Serif-Bold/19 "4." #111111
+p2 text  x=104.0 y=363.0 Serif-Bold/19 "Lists" #111111
+p2 text  x=85.0 y=395.0 Serif/11.5 "Three bullets, the second with two nested ones" #222222
+p2 text  x=299.5 y=395.0 Serif/11.5 ":" #222222
+p2 text  x=105.0 y=420.0 Serif/11.5 "• " #222222
+p2 text  x=111.9 y=420.0 Serif/11.5 "First" #222222
+p2 text  x=135.9 y=420.0 Serif/11.5 "item" #222222
+p2 text  x=105.0 y=437.0 Serif/11.5 "• " #222222
+p2 text  x=111.9 y=437.0 Serif/11.5 "Second item, with" #222222
+p2 text  x=198.1 y=437.0 Serif-Bold/11.5 "bold" #222222
+p2 text  x=222.7 y=437.0 Serif/11.5 "and" #222222
+p2 text  x=242.2 y=438.5 Courier/10.5 "code" #5B2C2C
+p2 text  x=270.2 y=437.0 Serif/11.5 "inside" #222222
+p2 text  x=300.6 y=437.0 Serif/11.5 "it" #222222
+p2 text  x=125.0 y=454.0 Serif/11.5 "◦ " #222222
+p2 text  x=132.0 y=454.0 Serif/11.5 "Nested item" #222222
+p2 text  x=190.0 y=454.0 Serif/11.5 "one" #222222
+p2 text  x=125.0 y=471.0 Serif/11.5 "◦ " #222222
+p2 text  x=132.0 y=471.0 Serif/11.5 "Nested item" #222222
+p2 text  x=190.0 y=471.0 Serif/11.5 "two" #222222
+p2 text  x=105.0 y=488.0 Serif/11.5 "• " #222222
+p2 text  x=111.9 y=488.0 Serif/11.5 "Third item, long enough to wrap onto a second line so that you can check" #222222
+p2 text  x=452.1 y=488.0 Serif/11.5 "the" #222222
+p2 text  x=105.0 y=505.0 Serif/11.5 "continuation line starts under the first one and not at the page" #222222
+p2 text  x=389.0 y=505.0 Serif/11.5 "margin" #222222
+p2 text  x=85.0 y=528.0 Serif/11.5 "Three numbered items" #222222
+p2 text  x=188.4 y=528.0 Serif/11.5 ":" #222222
+p2 text  x=105.0 y=553.0 Serif/11.5 "1. " #222222
+p2 text  x=116.5 y=553.0 Serif/11.5 "First" #222222
+p2 text  x=105.0 y=570.0 Serif/11.5 "2. " #222222
+p2 text  x=116.5 y=570.0 Serif/11.5 "Second" #222222
+p2 text  x=105.0 y=587.0 Serif/11.5 "3. " #222222
+p2 text  x=116.5 y=587.0 Serif/11.5 "Third" #222222
+p2 text  x=85.0 y=610.0 Serif/11.5 "A task list, the first box checked and the second empty" #222222
+p2 text  x=336.2 y=610.0 Serif/11.5 ":" #222222
+p2 text  x=105.0 y=635.0 Serif/11.5 "[x] " #222222
+p2 text  x=121.3 y=635.0 Serif/11.5 "Done" #222222
+p2 text  x=105.0 y=652.0 Serif/11.5 "[ ] " #222222
+p2 text  x=118.4 y=652.0 Serif/11.5 "Still to" #222222
+p2 text  x=152.3 y=652.0 Serif/11.5 "do" #222222
+p2 text  x=85.0 y=693.0 Serif-Bold/19 "5." #111111
+p2 text  x=104.0 y=693.0 Serif-Bold/19 "Tables" #111111
+p2 text  x=85.0 y=725.0 Serif/11.5 "A table with a shaded header row, borders, and the numbers in the third" #222222
+p2 text  x=416.9 y=725.0 Serif/11.5 "column" #222222
+p3 text  x=85.0 y=85.0 Serif/11.5 "right-aligned. The last row has formatting and a long cell that" #222222
+p3 text  x=370.3 y=85.0 Serif/11.5 "wraps." #222222
+p3 rect  x=85.0 y=110.0 w=83.1 h=21.0 fill=#EFEDE6 stroke=#BDB9AD/0.5
+p3 rect  x=168.1 y=110.0 w=287.9 h=21.0 fill=#EFEDE6 stroke=#BDB9AD/0.5
+p3 rect  x=456.0 y=110.0 w=54.2 h=21.0 fill=#EFEDE6 stroke=#BDB9AD/0.5
+p3 text  x=89.0 y=114.0 Serif-Bold/11.5 "Element" #222222
+p3 text  x=172.1 y=114.0 Serif-Bold/11.5 "Example" #222222
+p3 text  x=475.6 y=114.0 Serif-Bold/11.5 "Count" #222222
+p3 rect  x=85.0 y=131.0 w=83.1 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=168.1 y=131.0 w=287.9 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=456.0 y=131.0 w=54.2 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 text  x=89.0 y=135.0 Serif/11.5 "Plain" #222222
+p3 text  x=172.1 y=135.0 Serif/11.5 "text" #222222
+p3 text  x=500.5 y=135.0 Serif/11.5 "1" #222222
+p3 rect  x=85.0 y=152.0 w=83.1 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=168.1 y=152.0 w=287.9 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=456.0 y=152.0 w=54.2 h=21.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 text  x=89.0 y=156.0 Serif/11.5 "Formatted" #222222
+p3 text  x=172.1 y=156.0 Serif-Bold/11.5 "bold" #222222
+p3 text  x=193.8 y=156.0 Serif/11.5 "," #222222
+p3 text  x=199.6 y=156.0 Serif-Italic/11.5 "italic" #222222
+p3 text  x=223.2 y=156.0 Serif/11.5 "," #222222
+p3 text  x=228.9 y=157.5 Courier/10.5 "code" #5B2C2C
+p3 text  x=494.7 y=156.0 Serif/11.5 "22" #222222
+p3 rect  x=85.0 y=173.0 w=83.1 h=34.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=168.1 y=173.0 w=287.9 h=34.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 rect  x=456.0 y=173.0 w=54.2 h=34.0 fill=#FFFFFF stroke=#BDB9AD/0.5
+p3 text  x=89.0 y=177.0 Serif/11.5 "Long" #222222
+p3 text  x=172.1 y=177.0 Serif/11.5 "A cell with enough text that it has to wrap onto more than" #222222
+p3 text  x=172.1 y=190.0 Serif/11.5 "one line inside its" #222222
+p3 text  x=255.7 y=190.0 Serif/11.5 "column" #222222
+p3 text  x=489.0 y=177.0 Serif/11.5 "333" #222222
+p3 text  x=85.0 y=233.0 Serif-Bold/19 "6." #111111
+p3 text  x=104.0 y=233.0 Serif-Bold/19 "Code" #111111
+p3 text  x=85.0 y=265.0 Serif/11.5 "A code block in a monospace font on a shaded panel, with its" #222222
+p3 text  x=369.7 y=265.0 Serif/11.5 "indentation" #222222
+p3 text  x=424.3 y=265.0 Serif/11.5 "preserved" #222222
+p3 text  x=468.9 y=265.0 Serif/11.5 ":" #222222
+p3 rect  x=85.0 y=290.0 w=425.2 h=78.5 fill=#F7F6F2 stroke=#DDDAD0/0.5
+p3 text  x=93.0 y=298.0 Courier/9 "func main() {" #222222
+p3 text  x=93.0 y=310.5 Courier/9 "\tif ok := convert(); !ok {" #222222
+p3 text  x=93.0 y=323.0 Courier/9 "\t\tfmt.Println(\"failed\")" #222222
+p3 text  x=93.0 y=335.5 Courier/9 "\t}" #222222
+p3 text  x=93.0 y=348.0 Courier/9 "}" #222222
+p3 text  x=85.0 y=394.5 Serif-Bold/19 "7." #111111
+p3 text  x=104.0 y=394.5 Serif-Bold/19 "Quotes" #111111
+p3 text  x=85.0 y=426.5 Serif/11.5 "A quote, set off from the text by a bar on the left" #222222
+p3 text  x=308.1 y=426.5 Serif/11.5 ":" #222222
+p3 text  x=105.0 y=451.5 Serif-Italic/11.5 "The first paragraph of the quote, with" #222222
+p3 text  x=281.3 y=451.5 Serif-Italic/11.5 "emphasis" #222222
+p3 text  x=324.0 y=451.5 Serif-Italic/11.5 "." #222222
+p3 line  x=90.0 y=451.5 to x=90.0 y=468.5 #9A968A/3.0
+p3 text  x=105.0 y=472.5 Serif-Italic/11.5 "The second paragraph of the" #222222
+p3 text  x=240.7 y=472.5 Serif-Italic/11.5 "quote." #222222
+p3 line  x=90.0 y=472.5 to x=90.0 y=489.5 #9A968A/3.0
+p3 text  x=85.0 y=511.5 Serif-Bold/19 "8." #111111
+p3 text  x=104.0 y=511.5 Serif-Bold/19 "Callouts" #111111
+p3 text  x=85.0 y=543.5 Serif/11.5 "Five boxes with a colored bar and title: blue note, green tip," #222222
+p3 text  x=362.0 y=543.5 Serif/11.5 "purple" #222222
+p3 text  x=394.2 y=543.5 Serif/11.5 "important, amber" #222222
+p3 text  x=85.0 y=560.5 Serif/11.5 "caution, red" #222222
+p3 text  x=142.1 y=560.5 Serif/11.5 "warning." #222222
+p3 rect  x=85.0 y=585.5 w=425.2 h=50.0 fill=#DBEAFE
+p3 line  x=85.0 y=585.5 to x=85.0 y=635.5 #3B82F6/3.0
+p3 text  x=93.0 y=593.5 Serif-Bold/11.5 "NOTE" #3B82F6
+p3 text  x=93.0 y=610.5 Serif/11.5 "Something worth" #222222
+p3 text  x=175.4 y=610.5 Serif/11.5 "knowing." #222222
+p3 rect  x=85.0 y=643.5 w=425.2 h=50.0 fill=#DCFCE7
+p3 line  x=85.0 y=643.5 to x=85.0 y=693.5 #22C55E/3.0
+p3 text  x=93.0 y=651.5 Serif-Bold/11.5 "TIP" #22C55E
+p3 text  x=93.0 y=668.5 Serif/11.5 "A helpful hint, with" #222222
+p3 text  x=186.6 y=668.5 Serif-Bold/11.5 "bold" #222222
+p3 text  x=211.2 y=668.5 Serif/11.5 "and" #222222
+p3 text  x=230.6 y=670.0 Courier/10.5 "code" #5B2C2C
+p3 text  x=255.8 y=668.5 Serif/11.5 "." #222222
+p3 rect  x=85.0 y=701.5 w=425.2 h=50.0 fill=#F3E8FF
+p3 line  x=85.0 y=701.5 to x=85.0 y=751.5 #A855F7/3.0
+p3 text  x=93.0 y=709.5 Serif-Bold/11.5 "IMPORTANT" #A855F7
+p3 text  x=93.0 y=726.5 Serif/11.5 "Something you must not" #222222
+p3 text  x=208.6 y=726.5 Serif/11.5 "miss." #222222
+p4 rect  x=85.0 y=85.0 w=425.2 h=50.0 fill=#FEF9C3
+p4 line  x=85.0 y=85.0 to x=85.0 y=135.0 #EAB308/3.0
+p4 text  x=93.0 y=93.0 Serif-Bold/11.5 "CAUTION" #EAB308
+p4 text  x=93.0 y=110.0 Serif/11.5 "Take care with" #222222
+p4 text  x=164.2 y=110.0 Serif/11.5 "this." #222222
+p4 rect  x=85.0 y=143.0 w=425.2 h=67.0 fill=#FEE2E2
+p4 line  x=85.0 y=143.0 to x=85.0 y=210.0 #EF4444/3.0
+p4 text  x=93.0 y=151.0 Serif-Bold/11.5 "WARNING" #EF4444
+p4 text  x=93.0 y=168.0 Serif/11.5 "This can go wrong. The text of this callout is long enough to wrap, and" #222222
+p4 text  x=422.1 y=168.0 Serif/11.5 "the" #222222
+p4 text  x=439.0 y=168.0 Serif/11.5 "box should" #222222
+p4 text  x=93.0 y=185.0 Serif/11.5 "grow to contain all of" #222222
+p4 text  x=194.8 y=185.0 Serif/11.5 "it." #222222
+p4 text  x=85.0 y=236.0 Serif-Bold/19 "9." #111111
+p4 text  x=104.0 y=236.0 Serif-Bold/19 "Rule" #111111
+p4 text  x=85.0 y=268.0 Serif/11.5 "A horizontal line across the page" #222222
+p4 text  x=238.8 y=268.0 Serif/11.5 "follows." #222222
+p4 line  x=85.0 y=305.0 to x=510.2 y=305.0 #9A968A/0.8
+p4 text  x=85.0 y=335.0 Serif-Bold/19 "10." #111111
+p4 text  x=113.5 y=335.0 Serif-Bold/19 "Math" #111111
+p4 text  x=85.0 y=367.0 Serif/11.5 "Formulas are shown as their LaTeX source in a distinct color, not" #222222
+p4 text  x=389.1 y=367.0 Serif/11.5 "typeset." #222222
+p4 text  x=427.4 y=367.0 Serif/11.5 "Inline:" #222222
+p4 text  x=460.3 y=367.0 Serif-Italic/11.5 "E = mc^2" #7C3AED
+p4 text  x=85.0 y=384.0 Serif/11.5 "and" #222222
+p4 text  x=104.5 y=384.0 Serif-Italic/11.5 "a^2 + b^2 = c^2" #7C3AED
+p4 text  x=179.9 y=384.0 Serif/11.5 ". On a line of its own, centered" #222222
+p4 text  x=321.2 y=384.0 Serif/11.5 ":" #222222
+p4 text  x=225.8 y=409.0 Serif-Italic/11.5 "\\int_0^1 x^2 \\, dx = \\frac{1}{3}" #7C3AED
+p4 text  x=85.0 y=452.0 Serif-Bold/19 "11." #111111
+p4 text  x=113.5 y=452.0 Serif-Bold/19 "Diagram" #111111
+p4 text  x=85.0 y=484.0 Serif/11.5 "Diagram source is shown in a labeled panel, not drawn" #222222
+p4 text  x=337.1 y=484.0 Serif/11.5 ":" #222222
+p4 rect  x=85.0 y=509.0 w=425.2 h=66.0 fill=#ECFDF5 stroke=#10B981/0.5
+p4 text  x=93.0 y=517.0 Serif-Bold/11.5 "Mermaid Diagram" #065F46
+p4 text  x=93.0 y=529.5 Courier/9 "graph LR" #065F46
+p4 text  x=93.0 y=542.0 Courier/9 "    Markdown --> PDF" #065F46
+p4 text  x=93.0 y=554.5 Courier/9 "    Markdown --> DOCX" #065F46
+p4 text  x=85.0 y=601.0 Serif-Bold/19 "12. Definition" #111111
+p4 text  x=199.5 y=601.0 Serif-Bold/19 "list" #111111
+p4 text  x=85.0 y=633.0 Serif/11.5 "A bold term with its definition indented below it" #222222
+p4 text  x=307.8 y=633.0 Serif/11.5 ":" #222222
+p4 text  x=85.0 y=658.0 Serif-Bold/11.5 "Markdown" #222222
+p4 text  x=105.0 y=675.0 Serif/11.5 "A plain-text format for writing structured" #222222
+p4 text  x=297.8 y=675.0 Serif/11.5 "documents." #222222
+p4 text  x=85.0 y=696.0 Serif-Bold/11.5 "Flavor" #222222
+p4 text  x=105.0 y=713.0 Serif/11.5 "A dialect of Markdown, such as the one GitHub" #222222
+p4 text  x=328.4 y=713.0 Serif/11.5 "uses." #222222
+p5 text  x=85.0 y=85.0 Serif-Bold/19 "13." #111111
+p5 text  x=113.5 y=85.0 Serif-Bold/19 "Images" #111111
+p5 text  x=85.0 y=117.0 Serif/11.5 "An image that does not exist shows a placeholder with its description" #222222
+p5 text  x=406.1 y=117.0 Serif/11.5 "and" #222222
+p5 text  x=425.5 y=117.0 Serif/11.5 "path instead of a" #222222
+p5 text  x=85.0 y=134.0 Serif/11.5 "picture" #222222
+p5 text  x=116.9 y=134.0 Serif/11.5 ":" #222222
+p5 text  x=85.0 y=159.0 Serif-Italic/11.5 "[IMG] A missing picture" #555555
+p5 text  x=85.0 y=176.0 Serif/9 "does-not-exist.png" #1F3A5F
+p5 text  x=85.0 y=219.0 Serif-Bold/19 "14. Inline diff and color" #111111
+p5 text  x=280.2 y=219.0 Serif-Bold/19 "chips" #111111
+p5 text  x=85.0 y=251.0 Serif/11.5 "An addition is" #222222
+p5 text  x=153.0 y=251.0 Serif/11.5 "green and underlined" #16A34A
+p5 line  x=153.0 y=263.5 to x=250.0 y=263.5 #16A34A/0.6
+p5 text  x=250.0 y=251.0 Serif/11.5 ", a removal is {- red and" #222222
+p5 text  x=364.0 y=251.0 Serif/11.5 "struck" #222222
+p5 text  x=395.0 y=251.0 Serif/11.5 "through -}. A color code" #222222
+p5 text  x=85.0 y=268.0 Serif/11.5 "such as" #222222
+p5 rect  x=121.4 y=268.0 w=10.0 h=10.0 fill=#2563EB
+p5 text  x=133.4 y=269.5 Courier/10.5 "#2563EB" #5B2C2C
+p5 text  x=180.4 y=268.0 Serif/11.5 "is preceded by a small square" #222222
+p5 text  x=318.2 y=268.0 Serif/11.5 "of" #222222
+p5 text  x=330.7 y=268.0 Serif/11.5 "that" #222222
+p5 text  x=350.8 y=268.0 Serif/11.5 "color." #222222
+p5 text  x=85.0 y=311.0 Serif-Bold/19 "15." #111111
+p5 text  x=113.5 y=311.0 Serif-Bold/19 "Emoji" #111111
+p5 text  x=85.0 y=343.0 Serif/11.5 "Emoji shortcodes become emoji in DOCX:" #222222
+p5 text  x=286.1 y=343.0 Serif/11.5 ". In PDF they are" #222222
+p5 text  x=367.8 y=343.0 Serif/11.5 "left" #222222
+p5 text  x=386.0 y=343.0 Serif/11.5 "out, because the built-in" #222222
+p5 text  x=85.0 y=360.0 Serif/11.5 "fonts have no" #222222
+p5 text  x=149.8 y=360.0 Serif/11.5 "emoji." #222222
+p5 text  x=85.0 y=403.0 Serif-Bold/19 "16." #111111
+p5 text  x=113.5 y=403.0 Serif-Bold/19 "Footnotes" #111111
+p5 text  x=85.0 y=435.0 Serif/11.5 "This sentence has a footnote" #222222
+p5 text  x=215.2 y=435.0 Serif/11.5 "[1]" #1F3A5F
+p5 text  x=228.6 y=435.0 Serif/11.5 ", and this one has another" #222222
+p5 text  x=345.4 y=435.0 Serif/11.5 "[2]" #1F3A5F
+p5 text  x=358.8 y=435.0 Serif/11.5 "." #222222
+p5 text  x=364.6 y=435.0 Serif/11.5 "The" #222222
+p5 text  x=385.3 y=435.0 Serif/11.5 "numbers should be" #222222
+p5 text  x=85.0 y=452.0 Serif/11.5 "colored, and both notes should appear at the end of" #222222
+p5 text  x=322.2 y=452.0 Serif/11.5 "the" #222222
+p5 text  x=339.1 y=452.0 Serif/11.5 "document under a short" #222222
+p5 text  x=450.1 y=452.0 Serif/11.5 "line." #222222
+p5 line  x=85.0 y=497.0 to x=212.6 y=497.0 #9A968A/0.5
+p5 text  x=85.0 y=507.0 Serif/9 "1. " #222222
+p5 text  x=94.0 y=507.0 Serif/9 "The first footnote, with" #222222
+p5 text  x=179.7 y=507.0 Serif-Bold/9 "bold" #222222
+p5 text  x=199.0 y=507.0 Serif/9 "text." #222222
+p5 text  x=85.0 y=525.0 Serif/9 "2. " #222222
+p5 text  x=94.0 y=525.0 Serif/9 "The second" #222222
+p5 text  x=137.5 y=525.0 Serif/9 "footnote." #222222
+p1 text  x=295.4 y=794.9 Serif/9 "1" #555555
+p2 text  x=295.4 y=794.9 Serif/9 "2" #555555
+p3 text  x=295.4 y=794.9 Serif/9 "3" #555555
+p4 text  x=295.4 y=794.9 Serif/9 "4" #555555
+p5 text  x=295.4 y=794.9 Serif/9 "5" #555555

@@ -2,11 +2,11 @@ p1 text  x=56.7 y=76.7 Arial-Bold/24 "Markdown Extra" #000000
 p1 rect  x=56.7 y=116.7 w=218.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/1.0
 p1 rect  x=275.3 y=116.7 w=263.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/1.0
 p1 text  x=60.7 y=120.7 Arial-Bold/11 "Left" #1A1A2E
-p1 text  x=279.3 y=120.7 Arial-Bold/11 "Right" #1A1A2E
+p1 text  x=506.5 y=120.7 Arial-Bold/11 "Right" #1A1A2E
 p1 rect  x=56.7 y=137.7 w=218.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/1.0
 p1 rect  x=275.3 y=137.7 w=263.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/1.0
 p1 text  x=60.7 y=141.7 Arial/11 "a" #1A1A2E
-p1 text  x=279.3 y=141.7 Arial/11 "b" #1A1A2E
+p1 text  x=528.5 y=141.7 Arial/11 "b" #1A1A2E
 p1 text  x=56.7 y=166.7 Arial-Bold/11 "Apple" #1A1A2E
 p1 text  x=76.7 y=182.7 Arial/11 "A fruit" #1A1A2E
 p1 text  x=56.7 y=206.7 Arial/11 "Footnote" #1A1A2E

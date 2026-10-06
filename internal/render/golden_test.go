@@ -15,6 +15,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/parse"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 // The golden tests convert every sample document and compare what was
@@ -81,6 +82,47 @@ func TestGoldenOutput(t *testing.T) {
 				t.Fatalf("render PDF: %v", err)
 			}
 			checkGolden(t, name+".pdf.txt", pdf.trace.String())
+		})
+	}
+}
+
+// The built-in themes are recorded too, on the showcase document, so a change
+// to a theme or to how the renderers apply one shows up.
+func TestGoldenThemes(t *testing.T) {
+	path := filepath.Join(fixturesDir, "showcase.md")
+	src, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parse.ParseFlavor(src, flavor.Default(), filepath.Dir(path))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, info := range (theme.Loader{}).List() {
+		if info.Name == theme.DefaultName {
+			continue // recorded by TestGoldenOutput
+		}
+		t.Run(info.Name, func(t *testing.T) {
+			set, err := theme.Loader{}.Load(info.Name)
+			if err != nil {
+				t.Fatal(err)
+			}
+			opts := Options{BaseDir: filepath.Dir(path), Theme: &set}
+			dir := t.TempDir()
+
+			docxPath := filepath.Join(dir, "out.docx")
+			if err := RenderDocx(doc, docxPath, opts); err != nil {
+				t.Fatalf("render DOCX: %v", err)
+			}
+			checkGolden(t, "theme-"+info.Name+".docx.txt", docxOutline(t, docxPath))
+
+			pdf := NewPdfRenderer()
+			pdf.opts = opts
+			pdf.trace = &strings.Builder{}
+			if err := pdf.RenderToFile(doc, filepath.Join(dir, "out.pdf")); err != nil {
+				t.Fatalf("render PDF: %v", err)
+			}
+			checkGolden(t, "theme-"+info.Name+".pdf.txt", pdf.trace.String())
 		})
 	}
 }

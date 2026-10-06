@@ -19,11 +19,11 @@ p1 text  x=88.9 y=212.7 Arial/11 "Open" #1A1A2E
 p1 rect  x=56.7 y=234.7 w=211.8 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 rect  x=268.5 y=234.7 w=270.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 text  x=60.7 y=238.7 Arial-Bold/11 "Feature" #1A1A2E
-p1 text  x=272.5 y=238.7 Arial-Bold/11 "Supported" #1A1A2E
+p1 text  x=376.1 y=238.7 Arial-Bold/11 "Supported" #1A1A2E
 p1 rect  x=56.7 y=255.7 w=211.8 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p1 rect  x=268.5 y=255.7 w=270.1 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p1 text  x=60.7 y=259.7 Arial/11 "Tables" #1A1A2E
-p1 text  x=272.5 y=259.7 Arial/11 "yes" #1A1A2E
+p1 text  x=395.0 y=259.7 Arial/11 "yes" #1A1A2E
 p1 rect  x=56.7 y=284.7 w=481.9 h=48.0 fill=#FEE2E2
 p1 line  x=56.7 y=284.7 to x=56.7 y=332.7 #EF4444/3.0
 p1 text  x=64.7 y=292.7 Arial-Bold/11 "WARNING" #EF4444

@@ -48,6 +48,15 @@ type textLine struct {
 	frags []fragment
 }
 
+// width is the extent of the line's text.
+func (l textLine) width() float64 {
+	if len(l.frags) == 0 {
+		return 0
+	}
+	last := l.frags[len(l.frags)-1]
+	return last.x + last.width
+}
+
 const chipWidth = 12.0
 
 // layout breaks runs into lines. The first line may be narrower or wider than
