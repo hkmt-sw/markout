@@ -66,6 +66,8 @@ func Default() Set {
 		Diagram:  diagram,
 		Footnote: Footnote{Size: 9, LineHeight: 14, Rule: Hex("B4B4B4")},
 		Caption:  Caption{Size: 9},
+		Header:   Running{Size: 9, Color: Hex("4A4A68")},
+		Footer:   Running{Size: 9, Color: Hex("4A4A68")},
 		Colors: Colors{
 			Math: Hex("7C3AED"), Highlight: Hex("FFF082"),
 			Inserted: Hex("16A34A"), Deleted: Hex("CF222E"),

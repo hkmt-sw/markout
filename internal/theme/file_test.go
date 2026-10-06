@@ -266,3 +266,37 @@ func TestParseLength(t *testing.T) {
 		}
 	}
 }
+
+func TestHeaderAndFooterSettings(t *testing.T) {
+	dir := t.TempDir()
+	set, err := Loader{}.Load(writeTheme(t, dir, "hf.toml", `
+[header]
+left = "{title}"
+rule = true
+
+[footer]
+center = "{page} / {pages}"
+size = 8
+color = "#777777"
+`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for name, th := range map[string]Theme{"pdf": set.PDF, "docx": set.DOCX} {
+		if th.Header.Left != "{title}" || !th.Header.Rule || th.Header.Size != 9 {
+			t.Errorf("%s header: %+v", name, th.Header)
+		}
+		if th.Footer.Center != "{page} / {pages}" || th.Footer.Size != 8 || th.Footer.Color != (Color{0x77, 0x77, 0x77}) {
+			t.Errorf("%s footer: %+v", name, th.Footer)
+		}
+	}
+	if !Default().PDF.Header.Empty() || !Default().DOCX.Footer.Empty() {
+		t.Error("the default theme has a header or footer")
+	}
+
+	// A margin too small to hold the text is refused, with the fix named.
+	_, err = Loader{}.Load(writeTheme(t, dir, "tight.toml", "[page]\nmargin = \"5mm\"\n\n[footer]\ncenter = \"{page}\"\n"))
+	if err == nil || !strings.Contains(err.Error(), "page.margin-bottom") {
+		t.Errorf("a footer in a 5mm margin: %v", err)
+	}
+}

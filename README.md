@@ -179,6 +179,22 @@ bold    = "Brand-Bold.ttf"
 name    = "Brand Sans"          # what the font is called, for DOCX
 ```
 
+A theme can also put a header and a footer on every page:
+
+```toml
+[header]
+left  = "{title}"
+right = "{date}"
+rule  = true            # a line under the header
+
+[footer]
+center = "Page {page} of {pages}"
+```
+
+`{title}`, `{author}` and `{date}` come from the document's front matter (the
+title falls back to its first heading); `{page}` and `{pages}` are the page
+number and count.
+
 PDF embeds the fonts. DOCX only names them: whoever opens the document needs
 the font installed, or their word processor substitutes another.
 
