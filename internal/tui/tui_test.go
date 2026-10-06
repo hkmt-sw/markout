@@ -2,11 +2,17 @@ package tui
 
 import (
 	"archive/zip"
+	"bytes"
+	"image"
+	"image/png"
 	"io"
+	"net/http"
+	"net/http/httptest"
 	"os"
 	"path/filepath"
 	"runtime"
 	"strings"
+	"sync/atomic"
 	"testing"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -494,5 +500,86 @@ func TestFileNamesAreSanitizedForDisplay(t *testing.T) {
 	cursorOn(t, &m, "evil\x1b[2J.md")
 	if view := m.View(); strings.Contains(view, "\x1b[2J") {
 		t.Fatal("the escape sequence from the file name reached the screen")
+	}
+}
+
+// remoteDoc writes a document that references an image on a counting test
+// server and returns the model with the cursor on it.
+func remoteDoc(t *testing.T) (Model, *atomic.Int32, string) {
+	t.Helper()
+	var buf bytes.Buffer
+	if err := png.Encode(&buf, image.NewRGBA(image.Rect(0, 0, 4, 4))); err != nil {
+		t.Fatal(err)
+	}
+	hits := new(atomic.Int32)
+	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		hits.Add(1)
+		w.Write(buf.Bytes())
+	}))
+	t.Cleanup(srv.Close)
+
+	dir := t.TempDir()
+	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Doc\n\n![pic]("+srv.URL+"/p.png)\n"), 0o644)
+	m := newAt(dir)
+	m.format = formatDOCX
+	cursorOn(t, &m, "doc.md")
+	return m, hits, strings.TrimPrefix(srv.URL, "http://")
+}
+
+func TestRemoteImagesDialogSkipsByDefault(t *testing.T) {
+	m, hits, host := remoteDoc(t)
+
+	next, cmd := m.Update(key("enter"))
+	m = next.(Model)
+	if !m.confirmRemote || cmd != nil {
+		t.Fatal("expected the remote images dialog instead of a conversion")
+	}
+	view := m.View()
+	for _, want := range []string{host, "1 image", "local network", "at your own risk", "Load images", "Skip images"} {
+		if !strings.Contains(view, want) {
+			t.Errorf("dialog does not show %q", want)
+		}
+	}
+	if hits.Load() != 0 {
+		t.Fatal("showing the dialog contacted the server")
+	}
+
+	// Enter on the default button converts without downloading.
+	next, cmd = m.Update(key("enter"))
+	m = next.(Model)
+	done, ok := findConvertDone(cmd())
+	if !ok || done.err != nil {
+		t.Fatalf("conversion did not succeed: %+v", done)
+	}
+	if m.confirmRemote {
+		t.Fatal("dialog still open after answering")
+	}
+	if n := hits.Load(); n != 0 {
+		t.Fatalf("skipping still made %d requests", n)
+	}
+}
+
+func TestRemoteImagesDialogLoadAndCancel(t *testing.T) {
+	m, hits, _ := remoteDoc(t)
+
+	// Cancel: nothing is converted or fetched.
+	next, _ := m.Update(key("enter"))
+	next, cmd := next.(Model).Update(tea.KeyMsg{Type: tea.KeyEsc})
+	if cmd != nil || next.(Model).confirmRemote || next.(Model).converting {
+		t.Fatal("Esc should close the dialog without converting")
+	}
+	if _, err := os.Stat(filepath.Join(m.cwd, "doc.docx")); err == nil {
+		t.Fatal("cancelling still wrote the output")
+	}
+
+	// Load: the image is downloaded.
+	next, _ = m.Update(key("enter"))
+	_, cmd = next.(Model).Update(key("l"))
+	done, ok := findConvertDone(cmd())
+	if !ok || done.err != nil {
+		t.Fatalf("conversion did not succeed: %+v", done)
+	}
+	if n := hits.Load(); n != 1 {
+		t.Fatalf("loading made %d requests, want 1", n)
 	}
 }

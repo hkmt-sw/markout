@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"context"
 	"encoding/xml"
+	"errors"
 	"regexp"
 	"strconv"
 	"strings"
@@ -20,6 +21,26 @@ var (
 	svgFontCSSRe  = regexp.MustCompile(`(?i)font-family\s*:\s*[^;}"']*`)
 )
 
+// Options tune how a document is rendered.
+type Options struct {
+	// BaseDir resolves relative image paths, typically the directory of the
+	// source Markdown file.
+	BaseDir string
+	// RemoteImages allows images referenced by http(s) URL to be downloaded.
+	// When false they are left as placeholders and nothing is fetched.
+	RemoteImages bool
+}
+
+// ErrRemoteImageSkipped is returned for an image that would have to be
+// downloaded when Options.RemoteImages is off.
+var ErrRemoteImageSkipped = errors.New("remote image not loaded")
+
+// IsRemoteURL reports whether an image reference is fetched over the network.
+func IsRemoteURL(url string) bool {
+	l := strings.ToLower(url)
+	return strings.HasPrefix(l, "http://") || strings.HasPrefix(l, "https://")
+}
+
 // looksLikeSVG reports whether data appears to be an SVG document.
 func looksLikeSVG(data []byte) bool {
 	head := data
@@ -33,8 +54,8 @@ func looksLikeSVG(data []byte) bool {
 // the downstream encoders understand (PNG/JPEG/GIF). SVG sources are rasterized
 // to PNG so they can be embedded too. widthHint (px, 0 = unset) controls the
 // SVG raster resolution. Shared by the PDF and DOCX renderers.
-func loadRasterImage(url, baseDir string, widthHint int) ([]byte, error) {
-	data, err := loadImageBytes(url, baseDir)
+func loadRasterImage(url string, opts Options, widthHint int) ([]byte, error) {
+	data, err := loadImageBytes(url, opts)
 	if err != nil {
 		return nil, err
 	}

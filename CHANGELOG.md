@@ -14,6 +14,11 @@ All notable changes to markout are listed here. The format follows
   document references an image by URL). Building from source now needs Go 1.26
   or newer.
 - Updated `golang.org/x/sys`.
+- Images referenced by URL are no longer downloaded silently. The TUI lists
+  the servers a document would contact and asks whether to load the images,
+  skip them or cancel; the command line asks `[y/N]`, and skips them when
+  there is no terminal to ask on. `--remote-images allow|deny|ask` sets the
+  behavior explicitly. Addresses on the local machine or network are flagged.
 - GitLab `::include{file=…}` only reads regular files inside the directory of
   the document being converted. Absolute paths, `..` and symlinks leading
   outside are ignored, so a document can no longer copy arbitrary local files
@@ -32,6 +37,8 @@ All notable changes to markout are listed here. The format follows
 
 ### Changed
 
+- Scripts that relied on remote images being downloaded need
+  `--remote-images allow`.
 - A `:::` block that is never closed is left as text instead of swallowing the
   rest of the document.
 

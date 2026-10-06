@@ -20,15 +20,18 @@ Knowing this helps judge whether something is a vulnerability:
 
 - markout reads the Markdown file you point it at and writes one output file.
 - Images referenced by the document are loaded from disk (regular files up to
-  20 MB, from any path the document names) or downloaded over HTTP(S) if the
-  reference is a URL.
+  20 MB, from any path the document names).
+- Images referenced by URL are downloaded over HTTP(S) only after you agree:
+  markout lists the servers involved and asks, and skips them when it cannot
+  ask. The check looks at the address as written; a public host name that
+  resolves to a private address is not recognized as local.
 - With the GitLab flavor, `::include{file=…}` reads the named file, but only
   from the directory of the document or below it.
 - Nothing is uploaded, and no code from the document is executed.
 
 Converting a document you did not write therefore lets that document embed
-image files from your disk into the output and make markout fetch URLs of its
-choosing.
+image files from your disk into the output, and, if you allow remote images,
+make markout fetch the URLs it names.
 
 ## Verifying a download
 
