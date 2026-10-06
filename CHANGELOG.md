@@ -4,6 +4,15 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.1.1] - 2026-10-06
+
+### Changed
+
+- Updated dependencies: docxgo 2.14.0, gopdf 0.38.1, goldmark 1.8.6. DOCX
+  tables now carry real column widths in their grid definition, which some
+  viewers rely on; PDF output is unchanged.
+- The install snippet in the README looks up the latest release by itself.
+
 ## [1.1.0] - 2026-10-06
 
 The first public release.
