@@ -1,0 +1,17 @@
+name: Feature request
+description: A Markdown syntax, flavor or option that markout should support
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need?
+      description: The problem you are trying to solve. For a missing syntax, name the flavor and link its documentation.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: Example
+      description: A Markdown snippet and how it should look in the converted document.
+      render: markdown

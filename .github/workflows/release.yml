@@ -1,0 +1,58 @@
+name: release
+
+# Build cross-platform binaries and publish a GitHub release whenever a
+# version tag (v*) is pushed.
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write # needed to create the release and upload assets
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # full history + tags so `git describe` sees the tag
+
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: go.mod
+
+      - name: Run tests
+        run: go test ./...
+
+      - name: Build release binaries
+        run: make release # cross-compiles all PLATFORMS + SHA256SUMS.txt into dist/
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: dist/*
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+
+      - name: Sync README install version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          # Only bump for stable release tags (vX.Y.Z), skip pre-release/test tags.
+          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "skip non-release tag: $TAG"; exit 0
+          fi
+          git fetch origin master
+          git checkout -B master origin/master
+          sed -i -E "s|^VERSION=v[0-9][0-9A-Za-z.-]*|VERSION=$TAG|" README.md
+          if git diff --quiet README.md; then
+            echo "README already at $TAG"; exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          git commit -m "docs: bump README install version to $TAG"
+          git push origin master

@@ -1,0 +1,33 @@
+name: Bug report
+description: A conversion that came out wrong, or a problem in the TUI
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what you got instead.
+    validations:
+      required: true
+  - type: textarea
+    id: markdown
+    attributes:
+      label: Markdown that reproduces it
+      description: The smallest snippet that shows the problem. Remove anything private first.
+      render: markdown
+  - type: input
+    id: flavor
+    attributes:
+      label: Flavor and output format
+      description: The value of `--flavor` (or the one selected with F2), and whether the output was PDF or DOCX.
+      placeholder: gitlab, PDF
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: markout version and OS
+      description: The output of `markout --version`, and your operating system.
+      placeholder: v1.1.0, macOS 15 (arm64)
+    validations:
+      required: true
