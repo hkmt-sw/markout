@@ -1728,6 +1728,13 @@ func postProcessDocx(inputFile, outputFile string) error {
 		if file.Name == "word/document.xml" {
 			content = addTableRowProperties(content)
 		}
+		// The library marks every field as needing an update, which makes
+		// Word ask "This document contains fields that may refer to other
+		// files. Do you want to update the fields?" on opening. Page numbers
+		// are recalculated by the word processor anyway.
+		if strings.HasPrefix(file.Name, "word/") && strings.HasSuffix(file.Name, ".xml") {
+			content = bytes.ReplaceAll(content, []byte(` w:dirty="true"`), nil)
+		}
 
 		// Write to output
 		writer, err := zipWriter.Create(file.Name)

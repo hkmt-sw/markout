@@ -4,6 +4,14 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.2] - 2026-10-06
+
+### Fixed
+
+- Word no longer asks "This document contains fields that may refer to other
+  files. Do you want to update the fields in this document?" when opening a
+  DOCX that has page numbers in its header or footer.
+
 ## [1.3.1] - 2026-10-06
 
 ### Changed
