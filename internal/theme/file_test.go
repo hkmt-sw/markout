@@ -222,6 +222,12 @@ func TestExportRoundTrips(t *testing.T) {
 		t.Fatalf("the exported theme does not load: %v\n%s", err, text)
 	}
 	got.PDF.Name, got.DOCX.Name = want.PDF.Name, want.DOCX.Name
+	// A theme read from a file lays DOCX out with its spacing; only the
+	// built-in default keeps the plain layout. That is not a setting.
+	if got.DOCX.PlainLayout || !want.DOCX.PlainLayout {
+		t.Errorf("plain layout: loaded %v, built-in %v", got.DOCX.PlainLayout, want.DOCX.PlainLayout)
+	}
+	got.DOCX.PlainLayout = true
 	// Lengths are written to a thousandth of a point.
 	if !closeEnough(reflect.ValueOf(got), reflect.ValueOf(want)) {
 		t.Errorf("round trip changed the theme:\n got %+v\nwant %+v", got, want)

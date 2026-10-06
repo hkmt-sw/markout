@@ -80,6 +80,13 @@ type Theme struct {
 	Colors   Colors     `key:"colors"`
 	Header   Running    `key:"header"`
 	Footer   Running    `key:"footer"`
+
+	// PlainLayout is for the DOCX form of the default theme only. It keeps
+	// the layout markout produced before themes existed: no spacing, line
+	// heights or indents are set, lists are indented with spaces, and quote
+	// bars and rules are drawn with characters. Every theme read from a file
+	// lays DOCX out with its own spacing instead.
+	PlainLayout bool `key:"-"`
 }
 
 // Page is the paper and its margins.

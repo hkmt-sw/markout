@@ -4,6 +4,20 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.1] - 2026-10-06
+
+### Changed
+
+- Themes lay out DOCX too. Line heights, the space before and after
+  headings, paragraphs, lists, tables, code blocks, quotes, rules and
+  callouts, the padding of panels and table cells, and list and quote indents
+  are now written into DOCX; they used to apply to PDF only. With a theme,
+  lists are indented with real indents, quote bars and rules are borders, and
+  tables span the text width. The default theme keeps its plain DOCX layout.
+- DOCX keeps inline formatting in headings, table cells, definition lists
+  and footnotes (bold, italic, code, links), which showed plain text.
+- DOCX table cells use the theme's text color like other text.
+
 ## [1.3.0] - 2026-10-06
 
 Themes: choose how the output looks, or design your own.

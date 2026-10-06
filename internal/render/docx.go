@@ -20,6 +20,7 @@ import (
 type DocxRenderer struct {
 	doc          domain.Document
 	listCounters map[int]int
+	lastListItem domain.Paragraph         // the list item added last, which carries the space after its list
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
 	opts         Options                  // base directory and image loading policy
 	t            theme.Theme              // how everything looks
@@ -155,20 +156,14 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 		level = len(r.t.Heading)
 	}
 	hd := r.t.Heading[level-1]
-	fontSize := halfPoints(hd.Size)
 
+	r.space(para, hd.LineHeight, hd.SpaceBefore, hd.SpaceAfter)
+
+	// Black is what a word processor uses when no color is given
+	base := runBase{size: hd.Size, font: r.t.Fonts.Heading, color: hd.Color, noColor: hd.Color == theme.Black, bold: true}
 	for _, astRun := range h.Runs {
-		run, err := para.AddRun()
-		if err != nil {
+		if err := r.addRun(para, astRun, base); err != nil {
 			return err
-		}
-		run.SetText(astRun.Text)
-		run.SetSize(fontSize)
-		run.SetBold(true)
-		run.SetFont(domain.Font{Name: r.t.Fonts.Heading})
-		// Black is what a word processor uses when no color is given
-		if hd.Color != theme.Black {
-			run.SetColor(docxColor(hd.Color))
 		}
 	}
 
@@ -190,6 +185,7 @@ func (r *DocxRenderer) renderParagraph(p ast.Paragraph) error {
 	case ast.AlignJustify:
 		para.SetAlignment(domain.AlignmentJustify)
 	}
+	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
 
 	for _, astRun := range p.Runs {
 		if err := r.addRunToParagraph(para, astRun); err != nil {
@@ -201,6 +197,11 @@ func (r *DocxRenderer) renderParagraph(p ast.Paragraph) error {
 }
 
 func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.InlineRun) error {
+	return r.addRun(para, astRun, r.bodyBase())
+}
+
+// addRun adds an inline run to a paragraph whose text has the given look.
+func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base runBase) error {
 	run, err := para.AddRun()
 	if err != nil {
 		return err
@@ -210,7 +211,7 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	if astRun.FootnoteIndex > 0 {
 		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
 		run.SetSize(halfPoints(r.t.Footnote.Size))
-		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetFont(domain.Font{Name: base.font})
 		run.SetColor(docxColor(r.t.Link.Color))
 		return nil
 	}
@@ -219,8 +220,14 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	if astRun.Link != "" {
 		run.SetColor(docxColor(r.t.Link.Color)) // Electric blue for links
 		run.SetUnderline(domain.UnderlineSingle)
-		run.SetSize(halfPoints(r.t.Text.Size))
-		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetSize(halfPoints(base.size))
+		run.SetFont(domain.Font{Name: base.font})
+		if base.bold {
+			run.SetBold(true)
+		}
+		if base.italic {
+			run.SetItalic(true)
+		}
 		// Add clickable hyperlink field
 		linkField := docx.NewHyperlinkField(astRun.Link, astRun.Text)
 		run.AddField(linkField)
@@ -230,9 +237,9 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	// Handle inline math
 	if astRun.Math {
 		run.SetText(astRun.Text)
-		run.SetSize(halfPoints(r.t.Text.Size))
+		run.SetSize(halfPoints(base.size))
 		run.SetItalic(true)
-		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetFont(domain.Font{Name: base.font})
 		run.SetColor(docxColor(r.t.Colors.Math))
 		return nil
 	}
@@ -245,13 +252,13 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 			return err
 		}
 		chipRun.SetText("\u25A0 ") // Filled square
-		chipRun.SetSize(halfPoints(r.t.Text.Size))
-		chipRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		chipRun.SetSize(halfPoints(base.size))
+		chipRun.SetFont(domain.Font{Name: base.font})
 		chipRun.SetColor(hexToColor(strings.TrimPrefix(astRun.ColorChip, "#")))
 
 		// Then render the hex text as code
 		run.SetText(astRun.Text)
-		run.SetSize(halfPoints(r.t.Text.Size))
+		run.SetSize(halfPoints(base.size))
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
 		run.SetColor(docxColor(r.t.Code.Color))
 		return nil
@@ -259,12 +266,12 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 
 	// Superscripts and subscripts use the Unicode script characters where
 	// they exist, and smaller type otherwise.
-	text, size := astRun.Text, halfPoints(r.t.Text.Size)
+	text, size := astRun.Text, halfPoints(base.size)
 	if astRun.Superscript || astRun.Subscript {
 		if script, ok := scriptText(text, astRun.Superscript); ok {
 			text = script
 		} else {
-			size = 14 // 7pt
+			size = halfPoints(base.size * 0.64)
 		}
 	}
 	run.SetText(text)
@@ -274,14 +281,16 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
 		run.SetColor(docxColor(r.t.Code.Color)) // Syntax red for inline code
 	} else {
-		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		run.SetColor(docxColor(r.t.Text.Color)) // Deep ink blue
+		run.SetFont(domain.Font{Name: base.font})
+		if !base.noColor {
+			run.SetColor(docxColor(base.color))
+		}
 	}
 
-	if astRun.Bold {
+	if astRun.Bold || base.bold {
 		run.SetBold(true)
 	}
-	if astRun.Italic {
+	if astRun.Italic || base.italic {
 		run.SetItalic(true)
 	}
 	if astRun.Strikethrough {
@@ -337,7 +346,15 @@ func scriptText(text string, super bool) (string, bool) {
 
 func (r *DocxRenderer) renderList(l ast.List) error {
 	r.listCounters = make(map[int]int)
-	return r.renderListItems(l.Items, l.Ordered, 0)
+	r.lastListItem = nil
+	if err := r.renderListItems(l.Items, l.Ordered, 0); err != nil {
+		return err
+	}
+	// The space after a list goes under its last item
+	if r.styled() && r.lastListItem != nil {
+		r.lastListItem.SetSpacingAfter(twips(r.t.List.SpaceAfter))
+	}
+	return nil
 }
 
 func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level int) error {
@@ -363,19 +380,30 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level
 			prefix = getBulletChar(level)
 		}
 
-		// Indentation based on level
+		// Indentation based on level: a real indent with a theme, leading
+		// spaces in the plain layout
 		indent := "    "
 		for i := 0; i < level; i++ {
 			indent += "    "
+		}
+		bullet := indent + prefix + "  "
+		if r.styled() {
+			bullet = prefix + " "
+			r.indent(para, float64(level+1)*r.t.List.Indent, 0)
+			r.space(para, r.t.Text.LineHeight, 0, 0)
+			r.lastListItem = para
 		}
 
 		bulletRun, err := para.AddRun()
 		if err != nil {
 			return err
 		}
-		bulletRun.SetText(indent + prefix + "  ")
+		bulletRun.SetText(bullet)
 		bulletRun.SetSize(halfPoints(r.t.Text.Size))
 		bulletRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		if r.styled() {
+			bulletRun.SetColor(docxColor(r.t.Text.Color))
+		}
 
 		// Add content
 		for _, astRun := range item.Runs {
@@ -419,6 +447,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 
 	row, err := table.Row(0)
 	if err != nil {
@@ -452,6 +481,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	if err != nil {
 		return err
 	}
+	r.pad([]domain.Paragraph{para}, r.t.Code.Padding, r.t.Code.BlockLineHeight)
 
 	lines := splitLines(cb.Code)
 	for i, line := range lines {
@@ -476,9 +506,12 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 		}
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
 		run.SetSize(halfPoints(r.t.Code.BlockSize))
+		if r.styled() {
+			run.SetColor(docxColor(r.t.Code.BlockColor))
+		}
 	}
 
-	return nil
+	return r.gap(r.t.Code.SpaceAfter)
 }
 
 func splitLines(s string) []string {
@@ -513,6 +546,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 
 	colWidths := calcColumnWidths(t, numCols, r.contentTwips())
 
@@ -566,15 +600,14 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 				}
 			}
 
+			r.pad([]domain.Paragraph{para}, r.t.Table.CellPadding, r.t.Table.LineHeight)
+
+			header := r.bodyBase()
+			header.bold = true
 			for _, astRun := range astCell.Runs {
-				run, err := para.AddRun()
-				if err != nil {
+				if err := r.addRun(para, astRun, header); err != nil {
 					return err
 				}
-				run.SetText(astRun.Text)
-				run.SetBold(true)
-				run.SetSize(halfPoints(r.t.Text.Size))
-				run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			}
 		}
 	}
@@ -620,19 +653,17 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 				}
 			}
 
+			r.pad([]domain.Paragraph{para}, r.t.Table.CellPadding, r.t.Table.LineHeight)
+
 			for _, astRun := range astCell.Runs {
-				run, err := para.AddRun()
-				if err != nil {
+				if err := r.addRunToParagraph(para, astRun); err != nil {
 					return err
 				}
-				run.SetText(astRun.Text)
-				run.SetSize(halfPoints(r.t.Text.Size))
-				run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			}
 		}
 	}
 
-	return nil
+	return r.gap(r.t.Table.SpaceAfter)
 }
 
 // calcColumnWidths computes proportional column widths in twips based on content length.
@@ -730,17 +761,27 @@ func (r *DocxRenderer) renderBlockquote(bq ast.Blockquote) error {
 				return err
 			}
 
-			// Add visual indicator
-			indicatorRun, err := para.AddRun()
-			if err != nil {
-				return err
+			base := r.bodyBase()
+			if r.styled() {
+				// The bar is the paragraph's left border
+				quote := r.t.Quote
+				para.SetBorders(domain.ParagraphBorders{Left: ruleBorder(quote.BarWidth, quote.Bar)})
+				r.indent(para, quote.Indent, 0)
+				r.space(para, r.t.Text.LineHeight, 0, quote.SpaceAfter)
+				base.italic = quote.Italic
+			} else {
+				// Add visual indicator
+				indicatorRun, err := para.AddRun()
+				if err != nil {
+					return err
+				}
+				indicatorRun.SetText("│ ")
+				indicatorRun.SetColor(docxColor(r.t.Quote.Bar))
+				indicatorRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			}
-			indicatorRun.SetText("│ ")
-			indicatorRun.SetColor(docxColor(r.t.Quote.Bar))
-			indicatorRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 
 			for _, astRun := range e.Runs {
-				if err := r.addRunToParagraph(para, astRun); err != nil {
+				if err := r.addRun(para, astRun, base); err != nil {
 					return err
 				}
 			}
@@ -763,6 +804,16 @@ func (r *DocxRenderer) renderHorizontalRule() error {
 	para, err := r.doc.AddParagraph()
 	if err != nil {
 		return err
+	}
+
+	if r.styled() {
+		// A paragraph with nothing in it but a border below
+		rule := r.t.Rule
+		para.SetBorderBottom(ruleBorder(rule.Width, rule.Color))
+		para.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: 20})
+		para.SetSpacingBefore(twips(rule.Space))
+		para.SetSpacingAfter(twips(rule.Space))
+		return nil
 	}
 
 	para.SetAlignment(domain.AlignmentCenter)
@@ -845,6 +896,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 		return err
 	}
 	para.SetAlignment(domain.AlignmentCenter)
+	r.space(para, 0, 0, r.t.Text.ParagraphSpacing)
 	if _, err := para.AddImageWithSize(tmpPath, domain.NewImageSize(w, h)); err != nil {
 		return err
 	}
@@ -891,6 +943,7 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 	if err != nil {
 		return err
 	}
+	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
 
 	para.SetAlignment(domain.AlignmentCenter)
 
@@ -940,13 +993,21 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 	if err != nil {
 		return err
 	}
-	sepRun, err := sepPara.AddRun()
-	if err != nil {
-		return err
+	if r.styled() {
+		// A short line: a top border on a paragraph indented from the right
+		sepPara.SetBorderTop(ruleBorder(0.5, r.t.Footnote.Rule))
+		sepPara.SetIndentRight(int(float64(r.contentTwips()) * 0.7))
+		sepPara.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: twips(10)})
+		sepPara.SetSpacingBefore(twips(20))
+	} else {
+		sepRun, err := sepPara.AddRun()
+		if err != nil {
+			return err
+		}
+		sepRun.SetText("────────────────────────────────")
+		sepRun.SetColor(docxColor(r.t.Footnote.Rule))
+		sepRun.SetSize(halfPoints(r.t.Footnote.Size))
 	}
-	sepRun.SetText("────────────────────────────────")
-	sepRun.SetColor(docxColor(r.t.Footnote.Rule))
-	sepRun.SetSize(halfPoints(r.t.Footnote.Size))
 
 	// Render each footnote
 	for _, fn := range r.footnotes {
@@ -954,6 +1015,7 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		if err != nil {
 			return err
 		}
+		r.space(para, r.t.Footnote.LineHeight, 0, 4)
 
 		// Footnote number
 		numRun, err := para.AddRun()
@@ -968,15 +1030,11 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		// Footnote content
 		for _, elem := range fn.Elements {
 			if p, ok := elem.(ast.Paragraph); ok {
+				note := runBase{size: r.t.Footnote.Size, font: r.t.Fonts.Body, color: r.t.Text.Muted}
 				for _, astRun := range p.Runs {
-					contentRun, err := para.AddRun()
-					if err != nil {
+					if err := r.addRun(para, astRun, note); err != nil {
 						return err
 					}
-					contentRun.SetText(astRun.Text)
-					contentRun.SetSize(halfPoints(r.t.Footnote.Size))
-					contentRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-					contentRun.SetColor(docxColor(r.t.Text.Muted))
 				}
 			}
 		}
@@ -996,6 +1054,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 
 	row, err := table.Row(0)
 	if err != nil {
@@ -1010,6 +1069,11 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	cell.SetShading(hexToColor(bgColor))
 	cell.SetWidth(r.contentTwips())
 
+	barEighths := 24 // 3pt
+	if r.styled() {
+		barEighths = int(r.t.Alert.BarWidth*8 + 0.5)
+	}
+
 	// Colored left border, thin gray on other sides
 	thinBorder := domain.BorderStyle{
 		Style: domain.BorderSingle,
@@ -1021,7 +1085,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 		Bottom: thinBorder,
 		Left: domain.BorderStyle{
 			Style: domain.BorderSingle,
-			Width: 24, // 3pt thick left border
+			Width: barEighths, // the thick bar on the left
 			Color: hexToColor(borderColor),
 		},
 		Right: thinBorder,
@@ -1032,6 +1096,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	if err != nil {
 		return err
 	}
+	inCell := []domain.Paragraph{titlePara}
 	titleRun, err := titlePara.AddRun()
 	if err != nil {
 		return err
@@ -1049,6 +1114,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 			if err != nil {
 				return err
 			}
+			inCell = append(inCell, contentPara)
 			for _, astRun := range p.Runs {
 				if err := r.addRunToParagraph(contentPara, astRun); err != nil {
 					return err
@@ -1057,7 +1123,8 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 		}
 	}
 
-	return nil
+	r.pad(inCell, r.t.Alert.Padding, r.t.Text.LineHeight)
+	return r.gap(r.t.Alert.SpaceAfter)
 }
 
 // renderMermaidDiagram renders a mermaid diagram as a labeled placeholder
@@ -1066,6 +1133,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 
 	row, err := table.Row(0)
 	if err != nil {
@@ -1110,6 +1178,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 	if err != nil {
 		return err
 	}
+	r.pad([]domain.Paragraph{labelPara, codePara}, r.t.Code.Padding, r.t.Code.BlockLineHeight)
 
 	lines := splitLines(diagram.Source)
 	for i, line := range lines {
@@ -1134,7 +1203,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 		run.SetColor(docxColor(r.t.Diagram.Text))
 	}
 
-	return nil
+	return r.gap(r.t.Code.SpaceAfter)
 }
 
 // renderMathBlock renders a block-level math expression
@@ -1144,6 +1213,7 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 		return err
 	}
 	para.SetAlignment(domain.AlignmentCenter)
+	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
 
 	run, err := para.AddRun()
 	if err != nil {
@@ -1160,52 +1230,48 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 
 // renderDescriptionList renders a definition/description list
 func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
+	term := r.bodyBase()
+	term.bold = true
+
 	for _, item := range dl.Items {
 		// Render term as bold paragraph
 		termPara, err := r.doc.AddParagraph()
 		if err != nil {
 			return err
 		}
+		r.space(termPara, r.t.Text.LineHeight, 0, 0)
 		for _, run := range item.Term {
-			termRun, err := termPara.AddRun()
-			if err != nil {
+			if err := r.addRun(termPara, run, term); err != nil {
 				return err
 			}
-			termRun.SetText(run.Text)
-			termRun.SetBold(true)
-			termRun.SetSize(halfPoints(r.t.Text.Size))
-			termRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-			termRun.SetColor(docxColor(r.t.Text.Color))
 		}
 
 		// Render each definition as indented paragraph
-		for _, def := range item.Definitions {
+		for n, def := range item.Definitions {
 			defPara, err := r.doc.AddParagraph()
 			if err != nil {
 				return err
 			}
-			// Indent marker
-			indentRun, err := defPara.AddRun()
-			if err != nil {
-				return err
-			}
-			indentRun.SetText("    ")
-			indentRun.SetSize(halfPoints(r.t.Text.Size))
-
-			for _, run := range def {
-				defRun, err := defPara.AddRun()
+			if r.styled() {
+				after := 0.0
+				if n == len(item.Definitions)-1 {
+					after = 4
+				}
+				r.indent(defPara, r.t.List.Indent, 0)
+				r.space(defPara, r.t.Text.LineHeight, 0, after)
+			} else {
+				// Indent marker
+				indentRun, err := defPara.AddRun()
 				if err != nil {
 					return err
 				}
-				defRun.SetText(run.Text)
-				defRun.SetSize(halfPoints(r.t.Text.Size))
-				defRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-				defRun.SetColor(docxColor(r.t.Text.Color))
-				if run.Bold {
-					defRun.SetBold(true)
-				}
-				if run.Italic {
-					defRun.SetItalic(true)
+				indentRun.SetText("    ")
+				indentRun.SetSize(halfPoints(r.t.Text.Size))
+			}
+
+			for _, run := range def {
+				if err := r.addRunToParagraph(defPara, run); err != nil {
+					return err
 				}
 			}
 		}
@@ -1220,6 +1286,7 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 	if err != nil {
 		return err
 	}
+	r.space(titlePara, 0, 8, 8)
 	titleRun, err := titlePara.AddRun()
 	if err != nil {
 		return err
@@ -1243,6 +1310,12 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 			indent += "    "
 		}
 
+		if r.styled() {
+			r.indent(para, float64(item.Level-1)*r.t.List.Indent, 0)
+			r.space(para, r.t.Text.LineHeight, 0, 0)
+			indent = ""
+		}
+
 		if indent != "" {
 			indentRun, err := para.AddRun()
 			if err != nil {
@@ -1262,7 +1335,7 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 		run.SetColor(docxColor(r.t.Link.Color))
 	}
 
-	return nil
+	return r.gap(r.t.Text.ParagraphSpacing)
 }
 
 // renderFrontMatter renders YAML front matter as a styled metadata block
@@ -1272,6 +1345,7 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 
 	row, err := table.Row(0)
 	if err != nil {
@@ -1297,6 +1371,7 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	})
 
 	// Render known fields first
+	var inCell []domain.Paragraph
 	renderField := func(label, value string) error {
 		if value == "" {
 			return nil
@@ -1305,6 +1380,7 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		if err != nil {
 			return err
 		}
+		inCell = append(inCell, para)
 		labelRun, err := para.AddRun()
 		if err != nil {
 			return err
@@ -1348,7 +1424,8 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		}
 	}
 
-	return nil
+	r.pad(inCell, r.t.Alert.Padding, r.t.Text.LineHeight)
+	return r.gap(r.t.Text.ParagraphSpacing)
 }
 
 // addRunning sets the theme's header and footer on the document. Page
@@ -1394,6 +1471,7 @@ func (r *DocxRenderer) fillRunning(part runningPart, run theme.Running, info doc
 	if err != nil {
 		return err
 	}
+	r.fullWidth(table)
 	row, err := table.Row(0)
 	if err != nil {
 		return err
@@ -1452,6 +1530,107 @@ func (r *DocxRenderer) fillRunning(part runningPart, run theme.Running, info doc
 		}
 	}
 	return nil
+}
+
+// ---- layout ---------------------------------------------------------------
+//
+// The helpers below apply the theme's spacing. With the plain layout of the
+// default theme they do nothing, and the document is laid out as it always
+// was: by the word processor's defaults.
+
+// styled reports whether the theme's spacing is applied.
+func (r *DocxRenderer) styled() bool {
+	return !r.t.PlainLayout
+}
+
+// space sets a paragraph's line height and the space before and after it.
+// A line height of zero leaves it to the word processor.
+func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float64) {
+	if !r.styled() {
+		return
+	}
+	if lineHeight > 0 {
+		// "At least": taller content, such as an image, still gets its room
+		p.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingAtLeast, Value: twips(lineHeight)})
+	}
+	p.SetSpacingBefore(twips(before))
+	p.SetSpacingAfter(twips(after))
+}
+
+// indent sets a paragraph's left and right indent.
+func (r *DocxRenderer) indent(p domain.Paragraph, left, right float64) {
+	if !r.styled() {
+		return
+	}
+	p.SetIndentLeft(twips(left))
+	p.SetIndentRight(twips(right))
+}
+
+// pad gives the paragraphs of a table cell the padding of their panel:
+// indents on both sides, space above the first and below the last.
+func (r *DocxRenderer) pad(paragraphs []domain.Paragraph, padding, lineHeight float64) {
+	if !r.styled() {
+		return
+	}
+	for i, p := range paragraphs {
+		before, after := 0.0, 0.0
+		if i == 0 {
+			before = padding
+		}
+		if i == len(paragraphs)-1 {
+			after = padding
+		}
+		r.space(p, lineHeight, before, after)
+		r.indent(p, padding, padding)
+	}
+}
+
+// gap adds vertical space after a table, as an empty paragraph of that
+// height. Tables cannot carry space of their own.
+func (r *DocxRenderer) gap(height float64) error {
+	if !r.styled() {
+		return nil
+	}
+	if height < 1 {
+		height = 1
+	}
+	p, err := r.doc.AddParagraph()
+	if err != nil {
+		return err
+	}
+	p.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: twips(height)})
+	return nil
+}
+
+// fullWidth makes a table as wide as the text. Without it some viewers size
+// a table to its content, whatever the widths of its cells say.
+func (r *DocxRenderer) fullWidth(table domain.Table) {
+	table.SetWidth(domain.TableWidth{Type: domain.WidthDXA, Value: r.contentTwips()})
+}
+
+// ruleBorder is a line of the given thickness in points.
+func ruleBorder(width float64, c theme.Color) domain.BorderStyle {
+	eighths := int(width*8 + 0.5)
+	if eighths < 2 {
+		eighths = 2
+	}
+	return domain.BorderStyle{Style: domain.BorderSingle, Width: eighths, Color: docxColor(c)}
+}
+
+// runBase is the look of the text a run belongs to; the run's own
+// formatting is applied on top of it.
+type runBase struct {
+	size    float64
+	font    string
+	color   theme.Color
+	noColor bool // leave plain text in the word processor's default color
+	bold    bool
+	italic  bool
+}
+
+// bodyBase is the look of ordinary text.
+func (r *DocxRenderer) bodyBase() runBase {
+	return runBase{size: r.t.Text.Size, font: r.t.Fonts.Body, color: r.t.Text.Color}
 }
 
 // near reports whether two lengths in points are within a point of each other.

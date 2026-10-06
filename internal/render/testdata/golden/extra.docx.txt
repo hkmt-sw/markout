@@ -8,18 +8,18 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4031}
       P
-        R{b font=Georgia} "Left"
+        R{b color=1A1A2E font=Georgia} "Left"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5038}
       P{jc=right}
-        R{b font=Georgia} "Right"
+        R{b color=1A1A2E font=Georgia} "Right"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4031}
       P
-        R{font=Georgia} "a"
+        R{color=1A1A2E font=Georgia} "a"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5038}
       P{jc=right}
-        R{font=Georgia} "b"
+        R{color=1A1A2E font=Georgia} "b"
 P
   R{b color=1A1A2E font=Georgia} "Apple"
 P

@@ -28,10 +28,10 @@ Five themes come with markout. Each picture is the first page of
 | ![report](themes/report.png) | |
 
 The default theme is the one markout has always used. For historical reasons
-its PDF and DOCX forms differ a little (PDF is sans-serif with 20 mm margins,
-DOCX uses Georgia with 25 mm margins and larger headings); it is kept that way
-so existing documents convert as they always have. The other four look the
-same in both formats.
+its PDF and DOCX forms differ a little (PDF is sans-serif with 20 mm margins;
+DOCX uses Georgia with 25 mm margins and larger headings, and leaves spacing
+to the word processor); it is kept that way so existing documents convert as
+they always have. The other four use the same values in both formats.
 
 ## Using a theme
 
@@ -396,11 +396,25 @@ The panel holding the source of a diagram.
 | `color` | Text color |
 | `rule` | `true` for a line between it and the page's text |
 
+### PDF and DOCX
+
+A theme applies to both formats, with two differences that come from what the
+formats are:
+
+- **PDF is drawn by markout**, so it comes out exactly as the theme says.
+- **DOCX is laid out by the word processor** that opens it. markout writes
+  the theme's fonts, sizes, colors, margins, line heights, spacing, indents
+  and rules into the document, and Word or LibreOffice does the rest: where
+  lines and pages break is their decision, and line heights are a minimum
+  (taller content gets its room).
+
+The default theme is the exception for spacing: its DOCX form keeps the plain
+layout markout has always produced, in which spacing and indents are left to
+the word processor. A theme of your own that extends `default` gets the
+default's spacing values in DOCX too, so it looks like the PDF.
+
 ### What a theme does not control
 
-- Spacing in DOCX. Word processors lay DOCX out themselves; markout sets
-  fonts, sizes, colors and margins there, while `line-height`, the
-  `space-…` settings, padding and indents apply to PDF.
 - Bullets, numbering style and the wording of labels such as
   "Table of Contents".
 

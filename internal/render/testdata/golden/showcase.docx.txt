@@ -187,51 +187,51 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
       P
-        R{b font=Georgia} "Element"
+        R{b color=1A1A2E font=Georgia} "Element"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=7370}
       P
-        R{b font=Georgia} "Example"
+        R{b color=1A1A2E font=Georgia} "Example"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
       P{jc=right}
-        R{b font=Georgia} "Count"
+        R{b color=1A1A2E font=Georgia} "Count"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P
-        R{font=Georgia} "Plain"
+        R{color=1A1A2E font=Georgia} "Plain"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=7370}
       P
-        R{font=Georgia} "text"
+        R{color=1A1A2E font=Georgia} "text"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=right}
-        R{font=Georgia} "1"
+        R{color=1A1A2E font=Georgia} "1"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P
-        R{font=Georgia} "Formatted"
+        R{color=1A1A2E font=Georgia} "Formatted"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=7370}
       P
-        R{font=Georgia} "bold"
-        R{font=Georgia} ", "
-        R{font=Georgia} "italic"
-        R{font=Georgia} ", "
-        R{font=Georgia} "code"
+        R{b color=1A1A2E font=Georgia} "bold"
+        R{color=1A1A2E font=Georgia} ", "
+        R{color=1A1A2E font=Georgia i} "italic"
+        R{color=1A1A2E font=Georgia} ", "
+        R{color=CF222E font=Consolas} "code"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=right}
-        R{font=Georgia} "22"
+        R{color=1A1A2E font=Georgia} "22"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P
-        R{font=Georgia} "Long"
+        R{color=1A1A2E font=Georgia} "Long"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=7370}
       P
-        R{font=Georgia} "A cell with enough text that it has to wrap onto more than one line inside its"
-        R{font=Georgia} " column"
+        R{color=1A1A2E font=Georgia} "A cell with enough text that it has to wrap onto more than one line inside its"
+        R{color=1A1A2E font=Georgia} " column"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=right}
-        R{font=Georgia} "333"
+        R{color=1A1A2E font=Georgia} "333"
 P
   R{b font=Georgia sz=44} "6."
   R{b font=Georgia sz=44} " Code"
@@ -457,7 +457,7 @@ P
 P
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "The first footnote, with "
-  R{color=4A4A68 font=Georgia sz=18} "bold"
+  R{b color=4A4A68 font=Georgia sz=18} "bold"
   R{color=4A4A68 font=Georgia sz=18} " text."
 P
   R{color=4A4A68 font=Georgia sz=18} "2. "

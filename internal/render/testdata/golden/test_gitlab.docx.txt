@@ -330,69 +330,69 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5930}
       P
-        R{b font=Georgia} "Feature"
+        R{b color=1A1A2E font=Georgia} "Feature"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3139}
       P
-        R{b font=Georgia} "Status"
+        R{b color=1A1A2E font=Georgia} "Status"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P
-        R{font=Georgia} "Alerts"
+        R{color=1A1A2E font=Georgia} "Alerts"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P
-        R{font=Georgia} "Mermaid"
+        R{color=1A1A2E font=Georgia} "Mermaid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P
-        R{font=Georgia} "Color"
-        R{font=Georgia} " Chips"
+        R{color=1A1A2E font=Georgia} "Color"
+        R{color=1A1A2E font=Georgia} " Chips"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P
-        R{font=Georgia} "Description"
-        R{font=Georgia} " Lists"
+        R{color=1A1A2E font=Georgia} "Description"
+        R{color=1A1A2E font=Georgia} " Lists"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P
-        R{font=Georgia} "Math"
+        R{color=1A1A2E font=Georgia} "Math"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P
-        R{font=Georgia} "TOC"
+        R{color=1A1A2E font=Georgia} "TOC"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P
-        R{font=Georgia} "Front"
-        R{font=Georgia} " Matter"
+        R{color=1A1A2E font=Georgia} "Front"
+        R{color=1A1A2E font=Georgia} " Matter"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P
-        R{font=Georgia} "Supported"
+        R{color=1A1A2E font=Georgia} "Supported"
 P
   R{b font=Georgia sz=34} "Lists Still"
   R{b font=Georgia sz=34} " Work"
