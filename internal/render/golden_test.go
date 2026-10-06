@@ -363,9 +363,16 @@ func property(el xml.StartElement) string {
 	case "tcW":
 		return "w=" + attr(el, "w")
 	case "ind":
+		if right := attr(el, "right"); right != "" && right != "0" {
+			return "indent=" + attr(el, "left") + "/" + right
+		}
 		return "indent=" + attr(el, "left")
 	case "spacing":
-		return "spacing=" + attr(el, "before") + "/" + attr(el, "after")
+		out := "spacing=" + attr(el, "before") + "/" + attr(el, "after")
+		if line := attr(el, "line"); line != "" {
+			out += " line=" + line + "/" + attr(el, "lineRule")
+		}
+		return out
 	case "top", "left", "bottom", "right":
 		return fmt.Sprintf("border-%s=%s/%s/%s", name, attr(el, "val"), attr(el, "sz"), attr(el, "color"))
 	}

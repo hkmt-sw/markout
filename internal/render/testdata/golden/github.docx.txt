@@ -37,18 +37,18 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3968}
       P
-        R{b font=Georgia} "Feature"
+        R{b color=1A1A2E font=Georgia} "Feature"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5101}
       P{jc=center}
-        R{b font=Georgia} "Supported"
+        R{b color=1A1A2E font=Georgia} "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3968}
       P
-        R{font=Georgia} "Tables"
+        R{color=1A1A2E font=Georgia} "Tables"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5101}
       P{jc=center}
-        R{font=Georgia} "yes"
+        R{color=1A1A2E font=Georgia} "yes"
 TABLE
   COL w=9070
   ROW

@@ -121,26 +121,26 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
       P
-        R{b font=Georgia} "Name"
+        R{b color=1A1A2E font=Georgia} "Name"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=6046}
       P
-        R{b font=Georgia} "role"
+        R{b color=1A1A2E font=Georgia} "role"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
       P
-        R{font=Georgia} "Ada"
+        R{color=1A1A2E font=Georgia} "Ada"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=6046}
       P
-        R{font=Georgia} "Engineer"
+        R{color=1A1A2E font=Georgia} "Engineer"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
       P
-        R{font=Georgia} "Linus"
+        R{color=1A1A2E font=Georgia} "Linus"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=6046}
       P
-        R{font=Georgia} "Maintainer"
+        R{color=1A1A2E font=Georgia} "Maintainer"
 P
   R{b font=Georgia sz=44} "Include"
 P

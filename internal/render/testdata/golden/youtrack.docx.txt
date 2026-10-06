@@ -19,18 +19,18 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5581}
       P
-        R{b font=Georgia} "Field"
+        R{b color=1A1A2E font=Georgia} "Field"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3488}
       P
-        R{b font=Georgia} "Value"
+        R{b color=1A1A2E font=Georgia} "Value"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5581}
       P
-        R{font=Georgia} "Priority"
+        R{color=1A1A2E font=Georgia} "Priority"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3488}
       P
-        R{font=Georgia} "Major"
+        R{color=1A1A2E font=Georgia} "Major"
 P{jc=center}
   R{color=4A4A68 font=Georgia i} "🖼 Screenshot"
   R "<br>"

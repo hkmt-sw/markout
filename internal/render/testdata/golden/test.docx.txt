@@ -397,44 +397,44 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
       P
-        R{b font=Georgia} "Fejléc"
-        R{b font=Georgia} " 1"
+        R{b color=1A1A2E font=Georgia} "Fejléc"
+        R{b color=1A1A2E font=Georgia} " 1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
       P
-        R{b font=Georgia} "Fejléc"
-        R{b font=Georgia} " 2"
+        R{b color=1A1A2E font=Georgia} "Fejléc"
+        R{b color=1A1A2E font=Georgia} " 2"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3023}
       P
-        R{b font=Georgia} "Fejléc"
-        R{b font=Georgia} " 3"
+        R{b color=1A1A2E font=Georgia} "Fejléc"
+        R{b color=1A1A2E font=Georgia} " 3"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 1"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 2"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 2"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 3"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 3"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 4"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 4"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 5"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 5"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3023}
       P
-        R{font=Georgia} "Cella"
-        R{font=Georgia} " 6"
+        R{color=1A1A2E font=Georgia} "Cella"
+        R{color=1A1A2E font=Georgia} " 6"
 P
   R{b font=Georgia sz=34} "Igazítás"
 TABLE
@@ -446,47 +446,47 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4858}
       P
-        R{b font=Georgia} "Balra"
+        R{b color=1A1A2E font=Georgia} "Balra"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2267}
       P{jc=center}
-        R{b font=Georgia} "Középre"
+        R{b color=1A1A2E font=Georgia} "Középre"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=1943}
       P{jc=right}
-        R{b font=Georgia} "Jobbra"
+        R{b color=1A1A2E font=Georgia} "Jobbra"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4858}
       P
-        R{font=Georgia} "bal"
+        R{color=1A1A2E font=Georgia} "bal"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2267}
       P{jc=center}
-        R{font=Georgia} "közép"
+        R{color=1A1A2E font=Georgia} "közép"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1943}
       P{jc=right}
-        R{font=Georgia} "jobb"
+        R{color=1A1A2E font=Georgia} "jobb"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4858}
       P
-        R{font=Georgia} "szöveg"
+        R{color=1A1A2E font=Georgia} "szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2267}
       P{jc=center}
-        R{font=Georgia} "szöveg"
+        R{color=1A1A2E font=Georgia} "szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1943}
       P{jc=right}
-        R{font=Georgia} "123"
+        R{color=1A1A2E font=Georgia} "123"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4858}
       P
-        R{font=Georgia} "hosszabb"
-        R{font=Georgia} " szöveg"
+        R{color=1A1A2E font=Georgia} "hosszabb"
+        R{color=1A1A2E font=Georgia} " szöveg"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2267}
       P{jc=center}
-        R{font=Georgia} "rövid"
+        R{color=1A1A2E font=Georgia} "rövid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1943}
       P{jc=right}
-        R{font=Georgia} "45678"
+        R{color=1A1A2E font=Georgia} "45678"
 P
   R{b font=Georgia sz=34} "Formázás"
   R{b font=Georgia sz=34} " táblázatban"
@@ -499,57 +499,57 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2502}
       P
-        R{b font=Georgia} "Funkció"
+        R{b color=1A1A2E font=Georgia} "Funkció"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4065}
       P
-        R{b font=Georgia} "Szintaxis"
+        R{b color=1A1A2E font=Georgia} "Szintaxis"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=2502}
       P
-        R{b font=Georgia} "Eredmény"
+        R{b color=1A1A2E font=Georgia} "Eredmény"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
       P
-        R{font=Georgia} "Félkövér"
+        R{color=1A1A2E font=Georgia} "Félkövér"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4065}
       P
-        R{font=Georgia} "**szöveg**"
+        R{color=CF222E font=Consolas} "**szöveg**"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
       P
-        R{font=Georgia} "szöveg"
+        R{b color=1A1A2E font=Georgia} "szöveg"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
       P
-        R{font=Georgia} "Dőlt"
+        R{color=1A1A2E font=Georgia} "Dőlt"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4065}
       P
-        R{font=Georgia} "*szöveg*"
+        R{color=CF222E font=Consolas} "*szöveg*"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
       P
-        R{font=Georgia} "szöveg"
+        R{color=1A1A2E font=Georgia i} "szöveg"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
       P
-        R{font=Georgia} "Kód"
+        R{color=1A1A2E font=Georgia} "Kód"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4065}
       P
-        R{font=Georgia} "`kód`"
+        R{color=CF222E font=Consolas} "`kód`"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=2502}
       P
-        R{font=Georgia} "kód"
+        R{color=CF222E font=Consolas} "kód"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
       P
-        R{font=Georgia} "Link"
+        R{color=1A1A2E font=Georgia} "Link"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=4065}
       P
-        R{font=Georgia} "[szöveg](url)"
+        R{color=CF222E font=Consolas} "[szöveg](url)"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=2502}
       P
-        R{font=Georgia} "szöveg"
+        R{color=2563EB font=Georgia link=url rStyle=Hyperlink u=single} "szöveg"
 P{jc=center}
   R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
 P
@@ -888,284 +888,284 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3718}
       P
-        R{b font=Georgia} "Elem"
+        R{b color=1A1A2E font=Georgia} "Elem"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=1370}
       P{jc=center}
-        R{b font=Georgia} "Alap"
-        R{b font=Georgia} " MD"
+        R{b color=1A1A2E font=Georgia} "Alap"
+        R{b color=1A1A2E font=Georgia} " MD"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=850}
       P{jc=center}
-        R{b font=Georgia} "GFM"
+        R{b color=1A1A2E font=Georgia} "GFM"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3131}
       P
-        R{b font=Georgia} "Megjegyzés"
+        R{b color=1A1A2E font=Georgia} "Megjegyzés"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Fejlécek"
+        R{color=1A1A2E font=Georgia} "Fejlécek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "H1-H6"
+        R{color=1A1A2E font=Georgia} "H1-H6"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Félkövér/Dőlt"
+        R{color=1A1A2E font=Georgia} "Félkövér/Dőlt"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "**"
-        R{font=Georgia} " és "
-        R{font=Georgia} "*"
+        R{color=CF222E font=Consolas} "**"
+        R{color=1A1A2E font=Georgia} " és "
+        R{color=CF222E font=Consolas} "*"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Áthúzás"
+        R{color=1A1A2E font=Georgia} "Áthúzás"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "~~szöveg~~"
+        R{color=CF222E font=Consolas} "~~szöveg~~"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Listák"
+        R{color=1A1A2E font=Georgia} "Listák"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "-"
-        R{font=Georgia} ", "
-        R{font=Georgia} "*"
-        R{font=Georgia} ", "
-        R{font=Georgia} "+"
-        R{font=Georgia} ", "
-        R{font=Georgia} "1."
+        R{color=CF222E font=Consolas} "-"
+        R{color=1A1A2E font=Georgia} ", "
+        R{color=CF222E font=Consolas} "*"
+        R{color=1A1A2E font=Georgia} ", "
+        R{color=CF222E font=Consolas} "+"
+        R{color=1A1A2E font=Georgia} ", "
+        R{color=CF222E font=Consolas} "1."
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Tasklist"
+        R{color=1A1A2E font=Georgia} "Tasklist"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "- [x]"
+        R{color=CF222E font=Consolas} "- [x]"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Linkek"
+        R{color=1A1A2E font=Georgia} "Linkek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "[](url)"
+        R{color=CF222E font=Consolas} "[](url)"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Autolink"
+        R{color=1A1A2E font=Georgia} "Autolink"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "URL"
-        R{font=Georgia} " automatikus"
+        R{color=1A1A2E font=Georgia} "URL"
+        R{color=1A1A2E font=Georgia} " automatikus"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Képek"
+        R{color=1A1A2E font=Georgia} "Képek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "![]()"
+        R{color=CF222E font=Consolas} "![]()"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Kódblokk"
+        R{color=1A1A2E font=Georgia} "Kódblokk"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "``` vagy"
-        R{font=Georgia} " behúzás"
+        R{color=1A1A2E font=Georgia} "``` vagy"
+        R{color=1A1A2E font=Georgia} " behúzás"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Szintaxis"
-        R{font=Georgia} " highlight"
+        R{color=1A1A2E font=Georgia} "Szintaxis"
+        R{color=1A1A2E font=Georgia} " highlight"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "```"
-        R{font=Georgia} "nyelv"
+        R{color=1A1A2E font=Georgia} "```"
+        R{color=1A1A2E font=Georgia} "nyelv"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Táblázatok"
+        R{color=1A1A2E font=Georgia} "Táblázatok"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "Pipe"
-        R{font=Georgia} " szintaxis"
+        R{color=1A1A2E font=Georgia} "Pipe"
+        R{color=1A1A2E font=Georgia} " szintaxis"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Idézetek"
+        R{color=1A1A2E font=Georgia} "Idézetek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} ">"
+        R{color=CF222E font=Consolas} ">"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "HR"
-        R{font=Georgia} " vonal"
+        R{color=1A1A2E font=Georgia} "HR"
+        R{color=1A1A2E font=Georgia} " vonal"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "---"
+        R{color=CF222E font=Consolas} "---"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "HTML"
+        R{color=1A1A2E font=Georgia} "HTML"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "Részleges"
+        R{color=1A1A2E font=Georgia} "Részleges"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Lábjegyzet"
+        R{color=1A1A2E font=Georgia} "Lábjegyzet"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "[^1]"
+        R{color=CF222E font=Consolas} "[^1]"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Emoji"
+        R{color=1A1A2E font=Georgia} "Emoji"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} ":emoji:"
+        R{color=CF222E font=Consolas} ":emoji:"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3718}
       P
-        R{font=Georgia} "Matek"
+        R{color=1A1A2E font=Georgia} "Matek"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3131}
       P
-        R{font=Georgia} "$ és $$"
+        R{color=CF222E font=Consolas} "$ és $$"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3718}
       P
-        R{font=Georgia} "Mermaid"
+        R{color=1A1A2E font=Georgia} "Mermaid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=1370}
       P{jc=center}
-        R{font=Georgia} "❌"
+        R{color=1A1A2E font=Georgia} "❌"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=850}
       P{jc=center}
-        R{font=Georgia} "✅"
+        R{color=1A1A2E font=Georgia} "✅"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3131}
       P
-        R{font=Georgia} "```"
-        R{font=Georgia} "mermaid"
+        R{color=1A1A2E font=Georgia} "```"
+        R{color=1A1A2E font=Georgia} "mermaid"
 P{jc=center}
   R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
 P

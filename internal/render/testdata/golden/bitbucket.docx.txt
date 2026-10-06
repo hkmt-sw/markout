@@ -24,18 +24,18 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
       P
-        R{b font=Georgia} "A"
+        R{b color=1A1A2E font=Georgia} "A"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
       P
-        R{b font=Georgia} "B"
+        R{b color=1A1A2E font=Georgia} "B"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
       P
-        R{font=Georgia} "1"
+        R{color=1A1A2E font=Georgia} "1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
       P
-        R{font=Georgia} "2"
+        R{color=1A1A2E font=Georgia} "2"
 P
   R{b color=1A1A2E font=Georgia} "Apple"
 P

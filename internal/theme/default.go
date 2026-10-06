@@ -75,6 +75,7 @@ func Default() Set {
 	}
 
 	docx := pdf
+	docx.PlainLayout = true
 	docx.Page.Width, docx.Page.Height = 210*mm, 297*mm
 	docx.Page.MarginTop, docx.Page.MarginRight = 25*mm, 25*mm
 	docx.Page.MarginBottom, docx.Page.MarginLeft = 25*mm, 25*mm
