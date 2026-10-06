@@ -100,7 +100,7 @@ type PdfRenderer struct {
 	contentWidth float64                  // in points
 	currentY     float64                  // in points
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
-	baseDir      string                   // directory used to resolve relative image paths
+	opts         Options                  // base directory and image loading policy
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -871,7 +871,7 @@ func (r *PdfRenderer) renderImage(img ast.Image) {
 // scaling it to fit the content width. Returns an error if the image cannot be
 // loaded or is in an unsupported format.
 func (r *PdfRenderer) embedImage(img ast.Image) error {
-	data, err := loadRasterImage(img.URL, r.baseDir, img.Width)
+	data, err := loadRasterImage(img.URL, r.opts, img.Width)
 	if err != nil {
 		return err
 	}
@@ -938,7 +938,8 @@ func (r *PdfRenderer) embedImage(img ast.Image) error {
 // loadImageBytes resolves url to raw image bytes. It supports data: URIs,
 // http(s) URLs, and local file paths (resolved against baseDir). It is shared
 // by the PDF and DOCX renderers.
-func loadImageBytes(url, baseDir string) ([]byte, error) {
+func loadImageBytes(url string, opts Options) ([]byte, error) {
+	baseDir := opts.BaseDir
 	switch {
 	case strings.HasPrefix(url, "data:"):
 		idx := strings.Index(url, ",")
@@ -951,7 +952,10 @@ func loadImageBytes(url, baseDir string) ([]byte, error) {
 		}
 		return []byte(payload), nil
 
-	case strings.HasPrefix(url, "http://"), strings.HasPrefix(url, "https://"):
+	case IsRemoteURL(url):
+		if !opts.RemoteImages {
+			return nil, ErrRemoteImageSkipped
+		}
 		client := &http.Client{Timeout: 15 * time.Second}
 		resp, err := client.Get(url)
 		if err != nil {
@@ -1564,7 +1568,12 @@ func RenderPdfToFile(doc *ast.Document, filename string) error {
 // RenderPdfToFileWithBaseDir renders to PDF, resolving relative image paths
 // against baseDir (typically the directory of the source Markdown file).
 func RenderPdfToFileWithBaseDir(doc *ast.Document, filename, baseDir string) error {
+	return RenderPdf(doc, filename, Options{BaseDir: baseDir})
+}
+
+// RenderPdf renders to PDF with the given options.
+func RenderPdf(doc *ast.Document, filename string, opts Options) error {
 	renderer := NewPdfRenderer()
-	renderer.baseDir = baseDir
+	renderer.opts = opts
 	return renderer.RenderToFile(doc, filename)
 }

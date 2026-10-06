@@ -3,10 +3,13 @@ package convert
 import (
 	"errors"
 	"fmt"
+	"net"
+	"net/url"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/parse"
 	"github.com/hkmt-sw/markout/internal/render"
@@ -78,6 +81,11 @@ type Options struct {
 	// Flavor is the Markdown dialect the input is written in. The zero value
 	// selects the default flavor.
 	Flavor flavor.Flavor
+	// RemoteImages allows images referenced by http(s) URL to be downloaded.
+	// It is off unless the user agreed to it: fetching them tells the servers
+	// named in the document who opened it, and a document can point at
+	// addresses on the local network. See RemoteImageHosts.
+	RemoteImages bool
 }
 
 // ConvertFile converts a Markdown file to the specified output format using
@@ -103,18 +111,44 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		}
 	}
 
+	doc, err := loadDocument(input, fl)
+	if err != nil {
+		return err
+	}
+
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages}
+
+	// Render to output format
+	switch format {
+	case FormatDOCX:
+		if err := render.RenderDocx(doc, output, renderOpts); err != nil {
+			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+		}
+	case FormatPDF:
+		if err := render.RenderPdf(doc, output, renderOpts); err != nil {
+			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+		}
+	default:
+		return &ConversionError{Op: "render", Err: ErrInvalidFormat}
+	}
+
+	return nil
+}
+
+// loadDocument validates, reads and parses the input file.
+func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 	// Validate input file exists
 	info, err := os.Stat(input)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return &ConversionError{Op: "validate input", Err: ErrFileNotFound}
+			return nil, &ConversionError{Op: "validate input", Err: ErrFileNotFound}
 		}
-		return &ConversionError{Op: "validate input", Err: err}
+		return nil, &ConversionError{Op: "validate input", Err: err}
 	}
 
 	// Validate file size
 	if info.Size() > MaxFileSize {
-		return &ConversionError{
+		return nil, &ConversionError{
 			Op:  "validate input",
 			Err: fmt.Errorf("%w: file is %d bytes", ErrFileTooLarge, info.Size()),
 		}
@@ -123,30 +157,84 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 	// Read input file
 	content, err := os.ReadFile(input)
 	if err != nil {
-		return &ConversionError{Op: "read input", Err: err}
+		return nil, &ConversionError{Op: "read input", Err: err}
 	}
 
 	// Parse markdown
 	doc, err := parse.ParseFlavor(content, fl, filepath.Dir(input))
 	if err != nil {
-		return &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %v", ErrParseFailure, err)}
+		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %v", ErrParseFailure, err)}
+	}
+	return doc, nil
+}
+
+// RemoteHost is a server a document would download images from.
+type RemoteHost struct {
+	Host   string // host name or IP address, with the port if one is given
+	Images int    // number of images referenced on it
+	Local  bool   // the address is on this machine or the local network
+}
+
+// RemoteImageHosts lists the servers that converting input would download
+// images from, in order of first appearance. Nothing is fetched or resolved.
+// Callers show the list to the user and set Options.RemoteImages only if the
+// user agrees.
+func RemoteImageHosts(input string, opts Options) ([]RemoteHost, error) {
+	fl := opts.Flavor
+	if fl.ID == "" {
+		fl = flavor.Default()
+	}
+	doc, err := loadDocument(input, fl)
+	if err != nil {
+		return nil, err
 	}
 
-	// Render to output format
-	switch format {
-	case FormatDOCX:
-		if err := render.RenderDocxToFileWithBaseDir(doc, output, filepath.Dir(input)); err != nil {
-			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+	var hosts []RemoteHost
+	index := map[string]int{}
+	for _, elem := range doc.Elements {
+		img, ok := elem.(ast.Image)
+		if !ok || !render.IsRemoteURL(img.URL) {
+			continue
 		}
-	case FormatPDF:
-		if err := render.RenderPdfToFileWithBaseDir(doc, output, filepath.Dir(input)); err != nil {
-			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+		host := img.URL
+		if u, err := url.Parse(img.URL); err == nil && u.Host != "" {
+			host = u.Host
 		}
-	default:
-		return &ConversionError{Op: "render", Err: ErrInvalidFormat}
+		i, seen := index[host]
+		if !seen {
+			i = len(hosts)
+			index[host] = i
+			hosts = append(hosts, RemoteHost{Host: host, Local: isLocalHost(host)})
+		}
+		hosts[i].Images++
 	}
+	return hosts, nil
+}
 
-	return nil
+// isLocalHost reports whether a URL host names this machine or an address
+// that is only reachable on the local network. It looks at the name alone and
+// never resolves it, so a public name that points at a private address is not
+// detected.
+func isLocalHost(hostport string) bool {
+	host := hostport
+	if h, _, err := net.SplitHostPort(hostport); err == nil {
+		host = h
+	}
+	host = strings.ToLower(strings.Trim(host, "[]"))
+
+	if ip := net.ParseIP(host); ip != nil {
+		return ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() ||
+			ip.IsLinkLocalMulticast() || ip.IsUnspecified()
+	}
+	if host == "localhost" || !strings.Contains(host, ".") {
+		return true // a bare name resolves on the local network only
+	}
+	for _, suffix := range []string{".localhost", ".local", ".internal", ".lan", ".home", ".home.arpa", ".intranet", ".corp"} {
+		if strings.HasSuffix(host, suffix) {
+			return true
+		}
+	}
+	return false
 }
 
 // ConvertFileAuto converts a Markdown file, auto-detecting format from output extension

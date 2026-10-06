@@ -21,7 +21,7 @@ type DocxRenderer struct {
 	doc          domain.Document
 	listCounters map[int]int
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
-	baseDir      string                   // directory used to resolve relative image paths
+	opts         Options                  // base directory and image loading policy
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -776,7 +776,7 @@ func (r *DocxRenderer) renderImage(img ast.Image) error {
 // a file path, so the bytes are written to a temporary file (with a matching
 // extension) that is removed once the library has read it into memory.
 func (r *DocxRenderer) embedImage(img ast.Image) error {
-	data, err := loadRasterImage(img.URL, r.baseDir, img.Width)
+	data, err := loadRasterImage(img.URL, r.opts, img.Width)
 	if err != nil {
 		return err
 	}
@@ -1373,8 +1373,13 @@ func RenderDocxToFile(doc *ast.Document, filename string) error {
 // RenderDocxToFileWithBaseDir renders to DOCX, resolving relative image paths
 // against baseDir (typically the directory of the source Markdown file).
 func RenderDocxToFileWithBaseDir(doc *ast.Document, filename, baseDir string) error {
+	return RenderDocx(doc, filename, Options{BaseDir: baseDir})
+}
+
+// RenderDocx renders to DOCX with the given options.
+func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 	renderer := NewDocxRenderer()
-	renderer.baseDir = baseDir
+	renderer.opts = opts
 	return renderer.RenderToFile(doc, filename)
 }
 

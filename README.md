@@ -127,7 +127,29 @@ The output format is inferred from the file extension:
 ./markout input.md output.pdf
 ./markout --flavor gitlab input.md output.pdf   # interpret as a specific flavor
 ./markout --list-flavors                        # show the supported flavors
+./markout --remote-images allow input.md out.pdf # download images referenced by URL
 ```
+
+## Images from the internet
+
+A document can reference images by URL. Downloading them tells the servers it
+names your IP address and that you opened the document, and a document from
+someone else can point at addresses on your own machine or local network. So
+markout never downloads an image without asking.
+
+![The dialog listing the servers a document would download images from, with the buttons Load images, Skip images and Cancel](docs/screenshot-remote-images.png)
+
+- **In the TUI**, converting such a document first shows every server it would
+  contact and how many images are on each; addresses on your machine or local
+  network are marked. Choose **Load images**, **Skip images** (the default:
+  the conversion runs and those images become placeholders) or **Cancel**.
+- **On the command line**, the same list is printed and you are asked `[y/N]`.
+  When there is nobody to ask (a script, a pipe, CI) the images are skipped
+  and listed on standard error. `--remote-images allow` downloads without
+  asking, `--remote-images deny` always skips.
+
+The answer is not remembered: the question comes up for each conversion that
+needs it. Images stored on disk next to the document are not affected.
 
 ## Markdown flavors
 

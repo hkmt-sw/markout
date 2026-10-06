@@ -154,6 +154,11 @@ type Model struct {
 	pickFlavor   bool                          // the settings dialog is open
 	flavorCursor int                           // highlighted row in the settings dialog
 
+	confirmRemote bool                 // asking whether to download the document's remote images
+	remoteHosts   []convert.RemoteHost // the servers those images are on
+	remoteChoice  int                  // focused button: 0 = Load, 1 = Skip, 2 = Cancel
+	pendingIn     string               // input path awaiting the answer
+
 	confirmOverwrite bool   // waiting for confirmation before clobbering a file
 	pendingOut       string // output path awaiting overwrite confirmation
 	confirmChoice    int    // focused button: 0 = Overwrite, 1 = Cancel
@@ -331,6 +336,9 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if m.confirmOverwrite {
 			return m.updateConfirm(msg)
 		}
+		if m.confirmRemote {
+			return m.updateRemote(msg)
+		}
 		if m.pickFlavor {
 			return m.updateFlavorPicker(msg)
 		}
@@ -495,14 +503,72 @@ func (m Model) startConversion() (tea.Model, tea.Cmd) {
 		m.confirmChoice = 1 // default focus on Cancel (safe)
 		return m, nil
 	}
-	return m.runConvert(in, out)
+	return m.checkRemoteImages(in, out)
 }
 
-// runConvert performs the conversion in the background.
-func (m Model) runConvert(in, out string) (tea.Model, tea.Cmd) {
-	format := m.format
-	opts := convert.Options{Flavor: m.flavor}
+// checkRemoteImages is the last step before converting: if the document
+// would download images, the user is shown from where and decides. Nothing is
+// fetched without that consent.
+func (m Model) checkRemoteImages(in, out string) (tea.Model, tea.Cmd) {
 	m.confirmOverwrite = false
+	// A file that cannot be read or parsed is reported by the conversion.
+	hosts, _ := convert.RemoteImageHosts(in, convert.Options{Flavor: m.flavor})
+	if len(hosts) == 0 {
+		return m.runConvert(in, out, false)
+	}
+	m.confirmRemote = true
+	m.remoteHosts = hosts
+	m.remoteChoice = 1 // default focus on Skip (safe)
+	m.pendingIn = in
+	m.pendingOut = out
+	return m, nil
+}
+
+// updateRemote handles the remote images popup: arrow/Tab move between the
+// buttons, Enter activates the focused one, and l/s are direct shortcuts.
+func (m Model) updateRemote(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	in, out := m.pendingIn, m.pendingOut
+	switch msg.String() {
+	case "left", "shift+tab", "h":
+		m.remoteChoice = (m.remoteChoice + 2) % 3
+	case "right", "tab":
+		m.remoteChoice = (m.remoteChoice + 1) % 3
+	case "enter":
+		switch m.remoteChoice {
+		case 0:
+			return m.runConvert(in, out, true)
+		case 1:
+			return m.runConvert(in, out, false)
+		}
+		return m.cancelRemote(), nil
+	case "l", "L":
+		return m.runConvert(in, out, true)
+	case "s", "S":
+		return m.runConvert(in, out, false)
+	case "c", "C", "n", "N", "esc", "ctrl+g":
+		return m.cancelRemote(), nil
+	}
+	return m, nil
+}
+
+func (m Model) cancelRemote() Model {
+	m.confirmRemote = false
+	m.remoteHosts = nil
+	m.pendingIn, m.pendingOut = "", ""
+	m.status = "cancelled — nothing converted"
+	m.statusKind = statusInfo
+	return m
+}
+
+// runConvert performs the conversion in the background. remoteImages says
+// whether the user agreed to download the document's remote images.
+func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd) {
+	format := m.format
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages}
+	m.confirmOverwrite = false
+	m.confirmRemote = false
+	m.remoteHosts = nil
+	m.pendingIn = ""
 	m.pendingOut = ""
 	m.converting = true
 	m.status = "converting…"
@@ -525,11 +591,11 @@ func (m Model) updateConfirm(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m, nil
 	case "enter":
 		if m.confirmChoice == 0 {
-			return m.runConvert(m.inputPath(), m.pendingOut)
+			return m.checkRemoteImages(m.inputPath(), m.pendingOut)
 		}
 		return m.cancelOverwrite(), nil
 	case "y", "Y":
-		return m.runConvert(m.inputPath(), m.pendingOut)
+		return m.checkRemoteImages(m.inputPath(), m.pendingOut)
 	case "n", "N", "esc", "ctrl+g":
 		return m.cancelOverwrite(), nil
 	}
@@ -737,7 +803,95 @@ func (m Model) View() string {
 	if m.pickFlavor {
 		base = m.overlayCentered(base, m.flavorDialog())
 	}
+	if m.confirmRemote {
+		base = m.overlayCentered(base, m.remoteDialog())
+	}
 	return base
+}
+
+// remoteDialog renders the modal shown before a conversion downloads images:
+// it names every server involved so the choice is an informed one.
+func (m Model) remoteDialog() string {
+	warn := lipgloss.NewStyle().Foreground(colError).Bold(true)
+
+	w := 66
+	if w > m.width-4 {
+		w = m.width - 4
+	}
+	inner := w - 6 // border (2) + horizontal padding (4)
+	if inner < 20 {
+		inner = 20
+	}
+
+	// List as many hosts as fit, and say how many are left out.
+	visible := m.height - 16
+	if visible < 1 {
+		visible = 1
+	}
+	if visible > len(m.remoteHosts) {
+		visible = len(m.remoteHosts)
+	}
+
+	rows := []string{warn.Render("⚠  This document downloads images from the internet"), ""}
+	anyLocal := false
+	for _, h := range m.remoteHosts[:visible] {
+		count := fmt.Sprintf("%d image", h.Images)
+		if h.Images != 1 {
+			count += "s"
+		}
+		note := ""
+		if h.Local {
+			note = "  local network!"
+			anyLocal = true
+		}
+		nameW := inner - 2 - lipgloss.Width(count) - lipgloss.Width(note) - 2
+		if nameW < 8 {
+			nameW = 8
+		}
+		name := truncRight(printable(h.Host), nameW)
+		line := "  " + pathStyle.Render(name) + strings.Repeat(" ", nameW-lipgloss.Width(name)+2) + dimStyle.Render(count)
+		if h.Local {
+			line += warn.Render(note)
+		}
+		rows = append(rows, line)
+	}
+	if rest := m.remoteHosts[visible:]; len(rest) > 0 {
+		for _, h := range rest {
+			anyLocal = anyLocal || h.Local
+		}
+		rows = append(rows, dimStyle.Render(fmt.Sprintf("  … and %d more", len(rest))))
+	}
+
+	risk := "These servers will see your IP address and that you opened this document."
+	if anyLocal {
+		risk += " Some addresses are on your own machine or local network."
+	}
+	risk += " Load them at your own risk."
+	rows = append(rows,
+		"",
+		lipgloss.NewStyle().Foreground(colMuted).Width(inner).Render(risk),
+		"",
+		m.remoteButton("Load images", 0)+" "+m.remoteButton("Skip images", 1)+" "+m.remoteButton("Cancel", 2),
+	)
+
+	return lipgloss.NewStyle().
+		Border(lipgloss.RoundedBorder()).
+		BorderForeground(colError).
+		Padding(0, 2).
+		Width(w - 2).
+		Render(strings.Join(rows, "\n"))
+}
+
+// remoteButton renders a button of the remote images dialog.
+func (m Model) remoteButton(label string, idx int) string {
+	if m.remoteChoice == idx {
+		return lipgloss.NewStyle().
+			Foreground(colSelFg).Background(colAccent).Bold(true).
+			Padding(0, 2).Render(label)
+	}
+	return lipgloss.NewStyle().
+		Foreground(colMuted).
+		Padding(0, 2).Render(label)
 }
 
 // flavorDialog renders the settings dialog: the list of Markdown flavors with
