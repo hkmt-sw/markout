@@ -1,0 +1,86 @@
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
+      P
+        R{b color=4A4A68 font=Georgia} "Title: "
+        R{color=1A1A2E font=Georgia} "MyST sample"
+P
+  R{b font=Georgia sz=56} "MyST"
+P
+  R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
+P
+  R{color=2563EB font=Georgia} "MyST"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Directives"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Roles"
+P
+  R{b font=Georgia sz=44} "Directives"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
+      P
+        R{b color=3B82F6 font=Georgia} "NOTE"
+      P
+        R{color=1A1A2E font=Georgia} "A backtick directive with "
+        R{b color=1A1A2E font=Georgia} "markup"
+        R{color=1A1A2E font=Georgia} "."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
+      P
+        R{b color=EF4444 font=Georgia} "WARNING"
+      P
+        R{color=1A1A2E font=Georgia} "Careful"
+      P
+        R{color=1A1A2E font=Georgia} "A colon"
+        R{color=1A1A2E font=Georgia} " directive."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
+      P
+        R{b color=22C55E font=Georgia} "Custom title"
+      P
+        R{color=1A1A2E font=Georgia} "Body"
+        R{color=1A1A2E font=Georgia} " text."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
+      P
+        R{font=Consolas sz=19} "print(\"hello\")"
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "a^2 + b^2 = c^2"
+P{jc=center}
+  R{color=4A4A68 font=Georgia i} "🖼 A plot"
+  R "<br>"
+  R{color=2563EB font=Georgia sz=18 u=single} "plot.png"
+P
+  R{color=1A1A2E font=Georgia} "The"
+  R{color=1A1A2E font=Georgia} " caption."
+P
+  R{b font=Georgia sz=44} "Roles"
+P
+  R{color=1A1A2E font=Georgia} "Inline "
+  R{color=7C3AED font=Georgia i} "x_i"
+  R{color=1A1A2E font=Georgia} ", H"
+  R{color=1A1A2E font=Georgia} "₂"
+  R{color=1A1A2E font=Georgia} "O, a link title and "
+  R{color=CF222E font=Consolas} "Ctrl"
+  R{color=1A1A2E font=Georgia} "."

@@ -1,0 +1,59 @@
+p1 rect  x=56.7 y=56.7 w=481.9 h=64.0 FD
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
+p1 text  x=94.0 y=64.7 Arial/11 "MultiMarkdown sample"
+p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: "
+p1 text  x=107.4 y=80.7 Arial/11 "Fletcher"
+p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: "
+p1 text  x=95.2 y=96.7 Arial/11 "2026-10-06"
+p1 text  x=56.7 y=148.7 Arial-Bold/24 "MultiMarkdown"
+p1 text  x=56.7 y=196.7 Arial-Bold/16 "Table of Contents"
+p1 text  x=56.7 y=220.7 Arial/11 "MultiMarkdown"
+p1 text  x=76.7 y=236.7 Arial/11 "Markup"
+p1 text  x=56.7 y=278.7 Arial-Bold/20 "Markup"
+p1 text  x=56.7 y=312.7 Arial/11 "x"
+p1 text  x=62.2 y=311.7 Arial/8 "2"
+p1 text  x=69.7 y=312.7 Arial/11 "and"
+p1 text  x=91.1 y=312.7 Arial/11 "H"
+p1 text  x=99.0 y=317.7 Arial/8 "2"
+p1 text  x=103.5 y=312.7 Arial/11 "O,"
+p1 text  x=118.1 y=312.7 Arial/11 "math"
+p1 text  x=145.6 y=312.7 Arial-Italic/11 "a+b"
+p1 text  x=167.3 y=312.7 Arial/11 "and"
+p1 text  x=188.7 y=312.7 Arial/11 "display"
+p1 text  x=226.0 y=312.7 Arial-Italic/11 "c"
+p1 text  x=234.5 y=312.7 Arial-Italic/11 "="
+p1 text  x=244.0 y=312.7 Arial-Italic/11 "d"
+p1 text  x=250.1 y=312.7 Arial/11 "."
+p1 text  x=56.7 y=336.7 Arial/11 "CriticMarkup:"
+p1 text  x=124.5 y=336.7 Arial/11 "added"
+p1 line  x=124.5 y=348.7 to x=155.1 y=348.7
+p1 text  x=155.1 y=336.7 Arial/11 ","
+p1 text  x=161.2 y=336.7 Arial/11 "removed"
+p1 line  x=161.2 y=343.1 to x=204.0 y=343.1
+p1 text  x=204.0 y=336.7 Arial/11 ","
+p1 text  x=210.1 y=336.7 Arial/11 "old"
+p1 line  x=210.1 y=343.1 to x=224.7 y=343.1
+p1 text  x=224.7 y=336.7 Arial/11 "new"
+p1 line  x=224.7 y=348.7 to x=244.9 y=348.7
+p1 text  x=244.9 y=336.7 Arial/11 ","
+p1 rect  x=251.0 y=335.7 w=36.7 h=14.0 F
+p1 text  x=251.0 y=336.7 Arial/11 "marked"
+p1 text  x=287.7 y=336.7 Arial/11 "."
+p1 text  x=56.7 y=360.7 Arial/11 "The"
+p1 text  x=78.7 y=360.7 Arial/11 "HTML"
+p1 text  x=111.7 y=360.7 Arial/11 "spec"
+p1 text  x=134.9 y=360.7 Arial/11 "."
+p1 rect  x=56.7 y=384.7 w=240.9 h=21.0 FD
+p1 rect  x=297.6 y=384.7 w=240.9 h=21.0 FD
+p1 text  x=60.7 y=388.7 Arial-Bold/11 "A"
+p1 text  x=301.6 y=388.7 Arial-Bold/11 "B"
+p1 rect  x=56.7 y=405.7 w=240.9 h=21.0 FD
+p1 rect  x=297.6 y=405.7 w=240.9 h=21.0 FD
+p1 text  x=60.7 y=409.7 Arial/11 "1"
+p1 text  x=301.6 y=409.7 Arial/11 "2"
+p1 text  x=56.7 y=434.7 Arial/11 "Footnote"
+p1 text  x=100.1 y=434.7 Arial/11 "[1]"
+p1 text  x=112.3 y=434.7 Arial/11 "."
+p1 line  x=56.7 y=478.7 to x=201.3 y=478.7
+p1 text  x=56.7 y=488.7 Arial/9 "1. "
+p1 text  x=66.7 y=488.7 Arial/9 "Note text."

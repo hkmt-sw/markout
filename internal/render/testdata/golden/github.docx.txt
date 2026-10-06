@@ -1,0 +1,111 @@
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
+      P
+        R{b color=4A4A68 font=Georgia} "Title: "
+        R{color=1A1A2E font=Georgia} "GitHub Flavored Markdown"
+      P
+        R{b color=4A4A68 font=Georgia} "Author: "
+        R{color=1A1A2E font=Georgia} "Markout"
+P
+  R{b font=Georgia sz=56} "GitHub "
+  R{b font=Georgia sz=56} "(GFM)"
+P
+  R{color=1A1A2E font=Georgia} "Task lists, "
+  R{color=8888A0 font=Georgia strike} "strikethrough"
+  R{color=1A1A2E font=Georgia} ", autolinks ("
+  R{color=2563EB font=Georgia link=https://github.com rStyle=Hyperlink u=single} "https://github.com"
+  R{color=1A1A2E font=Georgia} ") and emoji "
+  R{color=1A1A2E font=Georgia} "🚀"
+  R{color=1A1A2E font=Georgia} " "
+  R{color=1A1A2E font=Georgia} "👍"
+  R{color=1A1A2E font=Georgia} "."
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Done"
+P
+  R{font=Georgia} "    ☐  "
+  R{color=1A1A2E font=Georgia} "Open"
+TABLE
+  COL w=3968
+  COL w=5101
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3968}
+      P
+        R{b font=Georgia} "Feature"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5101}
+      P{jc=center}
+        R{b font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3968}
+      P
+        R{font=Georgia} "Tables"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5101}
+      P{jc=center}
+        R{font=Georgia} "yes"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
+      P
+        R{b color=EF4444 font=Georgia} "WARNING"
+      P
+        R{color=1A1A2E font=Georgia} "Alerts use the five GitHub"
+        R{color=1A1A2E font=Georgia} " types. "
+        R{color=1A1A2E font=Georgia} "They have no custom"
+        R{color=1A1A2E font=Georgia} " titles."
+P
+  R{color=1A1A2E font=Georgia} "Inline math "
+  R{color=7C3AED font=Georgia i} "E = mc^2"
+  R{color=1A1A2E font=Georgia} " and "
+  R{color=7C3AED font=Georgia i} "a^2 + b^2"
+  R{color=1A1A2E font=Georgia} ", color chips "
+  R{color=CF222E font=Consolas} "#0969DA"
+  R{color=0969DA font=Georgia} "■ "
+  R{color=1A1A2E font=Georgia} " and "
+  R{color=CF222E font=Consolas} "rgb(9, 105, 218)"
+  R{color=0969DA font=Georgia} "■ "
+  R{color=1A1A2E font=Georgia} "."
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "\\sum_{i=1}^{n} i"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
+      P
+        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Consolas sz=19} "graph TD; A-->B;"
+P
+  R{color=1A1A2E font=Georgia} "Water is H"
+  R{color=1A1A2E font=Georgia} "₂"
+  R{color=1A1A2E font=Georgia} "O, press "
+  R{color=CF222E font=Consolas} "Ctrl"
+  R{color=1A1A2E font=Georgia} ", "
+  R{color=1A1A2E font=Georgia u=single} "inserted"
+  R{color=1A1A2E font=Georgia} " text."
+P
+  R{b color=1A1A2E font=Georgia} "► Collapsed section"
+P
+  R{color=1A1A2E font=Georgia} "Hidden"
+  R{color=1A1A2E font=Georgia} " content."
+P
+  R{color=1A1A2E font=Georgia} "A footnote"
+  R{color=2563EB font=Georgia sz=18} "[1]"
+  R{color=1A1A2E font=Georgia} "."
+P
+  R{color=B4B4B4 sz=18} "────────────────────────────────"
+P
+  R{color=4A4A68 font=Georgia sz=18} "1. "
+  R{color=4A4A68 font=Georgia sz=18} "The"
+  R{color=4A4A68 font=Georgia sz=18} " note."

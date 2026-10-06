@@ -101,6 +101,13 @@ type PdfRenderer struct {
 	currentY     float64                  // in points
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
 	opts         Options                  // base directory and image loading policy
+
+	// trace, when set, receives one line for everything drawn: the page, the
+	// position, the font and the text. Tests compare it with a recorded
+	// layout to catch changes in the output.
+	trace *strings.Builder
+	page  int
+	font  string
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -115,12 +122,13 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.pdf = &gopdf.GoPdf{}
 	r.pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
 	r.footnotes = nil // Reset footnotes
+	r.page = 0
 
 	if err := r.setupDocument(); err != nil {
 		return err
 	}
 
-	r.pdf.AddPage()
+	r.addPage()
 	r.currentY = r.marginTop
 
 	for _, elem := range astDoc.Elements {
@@ -156,6 +164,7 @@ func (r *PdfRenderer) setupDocument() error {
 	if err := r.pdf.SetFont("Arial", "", 11); err != nil {
 		return err
 	}
+	r.font = "Arial/11"
 
 	return nil
 }
@@ -195,11 +204,48 @@ func (r *PdfRenderer) setFont(name string, style string, size int) {
 		}
 	}
 	r.pdf.SetFont(fontName, "", size)
+	r.font = fmt.Sprintf("%s/%d", fontName, size)
+}
+
+// The drawing primitives below wrap gopdf so that everything put on a page is
+// also written to the trace.
+
+func (r *PdfRenderer) logf(format string, args ...any) {
+	if r.trace != nil {
+		fmt.Fprintf(r.trace, "p%d ", r.page)
+		fmt.Fprintf(r.trace, format, args...)
+		r.trace.WriteByte('\n')
+	}
+}
+
+func (r *PdfRenderer) addPage() {
+	r.pdf.AddPage()
+	r.page++
+}
+
+func (r *PdfRenderer) cell(text string) {
+	r.logf("text  x=%.1f y=%.1f %s %q", r.pdf.GetX(), r.pdf.GetY(), r.font, text)
+	r.pdf.Cell(nil, text)
+}
+
+func (r *PdfRenderer) rect(x, y, w, h float64, style string) {
+	r.logf("rect  x=%.1f y=%.1f w=%.1f h=%.1f %s", x, y, w, h, style)
+	r.pdf.RectFromUpperLeftWithStyle(x, y, w, h, style)
+}
+
+func (r *PdfRenderer) line(x1, y1, x2, y2 float64) {
+	r.logf("line  x=%.1f y=%.1f to x=%.1f y=%.1f", x1, y1, x2, y2)
+	r.pdf.Line(x1, y1, x2, y2)
+}
+
+func (r *PdfRenderer) image(holder gopdf.ImageHolder, x, y, w, h float64) error {
+	r.logf("image x=%.1f y=%.1f w=%.1f h=%.1f", x, y, w, h)
+	return r.pdf.ImageByHolder(holder, x, y, &gopdf.Rect{W: w, H: h})
 }
 
 func (r *PdfRenderer) checkPageBreak(height float64) {
 	if r.currentY+height > r.pageHeight-r.marginBottom {
-		r.pdf.AddPage()
+		r.addPage()
 		r.currentY = r.marginTop
 	}
 }
@@ -374,7 +420,7 @@ func (r *PdfRenderer) renderRuns(runs []ast.InlineRun, startX float64, lineHeigh
 		if run.ColorChip != "" {
 			chipColor := hexStringToRGB(strings.TrimPrefix(run.ColorChip, "#"))
 			r.pdf.SetFillColor(chipColor.R, chipColor.G, chipColor.B)
-			r.pdf.RectFromUpperLeftWithStyle(currentX, r.currentY, 10, 10, "F")
+			r.rect(currentX, r.currentY, 10, 10, "F")
 			currentX += 12
 			r.pdf.SetFillColor(255, 255, 255) // Reset
 		}
@@ -412,14 +458,14 @@ func (r *PdfRenderer) renderRuns(runs []ast.InlineRun, startX float64, lineHeigh
 			if run.Highlight {
 				c := config.ColorHighlightRGB
 				r.pdf.SetFillColor(c.R, c.G, c.B)
-				r.pdf.RectFromUpperLeftWithStyle(decoStart, r.currentY-1, currentX+wordWidth-decoStart, float64(fontSize)+3, "F")
+				r.rect(decoStart, r.currentY-1, currentX+wordWidth-decoStart, float64(fontSize)+3, "F")
 				r.pdf.SetFillColor(255, 255, 255) // Reset
 			}
 
 			// Render the word
 			r.pdf.SetX(currentX)
 			r.pdf.SetY(y)
-			r.pdf.Cell(nil, word)
+			r.cell(word)
 
 			if run.Link != "" {
 				// Add clickable link: AddExternalLink(url, x, y, w, h)
@@ -433,11 +479,11 @@ func (r *PdfRenderer) renderRuns(runs []ast.InlineRun, startX float64, lineHeigh
 				r.pdf.SetLineWidth(0.6)
 				if underline {
 					ly := y + float64(fontSize) + 1
-					r.pdf.Line(decoStart, ly, currentX+wordWidth, ly)
+					r.line(decoStart, ly, currentX+wordWidth, ly)
 				}
 				if strike {
 					ly := y + float64(fontSize)*0.58
-					r.pdf.Line(decoStart, ly, currentX+wordWidth, ly)
+					r.line(decoStart, ly, currentX+wordWidth, ly)
 				}
 				r.pdf.SetStrokeColor(0, 0, 0)
 				r.pdf.SetLineWidth(0.5)
@@ -473,7 +519,7 @@ func (r *PdfRenderer) renderText(text string, x float64, lineHeight float64) {
 			r.checkPageBreak(lineHeight)
 			r.pdf.SetX(x)
 			r.pdf.SetY(r.currentY)
-			r.pdf.Cell(nil, currentLine)
+			r.cell(currentLine)
 			r.currentY += lineHeight
 			currentLine = word
 		} else {
@@ -485,7 +531,7 @@ func (r *PdfRenderer) renderText(text string, x float64, lineHeight float64) {
 		r.checkPageBreak(lineHeight)
 		r.pdf.SetX(x)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, currentLine)
+		r.cell(currentLine)
 		r.currentY += lineHeight
 	}
 }
@@ -522,7 +568,7 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 		bulletText := prefix + " "
 		r.pdf.SetX(r.marginLeft + indent)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, bulletText)
+		r.cell(bulletText)
 
 		bulletWidth, _ := r.pdf.MeasureTextWidth(bulletText)
 		text := r.runsToPlainText(item.Runs)
@@ -551,14 +597,14 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 					if firstLine {
 						r.pdf.SetX(startX)
 						r.pdf.SetY(r.currentY)
-						r.pdf.Cell(nil, currentLine)
+						r.cell(currentLine)
 						r.currentY += lineHeight
 						firstLine = false
 					} else {
 						r.checkPageBreak(lineHeight)
 						r.pdf.SetX(r.marginLeft + indent)
 						r.pdf.SetY(r.currentY)
-						r.pdf.Cell(nil, currentLine)
+						r.cell(currentLine)
 						r.currentY += lineHeight
 					}
 					currentLine = word
@@ -571,12 +617,12 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 				if firstLine {
 					r.pdf.SetX(startX)
 					r.pdf.SetY(r.currentY)
-					r.pdf.Cell(nil, currentLine)
+					r.cell(currentLine)
 				} else {
 					r.checkPageBreak(lineHeight)
 					r.pdf.SetX(r.marginLeft + indent)
 					r.pdf.SetY(r.currentY)
-					r.pdf.Cell(nil, currentLine)
+					r.cell(currentLine)
 				}
 				r.currentY += lineHeight
 			}
@@ -603,7 +649,7 @@ func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 	r.pdf.SetStrokeColor(200, 200, 200)
 
 	startY := r.currentY
-	r.pdf.RectFromUpperLeftWithStyle(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
+	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
 
 	r.setFont("Courier", "", 9)
 	r.pdf.SetTextColor(0, 0, 0)
@@ -615,7 +661,7 @@ func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 		}
 		r.pdf.SetX(r.marginLeft + padding)
 		r.pdf.SetY(codeY)
-		r.pdf.Cell(nil, line)
+		r.cell(line)
 		codeY += lineHeight
 	}
 
@@ -725,7 +771,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 			r.pdf.SetFillColor(255, 255, 255)
 		}
 		for j := 0; j < numCols; j++ {
-			r.pdf.RectFromUpperLeftWithStyle(colX(j), r.currentY, colWidthsPt[j], rowH, "FD")
+			r.rect(colX(j), r.currentY, colWidthsPt[j], rowH, "FD")
 		}
 
 		if isHeader {
@@ -739,7 +785,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 			for li, line := range wrappedTexts[j] {
 				r.pdf.SetX(x + cellPadding)
 				r.pdf.SetY(r.currentY + cellPadding + float64(li)*lineHeight)
-				r.pdf.Cell(nil, line)
+				r.cell(line)
 			}
 		}
 		r.currentY += rowH
@@ -763,7 +809,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		rowH, wrappedTexts := calcRowHeight(row.Cells, false)
 
 		if r.currentY+rowH > r.pageHeight-r.marginBottom {
-			r.pdf.AddPage()
+			r.addPage()
 			r.currentY = r.marginTop
 			renderHeader()
 		}
@@ -806,7 +852,7 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 						r.checkPageBreak(lineHeight)
 						r.pdf.SetX(r.marginLeft + indent)
 						r.pdf.SetY(r.currentY)
-						r.pdf.Cell(nil, currentLine)
+						r.cell(currentLine)
 						r.currentY += lineHeight
 						currentLine = word
 					} else {
@@ -818,7 +864,7 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 					r.checkPageBreak(lineHeight)
 					r.pdf.SetX(r.marginLeft + indent)
 					r.pdf.SetY(r.currentY)
-					r.pdf.Cell(nil, currentLine)
+					r.cell(currentLine)
 					r.currentY += lineHeight
 				}
 			}
@@ -827,7 +873,7 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 
 			r.pdf.SetStrokeColor(180, 180, 180)
 			r.pdf.SetLineWidth(3)
-			r.pdf.Line(r.marginLeft+5, startY, r.marginLeft+5, endY)
+			r.line(r.marginLeft+5, startY, r.marginLeft+5, endY)
 			r.pdf.SetLineWidth(0.5)
 
 			r.currentY += 4
@@ -850,7 +896,7 @@ func (r *PdfRenderer) renderHorizontalRule() {
 
 	r.pdf.SetStrokeColor(180, 180, 180)
 	r.pdf.SetLineWidth(1)
-	r.pdf.Line(r.marginLeft, r.currentY, r.marginLeft+r.contentWidth, r.currentY)
+	r.line(r.marginLeft, r.currentY, r.marginLeft+r.contentWidth, r.currentY)
 
 	r.currentY += 12
 	r.pdf.SetStrokeColor(0, 0, 0)
@@ -871,7 +917,7 @@ func (r *PdfRenderer) renderImage(img ast.Image) {
 // scaling it to fit the content width. Returns an error if the image cannot be
 // loaded or is in an unsupported format.
 func (r *PdfRenderer) embedImage(img ast.Image) error {
-	data, err := loadRasterImage(img.URL, r.opts, img.Width)
+	data, displayWidth, err := loadRasterImage(img.URL, r.opts, img.Width)
 	if err != nil {
 		return err
 	}
@@ -895,8 +941,8 @@ func (r *PdfRenderer) embedImage(img ast.Image) error {
 	const pxToPt = 72.0 / 96.0
 	aspect := float64(cfg.Height) / float64(cfg.Width)
 	var w float64
-	if img.Width > 0 {
-		w = float64(img.Width) * pxToPt
+	if displayWidth > 0 {
+		w = float64(displayWidth) * pxToPt
 	} else {
 		w = float64(cfg.Width) * pxToPt
 	}
@@ -915,7 +961,7 @@ func (r *PdfRenderer) embedImage(img ast.Image) error {
 	}
 
 	r.checkPageBreak(h)
-	if err := r.pdf.ImageByHolder(holder, r.marginLeft, r.currentY, &gopdf.Rect{W: w, H: h}); err != nil {
+	if err := r.image(holder, r.marginLeft, r.currentY, w, h); err != nil {
 		return err
 	}
 	r.currentY += h + 8
@@ -926,7 +972,7 @@ func (r *PdfRenderer) embedImage(img ast.Image) error {
 		r.pdf.SetTextColor(74, 74, 104)
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, img.Alt)
+		r.cell(img.Alt)
 		r.currentY += 14
 		r.pdf.SetTextColor(0, 0, 0)
 		r.setFont("Arial", "", 11)
@@ -1018,7 +1064,7 @@ func (r *PdfRenderer) renderImagePlaceholder(img ast.Image) {
 
 	r.pdf.SetX(r.marginLeft)
 	r.pdf.SetY(r.currentY)
-	r.pdf.Cell(nil, "[IMG] "+displayText)
+	r.cell("[IMG] " + displayText)
 	r.currentY += lineHeight
 
 	// Show URL
@@ -1028,7 +1074,7 @@ func (r *PdfRenderer) renderImagePlaceholder(img ast.Image) {
 
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, img.URL)
+		r.cell(img.URL)
 		r.currentY += lineHeight
 	}
 
@@ -1058,12 +1104,12 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 
 	// Draw background
 	r.pdf.SetFillColor(bgColor.R, bgColor.G, bgColor.B)
-	r.pdf.RectFromUpperLeftWithStyle(r.marginLeft, startY, r.contentWidth, blockHeight, "F")
+	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "F")
 
 	// Draw colored left border
 	r.pdf.SetStrokeColor(borderColor.R, borderColor.G, borderColor.B)
 	r.pdf.SetLineWidth(3)
-	r.pdf.Line(r.marginLeft, startY, r.marginLeft, startY+blockHeight)
+	r.line(r.marginLeft, startY, r.marginLeft, startY+blockHeight)
 	r.pdf.SetLineWidth(0.5)
 
 	// Title
@@ -1071,7 +1117,7 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	r.pdf.SetTextColor(borderColor.R, borderColor.G, borderColor.B)
 	r.pdf.SetX(r.marginLeft + padding)
 	r.pdf.SetY(startY + padding)
-	r.pdf.Cell(nil, stripEmojis(alert.Title))
+	r.cell(stripEmojis(alert.Title))
 	r.currentY = startY + padding + lineHeight
 
 	// Content
@@ -1080,7 +1126,7 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	for _, line := range contentLines {
 		r.pdf.SetX(r.marginLeft + padding)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, line)
+		r.cell(line)
 		r.currentY += lineHeight
 	}
 
@@ -1127,14 +1173,14 @@ func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
 	// Background
 	r.pdf.SetFillColor(bg.R, bg.G, bg.B)
 	r.pdf.SetStrokeColor(border.R, border.G, border.B)
-	r.pdf.RectFromUpperLeftWithStyle(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
+	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
 
 	// Label
 	r.setFont("Arial", "B", 11)
 	r.pdf.SetTextColor(textColor.R, textColor.G, textColor.B)
 	r.pdf.SetX(r.marginLeft + padding)
 	r.pdf.SetY(startY + padding)
-	r.pdf.Cell(nil, "Mermaid Diagram")
+	r.cell("Mermaid Diagram")
 
 	// Source code
 	r.setFont("Courier", "", 9)
@@ -1145,7 +1191,7 @@ func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
 		}
 		r.pdf.SetX(r.marginLeft + padding)
 		r.pdf.SetY(codeY)
-		r.pdf.Cell(nil, line)
+		r.cell(line)
 		codeY += lineHeight
 	}
 
@@ -1172,7 +1218,7 @@ func (r *PdfRenderer) renderMathBlock(math ast.MathBlock) {
 
 	r.pdf.SetX(x)
 	r.pdf.SetY(r.currentY)
-	r.pdf.Cell(nil, math.Expression)
+	r.cell(math.Expression)
 	r.currentY += lineHeight + 8
 
 	r.setFont("Arial", "", 11)
@@ -1192,7 +1238,7 @@ func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
 		text := r.runsToPlainText(item.Term)
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, text)
+		r.cell(text)
 		r.currentY += lineHeight
 
 		// Definitions - indented
@@ -1202,7 +1248,7 @@ func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
 			text := r.runsToPlainText(def)
 			r.pdf.SetX(r.marginLeft + indent)
 			r.pdf.SetY(r.currentY)
-			r.pdf.Cell(nil, text)
+			r.cell(text)
 			r.currentY += lineHeight
 		}
 		r.currentY += 4
@@ -1220,7 +1266,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	r.pdf.SetTextColor(26, 26, 46)
 	r.pdf.SetX(r.marginLeft)
 	r.pdf.SetY(r.currentY)
-	r.pdf.Cell(nil, "Table of Contents")
+	r.cell("Table of Contents")
 	r.currentY += lineHeight + 8
 
 	// Items
@@ -1231,7 +1277,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 		indent := float64(item.Level-1) * 20.0
 		r.pdf.SetX(r.marginLeft + indent)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, item.Title)
+		r.cell(item.Title)
 		r.currentY += lineHeight
 	}
 
@@ -1271,7 +1317,7 @@ func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
 	// Background
 	r.pdf.SetFillColor(248, 249, 252) // Elevated surface
 	r.pdf.SetStrokeColor(226, 228, 235)
-	r.pdf.RectFromUpperLeftWithStyle(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
+	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
 
 	renderField := func(label, value string) {
 		if value == "" {
@@ -1281,14 +1327,14 @@ func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
 		r.pdf.SetTextColor(74, 74, 104) // Secondary
 		r.pdf.SetX(r.marginLeft + padding)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, label+": ")
+		r.cell(label + ": ")
 		labelWidth, _ := r.pdf.MeasureTextWidth(label + ": ")
 
 		r.setFont("Arial", "", 11)
 		r.pdf.SetTextColor(26, 26, 46) // Primary
 		r.pdf.SetX(r.marginLeft + padding + labelWidth)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, value)
+		r.cell(value)
 		r.currentY += lineHeight
 	}
 
@@ -1385,7 +1431,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 	r.pdf.SetStrokeColor(180, 180, 180)
 	r.pdf.SetLineWidth(0.5)
-	r.pdf.Line(r.marginLeft, r.currentY, r.marginLeft+r.contentWidth*0.3, r.currentY)
+	r.line(r.marginLeft, r.currentY, r.marginLeft+r.contentWidth*0.3, r.currentY)
 	r.currentY += 10
 
 	// Render each footnote
@@ -1397,7 +1443,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 		prefix := itoa(fn.Index) + ". "
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
-		r.pdf.Cell(nil, prefix)
+		r.cell(prefix)
 
 		prefixWidth, _ := r.pdf.MeasureTextWidth(prefix)
 
@@ -1429,14 +1475,14 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 					if testWidth > maxWidth && currentLine != "" {
 						if firstLine {
-							r.pdf.Cell(nil, currentLine)
+							r.cell(currentLine)
 							r.currentY += lineHeight
 							firstLine = false
 						} else {
 							r.checkPageBreak(lineHeight)
 							r.pdf.SetX(r.marginLeft + 20)
 							r.pdf.SetY(r.currentY)
-							r.pdf.Cell(nil, currentLine)
+							r.cell(currentLine)
 							r.currentY += lineHeight
 						}
 						currentLine = word
@@ -1447,12 +1493,12 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 				if currentLine != "" {
 					if firstLine {
-						r.pdf.Cell(nil, currentLine)
+						r.cell(currentLine)
 					} else {
 						r.checkPageBreak(lineHeight)
 						r.pdf.SetX(r.marginLeft + 20)
 						r.pdf.SetY(r.currentY)
-						r.pdf.Cell(nil, currentLine)
+						r.cell(currentLine)
 					}
 					r.currentY += lineHeight
 				}

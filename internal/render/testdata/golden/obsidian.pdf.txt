@@ -1,0 +1,45 @@
+p1 rect  x=56.7 y=56.7 w=481.9 h=48.0 FD
+p1 text  x=56.7 y=132.7 Arial-Bold/24 "Obsidian"
+p1 text  x=56.7 y=172.7 Arial/11 "Link"
+p1 text  x=79.9 y=172.7 Arial/11 "to"
+p1 text  x=92.1 y=172.7 Arial/11 "Another"
+p1 text  x=133.7 y=172.7 Arial/11 "note"
+p1 text  x=158.1 y=172.7 Arial/11 "and"
+p1 text  x=179.5 y=172.7 Arial/11 "a"
+p1 text  x=188.7 y=172.7 Arial/11 "custom"
+p1 text  x=227.2 y=172.7 Arial/11 "label."
+p1 text  x=56.7 y=196.7 Arial/11 "Text"
+p1 text  x=81.1 y=196.7 Arial/11 "with"
+p1 rect  x=103.7 y=195.7 w=53.2 h=14.0 F
+p1 text  x=103.7 y=196.7 Arial/11 "highlighted"
+p1 rect  x=156.9 y=195.7 w=32.4 h=14.0 F
+p1 text  x=159.9 y=196.7 Arial/11 "words"
+p1 text  x=192.3 y=196.7 Arial/11 "and"
+p1 text  x=213.7 y=196.7 Arial/11 "a"
+p1 text  x=222.9 y=196.7 Arial/11 "inside."
+p1 text  x=56.7 y=220.7 Arial-Italic/11 "[IMG] diagram"
+p1 text  x=56.7 y=236.7 Arial/9 "diagram.png"
+p1 text  x=56.7 y=260.7 Arial/11 "Embedded"
+p1 text  x=112.9 y=260.7 Arial/11 "note"
+p1 rect  x=56.7 y=284.7 w=481.9 h=80.0 F
+p1 line  x=56.7 y=284.7 to x=56.7 y=364.7
+p1 text  x=64.7 y=292.7 Arial-Bold/11 "Foldable callout"
+p1 text  x=64.7 y=308.7 Arial/11 "With content and a list:"
+p1 text  x=64.7 y=324.7 Arial/11 "• one"
+p1 text  x=64.7 y=340.7 Arial/11 "• two"
+p1 rect  x=56.7 y=372.7 w=481.9 h=48.0 F
+p1 line  x=56.7 y=372.7 to x=56.7 y=420.7
+p1 text  x=64.7 y=380.7 Arial-Bold/11 "Any type works"
+p1 text  x=64.7 y=396.7 Arial/11 "Really."
+p1 text  x=56.7 y=428.7 Arial/11 "Inline"
+p1 text  x=86.0 y=428.7 Arial/11 "note"
+p1 text  x=107.4 y=428.7 Arial/11 "[1]"
+p1 text  x=122.7 y=428.7 Arial/11 "and"
+p1 text  x=144.1 y=428.7 Arial/11 "math"
+p1 text  x=171.6 y=428.7 Arial-Italic/11 "x^2"
+p1 text  x=188.3 y=428.7 Arial/11 "."
+p1 text  x=76.7 y=452.7 Arial/11 "[x] "
+p1 text  x=91.3 y=452.7 Arial/11 "Task"
+p1 line  x=56.7 y=494.7 to x=201.3 y=494.7
+p1 text  x=56.7 y=504.7 Arial/9 "1. "
+p1 text  x=66.7 y=504.7 Arial/9 "written in place"

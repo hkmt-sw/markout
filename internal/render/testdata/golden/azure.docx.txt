@@ -1,0 +1,81 @@
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
+      P
+        R{b color=4A4A68 font=Georgia} "Title: "
+        R{color=1A1A2E font=Georgia} "Azure DevOps wiki"
+P
+  R{b font=Georgia sz=56} "Azure"
+  R{b font=Georgia sz=56} " DevOps"
+P
+  R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
+P
+  R{color=2563EB font=Georgia} "Azure DevOps"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Diagram"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Math"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Sized image"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Rest"
+P
+  R{b font=Georgia sz=44} "Diagram"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
+      P
+        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Consolas sz=19} "sequenceDiagram"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    A->>B: Hello"
+P
+  R{b font=Georgia sz=44} "Math"
+P
+  R{color=1A1A2E font=Georgia} "Inline "
+  R{color=7C3AED font=Georgia i} "a + b = c"
+  R{color=1A1A2E font=Georgia} " and a block"
+  R{color=1A1A2E font=Georgia} ":"
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "\\int_0^1 x\\,dx"
+P
+  R{b font=Georgia sz=44} "Sized"
+  R{b font=Georgia sz=44} " image"
+P{jc=center}
+  R{color=4A4A68 font=Georgia i} "🖼 Architecture"
+  R "<br>"
+  R{color=2563EB font=Georgia sz=18 u=single} "arch.png"
+P
+  R{b font=Georgia sz=44} "Rest"
+P
+  R{color=1A1A2E font=Georgia} "Use "
+  R{color=1A1A2E font=Georgia u=single} "underline"
+  R{color=1A1A2E font=Georgia} " via HTML, "
+  R{color=1A1A2E font=Georgia} "😄"
+  R{color=1A1A2E font=Georgia} " emoji and task lists"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Plan"
+P
+  R{font=Georgia} "    ☐  "
+  R{color=1A1A2E font=Georgia} "Ship"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
+      P
+        R{font=Consolas sz=19} "graph TD; NotRendered-->InAzure;"
