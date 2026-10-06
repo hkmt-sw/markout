@@ -7,6 +7,7 @@ import (
 	"regexp"
 	"sort"
 	"strings"
+	"time"
 
 	mathjax "github.com/litao91/goldmark-mathjax"
 	"github.com/yuin/goldmark"
@@ -151,11 +152,19 @@ func frontMatterFromMap(raw map[string]any) *ast.FrontMatter {
 	if author, ok := raw["author"].(string); ok {
 		fm.Author = author
 	}
-	// Date might be parsed as time.Time by YAML decoder
-	if date, ok := raw["date"].(string); ok {
+	// An unquoted date is decoded as a time; show it the way it was written
+	switch date := raw["date"].(type) {
+	case string:
 		fm.Date = date
-	} else if raw["date"] != nil {
-		fm.Date = fmt.Sprintf("%v", raw["date"])
+	case time.Time:
+		if h, m, sec := date.Clock(); h == 0 && m == 0 && sec == 0 {
+			fm.Date = date.Format("2006-01-02")
+		} else {
+			fm.Date = date.Format("2006-01-02 15:04")
+		}
+	case nil:
+	default:
+		fm.Date = fmt.Sprintf("%v", date)
 	}
 	return fm
 }

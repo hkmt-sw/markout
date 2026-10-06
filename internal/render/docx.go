@@ -1318,11 +1318,11 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	}
 
 	// Render any remaining raw fields
-	for key, value := range fm.Raw {
+	for _, key := range sortedKeys(fm.Raw) {
 		if key == "title" || key == "author" || key == "date" {
 			continue
 		}
-		if strVal, ok := value.(string); ok {
+		if strVal, ok := fm.Raw[key].(string); ok {
 			if err := renderField(key, strVal); err != nil {
 				return err
 			}

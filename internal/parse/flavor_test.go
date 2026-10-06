@@ -464,3 +464,16 @@ func TestEscapesAndEntitiesAreResolved(t *testing.T) {
 		t.Errorf("got:\n%s\nwant it to contain:\n%s", got, want)
 	}
 }
+
+// A date written without quotes is decoded as a time; it is shown as written.
+func TestFrontMatterDate(t *testing.T) {
+	for src, want := range map[string]string{
+		"---\ndate: 2026-10-06\n---\n\nx\n":           `date="2026-10-06"`,
+		"---\ndate: \"6 October 2026\"\n---\n\nx\n":   `date="6 October 2026"`,
+		"---\ndate: 2026-10-06T14:30:00Z\n---\n\nx\n": `date="2026-10-06 14:30"`,
+	} {
+		if got := parseAs(t, "markout", src); !strings.Contains(got, want) {
+			t.Errorf("%q: got %s, want %s", src, got, want)
+		}
+	}
+}

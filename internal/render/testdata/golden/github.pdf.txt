@@ -43,25 +43,24 @@ p1 rect  x=371.2 y=340.7 w=10.0 h=10.0 fill=#0969DA
 p1 text  x=383.2 y=342.3 Courier/10 "rgb(9, 105, 218)" #CF222E
 p1 text  x=479.2 y=340.7 Arial/11 "." #1A1A2E
 p1 text  x=259.5 y=364.7 Arial-Italic/11 "\\sum_{i=1}^{n} i" #7C3AED
-p1 rect  x=56.7 y=388.7 w=481.9 h=52.0 fill=#ECFDF5 stroke=#10B981/0.5
+p1 rect  x=56.7 y=388.7 w=481.9 h=40.0 fill=#ECFDF5 stroke=#10B981/0.5
 p1 text  x=64.7 y=396.7 Arial-Bold/11 "Mermaid Diagram" #065F46
 p1 text  x=64.7 y=408.7 Courier/9 "graph TD; A-->B;" #065F46
-p1 text  x=64.7 y=420.7 Courier/9 " " #065F46
-p1 text  x=56.7 y=448.7 Arial/11 "Water is H" #1A1A2E
-p1 text  x=108.0 y=453.7 Arial/8 "2" #1A1A2E
-p1 text  x=112.4 y=448.7 Arial/11 "O, press" #1A1A2E
-p1 text  x=157.0 y=450.3 Courier/10 "Ctrl" #CF222E
-p1 text  x=181.0 y=448.7 Arial/11 "," #1A1A2E
-p1 text  x=187.1 y=448.7 Arial/11 "inserted" #1A1A2E
-p1 line  x=187.1 y=460.7 to x=226.2 y=460.7 #1A1A2E/0.6
-p1 text  x=229.3 y=448.7 Arial/11 "text." #1A1A2E
-p1 text  x=56.7 y=472.7 Arial-Bold/11 "Collapsed section" #1A1A2E
-p1 text  x=56.7 y=496.7 Arial/11 "Hidden" #1A1A2E
-p1 text  x=94.6 y=496.7 Arial/11 "content." #1A1A2E
-p1 text  x=56.7 y=520.7 Arial/11 "A footnote" #1A1A2E
-p1 text  x=106.8 y=520.7 Arial/11 "[1]" #2563EB
-p1 text  x=119.0 y=520.7 Arial/11 "." #1A1A2E
-p1 line  x=56.7 y=564.7 to x=201.3 y=564.7 #B4B4B4/0.5
-p1 text  x=56.7 y=574.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=574.7 Arial/9 "The" #000000
-p1 text  x=84.7 y=574.7 Arial/9 "note." #000000
+p1 text  x=56.7 y=436.7 Arial/11 "Water is H" #1A1A2E
+p1 text  x=108.0 y=441.7 Arial/8 "2" #1A1A2E
+p1 text  x=112.4 y=436.7 Arial/11 "O, press" #1A1A2E
+p1 text  x=157.0 y=438.3 Courier/10 "Ctrl" #CF222E
+p1 text  x=181.0 y=436.7 Arial/11 "," #1A1A2E
+p1 text  x=187.1 y=436.7 Arial/11 "inserted" #1A1A2E
+p1 line  x=187.1 y=448.7 to x=226.2 y=448.7 #1A1A2E/0.6
+p1 text  x=229.3 y=436.7 Arial/11 "text." #1A1A2E
+p1 text  x=56.7 y=460.7 Arial-Bold/11 "Collapsed section" #1A1A2E
+p1 text  x=56.7 y=484.7 Arial/11 "Hidden" #1A1A2E
+p1 text  x=94.6 y=484.7 Arial/11 "content." #1A1A2E
+p1 text  x=56.7 y=508.7 Arial/11 "A footnote" #1A1A2E
+p1 text  x=106.8 y=508.7 Arial/11 "[1]" #2563EB
+p1 text  x=119.0 y=508.7 Arial/11 "." #1A1A2E
+p1 line  x=56.7 y=552.7 to x=201.3 y=552.7 #B4B4B4/0.5
+p1 text  x=56.7 y=562.7 Arial/9 "1. " #000000
+p1 text  x=66.7 y=562.7 Arial/9 "The" #000000
+p1 text  x=84.7 y=562.7 Arial/9 "note." #000000

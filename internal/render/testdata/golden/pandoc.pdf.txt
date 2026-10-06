@@ -38,15 +38,14 @@ p1 text  x=64.7 y=316.7 Arial/11 "Works too" #1A1A2E
 p1 text  x=114.2 y=316.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=348.7 Arial/11 "Unknown divs keep their content" #1A1A2E
 p1 text  x=215.6 y=348.7 Arial/11 "." #1A1A2E
-p1 rect  x=56.7 y=372.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 rect  x=56.7 y=372.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p1 text  x=64.7 y=380.7 Courier/9 "print(\"hi\")" #000000
-p1 text  x=64.7 y=392.7 Courier/9 " " #000000
-p1 text  x=56.7 y=420.7 Arial-Bold/11 "Term" #1A1A2E
-p1 text  x=76.7 y=436.7 Arial/11 "Definition" #1A1A2E
-p1 text  x=56.7 y=460.7 Arial-Italic/11 "[IMG] Figure" #4A4A68
-p1 text  x=56.7 y=476.7 Arial/9 "fig.png" #2563EB
-p1 text  x=262.7 y=500.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
-p1 line  x=56.7 y=544.7 to x=201.3 y=544.7 #B4B4B4/0.5
-p1 text  x=56.7 y=554.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=554.7 Arial/9 "It lives in the text" #000000
-p1 text  x=133.6 y=554.7 Arial/9 "." #000000
+p1 text  x=56.7 y=408.7 Arial-Bold/11 "Term" #1A1A2E
+p1 text  x=76.7 y=424.7 Arial/11 "Definition" #1A1A2E
+p1 text  x=56.7 y=448.7 Arial-Italic/11 "[IMG] Figure" #4A4A68
+p1 text  x=56.7 y=464.7 Arial/9 "fig.png" #2563EB
+p1 text  x=262.7 y=488.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
+p1 line  x=56.7 y=532.7 to x=201.3 y=532.7 #B4B4B4/0.5
+p1 text  x=56.7 y=542.7 Arial/9 "1. " #000000
+p1 text  x=66.7 y=542.7 Arial/9 "It lives in the text" #000000
+p1 text  x=133.6 y=542.7 Arial/9 "." #000000

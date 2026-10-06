@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"sort"
 	"strings"
 	"time"
 	"unicode"
@@ -433,7 +434,8 @@ func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 	lineHeight := 12.0
 	padding := 8.0
 
-	lines := strings.Split(cb.Code, "\n")
+	// The code ends with a line break, which is not a line of its own
+	lines := strings.Split(strings.TrimSuffix(cb.Code, "\n"), "\n")
 	blockHeight := float64(len(lines))*lineHeight + 2*padding
 
 	r.checkPageBreak(blockHeight)
@@ -844,7 +846,7 @@ func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
 	lineHeight := 12.0
 	padding := 8.0
 
-	lines := strings.Split(diagram.Source, "\n")
+	lines := strings.Split(strings.TrimSuffix(diagram.Source, "\n"), "\n")
 	blockHeight := float64(len(lines)+1)*lineHeight + 2*padding // +1 for label
 	r.checkPageBreak(blockHeight)
 
@@ -975,8 +977,9 @@ func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
 	if fm.Date != "" {
 		fieldCount++
 	}
-	for key := range fm.Raw {
-		if key != "title" && key != "author" && key != "date" {
+	for key, value := range fm.Raw {
+		// Only text values are shown; lists and maps have no single line
+		if _, ok := value.(string); ok && key != "title" && key != "author" && key != "date" {
 			fieldCount++
 		}
 	}
@@ -1017,11 +1020,11 @@ func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
 	renderField("Author", fm.Author)
 	renderField("Date", fm.Date)
 
-	for key, value := range fm.Raw {
+	for _, key := range sortedKeys(fm.Raw) {
 		if key == "title" || key == "author" || key == "date" {
 			continue
 		}
-		if strVal, ok := value.(string); ok {
+		if strVal, ok := fm.Raw[key].(string); ok {
 			renderField(key, strVal)
 		}
 	}
@@ -1065,6 +1068,16 @@ func hexStringToRGB(hex string) config.RGB {
 		fmt.Sscanf(hex[:6], "%02x%02x%02x", &r, &g, &b) // Ignore alpha
 	}
 	return config.RGB{R: r, G: g, B: b}
+}
+
+// sortedKeys returns the keys of a metadata map in a stable order.
+func sortedKeys(m map[string]any) []string {
+	keys := make([]string, 0, len(m))
+	for k := range m {
+		keys = append(keys, k)
+	}
+	sort.Strings(keys)
+	return keys
 }
 
 // itoa converts int to string without importing strconv

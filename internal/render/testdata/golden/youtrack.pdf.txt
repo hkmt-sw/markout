@@ -19,21 +19,19 @@ p1 text  x=352.6 y=203.7 Arial/11 "Major" #1A1A2E
 p1 text  x=56.7 y=228.7 Arial-Italic/11 "[IMG] Screenshot" #4A4A68
 p1 text  x=56.7 y=244.7 Arial/9 "shot.png" #2563EB
 p1 text  x=264.5 y=268.7 Arial-Italic/11 "\\frac{a}{b} = c" #7C3AED
-p1 rect  x=56.7 y=292.7 w=481.9 h=52.0 fill=#ECFDF5 stroke=#10B981/0.5
+p1 rect  x=56.7 y=292.7 w=481.9 h=40.0 fill=#ECFDF5 stroke=#10B981/0.5
 p1 text  x=64.7 y=300.7 Arial-Bold/11 "Mermaid Diagram" #065F46
 p1 text  x=64.7 y=312.7 Courier/9 "graph LR; Open-->Fixed;" #065F46
-p1 text  x=64.7 y=324.7 Courier/9 " " #065F46
-p1 rect  x=56.7 y=352.7 w=481.9 h=52.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=360.7 Courier/9 "java.lang.NullPointerException" #000000
-p1 text  x=64.7 y=372.7 Courier/9 "\tat com.example.Main.main(Main.java:5)" #000000
-p1 text  x=64.7 y=384.7 Courier/9 " " #000000
-p1 text  x=56.7 y=412.7 Arial/11 "No alerts" #1A1A2E
-p1 text  x=103.7 y=412.7 Arial/11 "here:" #1A1A2E
-p1 text  x=76.7 y=436.7 Arial-Italic/11 "[" #000000
-p1 text  x=79.7 y=436.7 Arial-Italic/11 "!NOTE" #000000
-p1 text  x=113.3 y=436.7 Arial-Italic/11 "]" #000000
-p1 text  x=119.4 y=436.7 Arial-Italic/11 "Just a quote in" #000000
-p1 text  x=193.9 y=436.7 Arial-Italic/11 "YouTrack." #000000
-p1 line  x=61.7 y=436.7 to x=61.7 y=452.7 #B4B4B4/3.0
-p1 text  x=56.7 y=456.7 Arial/11 "No math either: $x$ stays text, and :smile: stays" #1A1A2E
-p1 text  x=293.1 y=456.7 Arial/11 "text." #1A1A2E
+p1 rect  x=56.7 y=340.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=348.7 Courier/9 "java.lang.NullPointerException" #000000
+p1 text  x=64.7 y=360.7 Courier/9 "\tat com.example.Main.main(Main.java:5)" #000000
+p1 text  x=56.7 y=388.7 Arial/11 "No alerts" #1A1A2E
+p1 text  x=103.7 y=388.7 Arial/11 "here:" #1A1A2E
+p1 text  x=76.7 y=412.7 Arial-Italic/11 "[" #000000
+p1 text  x=79.7 y=412.7 Arial-Italic/11 "!NOTE" #000000
+p1 text  x=113.3 y=412.7 Arial-Italic/11 "]" #000000
+p1 text  x=119.4 y=412.7 Arial-Italic/11 "Just a quote in" #000000
+p1 text  x=193.9 y=412.7 Arial-Italic/11 "YouTrack." #000000
+p1 line  x=61.7 y=412.7 to x=61.7 y=428.7 #B4B4B4/3.0
+p1 text  x=56.7 y=432.7 Arial/11 "No math either: $x$ stays text, and :smile: stays" #1A1A2E
+p1 text  x=293.1 y=432.7 Arial/11 "text." #1A1A2E
