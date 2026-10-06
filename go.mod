@@ -9,7 +9,7 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.8
 	github.com/kanrichan/resvg-go v0.0.1
 	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
-	github.com/mattn/go-isatty v0.0.20
+	github.com/mattn/go-isatty v0.0.24
 	github.com/mmonterroca/docxgo/v2 v2.14.0
 	github.com/signintech/gopdf v0.38.1
 	github.com/yuin/goldmark v1.8.6
