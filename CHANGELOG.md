@@ -27,6 +27,9 @@ All notable changes to markout are listed here. The format follows
   settings (`F2`, `Tab`); `--list-themes` and `--export-theme` help with
   making your own. Themes placed in the themes directory are available by
   name.
+- Headers and footers: a theme can put text at the left, center and right of
+  the top and bottom margin of every page, with `{title}`, `{author}`,
+  `{date}`, `{page}` and `{pages}`, and an optional rule.
 - A built-in serif font for PDF, and fonts of your own loaded from `.ttf`
   files named in a theme.
 - Paper sizes other than A4 (A3, A5, Letter, Legal, Tabloid, or any width and

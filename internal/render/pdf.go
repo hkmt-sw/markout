@@ -145,6 +145,11 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 		r.renderFootnoteSection()
 	}
 
+	// Headers and footers go on last, when the page count is known
+	if err := r.drawRunning(infoOf(astDoc)); err != nil {
+		return err
+	}
+
 	return r.pdf.WritePdf(filename)
 }
 

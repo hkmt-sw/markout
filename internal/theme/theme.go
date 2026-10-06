@@ -78,6 +78,8 @@ type Theme struct {
 	Footnote Footnote   `key:"footnote"`
 	Caption  Caption    `key:"caption"`
 	Colors   Colors     `key:"colors"`
+	Header   Running    `key:"header"`
+	Footer   Running    `key:"footer"`
 }
 
 // Page is the paper and its margins.
@@ -231,6 +233,25 @@ type Footnote struct {
 // Caption is the text under an image.
 type Caption struct {
 	Size float64 `key:"size"`
+}
+
+// Running is a header or footer: a line of text repeated on every page, in
+// the top or bottom margin. Each of the three positions may hold text with
+// the placeholders {title}, {author} and {date} (from the document's front
+// matter; the title falls back to the first heading), {page} and {pages}.
+// With all three empty there is no header or footer.
+type Running struct {
+	Left   string  `key:"left" doc:"text with {title} {author} {date} {page} {pages}"`
+	Center string  `key:"center"`
+	Right  string  `key:"right"`
+	Size   float64 `key:"size"`
+	Color  Color   `key:"color"`
+	Rule   bool    `key:"rule" doc:"a line between it and the page's text"`
+}
+
+// Empty reports whether there is nothing to show.
+func (r Running) Empty() bool {
+	return r.Left == "" && r.Center == "" && r.Right == ""
 }
 
 // Colors are the accent colors of inline elements.

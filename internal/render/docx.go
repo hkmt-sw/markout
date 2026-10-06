@@ -52,6 +52,10 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		}
 	}
 
+	if err := r.addRunning(infoOf(astDoc)); err != nil {
+		return err
+	}
+
 	// Save to temp file first
 	tempFile := filename + ".tmp"
 	if err := r.doc.SaveAs(tempFile); err != nil {
@@ -83,12 +87,20 @@ func (r *DocxRenderer) setupDocument() {
 		}
 	}
 	section.SetPageSize(size)
-	section.SetMargins(domain.Margins{
+	margins := domain.Margins{
 		Top:    twips(r.t.Page.MarginTop),
 		Bottom: twips(r.t.Page.MarginBottom),
 		Left:   twips(r.t.Page.MarginLeft),
 		Right:  twips(r.t.Page.MarginRight),
-	})
+	}
+	// A header or footer sits in the middle of its margin, as in PDF
+	if h := r.t.Header; !h.Empty() {
+		margins.Header = twips((r.t.Page.MarginTop - h.Size) / 2)
+	}
+	if f := r.t.Footer; !f.Empty() {
+		margins.Footer = twips((r.t.Page.MarginBottom - f.Size) / 2)
+	}
+	section.SetMargins(margins)
 }
 
 func (r *DocxRenderer) renderElement(elem ast.Element) error {
@@ -1336,6 +1348,109 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		}
 	}
 
+	return nil
+}
+
+// addRunning sets the theme's header and footer on the document. Page
+// numbers are fields, which the word processor fills in.
+func (r *DocxRenderer) addRunning(info docInfo) error {
+	if r.t.Header.Empty() && r.t.Footer.Empty() {
+		return nil
+	}
+	section, err := r.doc.DefaultSection()
+	if err != nil {
+		return err
+	}
+	if h := r.t.Header; !h.Empty() {
+		header, err := section.Header(domain.HeaderDefault)
+		if err != nil {
+			return err
+		}
+		if err := r.fillRunning(header, h, info, true); err != nil {
+			return err
+		}
+	}
+	if f := r.t.Footer; !f.Empty() {
+		footer, err := section.Footer(domain.FooterDefault)
+		if err != nil {
+			return err
+		}
+		if err := r.fillRunning(footer, f, info, false); err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+// runningPart is what headers and footers have in common.
+type runningPart interface {
+	AddTable(rows, cols int) (domain.Table, error)
+}
+
+// fillRunning lays a header or footer out as a one-row table without
+// borders: left, center and right text each in a cell of its own.
+func (r *DocxRenderer) fillRunning(part runningPart, run theme.Running, info docInfo, isHeader bool) error {
+	table, err := part.AddTable(1, 3)
+	if err != nil {
+		return err
+	}
+	row, err := table.Row(0)
+	if err != nil {
+		return err
+	}
+
+	// The rule is the border on the side of the page's text
+	var borders domain.TableBorders
+	if run.Rule {
+		line := domain.BorderStyle{Style: domain.BorderSingle, Width: 4, Color: docxColor(r.t.Rule.Color)}
+		if isHeader {
+			borders.Bottom = line
+		} else {
+			borders.Top = line
+		}
+	}
+
+	total := r.contentTwips()
+	slots := []struct {
+		text  string
+		align domain.Alignment
+	}{{run.Left, domain.AlignmentLeft}, {run.Center, domain.AlignmentCenter}, {run.Right, domain.AlignmentRight}}
+	for i, slot := range slots {
+		cell, err := row.Cell(i)
+		if err != nil {
+			return err
+		}
+		cell.SetWidth(total / 3)
+		if run.Rule {
+			cell.SetBorders(borders)
+		}
+		para, err := cell.AddParagraph()
+		if err != nil {
+			return err
+		}
+		para.SetAlignment(slot.align)
+
+		for _, part := range pageParts(info.static(slot.text)) {
+			piece, err := para.AddRun()
+			if err != nil {
+				return err
+			}
+			piece.SetSize(halfPoints(run.Size))
+			piece.SetFont(domain.Font{Name: r.t.Fonts.Body})
+			piece.SetColor(docxColor(run.Color))
+			switch part {
+			case "{page}":
+				err = piece.AddField(docx.NewPageNumberField())
+			case "{pages}":
+				err = piece.AddField(docx.NewPageCountField())
+			default:
+				err = piece.SetText(part)
+			}
+			if err != nil {
+				return err
+			}
+		}
+	}
 	return nil
 }
 

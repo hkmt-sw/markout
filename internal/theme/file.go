@@ -596,6 +596,19 @@ func validate(th Theme, pdf bool) error {
 		"footnote.size":     th.Footnote.Size, "footnote.line-height": th.Footnote.LineHeight,
 		"caption.size": th.Caption.Size,
 	}
+	if !th.Header.Empty() {
+		sizes["header.size"] = th.Header.Size
+	}
+	if !th.Footer.Empty() {
+		sizes["footer.size"] = th.Footer.Size
+	}
+	// A header or footer sits in the middle of its margin
+	if !th.Header.Empty() && p.MarginTop < th.Header.Size+16 {
+		return fmt.Errorf("header: the top margin (%.0f points) is too small to hold a header; make page.margin-top at least %.0f", p.MarginTop, th.Header.Size+16)
+	}
+	if !th.Footer.Empty() && p.MarginBottom < th.Footer.Size+16 {
+		return fmt.Errorf("footer: the bottom margin (%.0f points) is too small to hold a footer; make page.margin-bottom at least %.0f", p.MarginBottom, th.Footer.Size+16)
+	}
 	for i, h := range th.Heading {
 		sizes[fmt.Sprintf("heading.h%d.size", i+1)] = h.Size
 		sizes[fmt.Sprintf("heading.h%d.line-height", i+1)] = h.LineHeight
