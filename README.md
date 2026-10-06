@@ -43,7 +43,9 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-VERSION=v1.1.0
+# Look up the latest release tag (or set VERSION=v1.1.0 to pin one).
+VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
+  | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
   "https://github.com/hkmt-sw/markout/releases/download/$VERSION/markout_${VERSION}_darwin_arm64"
 chmod +x markout
