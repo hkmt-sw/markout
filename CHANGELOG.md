@@ -14,6 +14,26 @@ All notable changes to markout are listed here. The format follows
   document references an image by URL). Building from source now needs Go 1.26
   or newer.
 - Updated `golang.org/x/sys`.
+- GitLab `::include{file=…}` only reads regular files inside the directory of
+  the document being converted. Absolute paths, `..` and symlinks leading
+  outside are ignored, so a document can no longer copy arbitrary local files
+  into its output.
+- Local images must be regular files of at most 20 MB. Referencing a device
+  such as `/dev/zero` as an image used to exhaust memory.
+- Inputs that made a conversion run for minutes now finish at once: thousands
+  of unclosed or deeply nested `:::` blocks, and lists nested thousands of
+  levels deep.
+- On Windows, opening the converted file (`o`) no longer goes through
+  `cmd.exe`, which interpreted characters such as `&` in the file name.
+- The TUI replaces control characters in file names, so a name cannot emit
+  terminal escape sequences.
+- Release binaries come with a signed build provenance attestation, and the
+  workflows pin every GitHub Action to a commit.
+
+### Changed
+
+- A `:::` block that is never closed is left as text instead of swallowing the
+  rest of the document.
 
 ## [1.1.1] - 2026-10-06
 

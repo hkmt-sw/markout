@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html"
 	"regexp"
+	"sort"
 	"strings"
 
 	mathjax "github.com/litao91/goldmark-mathjax"
@@ -559,20 +560,13 @@ func (w *astWalker) appendFootnotes() {
 	}
 
 	// Sort footnotes by index and append to document
-	maxIndex := 0
+	ordered := make([]*ast.FootnoteDefinition, 0, len(w.footnotes))
 	for _, fn := range w.footnotes {
-		if fn.Index > maxIndex {
-			maxIndex = fn.Index
-		}
+		ordered = append(ordered, fn)
 	}
-
-	for i := 1; i <= maxIndex; i++ {
-		for _, fn := range w.footnotes {
-			if fn.Index == i {
-				w.doc.AppendElement(*fn)
-				break
-			}
-		}
+	sort.Slice(ordered, func(i, j int) bool { return ordered[i].Index < ordered[j].Index })
+	for _, fn := range ordered {
+		w.doc.AppendElement(*fn)
 	}
 }
 

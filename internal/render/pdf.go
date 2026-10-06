@@ -968,11 +968,33 @@ func loadImageBytes(url, baseDir string) ([]byte, error) {
 		if !filepath.IsAbs(path) && baseDir != "" {
 			path = filepath.Join(baseDir, path)
 		}
-		return os.ReadFile(path)
+		return readLocalImage(path)
 	}
 }
 
-// MaxImageBytes caps the size of a downloaded image (20MB).
+// readLocalImage reads an image file from disk. Only regular files up to
+// MaxImageBytes are read: a path to a device or pipe (/dev/zero, a FIFO) would
+// otherwise be read without end.
+func readLocalImage(path string) ([]byte, error) {
+	info, err := os.Stat(path)
+	if err != nil {
+		return nil, err
+	}
+	if !info.Mode().IsRegular() {
+		return nil, fmt.Errorf("image %s is not a regular file", path)
+	}
+	if info.Size() > MaxImageBytes {
+		return nil, fmt.Errorf("image %s is larger than %d MB", path, MaxImageBytes/(1024*1024))
+	}
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
+	return io.ReadAll(io.LimitReader(file, MaxImageBytes))
+}
+
+// MaxImageBytes caps the size of an image, downloaded or local (20MB).
 const MaxImageBytes = 20 * 1024 * 1024
 
 // renderImagePlaceholder draws the original text placeholder used when an image

@@ -19,10 +19,23 @@ within a week.
 Knowing this helps judge whether something is a vulnerability:
 
 - markout reads the Markdown file you point it at and writes one output file.
-- Images referenced by the document are loaded from disk, relative to the
-  document, or downloaded over HTTP(S) if the reference is a URL.
-- With the GitLab flavor, `::include{file=…}` reads the named file from disk.
+- Images referenced by the document are loaded from disk (regular files up to
+  20 MB, from any path the document names) or downloaded over HTTP(S) if the
+  reference is a URL.
+- With the GitLab flavor, `::include{file=…}` reads the named file, but only
+  from the directory of the document or below it.
 - Nothing is uploaded, and no code from the document is executed.
 
-Converting a document you did not write therefore lets that document make
-markout read local files and fetch URLs of its choosing.
+Converting a document you did not write therefore lets that document embed
+image files from your disk into the output and make markout fetch URLs of its
+choosing.
+
+## Verifying a download
+
+Each release lists the SHA-256 of its binaries in `SHA256SUMS.txt`, and the
+binaries carry a build provenance attestation signed by GitHub Actions. To
+check that a binary was built by this repository's release workflow:
+
+```sh
+gh attestation verify markout_v1.1.2_darwin_arm64 --repo hkmt-sw/markout
+```

@@ -54,10 +54,13 @@ quarantine flag once:
 xattr -d com.apple.quarantine /usr/local/bin/markout
 ```
 
-Optionally verify the download against the release's `SHA256SUMS.txt`:
+Optionally verify the download against the release's `SHA256SUMS.txt`, or
+check with the [GitHub CLI](https://cli.github.com) that it was built by this
+repository's release workflow (releases from v1.1.2 on):
 
 ```sh
 shasum -a 256 -c SHA256SUMS.txt    # (Linux: sha256sum -c)
+gh attestation verify markout --repo hkmt-sw/markout
 ```
 
 ### With Go

@@ -3,6 +3,7 @@ package parse
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"regexp"
@@ -32,18 +33,29 @@ const (
 	widthSep = "¦"
 	// maxIncludeDepth bounds nested ::include directives.
 	maxIncludeDepth = 3
+	// maxIncludeBytes caps the size of an included file.
+	maxIncludeBytes = 10 * 1024 * 1024
+	// maxBlockNesting bounds how deep containers (callouts, quotes, tabs) are
+	// rewritten; deeper content is passed through as written.
+	maxBlockNesting = 32
+	// maxIndent caps a line's leading whitespace. Real documents never come
+	// close, and unbounded indentation lets a small file nest lists thousands
+	// of levels deep, which the Markdown parser takes minutes to resolve.
+	maxIndent = 200
 )
 
 type preprocessor struct {
 	f           flavor.Features
-	baseDir     string
-	depth       int
+	root        string           // directory of the top-level document; includes may not leave it
+	baseDir     string           // directory of the file being processed
+	depth       int              // include depth
+	nesting     int              // container depth of the blocks being rewritten
 	notes       []string         // definitions collected from ^[inline notes]
 	frontMatter *ast.FrontMatter // metadata found in a non-YAML/TOML form
 }
 
 func newPreprocessor(f flavor.Features, baseDir string) *preprocessor {
-	return &preprocessor{f: f, baseDir: baseDir}
+	return &preprocessor{f: f, root: baseDir, baseDir: baseDir}
 }
 
 func (p *preprocessor) run(src []byte) []byte {
@@ -156,9 +168,20 @@ var (
 // blocks rewrites block-level constructs line by line, leaving the contents of
 // fenced code blocks untouched.
 func (p *preprocessor) blocks(lines []string) []string {
+	if p.nesting >= maxBlockNesting {
+		return lines
+	}
+	p.nesting++
+	defer func() { p.nesting-- }()
+
 	f := p.f
 	var out []string
 	inComment := false
+
+	var colonClose map[int]int
+	if f.MermaidColon || f.ColonAdmonitions || f.Directives {
+		colonClose = matchColonFences(lines)
+	}
 
 	for i := 0; i < len(lines); i++ {
 		line := lines[i]
@@ -179,6 +202,10 @@ func (p *preprocessor) blocks(lines []string) []string {
 			}
 			i = end
 			continue
+		}
+
+		if n := len(line) - len(strings.TrimLeft(line, " \t")); n > maxIndent {
+			line = line[n-maxIndent:]
 		}
 
 		trimmed := strings.TrimSpace(line)
@@ -202,9 +229,9 @@ func (p *preprocessor) blocks(lines []string) []string {
 			continue
 		}
 
-		if f.MermaidColon || f.ColonAdmonitions || f.Directives {
+		// A fence without a closing ":::" is not a block; it stays as text.
+		if end, closed := colonClose[i]; closed {
 			if m := colonFence.FindStringSubmatch(line); m != nil && m[2] != "" {
-				end := colonEnd(lines, i+1)
 				if repl, ok := p.colonBlock(strings.TrimSpace(m[2]), lines[i+1:end]); ok {
 					out = append(out, repl...)
 					i = end
@@ -342,25 +369,31 @@ func fenceEnd(lines []string, from int, marker string) int {
 	return len(lines)
 }
 
-// colonEnd returns the index of the bare ":::" line closing a colon fence,
-// accounting for nested fences.
-func colonEnd(lines []string, from int) int {
-	depth := 1
-	for i := from; i < len(lines); i++ {
-		m := colonFence.FindStringSubmatch(lines[i])
+// matchColonFences pairs every ":::" opener (a fence line with a name or
+// attributes) with the bare ":::" line that closes it, in one pass. Openers
+// that are never closed are left out.
+func matchColonFences(lines []string) map[int]int {
+	var match map[int]int
+	var open []int
+	for i, line := range lines {
+		if !strings.Contains(line, ":::") {
+			continue
+		}
+		m := colonFence.FindStringSubmatch(line)
 		if m == nil {
 			continue
 		}
-		if m[2] == "" {
-			depth--
-			if depth == 0 {
-				return i
+		if m[2] != "" {
+			open = append(open, i)
+		} else if n := len(open); n > 0 {
+			if match == nil {
+				match = make(map[int]int)
 			}
-		} else {
-			depth++
+			match[open[n-1]] = i
+			open = open[:n-1]
 		}
 	}
-	return len(lines)
+	return match
 }
 
 // indentedBody collects the lines following an admonition header that are
@@ -608,19 +641,41 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 	return unwrap(p.blocks(body))
 }
 
+// include reads a file named by ::include. The file must be a regular file
+// inside the directory of the top-level document (or below it): absolute
+// paths, "..", and symlinks that lead outside are refused, so a document
+// cannot pull arbitrary files from the machine into its output.
 func (p *preprocessor) include(rel string) ([]string, bool) {
-	if p.depth >= maxIncludeDepth || p.baseDir == "" {
+	if p.depth >= maxIncludeDepth || p.root == "" || filepath.IsAbs(rel) {
 		return nil, false
 	}
-	path := rel
-	if !filepath.IsAbs(path) {
-		path = filepath.Join(p.baseDir, rel)
-	}
-	data, err := os.ReadFile(path)
+	path := filepath.Join(p.baseDir, rel)
+	inRoot, err := filepath.Rel(p.root, path)
 	if err != nil {
 		return nil, false
 	}
-	sub := &preprocessor{f: p.f, baseDir: filepath.Dir(path), depth: p.depth + 1}
+
+	root, err := os.OpenRoot(p.root)
+	if err != nil {
+		return nil, false
+	}
+	defer root.Close()
+
+	info, err := root.Stat(inRoot)
+	if err != nil || !info.Mode().IsRegular() || info.Size() > maxIncludeBytes {
+		return nil, false
+	}
+	file, err := root.Open(inRoot)
+	if err != nil {
+		return nil, false
+	}
+	defer file.Close()
+	data, err := io.ReadAll(io.LimitReader(file, maxIncludeBytes))
+	if err != nil {
+		return nil, false
+	}
+
+	sub := &preprocessor{f: p.f, root: p.root, baseDir: filepath.Dir(path), depth: p.depth + 1, nesting: p.nesting}
 	lines := sub.blocks(strings.Split(strings.ReplaceAll(string(data), "\r\n", "\n"), "\n"))
 	p.notes = append(p.notes, sub.notes...)
 	return unwrap(lines), true
