@@ -12,10 +12,10 @@ p1 text  x=172.1 y=172.7 Arial/11 ", autolinks (" #1A1A2E
 p1 text  x=228.3 y=172.7 Arial/11 "https://github.com" #2563EB
 p1 text  x=315.1 y=172.7 Arial/11 ") and emoji" #1A1A2E
 p1 text  x=372.5 y=172.7 Arial/11 "." #1A1A2E
-p1 text  x=76.7 y=196.7 Arial/11 "[x] " #000000
-p1 text  x=91.3 y=196.7 Arial/11 "Done" #000000
-p1 text  x=76.7 y=212.7 Arial/11 "[ ] " #000000
-p1 text  x=88.9 y=212.7 Arial/11 "Open" #000000
+p1 text  x=76.7 y=196.7 Arial/11 "[x] " #1A1A2E
+p1 text  x=91.3 y=196.7 Arial/11 "Done" #1A1A2E
+p1 text  x=76.7 y=212.7 Arial/11 "[ ] " #1A1A2E
+p1 text  x=88.9 y=212.7 Arial/11 "Open" #1A1A2E
 p1 rect  x=56.7 y=234.7 w=211.8 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 rect  x=268.5 y=234.7 w=270.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 text  x=60.7 y=238.7 Arial-Bold/11 "Feature" #1A1A2E
@@ -61,6 +61,6 @@ p1 text  x=56.7 y=508.7 Arial/11 "A footnote" #1A1A2E
 p1 text  x=106.8 y=508.7 Arial/11 "[1]" #2563EB
 p1 text  x=119.0 y=508.7 Arial/11 "." #1A1A2E
 p1 line  x=56.7 y=552.7 to x=201.3 y=552.7 #B4B4B4/0.5
-p1 text  x=56.7 y=562.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=562.7 Arial/9 "The" #000000
-p1 text  x=84.7 y=562.7 Arial/9 "note." #000000
+p1 text  x=56.7 y=562.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=562.7 Arial/9 "The" #1A1A2E
+p1 text  x=84.7 y=562.7 Arial/9 "note." #1A1A2E

@@ -48,6 +48,6 @@ p1 text  x=56.7 y=434.7 Arial/11 "Footnote" #1A1A2E
 p1 text  x=100.1 y=434.7 Arial/11 "[1]" #2563EB
 p1 text  x=112.3 y=434.7 Arial/11 "." #1A1A2E
 p1 line  x=56.7 y=478.7 to x=201.3 y=478.7 #B4B4B4/0.5
-p1 text  x=56.7 y=488.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=488.7 Arial/9 "Note text" #000000
-p1 text  x=102.7 y=488.7 Arial/9 "." #000000
+p1 text  x=56.7 y=488.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=488.7 Arial/9 "Note text" #1A1A2E
+p1 text  x=102.7 y=488.7 Arial/9 "." #1A1A2E

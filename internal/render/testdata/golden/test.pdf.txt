@@ -48,75 +48,75 @@ p2 text  x=56.7 y=146.7 Arial-Bold/20 "3. Listák" #000000
 p2 text  x=142.2 y=146.7 Arial-Bold/20 "(Lists)" #000000
 p2 text  x=56.7 y=194.7 Arial-Bold/16 "Felsorolás (Unordered" #000000
 p2 text  x=231.7 y=194.7 Arial-Bold/16 "List)" #000000
-p2 text  x=76.7 y=222.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=222.7 Arial/11 "Első" #000000
-p2 text  x=108.0 y=222.7 Arial/11 "elem" #000000
-p2 text  x=76.7 y=238.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=238.7 Arial/11 "Második" #000000
-p2 text  x=127.6 y=238.7 Arial/11 "elem" #000000
-p2 text  x=96.7 y=254.7 Arial/11 "◦ " #000000
-p2 text  x=103.6 y=254.7 Arial/11 "Beágyazott" #000000
-p2 text  x=161.7 y=254.7 Arial/11 "elem" #000000
-p2 text  x=96.7 y=270.7 Arial/11 "◦ " #000000
-p2 text  x=103.6 y=270.7 Arial/11 "Még egy" #000000
-p2 text  x=148.9 y=270.7 Arial/11 "beágyazott" #000000
-p2 text  x=116.7 y=286.7 Arial/11 "▪ " #000000
-p2 text  x=123.6 y=286.7 Arial/11 "Harmadik" #000000
-p2 text  x=173.7 y=286.7 Arial/11 "szint" #000000
-p2 text  x=76.7 y=302.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=302.7 Arial/11 "Harmadik" #000000
-p2 text  x=133.7 y=302.7 Arial/11 "elem" #000000
+p2 text  x=76.7 y=222.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=222.7 Arial/11 "Első" #1A1A2E
+p2 text  x=108.0 y=222.7 Arial/11 "elem" #1A1A2E
+p2 text  x=76.7 y=238.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=238.7 Arial/11 "Második" #1A1A2E
+p2 text  x=127.6 y=238.7 Arial/11 "elem" #1A1A2E
+p2 text  x=96.7 y=254.7 Arial/11 "◦ " #1A1A2E
+p2 text  x=103.6 y=254.7 Arial/11 "Beágyazott" #1A1A2E
+p2 text  x=161.7 y=254.7 Arial/11 "elem" #1A1A2E
+p2 text  x=96.7 y=270.7 Arial/11 "◦ " #1A1A2E
+p2 text  x=103.6 y=270.7 Arial/11 "Még egy" #1A1A2E
+p2 text  x=148.9 y=270.7 Arial/11 "beágyazott" #1A1A2E
+p2 text  x=116.7 y=286.7 Arial/11 "▪ " #1A1A2E
+p2 text  x=123.6 y=286.7 Arial/11 "Harmadik" #1A1A2E
+p2 text  x=173.7 y=286.7 Arial/11 "szint" #1A1A2E
+p2 text  x=76.7 y=302.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=302.7 Arial/11 "Harmadik" #1A1A2E
+p2 text  x=133.7 y=302.7 Arial/11 "elem" #1A1A2E
 p2 text  x=56.7 y=324.7 Arial/11 "Alternatív jelölők" #1A1A2E
 p2 text  x=137.3 y=324.7 Arial/11 ":" #1A1A2E
-p2 text  x=76.7 y=348.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=348.7 Arial/11 "Csillaggal" #000000
-p2 text  x=76.7 y=370.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=370.7 Arial/11 "Plusszal" #000000
+p2 text  x=76.7 y=348.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=348.7 Arial/11 "Csillaggal" #1A1A2E
+p2 text  x=76.7 y=370.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=370.7 Arial/11 "Plusszal" #1A1A2E
 p2 text  x=56.7 y=406.7 Arial-Bold/16 "Számozott lista (Ordered" #000000
 p2 text  x=249.4 y=406.7 Arial-Bold/16 "List)" #000000
-p2 text  x=76.7 y=434.7 Arial/11 "1. " #000000
-p2 text  x=88.9 y=434.7 Arial/11 "Első" #000000
-p2 text  x=113.3 y=434.7 Arial/11 "lépés" #000000
-p2 text  x=76.7 y=450.7 Arial/11 "2. " #000000
-p2 text  x=88.9 y=450.7 Arial/11 "Második" #000000
-p2 text  x=132.9 y=450.7 Arial/11 "lépés" #000000
-p2 text  x=96.7 y=466.7 Arial/11 "a. " #000000
-p2 text  x=108.9 y=466.7 Arial/11 "Allépés" #000000
-p2 text  x=148.0 y=466.7 Arial/11 "A" #000000
-p2 text  x=96.7 y=482.7 Arial/11 "b. " #000000
-p2 text  x=108.9 y=482.7 Arial/11 "Allépés" #000000
-p2 text  x=148.0 y=482.7 Arial/11 "B" #000000
-p2 text  x=76.7 y=498.7 Arial/11 "3. " #000000
-p2 text  x=88.9 y=498.7 Arial/11 "Harmadik" #000000
-p2 text  x=139.0 y=498.7 Arial/11 "lépés" #000000
+p2 text  x=76.7 y=434.7 Arial/11 "1. " #1A1A2E
+p2 text  x=88.9 y=434.7 Arial/11 "Első" #1A1A2E
+p2 text  x=113.3 y=434.7 Arial/11 "lépés" #1A1A2E
+p2 text  x=76.7 y=450.7 Arial/11 "2. " #1A1A2E
+p2 text  x=88.9 y=450.7 Arial/11 "Második" #1A1A2E
+p2 text  x=132.9 y=450.7 Arial/11 "lépés" #1A1A2E
+p2 text  x=96.7 y=466.7 Arial/11 "a. " #1A1A2E
+p2 text  x=108.9 y=466.7 Arial/11 "Allépés" #1A1A2E
+p2 text  x=148.0 y=466.7 Arial/11 "A" #1A1A2E
+p2 text  x=96.7 y=482.7 Arial/11 "b. " #1A1A2E
+p2 text  x=108.9 y=482.7 Arial/11 "Allépés" #1A1A2E
+p2 text  x=148.0 y=482.7 Arial/11 "B" #1A1A2E
+p2 text  x=76.7 y=498.7 Arial/11 "3. " #1A1A2E
+p2 text  x=88.9 y=498.7 Arial/11 "Harmadik" #1A1A2E
+p2 text  x=139.0 y=498.7 Arial/11 "lépés" #1A1A2E
 p2 text  x=56.7 y=520.7 Arial/11 "A számok nem számítanak, automatikusan számozódik" #1A1A2E
 p2 text  x=327.4 y=520.7 Arial/11 ":" #1A1A2E
-p2 text  x=76.7 y=544.7 Arial/11 "1. " #000000
-p2 text  x=88.9 y=544.7 Arial/11 "Első" #000000
-p2 text  x=76.7 y=560.7 Arial/11 "2. " #000000
-p2 text  x=88.9 y=560.7 Arial/11 "Második" #000000
-p2 text  x=76.7 y=576.7 Arial/11 "3. " #000000
-p2 text  x=88.9 y=576.7 Arial/11 "Harmadik" #000000
+p2 text  x=76.7 y=544.7 Arial/11 "1. " #1A1A2E
+p2 text  x=88.9 y=544.7 Arial/11 "Első" #1A1A2E
+p2 text  x=76.7 y=560.7 Arial/11 "2. " #1A1A2E
+p2 text  x=88.9 y=560.7 Arial/11 "Második" #1A1A2E
+p2 text  x=76.7 y=576.7 Arial/11 "3. " #1A1A2E
+p2 text  x=88.9 y=576.7 Arial/11 "Harmadik" #1A1A2E
 p2 text  x=56.7 y=612.7 Arial-Bold/16 "Feladatlista / Checkbox (Task List) - GFM" #000000
 p2 text  x=372.9 y=612.7 Arial-Bold/16 "specifikus" #000000
-p2 text  x=76.7 y=640.7 Arial/11 "[x] " #000000
-p2 text  x=91.3 y=640.7 Arial/11 "Befejezett" #000000
-p2 text  x=143.3 y=640.7 Arial/11 "feladat" #000000
-p2 text  x=76.7 y=656.7 Arial/11 "[x] " #000000
-p2 text  x=91.3 y=656.7 Arial/11 "Ez is" #000000
-p2 text  x=118.2 y=656.7 Arial/11 "kész" #000000
-p2 text  x=76.7 y=672.7 Arial/11 "[ ] " #000000
-p2 text  x=88.9 y=672.7 Arial/11 "Még nem" #000000
-p2 text  x=137.8 y=672.7 Arial/11 "kész" #000000
-p2 text  x=76.7 y=688.7 Arial/11 "[ ] " #000000
-p2 text  x=88.9 y=688.7 Arial/11 "Ez sincs" #000000
-p2 text  x=132.9 y=688.7 Arial/11 "kész" #000000
-p2 text  x=96.7 y=704.7 Arial/11 "[ ] " #000000
-p2 text  x=108.9 y=704.7 Arial/11 "Beágyazott" #000000
-p2 text  x=166.9 y=704.7 Arial/11 "feladat" #000000
-p2 text  x=96.7 y=720.7 Arial/11 "[x] " #000000
-p2 text  x=111.3 y=720.7 Arial/11 "Beágyazott kész" #000000
-p2 text  x=195.0 y=720.7 Arial/11 "feladat" #000000
+p2 text  x=76.7 y=640.7 Arial/11 "[x] " #1A1A2E
+p2 text  x=91.3 y=640.7 Arial/11 "Befejezett" #1A1A2E
+p2 text  x=143.3 y=640.7 Arial/11 "feladat" #1A1A2E
+p2 text  x=76.7 y=656.7 Arial/11 "[x] " #1A1A2E
+p2 text  x=91.3 y=656.7 Arial/11 "Ez is" #1A1A2E
+p2 text  x=118.2 y=656.7 Arial/11 "kész" #1A1A2E
+p2 text  x=76.7 y=672.7 Arial/11 "[ ] " #1A1A2E
+p2 text  x=88.9 y=672.7 Arial/11 "Még nem" #1A1A2E
+p2 text  x=137.8 y=672.7 Arial/11 "kész" #1A1A2E
+p2 text  x=76.7 y=688.7 Arial/11 "[ ] " #1A1A2E
+p2 text  x=88.9 y=688.7 Arial/11 "Ez sincs" #1A1A2E
+p2 text  x=132.9 y=688.7 Arial/11 "kész" #1A1A2E
+p2 text  x=96.7 y=704.7 Arial/11 "[ ] " #1A1A2E
+p2 text  x=108.9 y=704.7 Arial/11 "Beágyazott" #1A1A2E
+p2 text  x=166.9 y=704.7 Arial/11 "feladat" #1A1A2E
+p2 text  x=96.7 y=720.7 Arial/11 "[x] " #1A1A2E
+p2 text  x=111.3 y=720.7 Arial/11 "Beágyazott kész" #1A1A2E
+p2 text  x=195.0 y=720.7 Arial/11 "feladat" #1A1A2E
 p2 line  x=56.7 y=754.7 to x=538.6 y=754.7 #B4B4B4/1.0
 p3 text  x=56.7 y=56.7 Arial-Bold/20 "4. Linkek" #000000
 p3 text  x=147.7 y=56.7 Arial-Bold/20 "(Links)" #000000
@@ -317,36 +317,36 @@ p6 text  x=408.3 y=81.7 Arial/11 "szöveg" #2563EB
 p6 line  x=56.7 y=118.7 to x=538.6 y=118.7 #B4B4B4/1.0
 p6 text  x=56.7 y=148.7 Arial-Bold/20 "8. Idézetek" #000000
 p6 text  x=163.3 y=148.7 Arial-Bold/20 "(Blockquotes)" #000000
-p6 text  x=76.7 y=182.7 Arial-Italic/11 "Ez egy" #000000
-p6 text  x=113.3 y=182.7 Arial-Italic/11 "idézet." #000000
-p6 text  x=148.8 y=182.7 Arial-Italic/11 "Több sorban is" #000000
-p6 text  x=224.5 y=182.7 Arial-Italic/11 "folytatható." #000000
+p6 text  x=76.7 y=182.7 Arial-Italic/11 "Ez egy" #1A1A2E
+p6 text  x=113.3 y=182.7 Arial-Italic/11 "idézet." #1A1A2E
+p6 text  x=148.8 y=182.7 Arial-Italic/11 "Több sorban is" #1A1A2E
+p6 text  x=224.5 y=182.7 Arial-Italic/11 "folytatható." #1A1A2E
 p6 line  x=61.7 y=182.7 to x=61.7 y=198.7 #B4B4B4/3.0
-p6 text  x=76.7 y=202.7 Arial-Italic/11 "Idézet több" #000000
-p6 text  x=134.1 y=202.7 Arial-Italic/11 "bekezdéssel." #000000
+p6 text  x=76.7 y=202.7 Arial-Italic/11 "Idézet több" #1A1A2E
+p6 text  x=134.1 y=202.7 Arial-Italic/11 "bekezdéssel." #1A1A2E
 p6 line  x=61.7 y=202.7 to x=61.7 y=218.7 #B4B4B4/3.0
-p6 text  x=76.7 y=222.7 Arial-Italic/11 "Második bekezdés az" #000000
-p6 text  x=185.5 y=222.7 Arial-Italic/11 "idézetben." #000000
+p6 text  x=76.7 y=222.7 Arial-Italic/11 "Második bekezdés az" #1A1A2E
+p6 text  x=185.5 y=222.7 Arial-Italic/11 "idézetben." #1A1A2E
 p6 line  x=61.7 y=222.7 to x=61.7 y=238.7 #B4B4B4/3.0
-p6 text  x=76.7 y=242.7 Arial-Italic/11 "Beágyazott idézet" #000000
-p6 text  x=164.1 y=242.7 Arial-Italic/11 ":" #000000
+p6 text  x=76.7 y=242.7 Arial-Italic/11 "Beágyazott idézet" #1A1A2E
+p6 text  x=164.1 y=242.7 Arial-Italic/11 ":" #1A1A2E
 p6 line  x=61.7 y=242.7 to x=61.7 y=258.7 #B4B4B4/3.0
-p6 text  x=76.7 y=262.7 Arial-Italic/11 "Ez egy beágyazott" #000000
-p6 text  x=170.2 y=262.7 Arial-Italic/11 "idézet." #000000
-p6 text  x=205.6 y=262.7 Arial-Italic/11 "Még egy" #000000
-p6 text  x=250.8 y=262.7 Arial-Italic/11 "sor." #000000
+p6 text  x=76.7 y=262.7 Arial-Italic/11 "Ez egy beágyazott" #1A1A2E
+p6 text  x=170.2 y=262.7 Arial-Italic/11 "idézet." #1A1A2E
+p6 text  x=205.6 y=262.7 Arial-Italic/11 "Még egy" #1A1A2E
+p6 text  x=250.8 y=262.7 Arial-Italic/11 "sor." #1A1A2E
 p6 line  x=61.7 y=262.7 to x=61.7 y=278.7 #B4B4B4/3.0
-p6 text  x=76.7 y=282.7 Arial-Italic/11 "Vissza az első" #000000
-p6 text  x=150.0 y=282.7 Arial-Italic/11 "szintre." #000000
+p6 text  x=76.7 y=282.7 Arial-Italic/11 "Vissza az első" #1A1A2E
+p6 text  x=150.0 y=282.7 Arial-Italic/11 "szintre." #1A1A2E
 p6 line  x=61.7 y=282.7 to x=61.7 y=298.7 #B4B4B4/3.0
-p6 text  x=76.7 y=302.7 Arial-BoldItalic/11 "Formázott idézet" #000000
+p6 text  x=76.7 y=302.7 Arial-BoldItalic/11 "Formázott idézet" #1A1A2E
 p6 line  x=61.7 y=302.7 to x=61.7 y=318.7 #B4B4B4/3.0
-p6 text  x=76.7 y=322.7 Arial/11 "• " #000000
-p6 text  x=83.6 y=322.7 Arial/11 "Lista az" #000000
-p6 text  x=124.5 y=322.7 Arial/11 "idézetben" #000000
-p6 text  x=76.7 y=338.7 Arial/11 "• " #000000
-p6 text  x=83.6 y=338.7 Arial/11 "Második" #000000
-p6 text  x=127.6 y=338.7 Arial/11 "elem" #000000
+p6 text  x=76.7 y=322.7 Arial/11 "• " #1A1A2E
+p6 text  x=83.6 y=322.7 Arial/11 "Lista az" #1A1A2E
+p6 text  x=124.5 y=322.7 Arial/11 "idézetben" #1A1A2E
+p6 text  x=76.7 y=338.7 Arial/11 "• " #1A1A2E
+p6 text  x=83.6 y=338.7 Arial/11 "Második" #1A1A2E
+p6 text  x=127.6 y=338.7 Arial/11 "elem" #1A1A2E
 p6 text  x=76.7 y=362.3 Courier/10 "Kód is lehet benne" #CF222E
 p6 line  x=61.7 y=360.7 to x=61.7 y=376.7 #B4B4B4/3.0
 p6 line  x=56.7 y=392.7 to x=538.6 y=392.7 #B4B4B4/1.0
@@ -382,12 +382,12 @@ p7 text  x=211.2 y=156.7 Arial/11 ":" #1A1A2E
 p7 text  x=56.7 y=180.7 Arial-Bold/11 "Kattints a részletekért (összecsukható)" #1A1A2E
 p7 text  x=56.7 y=204.7 Arial/11 "Ez a tartalom rejtve van" #1A1A2E
 p7 text  x=175.2 y=204.7 Arial/11 "alapból." #1A1A2E
-p7 text  x=76.7 y=228.7 Arial/11 "• " #000000
-p7 text  x=83.6 y=228.7 Arial/11 "Lista a" #000000
-p7 text  x=119.0 y=228.7 Arial/11 "details-ben" #000000
-p7 text  x=76.7 y=244.7 Arial/11 "• " #000000
-p7 text  x=83.6 y=244.7 Arial/11 "Második" #000000
-p7 text  x=127.6 y=244.7 Arial/11 "elem" #000000
+p7 text  x=76.7 y=228.7 Arial/11 "• " #1A1A2E
+p7 text  x=83.6 y=228.7 Arial/11 "Lista a" #1A1A2E
+p7 text  x=119.0 y=228.7 Arial/11 "details-ben" #1A1A2E
+p7 text  x=76.7 y=244.7 Arial/11 "• " #1A1A2E
+p7 text  x=83.6 y=244.7 Arial/11 "Második" #1A1A2E
+p7 text  x=127.6 y=244.7 Arial/11 "elem" #1A1A2E
 p7 text  x=56.7 y=268.3 Courier/10 "Ctrl" #CF222E
 p7 text  x=83.7 y=266.7 Arial/11 "+" #1A1A2E
 p7 text  x=93.2 y=268.3 Courier/10 "C" #CF222E
@@ -644,12 +644,12 @@ p10 text  x=56.7 y=521.7 Arial-Italic/11 "Ez a dokumentum a GFM specifikáció a
 p10 text  x=323.7 y=521.7 Arial-Italic/11 "Forrás:" #1A1A2E
 p10 text  x=361.5 y=521.7 Arial/11 "https://github.github.com/gfm/" #2563EB
 p10 line  x=56.7 y=565.7 to x=201.3 y=565.7 #B4B4B4/0.5
-p10 text  x=56.7 y=575.7 Arial/9 "1. " #000000
-p10 text  x=66.7 y=575.7 Arial/9 "Ez az első lábjegyzet" #000000
-p10 text  x=153.7 y=575.7 Arial/9 "tartalma." #000000
-p10 text  x=56.7 y=593.7 Arial/9 "2. " #000000
-p10 text  x=66.7 y=593.7 Arial/9 "Ez a második" #000000
-p10 text  x=123.2 y=593.7 Arial/9 "lábjegyzet." #000000
-p10 text  x=56.7 y=611.7 Arial/9 "3. " #000000
-p10 text  x=66.7 y=611.7 Arial/9 "A lábjegyzeteknek lehet beszédes neve" #000000
-p10 text  x=227.2 y=611.7 Arial/9 "is." #000000
+p10 text  x=56.7 y=575.7 Arial/9 "1. " #1A1A2E
+p10 text  x=66.7 y=575.7 Arial/9 "Ez az első lábjegyzet" #1A1A2E
+p10 text  x=153.7 y=575.7 Arial/9 "tartalma." #1A1A2E
+p10 text  x=56.7 y=593.7 Arial/9 "2. " #1A1A2E
+p10 text  x=66.7 y=593.7 Arial/9 "Ez a második" #1A1A2E
+p10 text  x=123.2 y=593.7 Arial/9 "lábjegyzet." #1A1A2E
+p10 text  x=56.7 y=611.7 Arial/9 "3. " #1A1A2E
+p10 text  x=66.7 y=611.7 Arial/9 "A lábjegyzeteknek lehet beszédes neve" #1A1A2E
+p10 text  x=227.2 y=611.7 Arial/9 "is." #1A1A2E

@@ -97,43 +97,43 @@ p2 text  x=56.7 y=262.7 Arial-Bold/20 "4." #000000
 p2 text  x=78.9 y=262.7 Arial-Bold/20 "Lists" #000000
 p2 text  x=56.7 y=296.7 Arial/11 "Three bullets, the second with two nested ones" #1A1A2E
 p2 text  x=285.8 y=296.7 Arial/11 ":" #1A1A2E
-p2 text  x=76.7 y=320.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=320.7 Arial/11 "First" #000000
-p2 text  x=108.0 y=320.7 Arial/11 "item" #000000
-p2 text  x=76.7 y=336.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=336.7 Arial/11 "Second item, with" #000000
-p2 text  x=173.4 y=336.7 Arial-Bold/11 "bold" #000000
-p2 text  x=199.6 y=336.7 Arial/11 "and" #000000
+p2 text  x=76.7 y=320.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=320.7 Arial/11 "First" #1A1A2E
+p2 text  x=108.0 y=320.7 Arial/11 "item" #1A1A2E
+p2 text  x=76.7 y=336.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=336.7 Arial/11 "Second item, with" #1A1A2E
+p2 text  x=173.4 y=336.7 Arial-Bold/11 "bold" #1A1A2E
+p2 text  x=199.6 y=336.7 Arial/11 "and" #1A1A2E
 p2 text  x=221.0 y=338.3 Courier/10 "code" #CF222E
-p2 text  x=248.0 y=336.7 Arial/11 "inside" #000000
-p2 text  x=279.8 y=336.7 Arial/11 "it" #000000
-p2 text  x=96.7 y=352.7 Arial/11 "◦ " #000000
-p2 text  x=103.6 y=352.7 Arial/11 "Nested item" #000000
-p2 text  x=165.3 y=352.7 Arial/11 "one" #000000
-p2 text  x=96.7 y=368.7 Arial/11 "◦ " #000000
-p2 text  x=103.6 y=368.7 Arial/11 "Nested item" #000000
-p2 text  x=165.3 y=368.7 Arial/11 "two" #000000
-p2 text  x=76.7 y=384.7 Arial/11 "• " #000000
-p2 text  x=83.6 y=384.7 Arial/11 "Third item, long enough to wrap onto a second line so that you can check" #000000
-p2 text  x=442.9 y=384.7 Arial/11 "the" #000000
-p2 text  x=461.2 y=384.7 Arial/11 "continuation" #000000
-p2 text  x=76.7 y=400.7 Arial/11 "line starts under the first one and not at the page" #000000
-p2 text  x=316.2 y=400.7 Arial/11 "margin" #000000
+p2 text  x=248.0 y=336.7 Arial/11 "inside" #1A1A2E
+p2 text  x=279.8 y=336.7 Arial/11 "it" #1A1A2E
+p2 text  x=96.7 y=352.7 Arial/11 "◦ " #1A1A2E
+p2 text  x=103.6 y=352.7 Arial/11 "Nested item" #1A1A2E
+p2 text  x=165.3 y=352.7 Arial/11 "one" #1A1A2E
+p2 text  x=96.7 y=368.7 Arial/11 "◦ " #1A1A2E
+p2 text  x=103.6 y=368.7 Arial/11 "Nested item" #1A1A2E
+p2 text  x=165.3 y=368.7 Arial/11 "two" #1A1A2E
+p2 text  x=76.7 y=384.7 Arial/11 "• " #1A1A2E
+p2 text  x=83.6 y=384.7 Arial/11 "Third item, long enough to wrap onto a second line so that you can check" #1A1A2E
+p2 text  x=442.9 y=384.7 Arial/11 "the" #1A1A2E
+p2 text  x=461.2 y=384.7 Arial/11 "continuation" #1A1A2E
+p2 text  x=76.7 y=400.7 Arial/11 "line starts under the first one and not at the page" #1A1A2E
+p2 text  x=316.2 y=400.7 Arial/11 "margin" #1A1A2E
 p2 text  x=56.7 y=422.7 Arial/11 "Three numbered items" #1A1A2E
 p2 text  x=167.3 y=422.7 Arial/11 ":" #1A1A2E
-p2 text  x=76.7 y=446.7 Arial/11 "1. " #000000
-p2 text  x=88.9 y=446.7 Arial/11 "First" #000000
-p2 text  x=76.7 y=462.7 Arial/11 "2. " #000000
-p2 text  x=88.9 y=462.7 Arial/11 "Second" #000000
-p2 text  x=76.7 y=478.7 Arial/11 "3. " #000000
-p2 text  x=88.9 y=478.7 Arial/11 "Third" #000000
+p2 text  x=76.7 y=446.7 Arial/11 "1. " #1A1A2E
+p2 text  x=88.9 y=446.7 Arial/11 "First" #1A1A2E
+p2 text  x=76.7 y=462.7 Arial/11 "2. " #1A1A2E
+p2 text  x=88.9 y=462.7 Arial/11 "Second" #1A1A2E
+p2 text  x=76.7 y=478.7 Arial/11 "3. " #1A1A2E
+p2 text  x=88.9 y=478.7 Arial/11 "Third" #1A1A2E
 p2 text  x=56.7 y=500.7 Arial/11 "A task list, the first box checked and the second empty" #1A1A2E
 p2 text  x=321.8 y=500.7 Arial/11 ":" #1A1A2E
-p2 text  x=76.7 y=524.7 Arial/11 "[x] " #000000
-p2 text  x=91.3 y=524.7 Arial/11 "Done" #000000
-p2 text  x=76.7 y=540.7 Arial/11 "[ ] " #000000
-p2 text  x=88.9 y=540.7 Arial/11 "Still to" #000000
-p2 text  x=121.8 y=540.7 Arial/11 "do" #000000
+p2 text  x=76.7 y=524.7 Arial/11 "[x] " #1A1A2E
+p2 text  x=91.3 y=524.7 Arial/11 "Done" #1A1A2E
+p2 text  x=76.7 y=540.7 Arial/11 "[ ] " #1A1A2E
+p2 text  x=88.9 y=540.7 Arial/11 "Still to" #1A1A2E
+p2 text  x=121.8 y=540.7 Arial/11 "do" #1A1A2E
 p2 text  x=56.7 y=580.7 Arial-Bold/20 "5." #000000
 p2 text  x=78.9 y=580.7 Arial-Bold/20 "Tables" #000000
 p2 text  x=56.7 y=614.7 Arial/11 "A table with a shaded header row, borders, and the third column" #1A1A2E
@@ -187,12 +187,12 @@ p3 text  x=56.7 y=216.7 Arial-Bold/20 "7." #000000
 p3 text  x=78.9 y=216.7 Arial-Bold/20 "Quotes" #000000
 p3 text  x=56.7 y=250.7 Arial/11 "A quote, set off from the text by a bar on the left" #1A1A2E
 p3 text  x=288.8 y=250.7 Arial/11 ":" #1A1A2E
-p3 text  x=76.7 y=274.7 Arial-Italic/11 "The first paragraph of the quote, with" #000000
-p3 text  x=259.3 y=274.7 Arial-Italic/11 "emphasis" #000000
-p3 text  x=306.4 y=274.7 Arial-Italic/11 "." #000000
+p3 text  x=76.7 y=274.7 Arial-Italic/11 "The first paragraph of the quote, with" #1A1A2E
+p3 text  x=259.3 y=274.7 Arial-Italic/11 "emphasis" #1A1A2E
+p3 text  x=306.4 y=274.7 Arial-Italic/11 "." #1A1A2E
 p3 line  x=61.7 y=274.7 to x=61.7 y=290.7 #B4B4B4/3.0
-p3 text  x=76.7 y=294.7 Arial-Italic/11 "The second paragraph of the" #000000
-p3 text  x=220.9 y=294.7 Arial-Italic/11 "quote." #000000
+p3 text  x=76.7 y=294.7 Arial-Italic/11 "The second paragraph of the" #1A1A2E
+p3 text  x=220.9 y=294.7 Arial-Italic/11 "quote." #1A1A2E
 p3 line  x=61.7 y=294.7 to x=61.7 y=310.7 #B4B4B4/3.0
 p3 text  x=56.7 y=332.7 Arial-Bold/20 "8." #000000
 p3 text  x=78.9 y=332.7 Arial-Bold/20 "Callouts" #000000
@@ -311,10 +311,10 @@ p5 text  x=248.0 y=106.7 Arial/11 "the" #1A1A2E
 p5 text  x=266.3 y=106.7 Arial/11 "document under a short" #1A1A2E
 p5 text  x=385.4 y=106.7 Arial/11 "line." #1A1A2E
 p5 line  x=56.7 y=150.7 to x=201.3 y=150.7 #B4B4B4/0.5
-p5 text  x=56.7 y=160.7 Arial/9 "1. " #000000
-p5 text  x=66.7 y=160.7 Arial/9 "The first footnote, with" #000000
-p5 text  x=157.6 y=160.7 Arial-Bold/9 "bold" #000000
-p5 text  x=179.1 y=160.7 Arial/9 "text." #000000
-p5 text  x=56.7 y=178.7 Arial/9 "2. " #000000
-p5 text  x=66.7 y=178.7 Arial/9 "The second" #000000
-p5 text  x=116.2 y=178.7 Arial/9 "footnote." #000000
+p5 text  x=56.7 y=160.7 Arial/9 "1. " #1A1A2E
+p5 text  x=66.7 y=160.7 Arial/9 "The first footnote, with" #1A1A2E
+p5 text  x=157.6 y=160.7 Arial-Bold/9 "bold" #1A1A2E
+p5 text  x=179.1 y=160.7 Arial/9 "text." #1A1A2E
+p5 text  x=56.7 y=178.7 Arial/9 "2. " #1A1A2E
+p5 text  x=66.7 y=178.7 Arial/9 "The second" #1A1A2E
+p5 text  x=116.2 y=178.7 Arial/9 "footnote." #1A1A2E

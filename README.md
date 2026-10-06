@@ -224,9 +224,9 @@ equivalent and stay as text: `@mentions`, issue references such as `#123` or
 | `internal/parse`   | Markdown → AST (goldmark), per-flavor syntax     |
 | `internal/render`  | AST → DOCX / PDF renderers                       |
 | `internal/convert` | Conversion orchestration                        |
-| `internal/config`  | Document styling (typography, spacing, colors)  |
+| `internal/theme`   | How documents look (page, fonts, sizes, colors) |
 | `internal/settings`| Saved preferences (the selected flavor)         |
-| `fixtures`         | Sample documents, one per flavor in `flavors/`  |
+| `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor |
 | `cmd/debug`        | Dumps the parsed AST as JSON for debugging       |
 
 ## Contributing

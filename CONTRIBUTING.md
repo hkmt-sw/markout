@@ -40,6 +40,17 @@ files in your pull request, where the diff shows reviewers exactly what moved:
 go test ./internal/render -run Golden -update
 ```
 
+### Checking the output by eye
+
+`fixtures/showcase.md` contains every element markout renders, each with a
+note saying what you should see. After a change to a renderer, convert it to
+both formats and read through the result:
+
+```sh
+go run . fixtures/showcase.md showcase.pdf
+go run . fixtures/showcase.md showcase.docx
+```
+
 To see how a document is parsed, dump its AST as JSON:
 
 ```sh

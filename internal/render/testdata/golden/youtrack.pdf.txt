@@ -4,10 +4,10 @@ p1 text  x=112.9 y=116.7 Arial/11 "strikethrough" #8888A0
 p1 line  x=112.9 y=123.1 to x=176.4 y=123.1 #8888A0/0.6
 p1 text  x=179.5 y=116.7 Arial/11 "and tables follow CommonMark with" #1A1A2E
 p1 text  x=359.1 y=116.7 Arial/11 "extensions." #1A1A2E
-p1 text  x=76.7 y=140.7 Arial/11 "[x] " #000000
-p1 text  x=91.3 y=140.7 Arial/11 "Reproduced" #000000
-p1 text  x=76.7 y=156.7 Arial/11 "[ ] " #000000
-p1 text  x=88.9 y=156.7 Arial/11 "Fixed" #000000
+p1 text  x=76.7 y=140.7 Arial/11 "[x] " #1A1A2E
+p1 text  x=91.3 y=140.7 Arial/11 "Reproduced" #1A1A2E
+p1 text  x=76.7 y=156.7 Arial/11 "[ ] " #1A1A2E
+p1 text  x=88.9 y=156.7 Arial/11 "Fixed" #1A1A2E
 p1 rect  x=56.7 y=178.7 w=291.9 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 rect  x=348.6 y=178.7 w=190.0 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p1 text  x=60.7 y=182.7 Arial-Bold/11 "Field" #1A1A2E
@@ -27,11 +27,11 @@ p1 text  x=64.7 y=348.7 Courier/9 "java.lang.NullPointerException" #000000
 p1 text  x=64.7 y=360.7 Courier/9 "\tat com.example.Main.main(Main.java:5)" #000000
 p1 text  x=56.7 y=388.7 Arial/11 "No alerts" #1A1A2E
 p1 text  x=103.7 y=388.7 Arial/11 "here:" #1A1A2E
-p1 text  x=76.7 y=412.7 Arial-Italic/11 "[" #000000
-p1 text  x=79.7 y=412.7 Arial-Italic/11 "!NOTE" #000000
-p1 text  x=113.3 y=412.7 Arial-Italic/11 "]" #000000
-p1 text  x=119.4 y=412.7 Arial-Italic/11 "Just a quote in" #000000
-p1 text  x=193.9 y=412.7 Arial-Italic/11 "YouTrack." #000000
+p1 text  x=76.7 y=412.7 Arial-Italic/11 "[" #1A1A2E
+p1 text  x=79.7 y=412.7 Arial-Italic/11 "!NOTE" #1A1A2E
+p1 text  x=113.3 y=412.7 Arial-Italic/11 "]" #1A1A2E
+p1 text  x=119.4 y=412.7 Arial-Italic/11 "Just a quote in" #1A1A2E
+p1 text  x=193.9 y=412.7 Arial-Italic/11 "YouTrack." #1A1A2E
 p1 line  x=61.7 y=412.7 to x=61.7 y=428.7 #B4B4B4/3.0
 p1 text  x=56.7 y=432.7 Arial/11 "No math either: $x$ stays text, and :smile: stays" #1A1A2E
 p1 text  x=293.1 y=432.7 Arial/11 "text." #1A1A2E

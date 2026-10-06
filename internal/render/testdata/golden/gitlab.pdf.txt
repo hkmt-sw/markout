@@ -32,11 +32,11 @@ p1 line  x=312.1 y=420.7 to x=332.3 y=420.7 #16A34A/0.6
 p1 text  x=332.3 y=408.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=450.7 Arial-Bold/20 "Multiline" #000000
 p1 text  x=143.2 y=450.7 Arial-Bold/20 "blockquote" #000000
-p1 text  x=76.7 y=484.7 Arial-Italic/11 "First quoted" #000000
-p1 text  x=137.8 y=484.7 Arial-Italic/11 "paragraph." #000000
+p1 text  x=76.7 y=484.7 Arial-Italic/11 "First quoted" #1A1A2E
+p1 text  x=137.8 y=484.7 Arial-Italic/11 "paragraph." #1A1A2E
 p1 line  x=61.7 y=484.7 to x=61.7 y=500.7 #B4B4B4/3.0
-p1 text  x=76.7 y=504.7 Arial-Italic/11 "Second quoted" #000000
-p1 text  x=153.7 y=504.7 Arial-Italic/11 "paragraph." #000000
+p1 text  x=76.7 y=504.7 Arial-Italic/11 "Second quoted" #1A1A2E
+p1 text  x=153.7 y=504.7 Arial-Italic/11 "paragraph." #1A1A2E
 p1 line  x=61.7 y=504.7 to x=61.7 y=520.7 #B4B4B4/3.0
 p1 text  x=56.7 y=542.7 Arial-Bold/20 "Alerts with" #000000
 p1 text  x=164.4 y=542.7 Arial-Bold/20 "titles" #000000
@@ -46,13 +46,13 @@ p1 text  x=64.7 y=584.7 Arial-Bold/11 "Data loss" #EF4444
 p1 text  x=64.7 y=600.7 Arial/11 "Back up" #1A1A2E
 p1 text  x=107.5 y=600.7 Arial/11 "first." #1A1A2E
 p1 text  x=56.7 y=650.7 Arial-Bold/20 "Tasks" #000000
-p1 text  x=76.7 y=684.7 Arial/11 "[x] " #000000
-p1 text  x=91.3 y=684.7 Arial/11 "Done" #000000
-p1 text  x=76.7 y=700.7 Arial/11 "[ ] " #000000
+p1 text  x=76.7 y=684.7 Arial/11 "[x] " #1A1A2E
+p1 text  x=91.3 y=684.7 Arial/11 "Done" #1A1A2E
+p1 text  x=76.7 y=700.7 Arial/11 "[ ] " #1A1A2E
 p1 text  x=88.9 y=700.7 Arial/11 "Not applicable" #8888A0
 p1 line  x=88.9 y=707.1 to x=158.6 y=707.1 #8888A0/0.6
-p1 text  x=76.7 y=716.7 Arial/11 "[ ] " #000000
-p1 text  x=88.9 y=716.7 Arial/11 "Open" #000000
+p1 text  x=76.7 y=716.7 Arial/11 "[ ] " #1A1A2E
+p1 text  x=88.9 y=716.7 Arial/11 "Open" #1A1A2E
 p1 text  x=56.7 y=756.7 Arial-Bold/20 "Math and" #000000
 p1 text  x=149.9 y=756.7 Arial-Bold/20 "colors" #000000
 p2 text  x=56.7 y=56.7 Arial/11 "Inline" #1A1A2E

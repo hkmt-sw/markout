@@ -13,7 +13,7 @@ import (
 	"github.com/mmonterroca/docxgo/v2/domain"
 
 	"github.com/hkmt-sw/markout/internal/ast"
-	"github.com/hkmt-sw/markout/internal/config"
+	"github.com/hkmt-sw/markout/internal/theme"
 )
 
 // DocxRenderer renders AST to DOCX format
@@ -22,6 +22,7 @@ type DocxRenderer struct {
 	listCounters map[int]int
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
 	opts         Options                  // base directory and image loading policy
+	t            theme.Theme              // how everything looks
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -33,6 +34,7 @@ func NewDocxRenderer() *DocxRenderer {
 
 // RenderToFile renders AST document to a DOCX file
 func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error {
+	r.t = r.opts.theme().DOCX
 	r.doc = docx.NewDocument()
 	r.footnotes = nil // Reset footnotes
 	r.setupDocument()
@@ -74,10 +76,10 @@ func (r *DocxRenderer) setupDocument() {
 	}
 	section.SetPageSize(domain.PageSizeA4)
 	section.SetMargins(domain.Margins{
-		Top:    mmToTwips(config.MarginTopMM),
-		Bottom: mmToTwips(config.MarginBottomMM),
-		Left:   mmToTwips(config.MarginLeftMM),
-		Right:  mmToTwips(config.MarginRightMM),
+		Top:    twips(r.t.Page.MarginTop),
+		Bottom: twips(r.t.Page.MarginBottom),
+		Left:   twips(r.t.Page.MarginLeft),
+		Right:  twips(r.t.Page.MarginRight),
 	})
 }
 
@@ -125,21 +127,15 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 	}
 
 	// Font size in half-points
-	var fontSize int
-	switch h.Level {
-	case 1:
-		fontSize = int(config.FontSizeH1HPS)
-	case 2:
-		fontSize = int(config.FontSizeH2HPS)
-	case 3:
-		fontSize = int(config.FontSizeH3HPS)
-	case 4:
-		fontSize = int(config.FontSizeH4HPS)
-	case 5:
-		fontSize = int(config.FontSizeH5HPS)
-	default:
-		fontSize = int(config.FontSizeH6HPS)
+	level := h.Level
+	if level < 1 {
+		level = 1
 	}
+	if level > len(r.t.Heading) {
+		level = len(r.t.Heading)
+	}
+	hd := r.t.Heading[level-1]
+	fontSize := halfPoints(hd.Size)
 
 	for _, astRun := range h.Runs {
 		run, err := para.AddRun()
@@ -149,7 +145,11 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 		run.SetText(astRun.Text)
 		run.SetSize(fontSize)
 		run.SetBold(true)
-		run.SetFont(domain.Font{Name: config.FontBody})
+		run.SetFont(domain.Font{Name: r.t.Fonts.Heading})
+		// Black is what a word processor uses when no color is given
+		if hd.Color != theme.Black {
+			run.SetColor(docxColor(hd.Color))
+		}
 	}
 
 	return nil
@@ -189,18 +189,18 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	// Handle footnote reference
 	if astRun.FootnoteIndex > 0 {
 		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
-		run.SetSize(int(config.FontSizeSmall * 2)) // Smaller for footnote ref
-		run.SetFont(domain.Font{Name: config.FontBody})
-		run.SetColor(hexToColor(config.ColorAccent))
+		run.SetSize(halfPoints(r.t.Footnote.Size))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetColor(docxColor(r.t.Link))
 		return nil
 	}
 
 	// Handle hyperlinks
 	if astRun.Link != "" {
-		run.SetColor(hexToColor(config.ColorAccent)) // Electric blue for links
+		run.SetColor(docxColor(r.t.Link)) // Electric blue for links
 		run.SetUnderline(domain.UnderlineSingle)
-		run.SetSize(int(config.FontSizeDefaultHPS))
-		run.SetFont(domain.Font{Name: config.FontBody})
+		run.SetSize(halfPoints(r.t.Text.Size))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		// Add clickable hyperlink field
 		linkField := docx.NewHyperlinkField(astRun.Link, astRun.Text)
 		run.AddField(linkField)
@@ -210,10 +210,10 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	// Handle inline math
 	if astRun.Math {
 		run.SetText(astRun.Text)
-		run.SetSize(int(config.FontSizeDefaultHPS))
+		run.SetSize(halfPoints(r.t.Text.Size))
 		run.SetItalic(true)
-		run.SetFont(domain.Font{Name: config.FontBody})
-		run.SetColor(hexToColor(config.ColorMathText))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetColor(docxColor(r.t.Math))
 		return nil
 	}
 
@@ -225,21 +225,21 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 			return err
 		}
 		chipRun.SetText("\u25A0 ") // Filled square
-		chipRun.SetSize(int(config.FontSizeDefaultHPS))
-		chipRun.SetFont(domain.Font{Name: config.FontBody})
+		chipRun.SetSize(halfPoints(r.t.Text.Size))
+		chipRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		chipRun.SetColor(hexToColor(strings.TrimPrefix(astRun.ColorChip, "#")))
 
 		// Then render the hex text as code
 		run.SetText(astRun.Text)
-		run.SetSize(int(config.FontSizeDefaultHPS))
-		run.SetFont(domain.Font{Name: config.FontCode})
-		run.SetColor(hexToColor(config.ColorCodeAccent))
+		run.SetSize(halfPoints(r.t.Text.Size))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
+		run.SetColor(docxColor(r.t.Code.Color))
 		return nil
 	}
 
 	// Superscripts and subscripts use the Unicode script characters where
 	// they exist, and smaller type otherwise.
-	text, size := astRun.Text, int(config.FontSizeDefaultHPS)
+	text, size := astRun.Text, halfPoints(r.t.Text.Size)
 	if astRun.Superscript || astRun.Subscript {
 		if script, ok := scriptText(text, astRun.Superscript); ok {
 			text = script
@@ -251,11 +251,11 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	run.SetSize(size)
 
 	if astRun.Code {
-		run.SetFont(domain.Font{Name: config.FontCode})
-		run.SetColor(hexToColor(config.ColorCodeAccent)) // Syntax red for inline code
+		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
+		run.SetColor(docxColor(r.t.Code.Color)) // Syntax red for inline code
 	} else {
-		run.SetFont(domain.Font{Name: config.FontBody})
-		run.SetColor(hexToColor(config.ColorTextPrimary)) // Deep ink blue
+		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetColor(docxColor(r.t.Text.Color)) // Deep ink blue
 	}
 
 	if astRun.Bold {
@@ -266,7 +266,7 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	}
 	if astRun.Strikethrough {
 		run.SetStrike(true)
-		run.SetColor(hexToColor(config.ColorTextTertiary)) // Muted for strikethrough
+		run.SetColor(docxColor(r.t.Text.Faint)) // Muted for strikethrough
 	}
 	if astRun.Underline {
 		run.SetUnderline(domain.UnderlineSingle)
@@ -276,11 +276,11 @@ func (r *DocxRenderer) addRunToParagraph(para domain.Paragraph, astRun ast.Inlin
 	}
 	if astRun.Inserted {
 		run.SetUnderline(domain.UnderlineSingle)
-		run.SetColor(hexToColor(config.ColorSuccess))
+		run.SetColor(docxColor(r.t.Inserted))
 	}
 	if astRun.Deleted {
 		run.SetStrike(true)
-		run.SetColor(hexToColor(config.ColorCodeAccent))
+		run.SetColor(docxColor(r.t.Deleted))
 	}
 
 	return nil
@@ -354,8 +354,8 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level
 			return err
 		}
 		bulletRun.SetText(indent + prefix + "  ")
-		bulletRun.SetSize(int(config.FontSizeDefaultHPS))
-		bulletRun.SetFont(domain.Font{Name: config.FontBody})
+		bulletRun.SetSize(halfPoints(r.t.Text.Size))
+		bulletRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 
 		// Add content
 		for _, astRun := range item.Runs {
@@ -411,14 +411,14 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	}
 
 	// Set cell background and width
-	cell.SetShading(hexToColor(config.ColorCodeBackground))
-	cell.SetWidth(mmToTwips(config.ContentWidthMM))
+	cell.SetShading(docxColor(r.t.Code.Background))
+	cell.SetWidth(r.contentTwips())
 
 	// Set cell border (thin gray border)
 	borderStyle := domain.BorderStyle{
 		Style: domain.BorderSingle,
 		Width: 4, // 0.5pt (in eighths of a point)
-		Color: domain.Color{R: 200, G: 200, B: 200},
+		Color: docxColor(r.t.Code.Border),
 	}
 	cell.SetBorders(domain.TableBorders{
 		Top:    borderStyle,
@@ -454,8 +454,8 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 		} else {
 			run.SetText(line)
 		}
-		run.SetFont(domain.Font{Name: config.FontCode}) // Consolas
-		run.SetSize(int(config.FontSizeCodeHPS))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
+		run.SetSize(halfPoints(r.t.Code.BlockSize))
 	}
 
 	return nil
@@ -494,13 +494,13 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 		return err
 	}
 
-	colWidths := calcColumnWidths(t, numCols)
+	colWidths := calcColumnWidths(t, numCols, r.contentTwips())
 
 	// Border style for all cells
 	borderStyle := domain.BorderStyle{
 		Style: domain.BorderSingle,
 		Width: 4, // 0.5pt
-		Color: hexToColor(config.ColorTableBorder),
+		Color: docxColor(r.t.Table.Border),
 	}
 	borders := domain.TableBorders{
 		Top:    borderStyle,
@@ -510,9 +510,9 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 	}
 
 	// Colors
-	headerColor := hexToColor(config.ColorTableHeader)
-	evenRowColor := domain.Color{R: 255, G: 255, B: 255}
-	oddRowColor := domain.Color{R: 248, G: 248, B: 248}
+	headerColor := docxColor(r.t.Table.HeaderBackground)
+	evenRowColor := docxColor(r.t.Table.RowBackground)
+	oddRowColor := docxColor(r.t.Table.StripeBackground)
 
 	// Render header row
 	if len(t.Header.Cells) > 0 {
@@ -553,8 +553,8 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 				}
 				run.SetText(astRun.Text)
 				run.SetBold(true)
-				run.SetSize(int(config.FontSizeDefaultHPS))
-				run.SetFont(domain.Font{Name: config.FontBody})
+				run.SetSize(halfPoints(r.t.Text.Size))
+				run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			}
 		}
 	}
@@ -606,8 +606,8 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 					return err
 				}
 				run.SetText(astRun.Text)
-				run.SetSize(int(config.FontSizeDefaultHPS))
-				run.SetFont(domain.Font{Name: config.FontBody})
+				run.SetSize(halfPoints(r.t.Text.Size))
+				run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			}
 		}
 	}
@@ -616,8 +616,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 }
 
 // calcColumnWidths computes proportional column widths in twips based on content length.
-func calcColumnWidths(t ast.Table, numCols int) []int {
-	totalTwips := mmToTwips(config.ContentWidthMM)
+func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 	minColTwips := mmToTwips(15) // minimum 15mm per column
 
 	// Measure max character count per column across header + all rows
@@ -717,8 +716,8 @@ func (r *DocxRenderer) renderBlockquote(bq ast.Blockquote) error {
 				return err
 			}
 			indicatorRun.SetText("│ ")
-			indicatorRun.SetColor(hexToColor(config.ColorBlockquoteBorder))
-			indicatorRun.SetFont(domain.Font{Name: config.FontBody})
+			indicatorRun.SetColor(docxColor(r.t.Quote.Bar))
+			indicatorRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 
 			for _, astRun := range e.Runs {
 				if err := r.addRunToParagraph(para, astRun); err != nil {
@@ -754,8 +753,8 @@ func (r *DocxRenderer) renderHorizontalRule() error {
 	}
 
 	run.SetText("────────────────────────────────────────────────────────────────────────────────")
-	run.SetColor(domain.Color{R: 180, G: 180, B: 180})
-	run.SetSize(int(config.FontSizeDefaultHPS))
+	run.SetColor(docxColor(r.t.Rule.Color))
+	run.SetSize(halfPoints(r.t.Text.Size))
 
 	return nil
 }
@@ -810,8 +809,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 
 	// Honor an explicit width hint, then scale down to the content width
 	// (96 DPI), preserving aspect ratio.
-	maxWidthMM := float64(config.ContentWidthMM)
-	maxWidthPx := int(maxWidthMM * 96.0 / 25.4)
+	maxWidthPx := int(r.t.Page.ContentWidth() * 96.0 / 72.0)
 	w, h := cfg.Width, cfg.Height
 	if displayWidth > 0 {
 		h = h * displayWidth / w
@@ -843,10 +841,10 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 			return err
 		}
 		altRun.SetText(img.Alt)
-		altRun.SetColor(hexToColor(config.ColorTextSecondary))
+		altRun.SetColor(docxColor(r.t.Text.Muted))
 		altRun.SetItalic(true)
-		altRun.SetSize(int(config.FontSizeSmall * 2))
-		altRun.SetFont(domain.Font{Name: config.FontBody})
+		altRun.SetSize(halfPoints(r.t.Caption.Size))
+		altRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	}
 
 	return nil
@@ -889,10 +887,10 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 	}
 
 	run.SetText("🖼 " + displayText)
-	run.SetColor(hexToColor(config.ColorTextSecondary))
+	run.SetColor(docxColor(r.t.Text.Muted))
 	run.SetItalic(true)
-	run.SetSize(int(config.FontSizeDefaultHPS))
-	run.SetFont(domain.Font{Name: config.FontBody})
+	run.SetSize(halfPoints(r.t.Text.Size))
+	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 
 	// Add URL on next line if present
 	if img.URL != "" {
@@ -907,10 +905,10 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 			return err
 		}
 		urlTextRun.SetText(img.URL)
-		urlTextRun.SetColor(hexToColor(config.ColorAccent))
+		urlTextRun.SetColor(docxColor(r.t.Link))
 		urlTextRun.SetUnderline(domain.UnderlineSingle)
-		urlTextRun.SetSize(int(config.FontSizeSmall * 2)) // Convert to half-points
-		urlTextRun.SetFont(domain.Font{Name: config.FontBody})
+		urlTextRun.SetSize(halfPoints(r.t.Caption.Size))
+		urlTextRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	}
 
 	return nil
@@ -927,8 +925,8 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		return err
 	}
 	sepRun.SetText("────────────────────────────────")
-	sepRun.SetColor(domain.Color{R: 180, G: 180, B: 180})
-	sepRun.SetSize(int(config.FontSizeSmall * 2))
+	sepRun.SetColor(docxColor(r.t.Footnote.Rule))
+	sepRun.SetSize(halfPoints(r.t.Footnote.Size))
 
 	// Render each footnote
 	for _, fn := range r.footnotes {
@@ -943,9 +941,9 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 			return err
 		}
 		numRun.SetText(itoa(fn.Index) + ". ")
-		numRun.SetSize(int(config.FontSizeSmall * 2))
-		numRun.SetFont(domain.Font{Name: config.FontBody})
-		numRun.SetColor(hexToColor(config.ColorTextSecondary))
+		numRun.SetSize(halfPoints(r.t.Footnote.Size))
+		numRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		numRun.SetColor(docxColor(r.t.Text.Muted))
 
 		// Footnote content
 		for _, elem := range fn.Elements {
@@ -956,9 +954,9 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 						return err
 					}
 					contentRun.SetText(astRun.Text)
-					contentRun.SetSize(int(config.FontSizeSmall * 2))
-					contentRun.SetFont(domain.Font{Name: config.FontBody})
-					contentRun.SetColor(hexToColor(config.ColorTextSecondary))
+					contentRun.SetSize(halfPoints(r.t.Footnote.Size))
+					contentRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+					contentRun.SetColor(docxColor(r.t.Text.Muted))
 				}
 			}
 		}
@@ -970,7 +968,8 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 // renderAlert renders an alert/callout as a single-cell table with colored border
 func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	// Get colors based on alert type
-	bgColor, borderColor := getAlertColors(alert.Type)
+	colors := alertColors(r.t.Alert, alert.Type)
+	bgColor, borderColor := colors.Background.Hex(), colors.Border.Hex()
 
 	// Create a single-cell table (like code blocks)
 	table, err := r.doc.AddTable(1, 1)
@@ -989,13 +988,13 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	}
 
 	cell.SetShading(hexToColor(bgColor))
-	cell.SetWidth(mmToTwips(config.ContentWidthMM))
+	cell.SetWidth(r.contentTwips())
 
 	// Colored left border, thin gray on other sides
 	thinBorder := domain.BorderStyle{
 		Style: domain.BorderSingle,
 		Width: 4,
-		Color: domain.Color{R: 200, G: 200, B: 200},
+		Color: docxColor(r.t.Code.Border),
 	}
 	cell.SetBorders(domain.TableBorders{
 		Top:    thinBorder,
@@ -1019,8 +1018,8 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	}
 	titleRun.SetText(alert.Title)
 	titleRun.SetBold(true)
-	titleRun.SetSize(int(config.FontSizeDefaultHPS))
-	titleRun.SetFont(domain.Font{Name: config.FontBody})
+	titleRun.SetSize(halfPoints(r.t.Text.Size))
+	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	titleRun.SetColor(hexToColor(borderColor))
 
 	// Add content elements
@@ -1058,13 +1057,13 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 		return err
 	}
 
-	cell.SetShading(hexToColor(config.ColorMermaidBg))
-	cell.SetWidth(mmToTwips(config.ContentWidthMM))
+	cell.SetShading(docxColor(r.t.Diagram.Background))
+	cell.SetWidth(r.contentTwips())
 
 	borderStyle := domain.BorderStyle{
 		Style: domain.BorderSingle,
 		Width: 4,
-		Color: hexToColor(config.ColorMermaidBorder),
+		Color: docxColor(r.t.Diagram.Border),
 	}
 	cell.SetBorders(domain.TableBorders{
 		Top: borderStyle, Bottom: borderStyle,
@@ -1082,9 +1081,9 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 	}
 	labelRun.SetText("Mermaid Diagram")
 	labelRun.SetBold(true)
-	labelRun.SetSize(int(config.FontSizeDefaultHPS))
-	labelRun.SetFont(domain.Font{Name: config.FontBody})
-	labelRun.SetColor(hexToColor(config.ColorMermaidText))
+	labelRun.SetSize(halfPoints(r.t.Text.Size))
+	labelRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+	labelRun.SetColor(docxColor(r.t.Diagram.Text))
 
 	// Source code
 	codePara, err := cell.AddParagraph()
@@ -1110,9 +1109,9 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 		} else {
 			run.SetText(line)
 		}
-		run.SetFont(domain.Font{Name: config.FontCode})
-		run.SetSize(int(config.FontSizeCodeHPS))
-		run.SetColor(hexToColor(config.ColorMermaidText))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
+		run.SetSize(halfPoints(r.t.Code.BlockSize))
+		run.SetColor(docxColor(r.t.Diagram.Text))
 	}
 
 	return nil
@@ -1132,9 +1131,9 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 	}
 	run.SetText(math.Expression)
 	run.SetItalic(true)
-	run.SetSize(int(config.FontSizeDefaultHPS))
-	run.SetFont(domain.Font{Name: config.FontBody})
-	run.SetColor(hexToColor(config.ColorMathText))
+	run.SetSize(halfPoints(r.t.Text.Size))
+	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+	run.SetColor(docxColor(r.t.Math))
 
 	return nil
 }
@@ -1154,9 +1153,9 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 			}
 			termRun.SetText(run.Text)
 			termRun.SetBold(true)
-			termRun.SetSize(int(config.FontSizeDefaultHPS))
-			termRun.SetFont(domain.Font{Name: config.FontBody})
-			termRun.SetColor(hexToColor(config.ColorTextPrimary))
+			termRun.SetSize(halfPoints(r.t.Text.Size))
+			termRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+			termRun.SetColor(docxColor(r.t.Text.Color))
 		}
 
 		// Render each definition as indented paragraph
@@ -1171,7 +1170,7 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 				return err
 			}
 			indentRun.SetText("    ")
-			indentRun.SetSize(int(config.FontSizeDefaultHPS))
+			indentRun.SetSize(halfPoints(r.t.Text.Size))
 
 			for _, run := range def {
 				defRun, err := defPara.AddRun()
@@ -1179,9 +1178,9 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 					return err
 				}
 				defRun.SetText(run.Text)
-				defRun.SetSize(int(config.FontSizeDefaultHPS))
-				defRun.SetFont(domain.Font{Name: config.FontBody})
-				defRun.SetColor(hexToColor(config.ColorTextPrimary))
+				defRun.SetSize(halfPoints(r.t.Text.Size))
+				defRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+				defRun.SetColor(docxColor(r.t.Text.Color))
 				if run.Bold {
 					defRun.SetBold(true)
 				}
@@ -1207,9 +1206,9 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 	}
 	titleRun.SetText("Table of Contents")
 	titleRun.SetBold(true)
-	titleRun.SetSize(int(config.FontSizeH3HPS))
-	titleRun.SetFont(domain.Font{Name: config.FontBody})
-	titleRun.SetColor(hexToColor(config.ColorTextPrimary))
+	titleRun.SetSize(halfPoints(r.t.Heading[2].Size))
+	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+	titleRun.SetColor(docxColor(r.t.Text.Color))
 
 	// TOC items with level-based indent
 	for _, item := range toc.Items {
@@ -1230,7 +1229,7 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 				return err
 			}
 			indentRun.SetText(indent)
-			indentRun.SetSize(int(config.FontSizeDefaultHPS))
+			indentRun.SetSize(halfPoints(r.t.Text.Size))
 		}
 
 		run, err := para.AddRun()
@@ -1238,9 +1237,9 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 			return err
 		}
 		run.SetText(item.Title)
-		run.SetSize(int(config.FontSizeDefaultHPS))
-		run.SetFont(domain.Font{Name: config.FontBody})
-		run.SetColor(hexToColor(config.ColorAccent))
+		run.SetSize(halfPoints(r.t.Text.Size))
+		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		run.SetColor(docxColor(r.t.Link))
 	}
 
 	return nil
@@ -1264,13 +1263,13 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		return err
 	}
 
-	cell.SetShading(hexToColor(config.ColorSurfaceElevated))
-	cell.SetWidth(mmToTwips(config.ContentWidthMM))
+	cell.SetShading(docxColor(r.t.Box.Background))
+	cell.SetWidth(r.contentTwips())
 
 	borderStyle := domain.BorderStyle{
 		Style: domain.BorderSingle,
 		Width: 4,
-		Color: hexToColor(config.ColorBorder),
+		Color: docxColor(r.t.Box.Border),
 	}
 	cell.SetBorders(domain.TableBorders{
 		Top: borderStyle, Bottom: borderStyle,
@@ -1292,18 +1291,18 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		}
 		labelRun.SetText(label + ": ")
 		labelRun.SetBold(true)
-		labelRun.SetSize(int(config.FontSizeDefaultHPS))
-		labelRun.SetFont(domain.Font{Name: config.FontBody})
-		labelRun.SetColor(hexToColor(config.ColorTextSecondary))
+		labelRun.SetSize(halfPoints(r.t.Text.Size))
+		labelRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		labelRun.SetColor(docxColor(r.t.Text.Muted))
 
 		valueRun, err := para.AddRun()
 		if err != nil {
 			return err
 		}
 		valueRun.SetText(value)
-		valueRun.SetSize(int(config.FontSizeDefaultHPS))
-		valueRun.SetFont(domain.Font{Name: config.FontBody})
-		valueRun.SetColor(hexToColor(config.ColorTextPrimary))
+		valueRun.SetSize(halfPoints(r.t.Text.Size))
+		valueRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
+		valueRun.SetColor(docxColor(r.t.Text.Color))
 		return nil
 	}
 
@@ -1332,22 +1331,24 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	return nil
 }
 
-// getAlertColors returns background and border colors for an alert type
-func getAlertColors(alertType ast.AlertType) (bg, border string) {
-	switch alertType {
-	case ast.AlertNote:
-		return config.ColorAlertNoteBg, config.ColorAlertNoteBorder
-	case ast.AlertTip:
-		return config.ColorAlertTipBg, config.ColorAlertTipBorder
-	case ast.AlertImportant:
-		return config.ColorAlertImportantBg, config.ColorAlertImportantBorder
-	case ast.AlertCaution:
-		return config.ColorAlertCautionBg, config.ColorAlertCautionBorder
-	case ast.AlertWarning:
-		return config.ColorAlertWarningBg, config.ColorAlertWarningBorder
-	default:
-		return config.ColorAlertNoteBg, config.ColorAlertNoteBorder
-	}
+// twips converts points to twentieths of a point, the unit of DOCX lengths.
+func twips(pt float64) int {
+	return int(pt * 20)
+}
+
+// halfPoints converts points to half-points, the unit of DOCX font sizes.
+func halfPoints(pt float64) int {
+	return int(pt * 2)
+}
+
+// docxColor converts a theme color.
+func docxColor(c theme.Color) domain.Color {
+	return domain.Color{R: c.R, G: c.G, B: c.B}
+}
+
+// contentTwips is the width between the page margins.
+func (r *DocxRenderer) contentTwips() int {
+	return twips(r.t.Page.ContentWidth())
 }
 
 // Helper functions

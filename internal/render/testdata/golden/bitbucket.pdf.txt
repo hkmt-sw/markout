@@ -30,6 +30,6 @@ p1 text  x=130.6 y=378.7 Arial/11 "</u>" #1A1A2E
 p1 text  x=155.6 y=378.7 Arial/11 "is not" #1A1A2E
 p1 text  x=185.0 y=378.7 Arial/11 "rendered." #1A1A2E
 p1 line  x=56.7 y=422.7 to x=201.3 y=422.7 #B4B4B4/0.5
-p1 text  x=56.7 y=432.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=432.7 Arial/9 "A" #000000
-p1 text  x=75.2 y=432.7 Arial/9 "footnote." #000000
+p1 text  x=56.7 y=432.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=432.7 Arial/9 "A" #1A1A2E
+p1 text  x=75.2 y=432.7 Arial/9 "footnote." #1A1A2E

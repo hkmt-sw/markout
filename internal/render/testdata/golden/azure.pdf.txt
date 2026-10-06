@@ -31,9 +31,9 @@ p1 line  x=79.3 y=644.7 to x=124.5 y=644.7 #1A1A2E/0.6
 p1 text  x=127.6 y=632.7 Arial/11 "via HTML," #1A1A2E
 p1 text  x=180.7 y=632.7 Arial/11 "emoji and task lists" #1A1A2E
 p1 text  x=273.6 y=632.7 Arial/11 ":" #1A1A2E
-p1 text  x=76.7 y=656.7 Arial/11 "[x] " #000000
-p1 text  x=91.3 y=656.7 Arial/11 "Plan" #000000
-p1 text  x=76.7 y=672.7 Arial/11 "[ ] " #000000
-p1 text  x=88.9 y=672.7 Arial/11 "Ship" #000000
+p1 text  x=76.7 y=656.7 Arial/11 "[x] " #1A1A2E
+p1 text  x=91.3 y=656.7 Arial/11 "Plan" #1A1A2E
+p1 text  x=76.7 y=672.7 Arial/11 "[ ] " #1A1A2E
+p1 text  x=88.9 y=672.7 Arial/11 "Ship" #1A1A2E
 p1 rect  x=56.7 y=694.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p1 text  x=64.7 y=702.7 Courier/9 "graph TD; NotRendered-->InAzure;" #000000

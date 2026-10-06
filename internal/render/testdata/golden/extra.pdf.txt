@@ -16,9 +16,9 @@ p1 rect  x=56.7 y=230.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/1.0
 p1 text  x=64.7 y=238.7 Courier/9 "fenced with tildes" #000000
 p1 text  x=56.7 y=266.7 Arial/11 "No ~~strikethrough~~ and no - [" #1A1A2E
 p1 text  x=215.5 y=266.7 Arial/11 "] task lists here." #1A1A2E
-p1 text  x=76.7 y=290.7 Arial/11 "• " #000000
-p1 text  x=83.6 y=290.7 Arial/11 "[" #000000
-p1 text  x=89.7 y=290.7 Arial/11 "] literal brackets" #000000
+p1 text  x=76.7 y=290.7 Arial/11 "• " #1A1A2E
+p1 text  x=83.6 y=290.7 Arial/11 "[" #1A1A2E
+p1 text  x=89.7 y=290.7 Arial/11 "] literal brackets" #1A1A2E
 p1 line  x=56.7 y=332.7 to x=201.3 y=332.7 #B4B4B4/0.5
-p1 text  x=56.7 y=342.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=342.7 Arial/9 "The note." #000000
+p1 text  x=56.7 y=342.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=342.7 Arial/9 "The note." #1A1A2E

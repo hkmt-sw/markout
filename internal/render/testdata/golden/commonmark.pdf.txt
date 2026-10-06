@@ -5,13 +5,13 @@ p1 text  x=143.5 y=116.7 Arial/11 ": no ~~strikethrough~~, no tables, no https:/
 p1 text  x=56.7 y=140.7 Arial/11 "| a | b |" #1A1A2E
 p1 text  x=92.7 y=140.7 Arial/11 "|---|---|" #1A1A2E
 p1 text  x=126.3 y=140.7 Arial/11 "| 1 | 2 |" #1A1A2E
-p1 text  x=76.7 y=164.7 Arial/11 "• " #000000
-p1 text  x=83.6 y=164.7 Arial/11 "[" #000000
-p1 text  x=89.7 y=164.7 Arial/11 "] not a task" #000000
-p1 text  x=76.7 y=186.7 Arial-Italic/11 "[" #000000
-p1 text  x=79.7 y=186.7 Arial-Italic/11 "!NOTE" #000000
-p1 text  x=113.3 y=186.7 Arial-Italic/11 "]" #000000
-p1 text  x=119.4 y=186.7 Arial-Italic/11 "Just a quote." #000000
+p1 text  x=76.7 y=164.7 Arial/11 "• " #1A1A2E
+p1 text  x=83.6 y=164.7 Arial/11 "[" #1A1A2E
+p1 text  x=89.7 y=164.7 Arial/11 "] not a task" #1A1A2E
+p1 text  x=76.7 y=186.7 Arial-Italic/11 "[" #1A1A2E
+p1 text  x=79.7 y=186.7 Arial-Italic/11 "!NOTE" #1A1A2E
+p1 text  x=113.3 y=186.7 Arial-Italic/11 "]" #1A1A2E
+p1 text  x=119.4 y=186.7 Arial-Italic/11 "Just a quote." #1A1A2E
 p1 line  x=61.7 y=186.7 to x=61.7 y=202.7 #B4B4B4/3.0
 p1 text  x=56.7 y=208.3 Courier/10 "#FF0000" #CF222E
 p1 text  x=101.7 y=206.7 Arial/11 "is plain code. Inline" #1A1A2E

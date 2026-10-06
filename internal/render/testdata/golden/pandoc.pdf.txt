@@ -46,6 +46,6 @@ p1 text  x=56.7 y=448.7 Arial-Italic/11 "[IMG] Figure" #4A4A68
 p1 text  x=56.7 y=464.7 Arial/9 "fig.png" #2563EB
 p1 text  x=262.7 y=488.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
 p1 line  x=56.7 y=532.7 to x=201.3 y=532.7 #B4B4B4/0.5
-p1 text  x=56.7 y=542.7 Arial/9 "1. " #000000
-p1 text  x=66.7 y=542.7 Arial/9 "It lives in the text" #000000
-p1 text  x=133.6 y=542.7 Arial/9 "." #000000
+p1 text  x=56.7 y=542.7 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=542.7 Arial/9 "It lives in the text" #1A1A2E
+p1 text  x=133.6 y=542.7 Arial/9 "." #1A1A2E
