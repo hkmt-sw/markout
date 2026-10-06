@@ -267,6 +267,29 @@ func (p *preprocessor) blocks(lines []string) []string {
 			continue
 		}
 
+		// LaTeX display math with the delimiters on their own lines:
+		//	\[
+		//	a = b
+		//	\]
+		if f.MathParens && trimmed == `\[` && leadingSpaces(line) < 4 {
+			if end := mathBlockEnd(lines, i+1); end > 0 {
+				out = append(out, "", "$$")
+				out = append(out, lines[i+1:end]...)
+				out = append(out, "$$", "")
+				i = end
+				continue
+			}
+		}
+		// The same on one line. Escaped brackets are also how plain "[text]"
+		// is written, so the content has to look like a formula.
+		if f.MathParens && len(trimmed) > 4 && strings.HasPrefix(trimmed, `\[`) && strings.HasSuffix(trimmed, `\]`) &&
+			leadingSpaces(line) < 4 {
+			if body := strings.TrimSpace(trimmed[2 : len(trimmed)-2]); looksLikeMath(body) && !strings.Contains(body, `\]`) {
+				out = append(out, "", "$$", body, "$$", "")
+				continue
+			}
+		}
+
 		// A whole display formula on one line: the math extension only closes
 		// a block whose delimiters sit on their own lines.
 		if f.MathDollar && len(trimmed) > 4 && strings.HasPrefix(trimmed, "$$") && strings.HasSuffix(trimmed, "$$") &&
@@ -708,27 +731,29 @@ func stripPercentComments(line string, inComment *bool) string {
 // ---- inline -----------------------------------------------------------------
 
 var (
-	mathBacktick   = regexp.MustCompile("\\$`([^`\n]+)`\\$")
-	roleSpan       = regexp.MustCompile("\\{([A-Za-z][\\w:.+-]*)\\}`([^`\n]+)`")
-	roleTarget     = regexp.MustCompile(`^(.*?)\s*<[^>]+>$`)
-	mathInlineBS   = regexp.MustCompile(`\\\\\((.+?)\\\\\)`)
-	mathDisplayBS  = regexp.MustCompile(`\\\\\[(.+?)\\\\\]`)
-	imageSizeEq    = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)\s]+)[ \t]+=(\d*)x(\d*)\)`)
-	imageAttrs     = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)]*)\)\{:?([^}]*)\}`)
-	attrWidth      = regexp.MustCompile(`width\s*[=:]\s*["']?(\d+(?:\.\d+)?)\s*(px|%)?`)
-	imageEmbed     = regexp.MustCompile(`!\[\[([^\]|]+)(?:\|([^\]]*))?\]\]`)
-	wikiLink       = regexp.MustCompile(`\[\[([^\]|]+)(?:\|([^\]]+))?\]\]`)
-	inlineNote     = regexp.MustCompile(`\^\[([^\]]+)\]`)
-	criticSub      = regexp.MustCompile(`\{~~(.+?)~>(.+?)~~\}`)
-	criticAdd      = regexp.MustCompile(`\{\+\+(.+?)\+\+\}`)
-	criticDel      = regexp.MustCompile(`\{--(.+?)--\}`)
-	criticMark     = regexp.MustCompile(`\{==(.+?)==\}`)
-	criticNote     = regexp.MustCompile(`\{>>(.+?)<<\}`)
-	diffAdd        = regexp.MustCompile(`\{\+\s?(.+?)\s?\+\}|\[\+\s?(.+?)\s?\+\]`)
-	diffDel        = regexp.MustCompile(`\{-\s?(.+?)\s?-\}|\[-\s?(.+?)\s?-\]`)
-	bracketedSpan  = regexp.MustCompile(`\[([^\]\n]+)\]\{\.(underline|ul|mark|smallcaps)\}`)
-	mdxComment     = regexp.MustCompile(`\{/\*.*?\*/\}`)
-	imageExtension = regexp.MustCompile(`(?i)\.(png|jpe?g|gif|svg|webp|bmp|avif)$`)
+	mathBacktick     = regexp.MustCompile("\\$`([^`\n]+)`\\$")
+	roleSpan         = regexp.MustCompile("\\{([A-Za-z][\\w:.+-]*)\\}`([^`\n]+)`")
+	roleTarget       = regexp.MustCompile(`^(.*?)\s*<[^>]+>$`)
+	mathInlineParen  = regexp.MustCompile(`\\\((.+?)\\\)`)
+	mathDisplayParen = regexp.MustCompile(`\\\[(.+?)\\\]`)
+	mathInlineBS     = regexp.MustCompile(`\\\\\((.+?)\\\\\)`)
+	mathDisplayBS    = regexp.MustCompile(`\\\\\[(.+?)\\\\\]`)
+	imageSizeEq      = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)\s]+)[ \t]+=(\d*)x(\d*)\)`)
+	imageAttrs       = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)]*)\)\{:?([^}]*)\}`)
+	attrWidth        = regexp.MustCompile(`width\s*[=:]\s*["']?(\d+(?:\.\d+)?)\s*(px|%)?`)
+	imageEmbed       = regexp.MustCompile(`!\[\[([^\]|]+)(?:\|([^\]]*))?\]\]`)
+	wikiLink         = regexp.MustCompile(`\[\[([^\]|]+)(?:\|([^\]]+))?\]\]`)
+	inlineNote       = regexp.MustCompile(`\^\[([^\]]+)\]`)
+	criticSub        = regexp.MustCompile(`\{~~(.+?)~>(.+?)~~\}`)
+	criticAdd        = regexp.MustCompile(`\{\+\+(.+?)\+\+\}`)
+	criticDel        = regexp.MustCompile(`\{--(.+?)--\}`)
+	criticMark       = regexp.MustCompile(`\{==(.+?)==\}`)
+	criticNote       = regexp.MustCompile(`\{>>(.+?)<<\}`)
+	diffAdd          = regexp.MustCompile(`\{\+\s?(.+?)\s?\+\}|\[\+\s?(.+?)\s?\+\]`)
+	diffDel          = regexp.MustCompile(`\{-\s?(.+?)\s?-\}|\[-\s?(.+?)\s?-\]`)
+	bracketedSpan    = regexp.MustCompile(`\[([^\]\n]+)\]\{\.(underline|ul|mark|smallcaps)\}`)
+	mdxComment       = regexp.MustCompile(`\{/\*.*?\*/\}`)
+	imageExtension   = regexp.MustCompile(`(?i)\.(png|jpe?g|gif|svg|webp|bmp|avif)$`)
 )
 
 // inline rewrites the inline extensions of one line.
@@ -775,6 +800,15 @@ func (p *preprocessor) inlineText(s string) string {
 	if f.MathBrackets {
 		s = mathDisplayBS.ReplaceAllStringFunc(s, func(m string) string { return "$$" + m[3:len(m)-3] + "$$" })
 		s = mathInlineBS.ReplaceAllStringFunc(s, func(m string) string { return "$" + m[3:len(m)-3] + "$" })
+	}
+
+	if f.MathParens {
+		s = replaceLatexMath(s, mathDisplayParen, "$$", looksLikeMath)
+		s = replaceLatexMath(s, mathInlineParen, "$", func(body string) bool {
+			// A lone symbol such as \(x\) is math; several plain words in
+			// escaped parentheses are prose.
+			return looksLikeMath(body) || !strings.ContainsAny(strings.TrimSpace(body), " \t")
+		})
 	}
 
 	if f.ImageSizeEquals {
@@ -883,6 +917,53 @@ func imageAttributes(s string) string {
 		}
 		return alt + "](" + sm[2] + ")"
 	})
+}
+
+// maxMathBlockLines bounds how far a "\[" line looks for its "\]".
+const maxMathBlockLines = 200
+
+// mathBlockEnd returns the index of the "\]" line closing a display formula
+// opened on the line before from, or -1 if there is none nearby.
+func mathBlockEnd(lines []string, from int) int {
+	for i := from; i < len(lines) && i < from+maxMathBlockLines; i++ {
+		switch strings.TrimSpace(lines[i]) {
+		case `\]`:
+			return i
+		case `\[`:
+			return -1 // another opener first: this one was never closed
+		}
+	}
+	return -1
+}
+
+// looksLikeMath reports whether text has something only a formula would: a
+// TeX command, a superscript or subscript, or an operator.
+func looksLikeMath(body string) bool {
+	return strings.ContainsAny(body, `\^_=+<>`) || strings.Contains(body, " - ") ||
+		strings.Contains(body, "*") || strings.Contains(body, "/")
+}
+
+// replaceLatexMath rewrites \(...\) or \[...\] spans matched by re to the
+// dollar delimiters the math extension reads, where accept says the content
+// is a formula. A delimiter that is itself escaped ("\\(") is left alone.
+func replaceLatexMath(s string, re *regexp.Regexp, delim string, accept func(string) bool) string {
+	matches := re.FindAllStringSubmatchIndex(s, -1)
+	if matches == nil {
+		return s
+	}
+	var b strings.Builder
+	last := 0
+	for _, m := range matches {
+		start, end, body := m[0], m[1], s[m[2]:m[3]]
+		if (start > 0 && s[start-1] == '\\') || strings.HasSuffix(body, `\`) || !accept(body) {
+			continue
+		}
+		b.WriteString(s[last:start])
+		b.WriteString(delim + strings.TrimSpace(body) + delim)
+		last = end
+	}
+	b.WriteString(s[last:])
+	return b.String()
 }
 
 // widthHint extracts a width from an attribute list ("width=300", "50%",

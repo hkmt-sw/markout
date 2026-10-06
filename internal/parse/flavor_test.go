@@ -310,6 +310,61 @@ func TestFlavorSyntax(t *testing.T) {
 	}
 }
 
+// The LaTeX delimiters AI assistants write for math are read by the default
+// flavor, without turning ordinary escaped brackets into formulas.
+func TestLatexMathDelimiters(t *testing.T) {
+	src := strings.Join([]string{
+		`Inline \(E = mc^2\) and a lone symbol \(x\), then \( \frac{a}{b} \).`,
+		``,
+		`\[`,
+		`\int_0^1 x^2 \, dx = \frac{1}{3}`,
+		`\]`,
+		``,
+		`\[ a^2 + b^2 = c^2 \]`,
+		``,
+		`Mid-sentence display \[ y = kx \] continues.`,
+		``,
+		`Not math: a citation \[1\], a note \[see below\], and \(an aside in parentheses\).`,
+		``,
+		`Escaped backslash: \\(not math\\).`,
+		``,
+		"Code stays code: `\\(a+b\\)`.",
+		``,
+		"```",
+		`\[`,
+		`x = 1`,
+		`\]`,
+		"```",
+	}, "\n")
+
+	got := parseAs(t, "markout", src)
+	for _, want := range []string{
+		"{math}E = mc^2{/}", "{math}x{/}", `{math}\frac{a}{b}{/}`,
+		`MATH: \int_0^1 x^2 \, dx = \frac{1}{3}`,
+		"MATH: a^2 + b^2 = c^2",
+		"{math}y = kx{/}",
+		"a citation [1], a note [see below], and (an aside in parentheses).",
+		`{code}\(a+b\){/}`,
+		"CODE[]: \\[\nx = 1\n\\]",
+	} {
+		if !strings.Contains(got, want) {
+			t.Errorf("missing %q in:\n%s", want, got)
+		}
+	}
+	if strings.Contains(got, "{math}not math") {
+		t.Errorf("an escaped backslash started a formula:\n%s", got)
+	}
+
+	// GitHub itself does not read these delimiters, so its flavor leaves them.
+	if gh := parseAs(t, "github", `Inline \(E = mc^2\).`); strings.Contains(gh, "{math}") {
+		t.Errorf("the github flavor read \\( \\) as math:\n%s", gh)
+	}
+	// MultiMarkdown's doubled form keeps working alongside.
+	if mmd := parseAs(t, "multimarkdown", `\\\\(a+b\\\\) and \\\\[c = d\\\\]`); strings.Count(mmd, "{math}") != 2 {
+		t.Errorf("multimarkdown math broke:\n%s", mmd)
+	}
+}
+
 // Flavor syntax inside code must reach the output untouched.
 func TestFlavorSyntaxIgnoredInCode(t *testing.T) {
 	src := "`==a== {+ b +} [[c]]`\n\n```\n!!! note\n    ==x==\n::: mermaid\n[TOC]\n```\n"
@@ -398,5 +453,14 @@ func TestColorChip(t *testing.T) {
 		if got := colorChip(in); got != want {
 			t.Errorf("colorChip(%q) = %q, want %q", in, got, want)
 		}
+	}
+}
+
+// Escapes and character references are resolved in text, and left alone in
+// code.
+func TestEscapesAndEntitiesAreResolved(t *testing.T) {
+	got := parseAs(t, "commonmark", "\\*not emphasis\\* \\# not a heading \\\\ &copy; &amp; &#169; &#xA9; `\\* &amp;`\n")
+	if want := "*not emphasis* # not a heading \\ © & © © {code}\\* &amp;{/}"; !strings.Contains(got, want) {
+		t.Errorf("got:\n%s\nwant it to contain:\n%s", got, want)
 	}
 }

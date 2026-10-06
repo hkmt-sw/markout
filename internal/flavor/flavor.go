@@ -35,6 +35,7 @@ type Features struct {
 	MathLatexFence bool // ```latex rendered as a formula
 	MathBacktick   bool // $`inline`$
 	MathBrackets   bool // \\(inline\\) and \\[block\\]
+	MathParens     bool // \(inline\) and \[block\], the LaTeX delimiters AI assistants write
 
 	// Diagrams.
 	MermaidFence bool // ```mermaid
@@ -126,7 +127,7 @@ var all = []Flavor{
 			f.Footnotes, f.InlineFootnotes, f.DefinitionLists = true, true, true
 			f.HeadingAttributes, f.Emoji = true, true
 			f.FrontMatter, f.JSONFrontMatter = true, true
-			f.MathDollar, f.MathFence, f.MathBacktick = true, true, true
+			f.MathDollar, f.MathFence, f.MathBacktick, f.MathParens = true, true, true, true
 			f.MermaidFence, f.MermaidColon = true, true
 			f.Alerts, f.AlertTitles, f.Callouts = true, true, true
 			f.ColonAdmonitions, f.BangAdmonitions, f.Directives, f.ContentTabs = true, true, true, true

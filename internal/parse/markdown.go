@@ -17,6 +17,7 @@ import (
 	extast "github.com/yuin/goldmark/extension/ast"
 	"github.com/yuin/goldmark/parser"
 	"github.com/yuin/goldmark/text"
+	"github.com/yuin/goldmark/util"
 	"go.abhg.dev/goldmark/frontmatter"
 	"go.abhg.dev/goldmark/toc"
 
@@ -831,7 +832,15 @@ func (w *astWalker) extractInlineRunsFromNode(node gmast.Node, bold, italic, cod
 
 	switch n := node.(type) {
 	case *gmast.Text:
-		text := string(n.Segment.Value(w.source))
+		value := n.Segment.Value(w.source)
+		if !n.IsRaw() {
+			// Backslash escapes and character references are kept as written
+			// in the syntax tree; resolve them the way a renderer does.
+			value = util.UnescapePunctuations(value)
+			value = util.ResolveNumericReferences(value)
+			value = util.ResolveEntityNames(value)
+		}
+		text := string(value)
 		if n.SoftLineBreak() {
 			text += " "
 		}
