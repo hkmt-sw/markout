@@ -1,0 +1,59 @@
+p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 FD
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
+p1 text  x=94.0 y=64.7 Arial/11 "MkDocs Material"
+p1 text  x=56.7 y=116.7 Arial-Bold/24 "MkDocs Material"
+p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents"
+p1 text  x=56.7 y=188.7 Arial/11 "MkDocs Material"
+p1 text  x=76.7 y=204.7 Arial/11 "Admonitions"
+p1 text  x=76.7 y=220.7 Arial/11 "Tabs"
+p1 text  x=76.7 y=236.7 Arial/11 "Inline"
+p1 text  x=76.7 y=252.7 Arial/11 "Heading with attrs"
+p1 text  x=56.7 y=294.7 Arial-Bold/20 "Admonitions"
+p1 rect  x=56.7 y=328.7 w=481.9 h=80.0 F
+p1 line  x=56.7 y=328.7 to x=56.7 y=408.7
+p1 text  x=64.7 y=336.7 Arial-Bold/11 "Custom title"
+p1 text  x=64.7 y=352.7 Arial/11 "Indented content."
+p1 text  x=64.7 y=368.7 Arial/11 "• with a list"
+p1 text  x=64.7 y=384.7 Arial/11 "• of two items"
+p1 rect  x=56.7 y=416.7 w=481.9 h=48.0 F
+p1 line  x=56.7 y=416.7 to x=56.7 y=464.7
+p1 text  x=64.7 y=424.7 Arial-Bold/11 "Danger"
+p1 text  x=64.7 y=440.7 Arial/11 "Collapsible, default title."
+p1 text  x=56.7 y=490.7 Arial-Bold/20 "Tabs"
+p1 text  x=56.7 y=524.7 Arial-Bold/11 "Python"
+p1 rect  x=56.7 y=548.7 w=481.9 h=40.0 FD
+p1 text  x=64.7 y=556.7 Courier/9 "print(\"hi\")"
+p1 text  x=64.7 y=568.7 Courier/9 " "
+p1 text  x=56.7 y=596.7 Arial-Bold/11 "Go"
+p1 rect  x=56.7 y=620.7 w=481.9 h=40.0 FD
+p1 text  x=64.7 y=628.7 Courier/9 "fmt.Println(\"hi\")"
+p1 text  x=64.7 y=640.7 Courier/9 " "
+p1 text  x=56.7 y=686.7 Arial-Bold/20 "Inline"
+p1 rect  x=56.7 y=719.7 w=36.7 h=14.0 F
+p1 text  x=56.7 y=720.7 Arial/11 "marked"
+p1 text  x=93.4 y=720.7 Arial/11 ","
+p1 text  x=99.5 y=720.7 Arial/11 "inserted"
+p1 line  x=99.5 y=732.7 to x=138.6 y=732.7
+p1 text  x=138.6 y=720.7 Arial/11 ","
+p1 text  x=144.7 y=720.7 Arial/11 "H"
+p1 text  x=152.6 y=725.7 Arial/8 "2"
+p1 text  x=157.1 y=720.7 Arial/11 "O,"
+p1 text  x=171.7 y=720.7 Arial/11 "x"
+p1 text  x=177.2 y=719.7 Arial/8 "2"
+p1 text  x=181.6 y=720.7 Arial/11 ","
+p1 text  x=187.7 y=720.7 Arial/11 "deleted"
+p1 line  x=187.7 y=727.1 to x=223.8 y=727.1
+p1 text  x=223.8 y=720.7 Arial/11 ","
+p1 text  x=229.9 y=720.7 Arial/11 "critic"
+p1 line  x=229.9 y=732.7 to x=252.5 y=732.7
+p1 text  x=255.5 y=720.7 Arial/11 "add"
+p1 line  x=252.5 y=732.7 to x=273.9 y=732.7
+p1 text  x=276.9 y=720.7 Arial/11 "and"
+p1 text  x=298.3 y=720.7 Arial/11 "."
+p1 text  x=56.7 y=744.7 Arial-Italic/11 "[IMG] Image"
+p1 text  x=56.7 y=760.7 Arial/9 "img.png"
+p2 text  x=56.7 y=56.7 Arial-Bold/20 "Heading with attrs"
+p2 text  x=56.7 y=90.7 Arial/11 "The"
+p2 text  x=78.7 y=90.7 Arial/11 "API"
+p2 text  x=99.4 y=90.7 Arial/11 "is"
+p2 text  x=110.4 y=90.7 Arial/11 "documented."

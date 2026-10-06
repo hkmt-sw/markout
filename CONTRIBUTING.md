@@ -26,6 +26,20 @@ go vet ./...
 go test ./...
 ```
 
+### When the output changes
+
+`internal/render` keeps a recording of what every sample document converts to
+(`testdata/golden`): an outline of the DOCX body, and for PDF everything drawn
+with its position and font. `TestGoldenOutput` fails when the output differs,
+which is how an unintended change in layout or formatting is caught.
+
+If you meant to change the output, record it again and include the updated
+files in your pull request, where the diff shows reviewers exactly what moved:
+
+```sh
+go test ./internal/render -run Golden -update
+```
+
 To see how a document is parsed, dump its AST as JSON:
 
 ```sh

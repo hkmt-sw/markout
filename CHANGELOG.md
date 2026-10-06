@@ -4,6 +4,19 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - Unreleased
+
+### Fixed
+
+- SVG images were shown at twice their own size in both PDF and DOCX output.
+  They now appear at the size the SVG declares, like other images.
+
+### Changed
+
+- The test suite records the DOCX structure and PDF layout of every sample
+  document and compares against it, runs the built binary end to end, and CI
+  runs on Linux, macOS and Windows.
+
 ## [1.2.0] - 2026-10-06
 
 ### Added

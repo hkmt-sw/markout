@@ -1,0 +1,48 @@
+p1 text  x=56.7 y=76.7 Arial-Bold/24 "YouTrack"
+p1 text  x=56.7 y=116.7 Arial/11 "Checklists,"
+p1 text  x=112.9 y=116.7 Arial/11 "strikethrough"
+p1 line  x=112.9 y=123.1 to x=176.4 y=123.1
+p1 text  x=179.5 y=116.7 Arial/11 "and"
+p1 text  x=200.9 y=116.7 Arial/11 "tables"
+p1 text  x=233.3 y=116.7 Arial/11 "follow"
+p1 text  x=264.4 y=116.7 Arial/11 "CommonMark"
+p1 text  x=336.5 y=116.7 Arial/11 "with"
+p1 text  x=359.1 y=116.7 Arial/11 "extensions."
+p1 text  x=76.7 y=140.7 Arial/11 "[x] "
+p1 text  x=91.3 y=140.7 Arial/11 "Reproduced"
+p1 text  x=76.7 y=156.7 Arial/11 "[ ] "
+p1 text  x=88.9 y=156.7 Arial/11 "Fixed"
+p1 rect  x=56.7 y=178.7 w=291.9 h=21.0 FD
+p1 rect  x=348.6 y=178.7 w=190.0 h=21.0 FD
+p1 text  x=60.7 y=182.7 Arial-Bold/11 "Field"
+p1 text  x=352.6 y=182.7 Arial-Bold/11 "Value"
+p1 rect  x=56.7 y=199.7 w=291.9 h=21.0 FD
+p1 rect  x=348.6 y=199.7 w=190.0 h=21.0 FD
+p1 text  x=60.7 y=203.7 Arial/11 "Priority"
+p1 text  x=352.6 y=203.7 Arial/11 "Major"
+p1 text  x=56.7 y=228.7 Arial-Italic/11 "[IMG] Screenshot"
+p1 text  x=56.7 y=244.7 Arial/9 "shot.png"
+p1 text  x=264.5 y=268.7 Arial-Italic/11 "\\frac{a}{b} = c"
+p1 rect  x=56.7 y=292.7 w=481.9 h=52.0 FD
+p1 text  x=64.7 y=300.7 Arial-Bold/11 "Mermaid Diagram"
+p1 text  x=64.7 y=312.7 Courier/9 "graph LR; Open-->Fixed;"
+p1 text  x=64.7 y=324.7 Courier/9 " "
+p1 rect  x=56.7 y=352.7 w=481.9 h=52.0 FD
+p1 text  x=64.7 y=360.7 Courier/9 "java.lang.NullPointerException"
+p1 text  x=64.7 y=372.7 Courier/9 "\tat com.example.Main.main(Main.java:5)"
+p1 text  x=64.7 y=384.7 Courier/9 " "
+p1 text  x=56.7 y=412.7 Arial/11 "No"
+p1 text  x=73.8 y=412.7 Arial/11 "alerts"
+p1 text  x=103.7 y=412.7 Arial/11 "here:"
+p1 text  x=76.7 y=436.7 Arial-Italic/11 "[!NOTE] Just a quote in YouTrack."
+p1 line  x=61.7 y=436.7 to x=61.7 y=452.7
+p1 text  x=56.7 y=456.7 Arial/11 "No"
+p1 text  x=73.8 y=456.7 Arial/11 "math"
+p1 text  x=101.3 y=456.7 Arial/11 "either:"
+p1 text  x=134.9 y=456.7 Arial/11 "$x$"
+p1 text  x=155.7 y=456.7 Arial/11 "stays"
+p1 text  x=184.4 y=456.7 Arial/11 "text,"
+p1 text  x=208.2 y=456.7 Arial/11 "and"
+p1 text  x=229.6 y=456.7 Arial/11 ":smile:"
+p1 text  x=264.4 y=456.7 Arial/11 "stays"
+p1 text  x=293.1 y=456.7 Arial/11 "text."

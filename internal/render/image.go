@@ -54,15 +54,29 @@ func looksLikeSVG(data []byte) bool {
 // the downstream encoders understand (PNG/JPEG/GIF). SVG sources are rasterized
 // to PNG so they can be embedded too. widthHint (px, 0 = unset) controls the
 // SVG raster resolution. Shared by the PDF and DOCX renderers.
-func loadRasterImage(url string, opts Options, widthHint int) ([]byte, error) {
-	data, err := loadImageBytes(url, opts)
+//
+// displayWidth is the width in pixels the image should be shown at: the hint
+// if there is one, otherwise the intrinsic width of an SVG, whose raster is
+// rendered larger than that to stay crisp. It is 0 for raster images without
+// a hint, which are shown at their pixel size.
+func loadRasterImage(url string, opts Options, widthHint int) (data []byte, displayWidth int, err error) {
+	data, err = loadImageBytes(url, opts)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
+	displayWidth = widthHint
 	if looksLikeSVG(data) {
-		return rasterizeSVG(data, widthHint)
+		if displayWidth <= 0 {
+			if w, _ := svgIntrinsicSize(data); w > 0 {
+				displayWidth = int(w + 0.5)
+			}
+		}
+		data, err = rasterizeSVG(data, widthHint)
+		if err != nil {
+			return nil, 0, err
+		}
 	}
-	return data, nil
+	return data, displayWidth, nil
 }
 
 // rasterizeSVG renders an SVG document (including its <text>) to PNG bytes,

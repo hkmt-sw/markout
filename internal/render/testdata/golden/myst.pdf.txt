@@ -1,0 +1,43 @@
+p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 FD
+p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: "
+p1 text  x=94.0 y=64.7 Arial/11 "MyST sample"
+p1 text  x=56.7 y=116.7 Arial-Bold/24 "MyST"
+p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents"
+p1 text  x=56.7 y=188.7 Arial/11 "MyST"
+p1 text  x=76.7 y=204.7 Arial/11 "Directives"
+p1 text  x=76.7 y=220.7 Arial/11 "Roles"
+p1 text  x=56.7 y=262.7 Arial-Bold/20 "Directives"
+p1 rect  x=56.7 y=296.7 w=481.9 h=48.0 F
+p1 line  x=56.7 y=296.7 to x=56.7 y=344.7
+p1 text  x=64.7 y=304.7 Arial-Bold/11 "NOTE"
+p1 text  x=64.7 y=320.7 Arial/11 "A backtick directive with markup."
+p1 rect  x=56.7 y=352.7 w=481.9 h=64.0 F
+p1 line  x=56.7 y=352.7 to x=56.7 y=416.7
+p1 text  x=64.7 y=360.7 Arial-Bold/11 "WARNING"
+p1 text  x=64.7 y=376.7 Arial/11 "Careful"
+p1 text  x=64.7 y=392.7 Arial/11 "A colon directive."
+p1 rect  x=56.7 y=424.7 w=481.9 h=48.0 F
+p1 line  x=56.7 y=424.7 to x=56.7 y=472.7
+p1 text  x=64.7 y=432.7 Arial-Bold/11 "Custom title"
+p1 text  x=64.7 y=448.7 Arial/11 "Body text."
+p1 rect  x=56.7 y=480.7 w=481.9 h=40.0 FD
+p1 text  x=64.7 y=488.7 Courier/9 "print(\"hello\")"
+p1 text  x=64.7 y=500.7 Courier/9 " "
+p1 text  x=259.4 y=528.7 Arial-Italic/11 "a^2 + b^2 = c^2"
+p1 text  x=56.7 y=552.7 Arial-Italic/11 "[IMG] A plot"
+p1 text  x=56.7 y=568.7 Arial/9 "plot.png"
+p1 text  x=56.7 y=592.7 Arial/11 "The"
+p1 text  x=78.7 y=592.7 Arial/11 "caption."
+p1 text  x=56.7 y=634.7 Arial-Bold/20 "Roles"
+p1 text  x=56.7 y=668.7 Arial/11 "Inline"
+p1 text  x=86.0 y=668.7 Arial-Italic/11 "x_i"
+p1 text  x=100.1 y=668.7 Arial/11 ","
+p1 text  x=106.2 y=668.7 Arial/11 "H"
+p1 text  x=114.1 y=673.7 Arial/8 "2"
+p1 text  x=118.6 y=668.7 Arial/11 "O,"
+p1 text  x=133.2 y=668.7 Arial/11 "a"
+p1 text  x=142.4 y=668.7 Arial/11 "link"
+p1 text  x=161.9 y=668.7 Arial/11 "title"
+p1 text  x=182.1 y=668.7 Arial/11 "and"
+p1 text  x=206.4 y=668.7 Courier/10 "Ctrl"
+p1 text  x=230.4 y=668.7 Arial/11 "."

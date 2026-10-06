@@ -776,7 +776,7 @@ func (r *DocxRenderer) renderImage(img ast.Image) error {
 // a file path, so the bytes are written to a temporary file (with a matching
 // extension) that is removed once the library has read it into memory.
 func (r *DocxRenderer) embedImage(img ast.Image) error {
-	data, err := loadRasterImage(img.URL, r.opts, img.Width)
+	data, displayWidth, err := loadRasterImage(img.URL, r.opts, img.Width)
 	if err != nil {
 		return err
 	}
@@ -813,9 +813,9 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 	maxWidthMM := float64(config.ContentWidthMM)
 	maxWidthPx := int(maxWidthMM * 96.0 / 25.4)
 	w, h := cfg.Width, cfg.Height
-	if img.Width > 0 {
-		h = h * img.Width / w
-		w = img.Width
+	if displayWidth > 0 {
+		h = h * displayWidth / w
+		w = displayWidth
 	}
 	if w > maxWidthPx {
 		h = h * maxWidthPx / w

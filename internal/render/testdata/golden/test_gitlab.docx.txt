@@ -1,0 +1,453 @@
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
+      P
+        R{b color=4A4A68 font=Georgia} "Title: "
+        R{color=1A1A2E font=Georgia} "GitLab Flavored Markdown Test"
+      P
+        R{b color=4A4A68 font=Georgia} "Author: "
+        R{color=1A1A2E font=Georgia} "Markout Team"
+      P
+        R{b color=4A4A68 font=Georgia} "Date: "
+        R{color=1A1A2E font=Georgia} "2026-02-22 00:00:00 +0000 UTC"
+      P
+        R{b color=4A4A68 font=Georgia} "version: "
+        R{color=1A1A2E font=Georgia} "1.0"
+P
+  R{b font=Georgia sz=56} "GitLab Flavored Markdown"
+  R{b font=Georgia sz=56} " Features"
+P
+  R{color=1A1A2E font=Georgia} "This document demonstrates all GitLab-specific Markdown extensions supported by"
+  R{color=1A1A2E font=Georgia} " Markout."
+P
+  R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
+P
+  R{color=2563EB font=Georgia} "GitLab Flavored Markdown Features"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "1. Alerts / Callouts"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "2. Mermaid Diagrams"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "3. Color Chips"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "4. Description Lists"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "5. Math (LaTeX)"
+P
+  R "        "
+  R{color=2563EB font=Georgia} "Inline Math"
+P
+  R "        "
+  R{color=2563EB font=Georgia} "Block Math"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "6. Table of Contents"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "7. Front Matter"
+P
+  R "    "
+  R{color=2563EB font=Georgia} "Mixed Content Test"
+P
+  R "        "
+  R{color=2563EB font=Georgia} "Tables Still Work"
+P
+  R "        "
+  R{color=2563EB font=Georgia} "Lists Still Work"
+P
+  R "        "
+  R{color=2563EB font=Georgia} "Task Lists Still Work"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "1. Alerts /"
+  R{b font=Georgia sz=44} " Callouts"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
+      P
+        R{b color=3B82F6 font=Georgia} "NOTE"
+      P
+        R{color=1A1A2E font=Georgia} "This is a note callout. Use it to highlight information that users should take into"
+        R{color=1A1A2E font=Georgia} " account."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
+      P
+        R{b color=22C55E font=Georgia} "TIP"
+      P
+        R{color=1A1A2E font=Georgia} "This is a tip callout. Use it to provide helpful advice or"
+        R{color=1A1A2E font=Georgia} " shortcuts."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/A855F7 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F3E8FF w=9070}
+      P
+        R{b color=A855F7 font=Georgia} "IMPORTANT"
+      P
+        R{color=1A1A2E font=Georgia} "This is an important callout. Use it to highlight crucial"
+        R{color=1A1A2E font=Georgia} " information."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EAB308 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEF9C3 w=9070}
+      P
+        R{b color=EAB308 font=Georgia} "CAUTION"
+      P
+        R{color=1A1A2E font=Georgia} "This is a caution callout. Use it to advise users to be"
+        R{color=1A1A2E font=Georgia} " careful."
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
+      P
+        R{b color=EF4444 font=Georgia} "WARNING"
+      P
+        R{color=1A1A2E font=Georgia} "This is a warning callout. Use it to highlight dangerous or destructive"
+        R{color=1A1A2E font=Georgia} " actions."
+P
+  R{color=1A1A2E font=Georgia} "Regular blockquotes still work as expected"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{color=3B82F6 font=Georgia} "│ "
+  R{color=1A1A2E font=Georgia} "This is a normal"
+  R{color=1A1A2E font=Georgia} " blockquote. "
+  R{color=1A1A2E font=Georgia} "It should render as"
+  R{color=1A1A2E font=Georgia} " before."
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "2. Mermaid"
+  R{b font=Georgia sz=44} " Diagrams"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
+      P
+        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Consolas sz=19} "graph TD"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    A[Start] --> B{Decision}"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    B -->|Yes| C[Action 1]"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    B -->|No| D[Action 2]"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    C --> E[End]"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    D --> E"
+TABLE
+  COL w=9070
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
+      P
+        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+      P
+        R{color=065F46 font=Consolas sz=19} "sequenceDiagram"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    participant Client"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    participant Server"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    Client->>Server: Request"
+        R "<br>"
+        R{color=065F46 font=Consolas sz=19} "    Server-->>Client: Response"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "3. Color"
+  R{b font=Georgia sz=44} " Chips"
+P
+  R{color=1A1A2E font=Georgia} "Inline color swatches for hex color codes"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Red: "
+  R{color=CF222E font=Consolas} "#FF0000"
+  R{color=FF0000 font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Green: "
+  R{color=CF222E font=Consolas} "#00FF00"
+  R{color=00FF00 font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Blue: "
+  R{color=CF222E font=Consolas} "#0000FF"
+  R{color=0000FF font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Short form: "
+  R{color=CF222E font=Consolas} "#F00"
+  R{font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "With alpha: "
+  R{color=CF222E font=Consolas} "#FF000080"
+  R{font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Coral: "
+  R{color=CF222E font=Consolas} "#FF7F50"
+  R{color=FF7F50 font=Georgia} "■ "
+P
+  R{font=Georgia} "    •  "
+  R{color=1A1A2E font=Georgia} "Teal: "
+  R{color=CF222E font=Consolas} "#008080"
+  R{color=008080 font=Georgia} "■ "
+P
+  R{color=1A1A2E font=Georgia} "Regular inline code is unaffected: "
+  R{color=CF222E font=Consolas} "console.log(\"hello\")"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "4. Description"
+  R{b font=Georgia sz=44} " Lists"
+P
+  R{b color=1A1A2E font=Georgia} "HTTP"
+  R{b color=1A1A2E font=Georgia} " Methods"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "GET - Retrieve a"
+  R{color=1A1A2E font=Georgia} " resource"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "POST - Create a new"
+  R{color=1A1A2E font=Georgia} " resource"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "PUT - Update an existing"
+  R{color=1A1A2E font=Georgia} " resource"
+P
+  R{b color=1A1A2E font=Georgia} "Status"
+  R{b color=1A1A2E font=Georgia} " Codes"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "200 -"
+  R{color=1A1A2E font=Georgia} " OK"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "404 - Not"
+  R{color=1A1A2E font=Georgia} " Found"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "500 - Internal Server"
+  R{color=1A1A2E font=Georgia} " Error"
+P
+  R{b color=1A1A2E font=Georgia} "Markdown"
+P
+  R "    "
+  R{color=1A1A2E font=Georgia} "A lightweight markup language for creating formatted"
+  R{color=1A1A2E font=Georgia} " text"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "5. Math "
+  R{b font=Georgia sz=44} "(LaTeX)"
+P
+  R{b font=Georgia sz=34} "Inline"
+  R{b font=Georgia sz=34} " Math"
+P
+  R{color=1A1A2E font=Georgia} "The quadratic formula is "
+  R{color=7C3AED font=Georgia i} "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"
+  R{color=1A1A2E font=Georgia} " and Euler's identity is "
+  R{color=7C3AED font=Georgia i} "e^{i\\pi} + 1 = 0"
+  R{color=1A1A2E font=Georgia} "."
+P
+  R{b font=Georgia sz=34} "Block"
+  R{b font=Georgia sz=34} " Math"
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
+P{jc=center}
+  R{color=7C3AED font=Georgia i} "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "6. Table of"
+  R{b font=Georgia sz=44} " Contents"
+P
+  R{color=1A1A2E font=Georgia} "The "
+  R{color=CF222E font=Consolas} "[[_TOC_]]"
+  R{color=1A1A2E font=Georgia} " marker above generates a table of contents from all headings in the document. This is a GitLab-specific feature commonly used in wiki pages and"
+  R{color=1A1A2E font=Georgia} " documentation."
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "7. Front"
+  R{b font=Georgia sz=44} " Matter"
+P
+  R{color=1A1A2E font=Georgia} "The YAML front matter at the top of this document (between "
+  R{color=CF222E font=Consolas} "---"
+  R{color=1A1A2E font=Georgia} " delimiters) is parsed and rendered as a styled metadata block. It supports standard fields like "
+  R{color=CF222E font=Consolas} "title"
+  R{color=1A1A2E font=Georgia} ", "
+  R{color=CF222E font=Consolas} "author"
+  R{color=1A1A2E font=Georgia} ", and "
+  R{color=CF222E font=Consolas} "date"
+  R{color=1A1A2E font=Georgia} ", plus arbitrary custom"
+  R{color=1A1A2E font=Georgia} " fields."
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{b font=Georgia sz=44} "Mixed Content"
+  R{b font=Georgia sz=44} " Test"
+P
+  R{color=1A1A2E font=Georgia} "This section tests that all features work alongside standard Markdown"
+  R{color=1A1A2E font=Georgia} ":"
+P
+  R{b font=Georgia sz=34} "Tables Still"
+  R{b font=Georgia sz=34} " Work"
+TABLE
+  COL w=5930
+  COL w=3139
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5930}
+      P
+        R{b font=Georgia} "Feature"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3139}
+      P
+        R{b font=Georgia} "Status"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
+      P
+        R{font=Georgia} "Alerts"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
+      P
+        R{font=Georgia} "Mermaid"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
+      P
+        R{font=Georgia} "Color"
+        R{font=Georgia} " Chips"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
+      P
+        R{font=Georgia} "Description"
+        R{font=Georgia} " Lists"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
+      P
+        R{font=Georgia} "Math"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
+      P
+        R{font=Georgia} "TOC"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
+      P
+        R{font=Georgia} "Supported"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
+      P
+        R{font=Georgia} "Front"
+        R{font=Georgia} " Matter"
+    CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
+      P
+        R{font=Georgia} "Supported"
+P
+  R{b font=Georgia sz=34} "Lists Still"
+  R{b font=Georgia sz=34} " Work"
+P
+  R{font=Georgia} "    1.  "
+  R{color=1A1A2E font=Georgia} "First"
+  R{color=1A1A2E font=Georgia} " item"
+P
+  R{font=Georgia} "    2.  "
+  R{color=1A1A2E font=Georgia} "Second"
+  R{color=1A1A2E font=Georgia} " item"
+P
+  R{font=Georgia} "        a.  "
+  R{color=1A1A2E font=Georgia} "Nested"
+  R{color=1A1A2E font=Georgia} " bullet"
+P
+  R{font=Georgia} "        b.  "
+  R{color=1A1A2E font=Georgia} "Another nested"
+  R{color=1A1A2E font=Georgia} " bullet"
+P
+  R{font=Georgia} "    3.  "
+  R{color=1A1A2E font=Georgia} "Third"
+  R{color=1A1A2E font=Georgia} " item"
+P
+  R{b font=Georgia sz=34} "Task Lists Still"
+  R{b font=Georgia sz=34} " Work"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement"
+  R{color=1A1A2E font=Georgia} " alerts"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement"
+  R{color=1A1A2E font=Georgia} " mermaid"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement color"
+  R{color=1A1A2E font=Georgia} " chips"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement description"
+  R{color=1A1A2E font=Georgia} " lists"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement"
+  R{color=1A1A2E font=Georgia} " math"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement"
+  R{color=1A1A2E font=Georgia} " TOC"
+P
+  R{font=Georgia} "    ☑  "
+  R{color=1A1A2E font=Georgia} "Implement front"
+  R{color=1A1A2E font=Georgia} " matter"
+P{jc=center}
+  R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
+P
+  R{color=1A1A2E font=Georgia i} "This document was generated to test GitLab Flavored Markdown support in Markout."

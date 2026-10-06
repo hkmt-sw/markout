@@ -1,0 +1,35 @@
+p1 text  x=56.7 y=76.7 Arial-Bold/24 "Markdown Extra"
+p1 rect  x=56.7 y=116.7 w=218.6 h=21.0 FD
+p1 rect  x=275.3 y=116.7 w=263.3 h=21.0 FD
+p1 text  x=60.7 y=120.7 Arial-Bold/11 "Left"
+p1 text  x=279.3 y=120.7 Arial-Bold/11 "Right"
+p1 rect  x=56.7 y=137.7 w=218.6 h=21.0 FD
+p1 rect  x=275.3 y=137.7 w=263.3 h=21.0 FD
+p1 text  x=60.7 y=141.7 Arial/11 "a"
+p1 text  x=279.3 y=141.7 Arial/11 "b"
+p1 text  x=56.7 y=166.7 Arial-Bold/11 "Apple"
+p1 text  x=76.7 y=182.7 Arial/11 "A fruit"
+p1 text  x=56.7 y=206.7 Arial/11 "Footnote"
+p1 text  x=100.1 y=206.7 Arial/11 "[1]"
+p1 text  x=115.3 y=206.7 Arial/11 "and"
+p1 text  x=136.7 y=206.7 Arial/11 "an"
+p1 text  x=152.0 y=206.7 Arial/11 "HTML"
+p1 text  x=185.0 y=206.7 Arial/11 "abbreviation."
+p1 rect  x=56.7 y=230.7 w=481.9 h=40.0 FD
+p1 text  x=64.7 y=238.7 Courier/9 "fenced with tildes"
+p1 text  x=64.7 y=250.7 Courier/9 " "
+p1 text  x=56.7 y=278.7 Arial/11 "No"
+p1 text  x=73.8 y=278.7 Arial/11 "~~strikethrough~~"
+p1 text  x=166.1 y=278.7 Arial/11 "and"
+p1 text  x=187.4 y=278.7 Arial/11 "no"
+p1 text  x=202.7 y=278.7 Arial/11 "-"
+p1 text  x=209.4 y=278.7 Arial/11 "["
+p1 text  x=215.5 y=278.7 Arial/11 "]"
+p1 text  x=221.6 y=278.7 Arial/11 "task"
+p1 text  x=244.8 y=278.7 Arial/11 "lists"
+p1 text  x=266.8 y=278.7 Arial/11 "here."
+p1 text  x=76.7 y=302.7 Arial/11 "• "
+p1 text  x=83.6 y=302.7 Arial/11 "[ ] literal brackets"
+p1 line  x=56.7 y=344.7 to x=201.3 y=344.7
+p1 text  x=56.7 y=354.7 Arial/9 "1. "
+p1 text  x=66.7 y=354.7 Arial/9 "The note."
