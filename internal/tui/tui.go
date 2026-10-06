@@ -16,6 +16,7 @@ import (
 	"sort"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
@@ -711,7 +712,7 @@ func (m Model) View() string {
 	if h, err := os.UserHomeDir(); err == nil && strings.HasPrefix(cwd, h) {
 		cwd = "~" + strings.TrimPrefix(cwd, h)
 	}
-	lines = append(lines, m.row(pathStyle.Render(truncLeft(cwd, inner))))
+	lines = append(lines, m.row(pathStyle.Render(truncLeft(printable(cwd), inner))))
 
 	// File list.
 	lines = append(lines, m.fileRows()...)
@@ -805,7 +806,7 @@ func (m Model) flavorDialog() string {
 // overwriteDialog renders the modal shown before clobbering an existing file.
 func (m Model) overwriteDialog() string {
 	warn := lipgloss.NewStyle().Foreground(colError).Bold(true)
-	name := pathStyle.Render(filepath.Base(m.pendingOut))
+	name := pathStyle.Render(printable(filepath.Base(m.pendingOut)))
 
 	body := lipgloss.JoinVertical(lipgloss.Center,
 		warn.Render("⚠  File already exists"),
@@ -923,7 +924,7 @@ func (m Model) renderEntry(i, inner int) string {
 	if nameW < 3 {
 		nameW = 3
 	}
-	name := e.name
+	name := printable(e.name)
 	if e.isDir && !e.isUp {
 		name += "/"
 	}
@@ -978,7 +979,7 @@ func (m Model) outputLine() string {
 	if out == "" {
 		return labelStyle.Render("Output:  ") + dimStyle.Render("(highlight a .md file)")
 	}
-	return labelStyle.Render("Output:  ") + pathStyle.Render(filepath.Base(out))
+	return labelStyle.Render("Output:  ") + pathStyle.Render(printable(filepath.Base(out)))
 }
 
 func (m Model) statusLine() string {
@@ -1003,7 +1004,7 @@ func (m Model) statusLine() string {
 	default:
 		st = lipgloss.NewStyle().Foreground(colText)
 	}
-	return prefix + st.Render(m.status)
+	return prefix + st.Render(printable(m.status))
 }
 
 func (m Model) keyBar() string {
@@ -1111,12 +1112,25 @@ func truncLeft(s string, w int) string {
 	return "…" + string(r)
 }
 
+// printable replaces control and other non-printing characters, so a file
+// name cannot smuggle terminal escape sequences into the screen.
+func printable(s string) string {
+	return strings.Map(func(r rune) rune {
+		if unicode.IsPrint(r) {
+			return r
+		}
+		return '?'
+	}, s)
+}
+
 func openFile(path string) error {
 	switch runtime.GOOS {
 	case "darwin":
 		return exec.Command("open", path).Run()
 	case "windows":
-		return exec.Command("cmd", "/c", "start", "", path).Run()
+		// Not "cmd /c start": cmd would interpret characters such as & in the
+		// file name as commands.
+		return exec.Command("rundll32", "url.dll,FileProtocolHandler", path).Run()
 	default:
 		return exec.Command("xdg-open", path).Run()
 	}

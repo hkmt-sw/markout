@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"testing"
 
@@ -474,4 +475,24 @@ func docxBody(t *testing.T, path string) string {
 	}
 	t.Fatal("word/document.xml not found")
 	return ""
+}
+
+// A file name must not be able to write terminal escape sequences.
+func TestFileNamesAreSanitizedForDisplay(t *testing.T) {
+	if got := printable("a\x1b[2Jb\tc​d.md"); got != "a?[2Jb?c?d.md" {
+		t.Fatalf("printable = %q", got)
+	}
+	if runtime.GOOS == "windows" {
+		t.Skip("control characters are not valid in Windows file names")
+	}
+
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "evil\x1b[2J.md"), []byte("x"), 0o644); err != nil {
+		t.Skip("file system rejects control characters in names")
+	}
+	m := newAt(dir)
+	cursorOn(t, &m, "evil\x1b[2J.md")
+	if view := m.View(); strings.Contains(view, "\x1b[2J") {
+		t.Fatal("the escape sequence from the file name reached the screen")
+	}
 }
