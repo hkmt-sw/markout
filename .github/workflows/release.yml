@@ -22,7 +22,10 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v7
         with:
-          go-version-file: go.mod
+          # Always the newest Go release, so binaries carry the latest
+          # standard-library security fixes; go.mod states the minimum.
+          go-version: stable
+          check-latest: true
 
       - name: Run tests
         run: go test ./...
