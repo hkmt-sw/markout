@@ -204,6 +204,9 @@ overrides it for one run.
 | `mkdocs`        | MkDocs Material | `!!! note` admonitions, `=== "Tab"` tabs, `[TOC]`, `==mark==`, `^^insert^^`, `^super^`, `~sub~`, CriticMarkup |
 | `docusaurus`    | Docusaurus (MDX) | `:::note` admonitions, `{#heading-ids}`; MDX imports, exports and comments are dropped |
 
+Text written by AI assistants is GitHub-style Markdown, often with math in
+LaTeX delimiters; the default flavor reads both `$…$` and `\(…\)` / `\[…\]`.
+
 Syntax that a flavor doesn't define is left as plain text, exactly as that
 platform would show it (`~~text~~` stays literal under CommonMark, for example).
 

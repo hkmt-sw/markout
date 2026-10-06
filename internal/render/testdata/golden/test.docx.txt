@@ -620,23 +620,23 @@ P
   R{color=1A1A2E font=Georgia} "Speciális karakterek megjelenítése backslash-sel"
   R{color=1A1A2E font=Georgia} ":"
 P
-  R{color=1A1A2E font=Georgia} "\\*Ez nem lesz"
-  R{color=1A1A2E font=Georgia} " dőlt\\*"
+  R{color=1A1A2E font=Georgia} "*Ez nem lesz"
+  R{color=1A1A2E font=Georgia} " dőlt*"
 P
-  R{color=1A1A2E font=Georgia} "\\# Ez nem lesz"
+  R{color=1A1A2E font=Georgia} "# Ez nem lesz"
   R{color=1A1A2E font=Georgia} " fejléc"
 P
-  R{color=1A1A2E font=Georgia} "\\[Ez nem lesz link\\]"
+  R{color=1A1A2E font=Georgia} "[Ez nem lesz link]"
   R{color=1A1A2E font=Georgia} "(url)"
 P
   R{color=1A1A2E font=Georgia} "Backslash:"
-  R{color=1A1A2E font=Georgia} " \\\\"
+  R{color=1A1A2E font=Georgia} " \\"
 P
   R{color=1A1A2E font=Georgia} "Backtick:"
-  R{color=1A1A2E font=Georgia} " \\`"
+  R{color=1A1A2E font=Georgia} " `"
 P
   R{color=1A1A2E font=Georgia} "Pipe táblázatban:"
-  R{color=1A1A2E font=Georgia} " \\|"
+  R{color=1A1A2E font=Georgia} " |"
 P{jc=center}
   R{color=B4B4B4} "────────────────────────────────────────────────────────────────────────────────"
 P

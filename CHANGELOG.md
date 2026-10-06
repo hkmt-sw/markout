@@ -4,6 +4,21 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.2.2] - Unreleased
+
+### Added
+
+- The default flavor reads the LaTeX math delimiters that AI assistants
+  commonly write: `\(E = mc^2\)` inline and `\[ … \]` for display formulas,
+  on one line or with the delimiters on their own lines. Escaped brackets that
+  are plain text, such as `\[1\]`, stay text.
+
+### Fixed
+
+- Backslash escapes and character references were shown as written: `\*`
+  appeared with its backslash and `&copy;` as those six characters. They are
+  now resolved (`*`, `©`).
+
 ## [1.2.1] - 2026-10-06
 
 ### Fixed
