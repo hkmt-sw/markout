@@ -15,73 +15,12 @@ import (
 	"sort"
 	"strings"
 	"time"
-	"unicode"
 
 	"github.com/signintech/gopdf"
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
-
-// stripEmojis removes emoji characters that can't be rendered by standard fonts
-func stripEmojis(s string) string {
-	var result strings.Builder
-	for _, r := range s {
-		// Keep basic ASCII and common Unicode ranges that fonts can render
-		// Skip emoji ranges and other characters that might cause rendering issues
-		if r < 0x1F600 || r > 0x1FAFF {
-			// Not in main emoji ranges
-			if !isEmoji(r) {
-				result.WriteRune(r)
-			}
-		}
-	}
-	return result.String()
-}
-
-// isEmoji checks if a rune is an emoji character
-func isEmoji(r rune) bool {
-	// Emoji ranges
-	switch {
-	case r >= 0x1F600 && r <= 0x1F64F: // Emoticons
-		return true
-	case r >= 0x1F300 && r <= 0x1F5FF: // Misc Symbols and Pictographs
-		return true
-	case r >= 0x1F680 && r <= 0x1F6FF: // Transport and Map
-		return true
-	case r >= 0x1F1E0 && r <= 0x1F1FF: // Flags
-		return true
-	case r >= 0x2600 && r <= 0x26FF: // Misc symbols
-		return true
-	case r >= 0x2700 && r <= 0x27BF: // Dingbats
-		return true
-	case r >= 0xFE00 && r <= 0xFE0F: // Variation Selectors
-		return true
-	case r >= 0x1F900 && r <= 0x1F9FF: // Supplemental Symbols and Pictographs
-		return true
-	case r >= 0x1FA00 && r <= 0x1FA6F: // Chess Symbols
-		return true
-	case r >= 0x1FA70 && r <= 0x1FAFF: // Symbols and Pictographs Extended-A
-		return true
-	case r >= 0x231A && r <= 0x231B: // Watch, Hourglass
-		return true
-	case r >= 0x23E9 && r <= 0x23F3: // Various symbols
-		return true
-	case r >= 0x23F8 && r <= 0x23FA: // Various symbols
-		return true
-	case r == 0x200D: // Zero-width joiner
-		return true
-	case r == 0x20E3: // Combining enclosing keycap
-		return true
-	case r >= 0xE0020 && r <= 0xE007F: // Tags
-		return true
-	}
-	// Also check for Unicode symbol categories that often cause issues
-	if unicode.Is(unicode.So, r) && r > 0x2000 {
-		return true
-	}
-	return false
-}
 
 // PdfRenderer renders AST to PDF format
 type PdfRenderer struct {
@@ -110,6 +49,16 @@ type PdfRenderer struct {
 	// Current drawing state, kept so the trace can say how things look.
 	text, fill, stroke theme.Color
 	strokeWidth        float64
+
+	// What the fonts can draw, and what the document has that they cannot;
+	// see pdf_chars.go.
+	face        string                      // the font selected, without its size
+	glyphs      map[string]map[rune]bool    // by face: whether it has the character
+	widths      map[string]map[rune]float64 // by font and size: character widths
+	glyphMissed bool
+	missing     []rune // characters left out, in order of appearance
+	missingSeen map[rune]bool
+	rightToLeft bool
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -126,6 +75,8 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.pdf.Start(gopdf.Config{PageSize: gopdf.Rect{W: r.t.Page.Width, H: r.t.Page.Height}})
 	r.footnotes = nil // Reset footnotes
 	r.page = 0
+	r.glyphs, r.widths = map[string]map[rune]bool{}, map[string]map[rune]float64{}
+	r.missing, r.missingSeen, r.rightToLeft = nil, nil, false
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
 
@@ -150,7 +101,15 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 		return err
 	}
 
-	return r.pdf.WritePdf(filename)
+	if err := r.pdf.WritePdf(filename); err != nil {
+		return err
+	}
+	if r.opts.Warn != nil {
+		for _, w := range r.warnings() {
+			r.opts.Warn(w)
+		}
+	}
+	return nil
 }
 
 func (r *PdfRenderer) setupDocument() error {
@@ -177,6 +136,7 @@ func (r *PdfRenderer) codeFont() string    { return r.t.Fonts.Code }
 func (r *PdfRenderer) setFont(family string, style string, size float64) {
 	fontName := r.family(family).fontName(style)
 	r.pdf.SetFont(fontName, "", size)
+	r.face = fontName
 	r.font = fmt.Sprintf("%s/%g", fontName, size)
 }
 
@@ -217,6 +177,7 @@ func (r *PdfRenderer) lineWidth(w float64) {
 }
 
 func (r *PdfRenderer) cell(text string) {
+	text = r.usable(text)
 	r.logf("text  x=%.1f y=%.1f %s %q %s", r.pdf.GetX(), r.pdf.GetY(), r.font, text, r.text)
 	r.pdf.Cell(nil, text)
 }
@@ -369,36 +330,24 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 
 func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 	code := r.t.Code
-	lineHeight := code.BlockLineHeight
 	padding := code.Padding
 
-	// The code ends with a line break, which is not a line of its own
-	lines := strings.Split(strings.TrimSuffix(cb.Code, "\n"), "\n")
-	blockHeight := float64(len(lines))*lineHeight + 2*padding
-
-	r.checkPageBreak(blockHeight)
-
-	r.fillColor(code.Background)
-	r.strokeColor(code.Border)
-
-	startY := r.currentY
-	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
-
 	r.setFont(r.codeFont(), "", code.BlockSize)
-	r.textColor(code.BlockColor)
+	lines := r.codeLines(cb.Code, r.contentWidth-2*padding)
 
-	codeY := startY + padding
-	for _, line := range lines {
-		if line == "" {
-			line = " "
-		}
+	r.panel(len(lines), code.BlockLineHeight, padding, func(y, h float64) {
+		r.fillColor(code.Background)
+		r.strokeColor(code.Border)
+		r.rect(r.marginLeft, y, r.contentWidth, h, "FD")
+	}, func(i int, y float64) {
+		r.setFont(r.codeFont(), "", code.BlockSize)
+		r.textColor(code.BlockColor)
 		r.pdf.SetX(r.marginLeft + padding)
-		r.pdf.SetY(codeY)
-		r.cell(line)
-		codeY += lineHeight
-	}
+		r.pdf.SetY(y)
+		r.cell(lines[i])
+	})
 
-	r.currentY = startY + blockHeight + code.SpaceAfter
+	r.currentY += code.SpaceAfter
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)
 	r.strokeColor(theme.Black)
 }
@@ -535,16 +484,32 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 		switch e := elem.(type) {
 		case ast.Paragraph:
 			r.checkPageBreak(lineHeight)
+			lines := r.layout(e.Runs, style, r.contentWidth-indent, r.contentWidth-indent)
+			if len(lines) == 0 && len(e.Runs) > 0 {
+				lines = []textLine{{}} // text that cannot be drawn still takes its line
+			}
+
+			// The bar runs beside the text, and stops and starts again where
+			// the paragraph goes on to another page.
+			bar := func(from, to float64) {
+				r.strokeColor(quote.Bar)
+				r.lineWidth(quote.BarWidth)
+				r.line(r.marginLeft+5, from, r.marginLeft+5, to)
+				r.lineWidth(0.5)
+			}
 			startY := r.currentY
-
-			r.renderRuns(e.Runs, style, r.marginLeft+indent, r.contentWidth-indent)
-
-			endY := r.currentY
-
-			r.strokeColor(quote.Bar)
-			r.lineWidth(quote.BarWidth)
-			r.line(r.marginLeft+5, startY, r.marginLeft+5, endY)
-			r.lineWidth(0.5)
+			for _, line := range lines {
+				if r.currentY+lineHeight > r.pageHeight-r.marginBottom {
+					bar(startY, r.currentY)
+					r.addPage()
+					r.currentY = r.marginTop
+					startY = r.currentY
+				}
+				r.drawLine(line, r.marginLeft+indent, r.currentY, lineHeight)
+				r.currentY += lineHeight
+			}
+			r.resetText()
+			bar(startY, r.currentY)
 
 			r.currentY += quote.SpaceAfter
 			r.setFont(r.bodyFont(), "", r.t.Text.Size)
@@ -639,14 +604,8 @@ func (r *PdfRenderer) embedImage(img ast.Image) error {
 
 	// Render the alt text as a caption when present.
 	if img.Alt != "" {
-		r.setFont(r.bodyFont(), "I", r.t.Caption.Size)
-		r.textColor(r.t.Text.Muted)
-		r.pdf.SetX(r.marginLeft)
-		r.pdf.SetY(r.currentY)
-		r.cell(img.Alt)
-		r.currentY += 14
-		r.textColor(theme.Black)
-		r.setFont(r.bodyFont(), "", r.t.Text.Size)
+		caption := textStyle{font: r.bodyFont(), size: r.t.Caption.Size, italic: true, color: r.t.Text.Muted, lineHeight: 14}
+		r.renderRuns([]ast.InlineRun{{Text: img.Alt}}, caption, r.marginLeft, r.contentWidth)
 	}
 
 	return nil
@@ -725,28 +684,19 @@ func (r *PdfRenderer) renderImagePlaceholder(img ast.Image) {
 	r.checkPageBreak(lineHeight * 2)
 
 	// Render image as placeholder with alt text and URL
-	r.setFont(r.bodyFont(), "I", r.t.Text.Size)
-	r.textColor(r.t.Text.Muted)
-
 	displayText := img.Alt
 	if displayText == "" {
 		displayText = "[Image]"
 	}
-
-	r.pdf.SetX(r.marginLeft)
-	r.pdf.SetY(r.currentY)
-	r.cell("[IMG] " + displayText)
-	r.currentY += lineHeight
+	label := r.bodyStyle()
+	label.italic, label.color = true, r.t.Text.Muted
+	r.renderRuns([]ast.InlineRun{{Text: "[IMG] " + displayText}}, label, r.marginLeft, r.contentWidth)
 
 	// Show URL
 	if img.URL != "" {
-		r.setFont(r.bodyFont(), "", r.t.Caption.Size)
-		r.textColor(r.t.Link.Color)
-
-		r.pdf.SetX(r.marginLeft)
-		r.pdf.SetY(r.currentY)
-		r.cell(img.URL)
-		r.currentY += lineHeight
+		url := r.bodyStyle()
+		url.size, url.color = r.t.Caption.Size, r.t.Link.Color
+		r.renderRuns([]ast.InlineRun{{Text: img.URL}}, url, r.marginLeft, r.contentWidth)
 	}
 
 	r.currentY += 8
@@ -769,76 +719,62 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 			contentLines = append(contentLines, r.layout(p.Runs, style, width, width)...)
 		}
 	}
-	blockHeight := float64(len(contentLines)+1)*lineHeight + 2*padding
-	r.checkPageBreak(blockHeight)
 
-	startY := r.currentY
-
-	// Draw background
-	r.fillColor(bgColor)
-	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "F")
-
-	// Draw colored left border
-	r.strokeColor(borderColor)
-	r.lineWidth(r.t.Alert.BarWidth)
-	r.line(r.marginLeft, startY, r.marginLeft, startY+blockHeight)
-	r.lineWidth(0.5)
-
-	// Title
-	r.setFont(r.bodyFont(), "B", r.t.Text.Size)
-	r.textColor(borderColor)
-	r.pdf.SetX(r.marginLeft + padding)
-	r.pdf.SetY(startY + padding)
-	r.cell(stripEmojis(alert.Title))
-	r.currentY = startY + padding + lineHeight
-
-	// Content
+	// The title is the first line of the box
 	x := r.marginLeft + padding
-	r.drawLinesAt(contentLines, x, x, r.currentY, lineHeight)
+	r.panel(len(contentLines)+1, lineHeight, padding, func(y, h float64) {
+		r.fillColor(bgColor)
+		r.rect(r.marginLeft, y, r.contentWidth, h, "F")
+
+		// Colored left border
+		r.strokeColor(borderColor)
+		r.lineWidth(r.t.Alert.BarWidth)
+		r.line(r.marginLeft, y, r.marginLeft, y+h)
+		r.lineWidth(0.5)
+	}, func(i int, y float64) {
+		if i > 0 {
+			r.drawLine(contentLines[i-1], x, y, lineHeight)
+			return
+		}
+		r.setFont(r.bodyFont(), "B", r.t.Text.Size)
+		r.textColor(borderColor)
+		r.pdf.SetX(x)
+		r.pdf.SetY(y)
+		r.cell(alert.Title)
+	})
 	r.resetText()
 
-	r.currentY = startY + blockHeight + r.t.Alert.SpaceAfter
+	r.currentY += r.t.Alert.SpaceAfter
 	r.strokeColor(theme.Black)
 	r.textColor(theme.Black)
 }
 
 func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
-	lineHeight := r.t.Code.BlockLineHeight
 	padding := r.t.Code.Padding
-
-	lines := strings.Split(strings.TrimSuffix(diagram.Source, "\n"), "\n")
-	blockHeight := float64(len(lines)+1)*lineHeight + 2*padding // +1 for label
-	r.checkPageBreak(blockHeight)
-
-	startY := r.currentY
 	bg, border, textColor := r.t.Diagram.Background, r.t.Diagram.Border, r.t.Diagram.Text
 
-	// Background
-	r.fillColor(bg)
-	r.strokeColor(border)
-	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
-
-	// Label
-	r.setFont(r.bodyFont(), "B", r.t.Text.Size)
-	r.textColor(textColor)
-	r.pdf.SetX(r.marginLeft + padding)
-	r.pdf.SetY(startY + padding)
-	r.cell("Mermaid Diagram")
-
-	// Source code
+	// The label is the first line of the box, the source follows
 	r.setFont(r.codeFont(), "", r.t.Code.BlockSize)
-	codeY := startY + padding + lineHeight
-	for _, line := range lines {
-		if line == "" {
-			line = " "
-		}
-		r.pdf.SetX(r.marginLeft + padding)
-		r.pdf.SetY(codeY)
-		r.cell(line)
-		codeY += lineHeight
-	}
+	lines := r.codeLines(diagram.Source, r.contentWidth-2*padding)
 
-	r.currentY = startY + blockHeight + r.t.Code.SpaceAfter
+	r.panel(len(lines)+1, r.t.Code.BlockLineHeight, padding, func(y, h float64) {
+		r.fillColor(bg)
+		r.strokeColor(border)
+		r.rect(r.marginLeft, y, r.contentWidth, h, "FD")
+	}, func(i int, y float64) {
+		r.textColor(textColor)
+		r.pdf.SetX(r.marginLeft + padding)
+		r.pdf.SetY(y)
+		if i == 0 {
+			r.setFont(r.bodyFont(), "B", r.t.Text.Size)
+			r.cell("Mermaid Diagram")
+			return
+		}
+		r.setFont(r.codeFont(), "", r.t.Code.BlockSize)
+		r.cell(lines[i-1])
+	})
+
+	r.currentY += r.t.Code.SpaceAfter
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)
 	r.strokeColor(theme.Black)
 	r.textColor(theme.Black)
@@ -846,22 +782,27 @@ func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
 
 func (r *PdfRenderer) renderMathBlock(math ast.MathBlock) {
 	lineHeight := r.t.Text.LineHeight
-	r.checkPageBreak(lineHeight)
 
 	r.setFont(r.bodyFont(), "I", r.t.Text.Size)
 	r.textColor(r.t.Colors.Math)
 
-	// Center the math expression
-	textWidth, _ := r.pdf.MeasureTextWidth(math.Expression)
-	x := r.marginLeft + (r.contentWidth-textWidth)/2
-	if x < r.marginLeft {
-		x = r.marginLeft
-	}
+	// The expression is shown as written, centered; a long one is broken
+	// into lines.
+	expression := r.usable(strings.ReplaceAll(math.Expression, "\n", " "))
+	for _, line := range r.wrapChars(expression, r.contentWidth) {
+		r.checkPageBreak(lineHeight)
+		textWidth, _ := r.pdf.MeasureTextWidth(line)
+		x := r.marginLeft + (r.contentWidth-textWidth)/2
+		if x < r.marginLeft {
+			x = r.marginLeft
+		}
 
-	r.pdf.SetX(x)
-	r.pdf.SetY(r.currentY)
-	r.cell(math.Expression)
-	r.currentY += lineHeight + r.t.Text.ParagraphSpacing
+		r.pdf.SetX(x)
+		r.pdf.SetY(r.currentY)
+		r.cell(line)
+		r.currentY += lineHeight
+	}
+	r.currentY += r.t.Text.ParagraphSpacing
 
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)
 	r.textColor(theme.Black)
@@ -904,15 +845,11 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	r.currentY += lineHeight + 8
 
 	// Items
-	r.setFont(r.bodyFont(), "", r.t.Text.Size)
-	r.textColor(r.t.Link.Color)
+	entry := r.bodyStyle()
+	entry.color = r.t.Link.Color
 	for _, item := range toc.Items {
-		r.checkPageBreak(lineHeight)
 		indent := float64(item.Level-1) * r.t.List.Indent
-		r.pdf.SetX(r.marginLeft + indent)
-		r.pdf.SetY(r.currentY)
-		r.cell(item.Title)
-		r.currentY += lineHeight
+		r.renderRuns([]ast.InlineRun{{Text: item.Title}}, entry, r.marginLeft+indent, r.contentWidth-indent)
 	}
 
 	r.currentY += 8
@@ -923,71 +860,67 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
 	lineHeight := r.t.Text.LineHeight
 	padding := r.t.Alert.Padding
+	x, width := r.marginLeft+padding, r.contentWidth-2*padding
 
-	// Count fields
-	fieldCount := 0
-	if fm.Title != "" {
-		fieldCount++
+	// A row is one line of the box: a field's first line starts after its
+	// label, the lines of a long value follow under it.
+	type row struct {
+		label string
+		at    float64 // where the value starts on this line
+		line  textLine
 	}
-	if fm.Author != "" {
-		fieldCount++
-	}
-	if fm.Date != "" {
-		fieldCount++
-	}
-	for key, value := range fm.Raw {
-		// Only text values are shown; lists and maps have no single line
-		if _, ok := value.(string); ok && key != "title" && key != "author" && key != "date" {
-			fieldCount++
-		}
-	}
-	if fieldCount == 0 {
-		return
-	}
-
-	blockHeight := float64(fieldCount)*lineHeight + 2*padding
-	r.checkPageBreak(blockHeight)
-	startY := r.currentY
-
-	// Background
-	r.fillColor(r.t.Box.Background)
-	r.strokeColor(r.t.Box.Border)
-	r.rect(r.marginLeft, startY, r.contentWidth, blockHeight, "FD")
-
-	renderField := func(label, value string) {
+	var rows []row
+	addField := func(label, value string) {
 		if value == "" {
 			return
 		}
 		r.setFont(r.bodyFont(), "B", r.t.Text.Size)
-		r.textColor(r.t.Text.Muted)
-		r.pdf.SetX(r.marginLeft + padding)
-		r.pdf.SetY(r.currentY)
-		r.cell(label + ": ")
 		labelWidth, _ := r.pdf.MeasureTextWidth(label + ": ")
-
-		r.setFont(r.bodyFont(), "", r.t.Text.Size)
-		r.textColor(r.t.Text.Color)
-		r.pdf.SetX(r.marginLeft + padding + labelWidth)
-		r.pdf.SetY(r.currentY)
-		r.cell(value)
-		r.currentY += lineHeight
+		lines := r.layout([]ast.InlineRun{{Text: value}}, r.bodyStyle(), width-labelWidth, width)
+		if len(lines) == 0 {
+			lines = []textLine{{}}
+		}
+		for i, line := range lines {
+			if i == 0 {
+				rows = append(rows, row{label: label + ": ", at: x + labelWidth, line: line})
+			} else {
+				rows = append(rows, row{at: x, line: line})
+			}
+		}
 	}
 
-	r.currentY = startY + padding
-	renderField("Title", fm.Title)
-	renderField("Author", fm.Author)
-	renderField("Date", fm.Date)
-
+	addField("Title", fm.Title)
+	addField("Author", fm.Author)
+	addField("Date", fm.Date)
 	for _, key := range sortedKeys(fm.Raw) {
 		if key == "title" || key == "author" || key == "date" {
 			continue
 		}
+		// Only text values are shown; lists and maps have no single line
 		if strVal, ok := fm.Raw[key].(string); ok {
-			renderField(key, strVal)
+			addField(key, strVal)
 		}
 	}
+	if len(rows) == 0 {
+		return
+	}
 
-	r.currentY = startY + blockHeight + 8
+	r.panel(len(rows), lineHeight, padding, func(y, h float64) {
+		r.fillColor(r.t.Box.Background)
+		r.strokeColor(r.t.Box.Border)
+		r.rect(r.marginLeft, y, r.contentWidth, h, "FD")
+	}, func(i int, y float64) {
+		if label := rows[i].label; label != "" {
+			r.setFont(r.bodyFont(), "B", r.t.Text.Size)
+			r.textColor(r.t.Text.Muted)
+			r.pdf.SetX(x)
+			r.pdf.SetY(y)
+			r.cell(label)
+		}
+		r.drawLine(rows[i].line, rows[i].at, y, lineHeight)
+	})
+
+	r.currentY += 8
 	r.strokeColor(theme.Black)
 	r.textColor(theme.Black)
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)

@@ -13,8 +13,10 @@ a single binary with the fonts built in.
 
 It reads Markdown the way the platform you wrote it for does: pick GitHub,
 GitLab, YouTrack, Azure DevOps, Obsidian, Pandoc or one of the
-[other flavors](#markdown-flavors), and alerts, diagrams, math, tables of
-contents and the rest of that dialect come out right.
+[other flavors](#markdown-flavors), and that dialect's alerts, task lists,
+footnotes, tables of contents and the rest are understood. Math and Mermaid
+diagrams are recognized but shown as their source, not drawn; see
+[Limits](#limits).
 
 ![The markout terminal UI: a file list with a Markdown file highlighted, and the Convert box showing the flavor, format and output file](docs/screenshot.png)
 
@@ -27,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.3.2 to pin one).
+# Look up the latest release tag (or set VERSION=v1.3.3 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -265,6 +267,32 @@ platform would show it (`~~text~~` stays literal under CommonMark, for example).
 Things that only make sense on the original platform have no document
 equivalent and stay as text: `@mentions`, issue references such as `#123` or
 `ABC-123`, and links to other wiki pages.
+
+## Limits
+
+markout lays the document out itself, with no browser or TeX behind it. Some
+things are beyond it for now:
+
+- **Math** is shown as its LaTeX source, in color; it is not typeset.
+- **Mermaid diagrams** are shown as their source in a labeled box; they are
+  not drawn.
+- **Code** is not syntax-highlighted.
+- **Blocks inside a list item** other than text and nested lists (a code
+  block, a quote, a table) are left out, in both formats.
+- **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
+  Cyrillic. Other characters (Chinese, Japanese, Korean, Arabic, emoji) are
+  left out of a PDF, and the conversion says which ones: as a warning on
+  standard error for a direct conversion, in the status line in the TUI. A
+  theme can use [a font of your own](docs/themes.md#fonts) that has them.
+  DOCX keeps every character and leaves the choice of font to the word
+  processor.
+- **Right-to-left text** (Hebrew, Arabic) is not laid out in PDF: its letters
+  come out in reverse order. The conversion warns about this too.
+- **Links to a heading** of the same document (`[text](#heading)`) do not
+  jump there in PDF, and a PDF has no bookmarks.
+- **DOCX is formatted directly.** Headings and lists look right but are not
+  Word's heading styles or automatic lists, and a table of contents is plain
+  text, so the navigation pane and "update table" have nothing to work with.
 
 ## Project layout
 

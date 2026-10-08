@@ -104,7 +104,7 @@ func (r *PdfRenderer) drawRunningLine(run theme.Running, info docInfo, page, pag
 	r.textColor(run.Color)
 
 	put := func(text string, align int) {
-		text = stripEmojis(info.expand(text, page, pages))
+		text = r.usable(info.expand(text, page, pages))
 		if text == "" {
 			return
 		}

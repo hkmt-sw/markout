@@ -121,6 +121,9 @@ func main() {
 		input, output := positional[0], positional[1]
 		opts := convert.Options{Flavor: fl, Theme: &look}
 		opts.RemoteImages = allowRemoteImages(input, opts, remote)
+		opts.Warn = func(message string) {
+			fmt.Fprintln(os.Stderr, "Warning: "+message)
+		}
 		if err := convert.ConvertFileWith(input, output, convert.FormatUnknown, opts); err != nil {
 			fail("%v", err)
 		}
