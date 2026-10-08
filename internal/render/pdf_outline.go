@@ -30,6 +30,7 @@ func (r *PdfRenderer) markHeading(h ast.Heading, level int) {
 	if _, known := r.anchors[h.ID]; known && !r.anchored[h.ID] {
 		r.pdf.SetAnchor(h.ID)
 		r.anchored[h.ID] = true
+		r.headingPages[h.ID] = r.page
 		r.logf("anchor y=%.1f %s", r.currentY, h.ID)
 	}
 	if title := headingText(h.Runs); title != "" {

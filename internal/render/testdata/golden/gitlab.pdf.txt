@@ -10,22 +10,49 @@ p1 text  x=139.3 y=132.7 Arial-Bold/24 "(GLFM)" #000000
 p1 text  x=56.7 y=180.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=204.7 Arial/11 "GitLab (GLFM)" #2563EB
 p1 goto  x=56.7 y=202.7 w=73.3 gitlab-glfm
+p1 text  x=139.1 y=204.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=204.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=202.7 w=6.1 gitlab-glfm
 p1 text  x=76.7 y=220.7 Arial/11 "Inline diff" #2563EB
 p1 goto  x=76.7 y=218.7 w=44.0 inline-diff
+p1 text  x=126.9 y=220.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=220.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=218.7 w=6.1 inline-diff
 p1 text  x=76.7 y=236.7 Arial/11 "Multiline blockquote" #2563EB
 p1 goto  x=76.7 y=234.7 w=96.6 multiline-blockquote
+p1 text  x=181.8 y=236.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=236.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=234.7 w=6.1 multiline-blockquote
 p1 text  x=76.7 y=252.7 Arial/11 "Alerts with titles" #2563EB
 p1 goto  x=76.7 y=250.7 w=76.3 alerts-with-titles
+p1 text  x=157.4 y=252.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=252.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=250.7 w=6.1 alerts-with-titles
 p1 text  x=76.7 y=268.7 Arial/11 "Tasks" #2563EB
 p1 goto  x=76.7 y=266.7 w=29.3 tasks
+p1 text  x=114.7 y=268.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=268.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=266.7 w=6.1 tasks
 p1 text  x=76.7 y=284.7 Arial/11 "Math and colors" #2563EB
 p1 goto  x=76.7 y=282.7 w=78.2 math-and-colors
+p1 text  x=163.5 y=284.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=284.7 Arial/11 "2" #1A1A2E
+p1 goto  x=532.5 y=282.7 w=6.1 math-and-colors
 p1 text  x=76.7 y=300.7 Arial/11 "Sized image" #2563EB
 p1 goto  x=76.7 y=298.7 w=60.5 sized-image
+p1 text  x=145.2 y=300.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=300.7 Arial/11 "2" #1A1A2E
+p1 goto  x=532.5 y=298.7 w=6.1 sized-image
 p1 text  x=76.7 y=316.7 Arial/11 "JSON table" #2563EB
 p1 goto  x=76.7 y=314.7 w=56.2 json-table
+p1 text  x=139.1 y=316.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=316.7 Arial/11 "2" #1A1A2E
+p1 goto  x=532.5 y=314.7 w=6.1 json-table
 p1 text  x=76.7 y=332.7 Arial/11 "Include" #2563EB
 p1 goto  x=76.7 y=330.7 w=35.5 include
+p1 text  x=120.8 y=332.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=332.7 Arial/11 "2" #1A1A2E
+p1 goto  x=532.5 y=330.7 w=6.1 include
 p1 anchor y=374.7 inline-diff
 p1 bookmark level=2 "Inline diff"
 p1 text  x=56.7 y=374.7 Arial-Bold/20 "Inline" #000000

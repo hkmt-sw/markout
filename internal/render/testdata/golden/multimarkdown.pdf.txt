@@ -11,8 +11,14 @@ p1 text  x=56.7 y=148.7 Arial-Bold/24 "MultiMarkdown" #000000
 p1 text  x=56.7 y=196.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=220.7 Arial/11 "MultiMarkdown" #2563EB
 p1 goto  x=56.7 y=218.7 w=73.9 multimarkdown
+p1 text  x=139.1 y=220.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=220.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=218.7 w=6.1 multimarkdown
 p1 text  x=76.7 y=236.7 Arial/11 "Markup" #2563EB
 p1 goto  x=76.7 y=234.7 w=36.7 markup
+p1 text  x=120.8 y=236.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=236.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=234.7 w=6.1 markup
 p1 anchor y=278.7 markup
 p1 bookmark level=2 "Markup"
 p1 text  x=56.7 y=278.7 Arial-Bold/20 "Markup" #000000

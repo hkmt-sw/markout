@@ -9,8 +9,6 @@ import (
 	"io"
 	"regexp"
 	"strings"
-
-	"github.com/wyatt915/treeblood"
 )
 
 // Node is a MathML element: mi, mo, mfrac, mrow and so on.
@@ -40,13 +38,16 @@ func Parse(tex string, display bool) (root *Node, err error) {
 		}
 	}()
 
-	var mml string
+	source := prepare(tex)
 	if display {
-		mml, err = treeblood.DisplayStyle(align(prepare(tex)), nil)
-	} else {
-		mml, err = treeblood.InlineStyle(prepare(tex), nil)
+		source = align(source)
 	}
+	mml, err := translate(source, display)
 	if err != nil {
+		// The translator failing on a formula says nothing a reader can use
+		if strings.HasPrefix(err.Error(), "TreeBlood") {
+			return nil, fmt.Errorf("the formula could not be read")
+		}
 		// The message goes on to point at the place in HTML
 		msg, _, _ := strings.Cut(err.Error(), "<")
 		return nil, fmt.Errorf("%s", strings.TrimSpace(msg))

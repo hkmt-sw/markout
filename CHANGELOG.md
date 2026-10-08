@@ -26,6 +26,9 @@ Mermaid flowcharts are drawn.
   (`++ctrl+alt+del++`) are shown as `Ctrl`+`Alt`+`Del`. Icons
   (`:material-check:`) are left out, with a warning. Markdown inside HTML
   that has the `markdown` attribute (grid cards) is read.
+- Page numbers in the PDF table of contents: each entry has the page its
+  heading is on, at the right, after a row of dots. The number is a link
+  like the title.
 - Examples: the [`examples`](examples/README.md) directory has eleven
   documents of the kinds people convert (a policy, an incident procedure, an
   architecture description, a runbook, a risk assessment, minutes, a README,
@@ -44,6 +47,11 @@ Mermaid flowcharts are drawn.
 
 ### Fixed
 
+- A formula the math translator failed on (`$\hat{}$`, an empty `cases`)
+  printed the failure and the formula into the terminal, over the screen of
+  the interactive mode too, and the warning about it carried the
+  translator's own message. Nothing is printed now, and the warning says
+  that the formula could not be read.
 - Text copied from a formula in a PDF, or searched for, was wrong:
   `E = mc²` came out as other characters, because the italic letters of
   formulas were written into the file in a way readers misread. Formulas

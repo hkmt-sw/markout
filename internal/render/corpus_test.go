@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"reflect"
 	"regexp"
 	"sort"
 	"strings"
@@ -111,6 +112,9 @@ func convertAndSummarize(t *testing.T, path string, fl flavor.Flavor) (string, [
 	}
 	trace := pdf.trace.String()
 	checkOnThePage(t, trace)
+	if pdf.tocPages != nil && !reflect.DeepEqual(pdf.tocPages, pdf.headingPages) {
+		t.Errorf("the table of contents gives pages %v, the headings are on %v", pdf.tocPages, pdf.headingPages)
+	}
 	if written, err := os.ReadFile(filepath.Join(dir, "out.pdf")); err != nil {
 		t.Fatal(err)
 	} else {
