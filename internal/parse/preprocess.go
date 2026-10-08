@@ -216,6 +216,8 @@ var (
 	directiveHead = regexp.MustCompile(`^\{([A-Za-z][\w:.+-]*)\}[ \t]*(.*)$`)
 	bangAdmon     = regexp.MustCompile(`^(?:!!!|\?\?\?\+?)[ \t]+([\w-]+)((?:[ \t]+[\w-]+)*)(?:[ \t]+"(.*)")?[ \t]*$`)
 	contentTab    = regexp.MustCompile(`^===\+?[ \t]+"(.*)"[ \t]*$`)
+	mathLabelEnd  = regexp.MustCompile(`^\$\$\s*\([\w.:-]+\)$`)
+	mathEnvBegin  = regexp.MustCompile(`^\\begin\{((?:equation|multline|gather|align|alignat|flalign|eqnarray)\*?)\}`)
 	mystTarget    = regexp.MustCompile(`^\([\w.:-]+\)=[ \t]*$`)
 	ialOnlyLine   = regexp.MustCompile(`^[ \t]*\{:[^}]*\}[ \t]*$`)
 	ialTrailing   = regexp.MustCompile(`[ \t]*\{:[^}]*\}[ \t]*$`)
@@ -331,6 +333,28 @@ func (p *preprocessor) blocks(lines []string) []string {
 		}
 		if f.LineComments && (line == "%" || strings.HasPrefix(line, "% ")) {
 			continue
+		}
+
+		// MyST closes a display formula with its label: "$$ (label)". The
+		// label is where references point, and not part of the document
+		if f.Directives && f.MathDollar && mathLabelEnd.MatchString(trimmed) {
+			out = append(out, "$$")
+			continue
+		}
+
+		// LaTeX environments that are formulas by themselves, at the top
+		// level as MyST and many LaTeX-minded writers have them:
+		//	\begin{align} ... \end{align}
+		if (f.Directives || f.MathParens) && leadingSpaces(line) < 4 {
+			if m := mathEnvBegin.FindStringSubmatch(trimmed); m != nil {
+				if end := mathEnvEnd(lines, i, m[1]); end >= 0 {
+					out = append(out, "", "```"+internalMathLang)
+					out = append(out, lines[i:end+1]...)
+					out = append(out, "```", "")
+					i = end
+					continue
+				}
+			}
 		}
 
 		// LaTeX display math with the delimiters on their own lines:
@@ -691,18 +715,46 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		}
 		opts[m[1]] = m[2]
 		body = body[1:]
+		// A value can go on over the following lines, each after a colon
+		//	:header: >
+		//	:    "a", "b"
+		if m[2] == ">" || m[2] == "|" {
+			var value []string
+			for len(body) > 0 && optionMore.MatchString(body[0]) {
+				value = append(value, strings.TrimSpace(body[0][1:]))
+				body = body[1:]
+			}
+			opts[m[1]] = strings.Join(value, " ")
+		}
 	}
 	body = trimBlankLines(body)
 
 	name = strings.ToLower(name)
 	switch name {
 	case "math":
-		out := []string{"", "```" + internalMathLang}
+		// Formulas separated by a blank line are formulas of their own
 		if args != "" {
-			out = append(out, args)
+			body = append([]string{args}, body...)
 		}
-		out = append(out, body...)
-		return append(out, "```", "")
+		var out []string
+		var formula []string
+		flush := func() {
+			if len(formula) > 0 {
+				out = append(out, "", "```"+internalMathLang)
+				out = append(out, formula...)
+				out = append(out, "```", "")
+				formula = nil
+			}
+		}
+		for _, line := range body {
+			if strings.TrimSpace(line) == "" {
+				flush()
+				continue
+			}
+			formula = append(formula, line)
+		}
+		flush()
+		return out
 
 	case "mermaid":
 		out := []string{"", "```" + internalMermaidLang}
@@ -737,9 +789,38 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		out = append(out, body...)
 		return append(out, "```", "")
 
-	case "toctree", "raw", "bibliography", "index":
-		// What these show is made by Sphinx: a list of other pages, markup
-		// for one output format, lists gathered from the whole project
+	case "toctree":
+		// The pages of the project that belong under this one. They are not
+		// part of this document, but which they are is: they are listed
+		var out []string
+		for _, line := range body {
+			entry := strings.TrimSpace(line)
+			if m := roleTarget.FindStringSubmatch(entry); m != nil && m[1] != "" {
+				entry = m[1] // "Title <page>"
+			}
+			if entry != "" && entry != "self" {
+				out = append(out, "- "+entry)
+			}
+		}
+		if len(out) == 0 {
+			return nil
+		}
+		if caption := opts["caption"]; caption != "" {
+			out = append([]string{"**" + caption + "**", ""}, out...)
+		}
+		return append(append([]string{""}, out...), "")
+
+	case "raw":
+		// Markup for one output format. HTML is read like any HTML in the
+		// document; markup for another format has no place here
+		if format := strings.Fields(strings.ToLower(args)); len(format) > 0 && format[0] == "html" {
+			return append(append([]string{""}, body...), "")
+		}
+		p.left.add("{raw} " + args)
+		return nil
+
+	case "bibliography", "index":
+		// Lists Sphinx gathers from the whole project
 		p.left.add("{" + name + "}")
 		return nil
 
@@ -751,6 +832,45 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 			}
 		}
 		return p.alert(kind, args, p.blocks(body))
+
+	case "versionadded", "versionchanged", "deprecated", "versionremoved":
+		// "Added in version 1.2: what was added"
+		label := map[string]string{
+			"versionadded": "Added in version", "versionchanged": "Changed in version",
+			"deprecated": "Deprecated since version", "versionremoved": "Removed in version",
+		}[name]
+		version, rest, _ := strings.Cut(args, " ")
+		head := "*" + label + " " + version + "*"
+		if rest = strings.TrimSpace(rest); rest != "" {
+			head += ": " + rest
+		}
+		inner := unwrap(p.blocks(body))
+		if text := strings.TrimSpace(strings.Join(inner, "\n")); text != "" {
+			head += ":"
+		}
+		return append(append([]string{"", head, ""}, inner...), "")
+
+	case "tab-set", "tabs", "grid", "table":
+		// Containers: what they hold is shown, under their caption if any
+		out := []string{""}
+		if args != "" && name == "table" {
+			out = append(out, "**"+args+"**", "")
+		}
+		return append(append(out, p.blocks(body)...), "")
+
+	case "line-block":
+		// Every line is a line
+		var out []string
+		for _, line := range body {
+			if strings.TrimSpace(line) != "" {
+				out = append(out, p.inline(strings.TrimSpace(line))+"\\")
+			}
+		}
+		if len(out) == 0 {
+			return nil
+		}
+		out[len(out)-1] = strings.TrimSuffix(out[len(out)-1], "\\")
+		return append(append([]string{""}, out...), "")
 
 	case "only":
 		// Content for one output format or another; a document shows it
@@ -806,6 +926,11 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 	return unwrap(p.blocks(body))
 }
 
+var (
+	listTableRow = regexp.MustCompile(`^[*+-]\s+-(?:\s+(.*))?$`)
+	optionMore   = regexp.MustCompile(`^:\s+\S`)
+)
+
 // listTableRows reads the body of a list-table: a list of rows, each a list
 // of cells.
 //
@@ -817,9 +942,9 @@ func listTableRows(body []string) [][]string {
 	var rows [][]string
 	for _, line := range body {
 		text := strings.TrimSpace(line)
-		switch {
-		case strings.HasPrefix(text, "* - ") || text == "* -":
-			rows = append(rows, []string{strings.TrimSpace(text[3:])})
+		switch m := listTableRow.FindStringSubmatch(text); {
+		case m != nil:
+			rows = append(rows, []string{strings.TrimSpace(m[1])})
 		case len(rows) == 0:
 			if text != "" {
 				return nil // something else comes first: not a list of rows
@@ -891,6 +1016,24 @@ func mdxAttr(attrs, name string) string {
 	}
 	return m[1] + m[2]
 }
+
+// mathEnvEnd finds the line that ends the LaTeX environment that begins on
+// line start, or -1.
+func mathEnvEnd(lines []string, start int, env string) int {
+	end := `\end{` + env + `}`
+	for i := start; i < len(lines) && i < start+maxMathEnvLines; i++ {
+		if strings.Contains(lines[i], end) {
+			return i
+		}
+		if i > start && strings.TrimSpace(lines[i]) == "" {
+			return -1 // a formula has no blank lines in it
+		}
+	}
+	return -1
+}
+
+// maxMathEnvLines is the longest LaTeX environment that is looked for.
+const maxMathEnvLines = 200
 
 // include reads a file named by ::include. The file must be a regular file
 // inside the directory of the top-level document (or below it): absolute

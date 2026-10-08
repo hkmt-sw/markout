@@ -27,6 +27,11 @@ func TestParse(t *testing.T) {
 		{`\operatorname{rank} A`, `mrow[mpadded[mi(r) mi(a) mi(n) mi(k)] mi(A)]`},
 		{`\boxed{x} \label{eq:1}`, `mrow[mi(x)]`},
 		{`\mathbb{R}`, `mrow[mi(ℝ)]`},
+		// Lines broken with \\ need no environment around them
+		{"a &= b \\\\ &= c", `mrow[mtable[mtr[mtd[mi(a)] mtd[mo(=) mi(b)]] mtr[mtd[] mtd[mo(=) mi(c)]]]]`},
+		{"\\begin{gather*} a \\\\ b \\end{gather*}", `mrow[mtable[mtr[mtd[mi(a)]] mtr[mtd[mi(b)]]]]`},
+		{"\\begin{align*} a &= b \\end{align*}", `mrow[mtable[mtr[mtd[mi(a)] mtd[mo(=) mi(b)]]]]`},
+		{"\\begin{equation} x \\end{equation}", `mrow[mi(x)]`},
 	}
 	for _, tt := range tests {
 		root, err := Parse(tt.tex, true)

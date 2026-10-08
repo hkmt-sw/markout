@@ -1,0 +1,5 @@
+source: 200 lines
+holds: Alert 1, Blockquote 3, Heading 5, Paragraph 20, Table 5
+reading warns: 5 directives are not known; their content is shown as plain text: {syntax-example} (5)
+pdf: 2 pages, 5 bookmarks, 0 links within the document
+docx: 70 paragraphs, 5 headings, 0 list items, 6 tables, 0 equations, 0 images

@@ -45,5 +45,5 @@ binaries carry a build provenance attestation signed by GitHub Actions. To
 check that a binary was built by this repository's release workflow:
 
 ```sh
-gh attestation verify markout_v1.7.1_darwin_arm64 --repo hkmt-sw/markout
+gh attestation verify markout_v1.7.2_darwin_arm64 --repo hkmt-sw/markout
 ```

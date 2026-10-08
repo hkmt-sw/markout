@@ -1,0 +1,5 @@
+source: 420 lines
+holds: CodeBlock 19, FrontMatter 1, Heading 11, List 1, ListItem 2, Paragraph 25
+pdf: 8 pages, 11 bookmarks, 0 links within the document
+pdf warns: 4 characters are not in the PDF fonts and left out: 🍎 🍊 🍌 💡. A theme can use a font that has them.
+docx: 80 paragraphs, 11 headings, 2 list items, 20 tables, 0 equations, 0 images

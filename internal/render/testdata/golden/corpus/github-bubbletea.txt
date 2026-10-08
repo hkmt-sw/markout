@@ -1,0 +1,5 @@
+source: 402 lines
+holds: Alert 1, CodeBlock 9, Heading 23, HorizontalRule 2, Image 7, List 6, ListItem 29, Paragraph 39
+pdf: 8 pages, 23 bookmarks, 1 links within the document
+pdf warns: 17 characters are not in the PDF fonts and left out: 热 爱 开 源 ن ح ب ا ل م ص د and 5 more. A theme can use a font that has them.
+docx: 120 paragraphs, 23 headings, 29 list items, 10 tables, 0 equations, 0 images

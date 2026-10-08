@@ -42,7 +42,7 @@ func Parse(tex string, display bool) (root *Node, err error) {
 
 	var mml string
 	if display {
-		mml, err = treeblood.DisplayStyle(prepare(tex), nil)
+		mml, err = treeblood.DisplayStyle(align(prepare(tex)), nil)
 	} else {
 		mml, err = treeblood.InlineStyle(prepare(tex), nil)
 	}
@@ -73,7 +73,13 @@ func Parse(tex string, display bool) (root *Node, err error) {
 var (
 	operatorName = regexp.MustCompile(`\\operatorname\*?\s*\{`)
 	boxed        = regexp.MustCompile(`\\(boxed|fbox)\s*\{`)
-	labels       = regexp.MustCompile(`\\(label|tag|nonumber|notag)\b\*?(\{[^{}]*\})?`)
+	// Environments that number their formulas, or have a starred form that
+	// does not; numbering is LaTeX's business, so the plain form is read
+	starred = regexp.MustCompile(`\\(begin|end)\{(equation|align|alignat|flalign|gather|multline|eqnarray)\*\}`)
+	// Lines one under the other, centered: what a one-column matrix is
+	gathered = regexp.MustCompile(`\\(begin|end)\{(?:gather|gathered|multline)\}`)
+	eqnarray = regexp.MustCompile(`\\(begin|end)\{(?:eqnarray|flalign)\}`)
+	labels   = regexp.MustCompile(`\\(label|tag|nonumber|notag)\b\*?(\{[^{}]*\})?`)
 )
 
 // prepare rewrites a few common commands the translator does not know into
@@ -81,7 +87,21 @@ var (
 func prepare(tex string) string {
 	tex = operatorName.ReplaceAllString(tex, `\mathrm{`)
 	tex = boxed.ReplaceAllString(tex, `{`)
+	tex = starred.ReplaceAllString(tex, `\$1{$2}`)
+	tex = gathered.ReplaceAllString(tex, `\$1{matrix}`)
+	tex = eqnarray.ReplaceAllString(tex, `\$1{align}`)
 	return labels.ReplaceAllString(tex, "")
+}
+
+// align wraps a formula of several lines that names no environment in
+// "aligned": lines broken with \\ and lined up at & are how such a formula
+// is written between $$ and in MyST's math directive, where LaTeX would
+// need the environment spelled out.
+func align(tex string) string {
+	if !strings.Contains(tex, `\\`) || strings.Contains(tex, `\begin{`) {
+		return tex
+	}
+	return `\begin{aligned}` + tex + `\end{aligned}`
 }
 
 // decode reads MathML text into nodes, leaving out the annotation that
