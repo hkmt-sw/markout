@@ -181,12 +181,32 @@ $\notacommand{x}$.
 
 ## 11. Diagram
 
-Diagram source is shown in a labeled panel, not drawn:
+A Mermaid flowchart is drawn: three boxes, with arrows from the left one to
+the two on the right.
 
 ```mermaid
 graph LR
     Markdown --> PDF
     Markdown --> DOCX
+```
+
+A decision in a diamond with its two answers written on the arrows, a rounded
+end, and a dotted arrow leading back up the side:
+
+```mermaid
+graph TD
+    A[Read the file] --> B{Is it Markdown?}
+    B -->|yes| C[Convert it]
+    B -->|no| D([Stop])
+    C --> D
+    C -.-> A
+```
+
+Other kinds of diagram are shown as their source in a labeled panel:
+
+```mermaid
+sequenceDiagram
+    Reader->>Document: opens
 ```
 
 ## 12. Definition list

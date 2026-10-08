@@ -15,8 +15,8 @@ It reads Markdown the way the platform you wrote it for does: pick GitHub,
 GitLab, YouTrack, Azure DevOps, Obsidian, Pandoc or one of the
 [other flavors](#markdown-flavors), and that dialect's alerts, task lists,
 footnotes, tables of contents and the rest are understood. Formulas are
-typeset; Mermaid diagrams are recognized but shown as their source, not
-drawn (see [Limits](#limits)).
+typeset and Mermaid flowcharts are drawn (see [Limits](#limits) for what
+is not).
 
 ![The markout terminal UI: a file list with a Markdown file highlighted, and the Convert box showing the flavor, format and output file](docs/screenshot.png)
 
@@ -307,6 +307,24 @@ Which delimiters mark a formula (`$…$`, `\(…\)`, ` ```math `) depends on the
 [flavor](#markdown-flavors). What cannot be typeset is listed under
 [Limits](#limits).
 
+## Diagrams
+
+A Mermaid flowchart is drawn, in both formats:
+
+````markdown
+```mermaid
+graph TD
+    A[Read the file] --> B{Is it Markdown?}
+    B -->|yes| C[Convert it]
+    B -->|no| D([Stop])
+```
+````
+
+Boxes of every shape, arrows and lines of every kind with their text,
+subgraphs, and the four directions (`TD`, `BT`, `LR`, `RL`) are understood.
+In PDF the chart is drawn as lines and text, sharp at any zoom; in DOCX it
+is a picture. A chart wider than the text is made smaller to fit.
+
 ## Finding your way in the output
 
 Both formats know where the headings are:
@@ -343,8 +361,12 @@ things are beyond it for now:
   to fit, and one in a paragraph can stand taller than its line. A formula
   that uses a command markout does not know, or that is not well-formed, is
   shown as its source in color, and the conversion says so.
-- **Mermaid diagrams** are shown as their source in a labeled box; they are
-  not drawn.
+- **Mermaid:** only flowcharts (`graph` and `flowchart`) are drawn, laid out
+  by markout itself, more plainly than Mermaid does: the same boxes and
+  connections, not the same positions. Colors and styles set in the chart
+  are not used; the theme's are. Sequence, class, state, Gantt and the other
+  kinds of diagram, and a flowchart markout cannot read, are shown as their
+  source in a labeled box, and the conversion says so.
 - **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
   Cyrillic. Other characters (Chinese, Japanese, Korean, Arabic, emoji) are
   left out of a PDF, and the conversion says which ones: as a warning on

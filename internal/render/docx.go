@@ -43,6 +43,8 @@ type DocxRenderer struct {
 	// See docx_math.go.
 	equations    []string // the Word equations, in the order of their marks
 	mathProblems mathProblems
+
+	diagramProblems diagramProblems
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -60,7 +62,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.inset, r.tableInsets = 0, nil
 	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
 	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
-	r.equations, r.mathProblems = nil, mathProblems{}
+	r.equations, r.mathProblems, r.diagramProblems = nil, mathProblems{}, diagramProblems{}
 	r.setupDocument()
 	r.collectHeadings(astDoc.Elements)
 
@@ -104,8 +106,13 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	}
 
 	os.Remove(tempFile)
-	if w := r.mathProblems.warning(); w != "" && r.opts.Warn != nil {
-		r.opts.Warn(w)
+	if r.opts.Warn != nil {
+		if w := r.mathProblems.warning(); w != "" {
+			r.opts.Warn(w)
+		}
+		for _, w := range r.diagramProblems.warnings() {
+			r.opts.Warn(w)
+		}
 	}
 	return nil
 }
@@ -881,7 +888,13 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 	if err != nil {
 		return err
 	}
+	return r.embedPicture(data, displayWidth, img.Alt)
+}
 
+// embedPicture puts a raster image into the document, displayWidth pixels
+// wide (its own width if 0) but no wider than the text, with a caption
+// under it if one is given.
+func (r *DocxRenderer) embedPicture(data []byte, displayWidth int, caption string) error {
 	cfg, format, err := image.DecodeConfig(bytes.NewReader(data))
 	if err != nil {
 		return err
@@ -934,7 +947,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 	}
 
 	// Caption with the alt text, if any.
-	if img.Alt != "" {
+	if caption != "" {
 		capRun, err := para.AddRun()
 		if err != nil {
 			return err
@@ -944,7 +957,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 		if err != nil {
 			return err
 		}
-		altRun.SetText(img.Alt)
+		altRun.SetText(caption)
 		altRun.SetColor(docxColor(r.t.Text.Muted))
 		altRun.SetItalic(true)
 		altRun.SetSize(runSize(r.t.Caption.Size))
@@ -1158,6 +1171,14 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 
 // renderMermaidDiagram renders a mermaid diagram as a labeled placeholder
 func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
+	// A flowchart is drawn, and goes in as a picture
+	if err := r.embedChart(diagram.Source); err == nil {
+		return nil
+	} else {
+		r.diagramProblems.note(diagram.Source, err)
+	}
+
+	// Anything else is shown as its source, in a labeled panel
 	table, err := r.addTable(1, 1)
 	if err != nil {
 		return err

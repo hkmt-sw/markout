@@ -474,7 +474,21 @@ P{bookmark=_11_diagram pStyle=Heading2}
   R "11."
   R " Diagram"
 P{spacing=0/100 line=260/atLeast}
-  R "Diagram source is shown in a labeled panel, not drawn"
+  R "A Mermaid flowchart is drawn: three boxes, with arrows from the left one"
+  R " to "
+  R "the two on the"
+  R " right."
+P{jc=center spacing=0/100}
+  IMAGE cx=2114550 cy=1143000
+P{spacing=0/100 line=260/atLeast}
+  R "A decision in a diamond with its two answers written on the arrows, a"
+  R " rounded "
+  R "end, and a dotted arrow leading back up the side"
+  R ":"
+P{jc=center spacing=0/100}
+  IMAGE cx=1933575 cy=3638550
+P{spacing=0/100 line=260/atLeast}
+  R "Other kinds of diagram are shown as their source in a labeled panel"
   R ":"
 TABLE
   COL w=10204
@@ -485,11 +499,9 @@ TABLE
       P{indent=100/100 spacing=100/0 line=210/atLeast}
         R{b color=065F46 font=Arial sz=19} "Mermaid Diagram"
       P{indent=100/100 spacing=0/100 line=210/atLeast}
-        R{color=065F46 font=Courier New sz=16} "graph LR"
+        R{color=065F46 font=Courier New sz=16} "sequenceDiagram"
         R "<br>"
-        R{color=065F46 font=Courier New sz=16} "    Markdown --> PDF"
-        R "<br>"
-        R{color=065F46 font=Courier New sz=16} "    Markdown --> DOCX"
+        R{color=065F46 font=Courier New sz=16} "    Reader->>Document: opens"
 P{spacing=/ line=100/exact}
 P{bookmark=_12_definition_list pStyle=Heading2}
   R "12. Definition"

@@ -389,13 +389,15 @@ The panel showing the document's front matter.
 
 ### `[diagram]`
 
-The panel holding the source of a diagram.
+The boxes of a flowchart, and the panel holding the source of a diagram
+that is not drawn. The frames of a chart's subgraphs take the colors of
+`[box]`, and its connecting lines the `muted` color of `[text]`.
 
 | Setting | Meaning |
 | --- | --- |
-| `background` | Panel background |
-| `border` | Panel border |
-| `text` | Label and source text |
+| `background` | Inside of a chart's boxes; panel background |
+| `border` | Outline of a chart's boxes; panel border |
+| `text` | Text in a chart; label and source text of the panel |
 
 ### `[footnote]`
 

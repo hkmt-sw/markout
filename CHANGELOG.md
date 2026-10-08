@@ -4,6 +4,27 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.0] - Unreleased
+
+Mermaid flowcharts are drawn.
+
+### Added
+
+- Flowcharts. A Mermaid `graph` or `flowchart` is laid out and drawn by
+  markout itself: boxes of every shape, arrows and lines of every kind with
+  their text, subgraphs in frames, and the four directions. In PDF the chart
+  is lines and text, sharp at any zoom; in DOCX it is a picture. A chart
+  wider than the text is made smaller to fit.
+- A warning naming the kinds of diagram that are not drawn (sequence, class,
+  state, Gantt and the rest), and one for a flowchart that could not be
+  read. Those are shown as their source in a panel, as all diagrams used to
+  be.
+
+### Changed
+
+- The `[diagram]` colors of a theme are the colors of a chart's boxes, as
+  well as of the panel that holds the source of a diagram that is not drawn.
+
 ## [1.7.2] - 2026-10-08
 
 Fixes found by converting real documents, and a slower way of releasing.

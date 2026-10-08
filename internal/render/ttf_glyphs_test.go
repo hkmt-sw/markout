@@ -1,6 +1,10 @@
 package render
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/signintech/gopdf"
+)
 
 func TestGlyphBoxes(t *testing.T) {
 	g, err := newGlyphBoxes(fontMath)
@@ -66,5 +70,28 @@ func TestGlyphBoxesRejectsGarbage(t *testing.T) {
 		if _, err := newGlyphBoxes(data); err == nil {
 			t.Errorf("%d bytes of garbage were read as a font", len(data))
 		}
+	}
+}
+
+// Widths read from the font agree with what gopdf measures.
+func TestGlyphWidths(t *testing.T) {
+	g, err := newGlyphBoxes(fontSansRegular)
+	if err != nil {
+		t.Fatal(err)
+	}
+	pdf := &gopdf.GoPdf{}
+	pdf.Start(gopdf.Config{PageSize: *gopdf.PageSizeA4})
+	if err := pdf.AddTTFFontData("f", fontSansRegular); err != nil {
+		t.Fatal(err)
+	}
+	pdf.SetFont("f", "", 10)
+	for _, text := range []string{"Process the data", "Árvíztűrő tükörfúrógép", "Is it valid?", "i", "WWW"} {
+		want, _ := pdf.MeasureTextWidth(text)
+		if got := g.width(text, 10); got < want-0.2 || got > want+0.2 {
+			t.Errorf("%q: %.2f, gopdf measures %.2f", text, got, want)
+		}
+	}
+	if g.width("", 10) != 0 || g.advance(0x10FFFF) != 0 {
+		t.Error("nothing should have no width")
 	}
 }
