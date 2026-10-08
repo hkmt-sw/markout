@@ -32,6 +32,9 @@ type Options struct {
 	RemoteImages bool
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
+	// Warn, if set, is called with each thing the output does not show the
+	// way the document has it, such as characters no font can draw.
+	Warn func(message string)
 }
 
 // theme returns the theme to render with.

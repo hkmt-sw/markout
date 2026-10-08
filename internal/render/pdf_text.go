@@ -67,6 +67,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	x := 0.0
 	needSpace := false // the previous run ended in whitespace
 	width := firstWidth
+	narrowest := math.Min(firstWidth, restWidth)
 
 	// The gap between two runs is a space of the surrounding text, not of the
 	// run that follows: a monospace space before inline code is too wide.
@@ -88,9 +89,6 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		text := run.Text
 		if run.FootnoteIndex > 0 {
 			text = "[" + itoa(run.FootnoteIndex) + "]"
-		} else {
-			// Strip emojis that can't be rendered by the embedded fonts
-			text = stripEmojis(text)
 		}
 		if text == "" {
 			continue
@@ -138,6 +136,10 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		}
 
 		r.setFont(f.font, f.style, f.size)
+		// Characters the font cannot draw are left out
+		if text = r.usable(text); text == "" {
+			continue
+		}
 		spaceWidth, _ := r.pdf.MeasureTextWidth(" ")
 		chip := run.ColorChip != ""
 
@@ -147,46 +149,54 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		leadingSpace := strings.TrimLeft(text, " \t\n") != text
 		open := false // a fragment of this run is open at the end of the line
 		for i, word := range strings.Fields(text) {
-			wordWidth, _ := r.pdf.MeasureTextWidth(word)
-			gap := (i > 0 || leadingSpace || needSpace) && x > 0
-			gapWidth := spaceWidth
-			if i == 0 {
-				gapWidth = baseSpace
+			// A word wider than a line (a URL, a path) is broken into parts
+			// that fit, which follow each other without a space.
+			parts := []string{word}
+			if w, _ := r.pdf.MeasureTextWidth(word); w > narrowest && narrowest > 0 {
+				parts = r.wrapChars(word, narrowest)
 			}
-			need := wordWidth
-			if gap {
-				need += gapWidth
-			}
-			if chip {
-				need += chipWidth
-			}
+			for pi, part := range parts {
+				partWidth, _ := r.pdf.MeasureTextWidth(part)
+				gap := pi == 0 && (i > 0 || leadingSpace || needSpace) && x > 0
+				gapWidth := spaceWidth
+				if i == 0 {
+					gapWidth = baseSpace
+				}
+				need := partWidth
+				if gap {
+					need += gapWidth
+				}
+				if chip {
+					need += chipWidth
+				}
 
-			if x+need > width && x > 0 {
-				breakLine()
-				gap, open = false, false
-			}
+				if x+need > width && x > 0 {
+					breakLine()
+					gap, open = false, false
+				}
 
-			if open && gap && !chip {
-				last := &line.frags[len(line.frags)-1]
-				last.text += " " + word
-				last.width += spaceWidth + wordWidth
-				x += spaceWidth + wordWidth
-				continue
-			}
+				if open && gap && !chip {
+					last := &line.frags[len(line.frags)-1]
+					last.text += " " + part
+					last.width += spaceWidth + partWidth
+					x += spaceWidth + partWidth
+					continue
+				}
 
-			if gap {
-				x += gapWidth
+				if gap {
+					x += gapWidth
+				}
+				piece := f
+				piece.text, piece.x, piece.width, piece.chip = part, x, partWidth, chip
+				if chip {
+					piece.x += chipWidth
+					x += chipWidth
+					chip = false
+				}
+				line.frags = append(line.frags, piece)
+				x += partWidth
+				open = true
 			}
-			part := f
-			part.text, part.x, part.width, part.chip = word, x, wordWidth, chip
-			if chip {
-				part.x += chipWidth
-				x += chipWidth
-				chip = false
-			}
-			line.frags = append(line.frags, part)
-			x += wordWidth
-			open = true
 		}
 		needSpace = strings.TrimRight(text, " \t\n") != text
 	}

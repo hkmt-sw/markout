@@ -24,7 +24,7 @@ p1 text  x=64.7 y=300.7 Arial-Bold/11 "Mermaid Diagram" #065F46
 p1 text  x=64.7 y=312.7 Courier/9 "graph LR; Open-->Fixed;" #065F46
 p1 rect  x=56.7 y=340.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p1 text  x=64.7 y=348.7 Courier/9 "java.lang.NullPointerException" #000000
-p1 text  x=64.7 y=360.7 Courier/9 "\tat com.example.Main.main(Main.java:5)" #000000
+p1 text  x=64.7 y=360.7 Courier/9 "    at com.example.Main.main(Main.java:5)" #000000
 p1 text  x=56.7 y=388.7 Arial/11 "No alerts" #1A1A2E
 p1 text  x=103.7 y=388.7 Arial/11 "here:" #1A1A2E
 p1 text  x=76.7 y=412.7 Arial-Italic/11 "[" #1A1A2E

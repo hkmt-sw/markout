@@ -89,6 +89,10 @@ type Options struct {
 	RemoteImages bool
 	// Theme is how the output looks; nil means the default theme.
 	Theme *theme.Set
+	// Warn, if set, is called with each thing the output does not show the
+	// way the document has it (characters no font can draw, for example).
+	// The conversion still succeeds.
+	Warn func(message string)
 }
 
 // ConvertFile converts a Markdown file to the specified output format using
@@ -119,7 +123,7 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		return err
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme}
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Warn: opts.Warn}
 
 	// Render to output format
 	switch format {

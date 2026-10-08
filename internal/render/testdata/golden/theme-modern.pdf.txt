@@ -179,9 +179,9 @@ p3 text  x=412.7 y=299.9 Arial/10.5 "preserved" #1F2937
 p3 text  x=459.3 y=299.9 Arial/10.5 ":" #1F2937
 p3 rect  x=70.9 y=326.9 w=453.5 h=85.0 fill=#F3F4F6 stroke=#F3F4F6/0.5
 p3 text  x=80.9 y=336.9 Courier/9 "func main() {" #1F2937
-p3 text  x=80.9 y=349.9 Courier/9 "\tif ok := convert(); !ok {" #1F2937
-p3 text  x=80.9 y=362.9 Courier/9 "\t\tfmt.Println(\"failed\")" #1F2937
-p3 text  x=80.9 y=375.9 Courier/9 "\t}" #1F2937
+p3 text  x=80.9 y=349.9 Courier/9 "    if ok := convert(); !ok {" #1F2937
+p3 text  x=80.9 y=362.9 Courier/9 "        fmt.Println(\"failed\")" #1F2937
+p3 text  x=80.9 y=375.9 Courier/9 "    }" #1F2937
 p3 text  x=80.9 y=388.9 Courier/9 "}" #1F2937
 p3 text  x=70.9 y=443.9 Arial-Bold/19 "7." #111827
 p3 text  x=92.0 y=443.9 Arial-Bold/19 "Quotes" #111827

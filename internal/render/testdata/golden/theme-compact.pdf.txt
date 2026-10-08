@@ -174,9 +174,9 @@ p2 text  x=351.8 y=293.5 Arial/9.5 "preserved" #1A1A1A
 p2 text  x=394.0 y=293.5 Arial/9.5 ":" #1A1A1A
 p2 rect  x=42.5 y=311.5 w=510.2 h=62.5 fill=#F4F4F4 stroke=#D4D4D4/0.5
 p2 text  x=47.5 y=316.5 Courier/8 "func main() {" #1A1A1A
-p2 text  x=47.5 y=327.0 Courier/8 "\tif ok := convert(); !ok {" #1A1A1A
-p2 text  x=47.5 y=337.5 Courier/8 "\t\tfmt.Println(\"failed\")" #1A1A1A
-p2 text  x=47.5 y=348.0 Courier/8 "\t}" #1A1A1A
+p2 text  x=47.5 y=327.0 Courier/8 "    if ok := convert(); !ok {" #1A1A1A
+p2 text  x=47.5 y=337.5 Courier/8 "        fmt.Println(\"failed\")" #1A1A1A
+p2 text  x=47.5 y=348.0 Courier/8 "    }" #1A1A1A
 p2 text  x=47.5 y=358.5 Courier/8 "}" #1A1A1A
 p2 text  x=42.5 y=389.0 Arial-Bold/14 "7." #000000
 p2 text  x=58.1 y=389.0 Arial-Bold/14 "Quotes" #000000

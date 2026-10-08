@@ -67,6 +67,7 @@ type statusKind int
 const (
 	statusInfo statusKind = iota
 	statusSuccess
+	statusWarning // saved, with something to tell
 	statusError
 )
 
@@ -97,6 +98,7 @@ var (
 	colDir     = lipgloss.AdaptiveColor{Light: "25", Dark: "75"}   // directories
 	colSuccess = lipgloss.AdaptiveColor{Light: "28", Dark: "42"}   // green
 	colError   = lipgloss.AdaptiveColor{Light: "124", Dark: "203"} // red
+	colWarning = lipgloss.AdaptiveColor{Light: "130", Dark: "214"} // amber
 	colSelFg   = lipgloss.AdaptiveColor{Light: "231", Dark: "231"} // text on accent bar
 
 	borderStyle = lipgloss.NewStyle().Foreground(colMuted)
@@ -123,8 +125,9 @@ var (
 // ============================================================================
 
 type convertDoneMsg struct {
-	output string
-	err    error
+	output   string
+	err      error
+	warnings []string // what the output does not show as the document has it
 }
 
 // ============================================================================
@@ -375,6 +378,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.status = "saved → " + msg.output
 			m.statusKind = statusSuccess
 			m.lastOutput = msg.output
+			if n := len(msg.warnings); n > 0 {
+				// The file name alone, to leave room for the warning
+				m.status = "saved → " + filepath.Base(msg.output) + " · " + msg.warnings[0]
+				if n > 1 {
+					m.status += fmt.Sprintf(" (+%d more)", n-1)
+				}
+				m.statusKind = statusWarning
+			}
 		}
 		return m, nil
 
@@ -668,8 +679,10 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 	return m, tea.Batch(
 		m.spinner.Tick,
 		func() tea.Msg {
+			var warnings []string
+			opts.Warn = func(message string) { warnings = append(warnings, message) }
 			err := convert.ConvertFileWith(in, out, format.convertFormat(), opts)
-			return convertDoneMsg{output: out, err: err}
+			return convertDoneMsg{output: out, err: err, warnings: warnings}
 		},
 	)
 }
@@ -1336,6 +1349,8 @@ func (m Model) statusLine() string {
 	switch m.statusKind {
 	case statusSuccess:
 		st = lipgloss.NewStyle().Foreground(colSuccess)
+	case statusWarning:
+		st = lipgloss.NewStyle().Foreground(colWarning)
 	case statusError:
 		st = lipgloss.NewStyle().Foreground(colError)
 	default:

@@ -4,6 +4,43 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.3] - 2026-10-08
+
+Nothing in a document should go missing from its PDF without a word.
+
+### Fixed
+
+- A code block longer than a page ran off the bottom of it, and the lines
+  below the edge were not visible anywhere. It now continues on the following
+  pages, and starts on the page it is on instead of leaving that page empty.
+  The same goes for callouts, Mermaid boxes and front matter. A block that
+  fits on one page is still kept together.
+- A quote that runs onto a second page has its bar on both pages.
+- Text with nowhere to break ran past the right edge of the page: a long
+  line of code, a URL, a long word in a table cell, a long formula, a long
+  heading in a table of contents, an image caption. Such text is now broken
+  to the width it has.
+- Tabs in code are expanded to tab stops four characters apart; they were
+  drawn as a single space.
+- Symbols the PDF fonts do have (™, №, ►, ● and others) were dropped along
+  with emoji. Only characters the font in use really lacks are left out now,
+  so a theme with a font of your own can show Chinese, Japanese or Korean
+  text, or emoji.
+
+### Added
+
+- A warning when characters are left out of a PDF because no font has them,
+  naming the characters, and another when the document has right-to-left
+  text, which PDF output does not lay out. A direct conversion prints them to
+  standard error; the TUI shows them in the status line. The file is still
+  written.
+
+### Changed
+
+- The README no longer says that math and diagrams "come out right": both
+  are shown as their source. A new [Limits](README.md#limits) section lists
+  this and what else markout does not do yet.
+
 ## [1.3.2] - 2026-10-06
 
 ### Changed

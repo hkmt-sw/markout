@@ -816,3 +816,21 @@ func TestMissingThemeFailsTheConversion(t *testing.T) {
 		t.Fatalf("converting=%v status=%q", m.converting, m.status)
 	}
 }
+
+// A conversion that left something out says so next to the saved file.
+func TestConversionWarningIsShown(t *testing.T) {
+	m := newAt(t.TempDir())
+	next, _ := m.Update(convertDoneMsg{
+		output:   filepath.Join("some", "dir", "out.pdf"),
+		warnings: []string{"2 characters are not in the PDF fonts", "right-to-left text"},
+	})
+	got := next.(Model)
+	if got.statusKind != statusWarning {
+		t.Errorf("statusKind = %v, want statusWarning", got.statusKind)
+	}
+	for _, want := range []string{"saved → out.pdf", "2 characters are not in the PDF fonts", "(+1 more)"} {
+		if !strings.Contains(got.status, want) {
+			t.Errorf("status %q does not contain %q", got.status, want)
+		}
+	}
+}

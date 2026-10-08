@@ -92,7 +92,7 @@ func (r *PdfRenderer) loadFonts() error {
 			if !ok {
 				continue
 			}
-			if err := r.pdf.AddTTFFontData(name+styleSuffix[style], data); err != nil {
+			if err := r.pdf.AddTTFFontDataWithOption(name+styleSuffix[style], data, r.glyphOption()); err != nil {
 				return fmt.Errorf("font %q: %w", key, err)
 			}
 			loaded.styles[style] = true
