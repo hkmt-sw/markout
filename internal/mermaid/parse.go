@@ -144,7 +144,7 @@ func Parse(source string) (*Graph, error) {
 	var open []int // subgraphs being read, innermost last
 	started := false
 
-	for _, raw := range strings.Split(strings.ReplaceAll(source, "\r\n", "\n"), "\n") {
+	for number, raw := range strings.Split(strings.ReplaceAll(source, "\r\n", "\n"), "\n") {
 		if i := strings.Index(raw, "%%"); i >= 0 {
 			raw = raw[:i] // a comment
 		}
@@ -190,7 +190,7 @@ func Parse(source string) (*Graph, error) {
 					group = open[len(open)-1]
 				}
 				if err := g.statement(stmt, group); err != nil {
-					return nil, err
+					return nil, fmt.Errorf("line %d (%s): %w", number+1, shorten(stmt), err)
 				}
 			}
 			if len(g.Nodes) > MaxNodes || len(g.Edges) > MaxEdges {
@@ -206,6 +206,14 @@ func Parse(source string) (*Graph, error) {
 	}
 	g.connectGroups()
 	return g, nil
+}
+
+// shorten cuts a statement down to what fits in a message.
+func shorten(stmt string) string {
+	if r := []rune(stmt); len(r) > 40 {
+		return string(r[:40]) + "…"
+	}
+	return stmt
 }
 
 // splitStatements splits a line at the semicolons that are not inside
@@ -314,6 +322,9 @@ var shapes = []struct {
 func (g *Graph) node(p *scanner, group int) (int, error) {
 	id := p.identifier()
 	if id == "" {
+		if strings.TrimSpace(p.rest()) == "" {
+			return 0, errors.New("a connection leads nowhere")
+		}
 		return 0, fmt.Errorf("%q is not understood", strings.TrimSpace(p.rest()))
 	}
 	if strings.HasPrefix(p.rest(), "@{") {

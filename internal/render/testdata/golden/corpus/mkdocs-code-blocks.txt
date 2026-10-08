@@ -1,4 +1,5 @@
 source: 546 lines
 holds: Alert 3, CodeBlock 30, FootnoteDefinition 1, FrontMatter 1, Heading 17, List 9, ListItem 25, Paragraph 68
+reading warns: 15 parts of the source have no equivalent in a document and were left out: icons (15)
 pdf: 9 pages, 17 bookmarks, 4 links within the document
 docx: 180 paragraphs, 17 headings, 25 list items, 34 tables, 0 equations, 0 images

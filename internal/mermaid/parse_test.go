@@ -94,12 +94,13 @@ func TestParseErrors(t *testing.T) {
 		}
 	}
 	for src, want := range map[string]string{
-		"graph TD\n":                  "empty",
-		"graph TD\nA[unclosed --> B":  "not closed",
-		"graph TD\nA --> ":            "not understood",
-		"graph TD\nA ?? B":            "not understood",
-		"graph TD\nA@{ shape: rect }": "not read",
-		"graph TD\nA -->|unclosed B":  "not understood",
+		"graph TD\n":                    "empty",
+		"graph TD\nA[unclosed --> B":    "not closed",
+		"graph TD\nA --> ":              "line 2 (A -->): a connection leads nowhere",
+		"graph TD\nA --> B\n\nB ?? C\n": "line 4 (B ?? C)",
+		"graph TD\nA ?? B":              "not understood",
+		"graph TD\nA@{ shape: rect }":   "not read",
+		"graph TD\nA -->|unclosed B":    "not understood",
 	} {
 		_, err := Parse(src)
 		if err == nil || errors.Is(err, ErrNotFlowchart) || !strings.Contains(err.Error(), want) {

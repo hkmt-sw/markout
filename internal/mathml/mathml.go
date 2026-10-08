@@ -285,6 +285,9 @@ func Unstyle(c rune) (rune, Variant) {
 	if c < 0x1D400 || c > 0x1D7FF {
 		return c, Plain
 	}
+	if c >= 0x1D6FC && c <= 0x1D714 {
+		return 'α' + (c - 0x1D6FC), Italic // lower-case Greek, as ItalicLetter makes it
+	}
 	for _, run := range styledRuns {
 		switch {
 		case c >= run.upper && c < run.upper+26:

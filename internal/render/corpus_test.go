@@ -69,6 +69,11 @@ func TestGoldenCorpus(t *testing.T) {
 			}
 			trace := pdf.trace.String()
 			checkOnThePage(t, trace)
+			if written, err := os.ReadFile(filepath.Join(dir, "out.pdf")); err != nil {
+				t.Fatal(err)
+			} else {
+				checkPDFObjects(t, written)
+			}
 			fmt.Fprintf(&summary, "pdf: %d pages, %d bookmarks, %d links within the document\n",
 				pdf.page, len(traceLines(trace, "bookmark")), len(traceLines(trace, "goto")))
 			for _, w := range warnings {

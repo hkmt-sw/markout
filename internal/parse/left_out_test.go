@@ -1,6 +1,8 @@
 package parse
 
 import (
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -77,7 +79,7 @@ func TestDirectivesAreShownOrReported(t *testing.T) {
 	if len(doc.Warnings) != 2 {
 		t.Fatalf("warnings: %q", doc.Warnings)
 	}
-	if w := doc.Warnings[0]; !strings.Contains(w, "3 blocks") || !strings.Contains(w, "{raw} latex") || !strings.Contains(w, "{bibliography} (2)") {
+	if w := doc.Warnings[0]; !strings.Contains(w, "3 parts") || !strings.Contains(w, "{raw} latex") || !strings.Contains(w, "{bibliography} (2)") {
 		t.Errorf("left out: %s", w)
 	}
 	if w := doc.Warnings[1]; !strings.Contains(w, "1 directive is not known") || !strings.Contains(w, "{mystery}") {
@@ -98,7 +100,7 @@ func TestMySTTables(t *testing.T) {
 	tests := []struct{ name, md, want string }{
 		{"list-table", "```{list-table} Caption\n:header-rows: 1\n\n* - Name\n  - Value\n* - a | b\n  - spans\n    two lines\n```\n",
 			"Caption\nTABLE:Name|Value|/a | b|spans two lines|\n"},
-		{"list-table without a header", "```{list-table}\n* - a\n  - b\n```\n", "TABLE:||/a|b|\n"},
+		{"list-table without a header", "```{list-table}\n* - a\n  - b\n```\n", "TABLE:/a|b|\n"},
 		{"csv-table", "```{csv-table} Caption\n:header: \"x\", \"y\"\n\n\"a, with comma\", 1\nb, 2\n```\n",
 			"Caption\nTABLE:x|y|/a, with comma|1|/b|2|\n"},
 		{"as MyST's own documentation writes them", "```{list-table}\n:header-rows: 1\n\n*   - Treat\n    - Price\n*   - Frog\n    - 1.49\n```\n\n" +
@@ -194,7 +196,7 @@ func TestMDXComponentsAreReported(t *testing.T) {
 		t.Fatalf("warnings: %q", doc.Warnings)
 	}
 	w := doc.Warnings[0]
-	for _, want := range []string{"3 blocks", "<Chart /> (2)", "<Badge />"} {
+	for _, want := range []string{"3 parts", "<Chart /> (2)", "<Badge />"} {
 		if !strings.Contains(w, want) {
 			t.Errorf("warning does not have %q: %s", want, w)
 		}
@@ -207,5 +209,79 @@ func TestMDXComponentsAreReported(t *testing.T) {
 	// Other flavors do not read JSX
 	if doc := parseDoc(t, "github", "<Chart />\n"); len(doc.Warnings) != 0 {
 		t.Errorf("warnings: %q", doc.Warnings)
+	}
+}
+
+// What MkDocs Material adds to Markdown: files put in with --8<--, keys,
+// icons, and Markdown inside HTML.
+func TestMaterial(t *testing.T) {
+	dir := t.TempDir()
+	if err := os.WriteFile(filepath.Join(dir, "part.md"), []byte("FROM **the** file.\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	md := "--8<-- \"part.md\"\n\n--8<-- \"missing.md\"\n\n--8<--\npart.md\n; off.md\n../outside.md\n--8<--\n\n" +
+		"Press ++ctrl+alt+del++ then ++arrow-up++, :material-check: done. C++ and a++b++ stay.\n\n" +
+		"<div class=\"grid cards\" markdown>\n\n- CARD\n\n</div>\n\n```\n++ctrl++ :material-x: --8<-- in code\n```\n"
+	fl, _ := flavor.ByID("mkdocs")
+	doc, err := ParseFlavor([]byte(md), fl, dir)
+	if err != nil {
+		t.Fatal(err)
+	}
+	text := allText(doc.Elements)
+	for _, want := range []string{"FROM the file.\nFROM the file.\n", "Press Ctrl+Alt+Del then Arrow Up,  done. C++ and a++b++ stay.", "++ctrl++ :material-x: --8<-- in code"} {
+		if !strings.Contains(text, want) {
+			t.Errorf("%q is not in the document:\n%s", want, text)
+		}
+	}
+	if list, ok := findList(doc.Elements); !ok || runsText(list.Items[0].Runs) != "CARD" {
+		t.Errorf("the Markdown inside the div is not read:\n%s", text)
+	}
+	if strings.Contains(text, "<div") || strings.Contains(text, "--8<-- \"") {
+		t.Errorf("markup is left in the text:\n%s", text)
+	}
+	if len(doc.Warnings) != 2 {
+		t.Fatalf("warnings: %q", doc.Warnings)
+	}
+	if w := doc.Warnings[0]; !strings.Contains(w, "1 part of the source") || !strings.Contains(w, "icons") {
+		t.Errorf("left out: %s", w)
+	}
+	if w := doc.Warnings[1]; !strings.Contains(w, "2 files named by --8<--") || !strings.Contains(w, `"missing.md"`) || !strings.Contains(w, `"../outside.md"`) {
+		t.Errorf("unread: %s", w)
+	}
+	// Other flavors leave all of it alone
+	if doc := parseDoc(t, "github", "Press ++ctrl++ :material-check:\n"); !strings.Contains(allText(doc.Elements), "++ctrl++ :material-check:") {
+		t.Errorf("GitHub flavor changed it: %q", allText(doc.Elements))
+	}
+}
+
+// In MDX indentation does not make code: what is indented inside a
+// component, or anywhere outside a list, is text, and fenced code keeps its
+// own indentation.
+func TestMDXIndentation(t *testing.T) {
+	mdx := "<Tabs>\n  <TabItem value=\"a\" label=\"One\">\n    Indented with `code`.\n\n    ```js\n    if (x) {\n      y();\n    }\n    ```\n  </TabItem>\n</Tabs>\n\n" +
+		"<details>\n<summary>S</summary>\n\n    Deep text.\n\n</details>\n\n    Loose indented text.\n\n- item\n\n      code in the item\n\nEND\n"
+	doc := parseDoc(t, "docusaurus", mdx)
+	text := allText(doc.Elements)
+	for _, want := range []string{"One\nIndented with code.\nCODE[js]:if (x) {\n  y();\n}\n", "Deep text.\n", "Loose indented text.\n", "END\n"} {
+		if !strings.Contains(text, want) {
+			t.Errorf("%q is not in the document:\n%s", want, text)
+		}
+	}
+	// Under GitHub the same indentation makes code blocks
+	if text := allText(parseDoc(t, "github", "A\n\n    Loose indented text.\n").Elements); !strings.Contains(text, "CODE[]:Loose indented text.") {
+		t.Errorf("GitHub: %q", text)
+	}
+}
+
+// A table whose header row is empty has no header.
+func TestHeaderlessTable(t *testing.T) {
+	doc := parseDoc(t, "github", "|   |   |\n|---|---|\n| a | b |\n| c | d |\n")
+	table, ok := doc.Elements[0].(ast.Table)
+	if !ok || len(table.Header.Cells) != 0 || len(table.Rows) != 2 {
+		t.Errorf("table: %+v", doc.Elements[0])
+	}
+	doc = parseDoc(t, "github", "| h | i |\n|---|---|\n| a | b |\n")
+	if table := doc.Elements[0].(ast.Table); len(table.Header.Cells) != 2 {
+		t.Errorf("a table with a header lost it: %+v", table)
 	}
 }

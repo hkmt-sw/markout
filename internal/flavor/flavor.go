@@ -49,6 +49,10 @@ type Features struct {
 	BangAdmonitions  bool // !!! note "Title" with an indented body
 	Directives       bool // MyST ```{note} / :::{note} directives and {role}`x`
 	ContentTabs      bool // === "Tab" with an indented body
+	// Material covers what else MkDocs Material adds: --8<-- snippets,
+	// ++ctrl+c++ keys, :material-name: icons, Markdown inside HTML that has
+	// the markdown attribute.
+	Material bool
 
 	// TOCMarkers are the lines that expand to a table of contents.
 	TOCMarkers []string
@@ -131,6 +135,7 @@ var all = []Flavor{
 			f.MermaidFence, f.MermaidColon = true, true
 			f.Alerts, f.AlertTitles, f.Callouts = true, true, true
 			f.ColonAdmonitions, f.BangAdmonitions, f.Directives, f.ContentTabs = true, true, true, true
+			f.Material = true
 			f.TOCMarkers = []string{"[[_TOC_]]", "[TOC]", "{{TOC}}", "[[toc]]", "{:toc}"}
 			f.Highlight, f.InlineDiff, f.CriticMarkup, f.BracketedSpans = true, true, true, true
 			f.Comments, f.ColorChips = true, true
@@ -315,7 +320,7 @@ var all = []Flavor{
 			f.FrontMatter = true
 			f.MathDollar = true
 			f.MermaidFence = true
-			f.BangAdmonitions, f.ContentTabs = true, true
+			f.BangAdmonitions, f.ContentTabs, f.Material = true, true, true
 			f.TOCMarkers = []string{"[TOC]"}
 			f.Highlight, f.Superscript, f.Subscript, f.InsertCaret, f.CriticMarkup = true, true, true, true, true
 			f.ImageAttributes = true

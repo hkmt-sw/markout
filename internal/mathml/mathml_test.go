@@ -94,7 +94,7 @@ func TestStyledLetters(t *testing.T) {
 	}{
 		'𝐀': {'A', Bold}, '𝑥': {'x', Italic}, 'ℎ': {'h', Italic}, 'ℝ': {'R', DoubleStruck},
 		'𝔸': {'A', DoubleStruck}, 'ℒ': {'L', Script}, '𝒜': {'A', Script}, '𝟏': {'1', Bold},
-		'x': {'x', Plain}, 'α': {'α', Plain}, '∑': {'∑', Plain},
+		'x': {'x', Plain}, 'α': {'α', Plain}, '∑': {'∑', Plain}, '𝛼': {'α', Italic}, '𝜔': {'ω', Italic},
 	} {
 		if base, variant := Unstyle(styled); base != want.base || variant != want.variant {
 			t.Errorf("%c: got %c/%d, want %c/%d", styled, base, variant, want.base, want.variant)

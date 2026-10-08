@@ -71,6 +71,20 @@ type leftOut struct {
 	// Directives markout does not know. Their content is kept, as text.
 	unknown      []string
 	unknownCount map[string]int
+
+	// Files a document asks to have put in that could not be read.
+	unread      []string
+	unreadCount map[string]int
+}
+
+func (l *leftOut) addUnread(name string) {
+	if l.unreadCount == nil {
+		l.unreadCount = map[string]int{}
+	}
+	if l.unreadCount[name] == 0 {
+		l.unread = append(l.unread, name)
+	}
+	l.unreadCount[name]++
 }
 
 func (l *leftOut) addUnknown(name string) {
@@ -106,9 +120,16 @@ func (l *leftOut) warnings() []string {
 	}
 	var out []string
 	if total, names := list(l.names, l.count); total > 0 {
-		what := "blocks have no equivalent in a document and were"
+		what := "parts of the source have no equivalent in a document and were"
 		if total == 1 {
-			what = "block has no equivalent in a document and was"
+			what = "part of the source has no equivalent in a document and was"
+		}
+		out = append(out, fmt.Sprintf("%d %s left out: %s", total, what, names))
+	}
+	if total, names := list(l.unread, l.unreadCount); total > 0 {
+		what := "files named by --8<-- could not be read and are"
+		if total == 1 {
+			what = "file named by --8<-- could not be read and is"
 		}
 		out = append(out, fmt.Sprintf("%d %s left out: %s", total, what, names))
 	}
@@ -140,6 +161,9 @@ func (p *preprocessor) run(src []byte) []byte {
 		}
 	}
 
+	if p.f.MDX {
+		lines = mdxDedent(lines)
+	}
 	lines = append(head[:len(head):len(head)], p.blocks(lines)...)
 	if len(p.notes) > 0 {
 		lines = append(lines, "")
@@ -224,6 +248,11 @@ var (
 	listItemLine  = regexp.MustCompile(`^[ \t]*(?:[*+-]|\d+[.)])[ \t]+\S`)
 	abbrDef       = regexp.MustCompile(`^\*\[[^\]]+\]:`)
 	includeLine   = regexp.MustCompile(`^::include\{file=([^}]+)\}[ \t]*$`)
+	snippetLine   = regexp.MustCompile(`^-{2,}8<-{2,}\s+"([^"]+)"$`)
+	snippetFence  = regexp.MustCompile(`^-{2,}8<-{2,}$`)
+	markdownTag   = regexp.MustCompile(`^<(div|span|figure|section|article|aside)\b[^<>]*\smarkdown(?:="[^"]*")?[^<>]*>$`)
+	materialKeys  = regexp.MustCompile(`\+\+([A-Za-z0-9][A-Za-z0-9-]*(?:\+[A-Za-z0-9][A-Za-z0-9-]*)*)\+\+`)
+	materialIcon  = regexp.MustCompile(`:(?:material|fontawesome|octicons|simple)-[a-z0-9-]+:(?:\{[^}]*\})?`)
 	mdxImport     = regexp.MustCompile(`^import\s+(?:.+\sfrom\s+)?['"][^'"]+['"];?[ \t]*$`)
 	mdxTabItem    = regexp.MustCompile(`^<TabItem\b([^>]*)>$`)
 	mdxComponent  = regexp.MustCompile(`<([A-Z][\w.]*)(?:\s[^<>]*)?/>`)
@@ -246,6 +275,7 @@ func (p *preprocessor) blocks(lines []string) []string {
 	f := p.f
 	var out []string
 	inComment := false
+	var wrappers []string // HTML tags with the markdown attribute that are open
 
 	var colonClose map[int]int
 	if f.MermaidColon || f.ColonAdmonitions || f.Directives {
@@ -432,6 +462,43 @@ func (p *preprocessor) blocks(lines []string) []string {
 					out = append(out, inc...)
 					continue
 				}
+			}
+		}
+
+		if f.Material {
+			// --8<-- "file.md" puts a file in, as ::include does and under
+			// the same rules; a file that cannot be read is named
+			if m := snippetLine.FindStringSubmatch(trimmed); m != nil {
+				out = append(out, p.snippet(m[1])...)
+				continue
+			}
+			if snippetFence.MatchString(trimmed) {
+				// Between two such lines, a file a line
+				end := i + 1
+				for end < len(lines) && !snippetFence.MatchString(strings.TrimSpace(lines[end])) {
+					end++
+				}
+				if end < len(lines) {
+					for _, file := range lines[i+1 : end] {
+						if file = strings.TrimSpace(file); file != "" && !strings.HasPrefix(file, ";") {
+							out = append(out, p.snippet(file)...)
+						}
+					}
+					i = end
+					continue
+				}
+			}
+			// <div class="grid" markdown> holds Markdown: the tag goes, what
+			// is in it stays
+			if m := markdownTag.FindStringSubmatch(trimmed); m != nil {
+				wrappers = append(wrappers, m[1])
+				out = append(out, "")
+				continue
+			}
+			if n := len(wrappers); n > 0 && trimmed == "</"+wrappers[n-1]+">" {
+				wrappers = wrappers[:n-1]
+				out = append(out, "")
+				continue
 			}
 		}
 
@@ -1018,6 +1085,129 @@ func pipeTable(rows [][]string, header bool) []string {
 	return out
 }
 
+var (
+	mdxOpenTag  = regexp.MustCompile(`^<[A-Z][\w.]*(?:\s[^<>]*)?>$`)
+	mdxCloseTag = regexp.MustCompile(`^</[A-Z][\w.]*>$`)
+)
+
+// mdxDedent takes away indentation that means nothing in MDX. There, text
+// indented by four spaces is text, and writers indent the content of <Tabs>
+// and the like as they would indent code; in Markdown four spaces make a
+// code block. The content of a component is moved left by the indentation
+// of its first line, which keeps the lists and code in it as they are, and
+// outside of lists nothing is left indented far enough to become code.
+func mdxDedent(lines []string) []string {
+	out := make([]string, len(lines))
+	var inside []int // per open component: its content's indentation, -1 until seen
+	fence := ""      // the marker of the code block being passed through
+	fenceStrip := 0  // how far that block was moved left
+	inList := false  // in a list, indentation says what belongs to an item
+	for i, line := range lines {
+		text := strings.TrimSpace(line)
+		switch {
+		case fence == "" && mdxCloseTag.MatchString(text):
+			if len(inside) > 0 {
+				inside = inside[:len(inside)-1]
+			}
+			out[i], inList = text, false
+			continue
+		case fence == "" && mdxOpenTag.MatchString(text) && !strings.HasSuffix(text, "/>"):
+			inside = append(inside, -1)
+			out[i], inList = text, false
+			continue
+		}
+
+		// Out of the component
+		if len(inside) > 0 && text != "" {
+			base := &inside[len(inside)-1]
+			if *base < 0 {
+				*base = leadingSpaces(line)
+			}
+			line = line[min(leadingSpaces(line), *base):]
+		}
+		lead := leadingSpaces(line)
+
+		if fence != "" {
+			if strings.HasPrefix(text, fence) && strings.Trim(text, fence[:1]) == "" {
+				fence = ""
+			}
+			out[i] = line[min(lead, fenceStrip):]
+			continue
+		}
+		switch {
+		case text == "":
+		case listItemLine.MatchString(line):
+			inList = true
+		case lead == 0:
+			inList = false
+		}
+		opens := strings.HasPrefix(text, "```") || strings.HasPrefix(text, "~~~")
+		strip := 0
+		if !inList && lead >= 4 {
+			strip = lead
+		}
+		if opens {
+			fence, fenceStrip = text[:3], strip
+		}
+		out[i] = line[strip:]
+	}
+	return out
+}
+
+// snippet reads a file named by --8<--. One that cannot be read (it is not
+// there, or it is outside the directory of the document) is left out and
+// named in the warning.
+func (p *preprocessor) snippet(file string) []string {
+	// "file.md:3:8" takes some of its lines; the whole file is what is read
+	name := file
+	if i := strings.Index(name, ":"); i > 0 {
+		name = name[:i]
+	}
+	if lines, ok := p.include(name); ok {
+		return append(append([]string{""}, lines...), "")
+	}
+	p.left.addUnread(`"` + file + `"`)
+	return nil
+}
+
+// materialInline rewrites the inline additions of MkDocs Material: keys are
+// shown as code, and icons, which are pictures from a font, are left out.
+func (p *preprocessor) materialInline(s string) string {
+	// ++ctrl+alt+del++ is shown as Ctrl+Alt+Del. The plus signs of "a++b++"
+	// are part of words and not keys, and {++text++} is an insertion
+	wordChar := func(i int) bool {
+		if i < 0 || i >= len(s) {
+			return false
+		}
+		c := s[i]
+		return c == '+' || c == '_' || c == '{' || c == '}' || c >= '0' && c <= '9' || c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z' || c >= 0x80
+	}
+	var b strings.Builder
+	last := 0
+	for _, m := range materialKeys.FindAllStringSubmatchIndex(s, -1) {
+		if wordChar(m[0]-1) || wordChar(m[1]) {
+			continue
+		}
+		keys := strings.Split(s[m[2]:m[3]], "+")
+		for i, key := range keys {
+			words := strings.Split(key, "-")
+			for j, w := range words {
+				words[j] = strings.ToUpper(w[:1]) + w[1:]
+			}
+			keys[i] = "`" + strings.Join(words, " ") + "`"
+		}
+		b.WriteString(s[last:m[0]])
+		b.WriteString(strings.Join(keys, "+"))
+		last = m[1]
+	}
+	b.WriteString(s[last:])
+	s = b.String()
+	return materialIcon.ReplaceAllStringFunc(s, func(string) string {
+		p.left.add("icons")
+		return ""
+	})
+}
+
 // mdxAttr returns the value of an attribute of a JSX tag, as label="x".
 func mdxAttr(attrs, name string) string {
 	m := regexp.MustCompile(`\b` + name + `=(?:"([^"]*)"|'([^']*)')`).FindStringSubmatch(attrs)
@@ -1177,6 +1367,9 @@ func role(name, content string) string {
 
 func (p *preprocessor) inlineText(s string) string {
 	f := p.f
+	if f.Material {
+		s = p.materialInline(s)
+	}
 
 	if f.MathBrackets {
 		s = mathDisplayBS.ReplaceAllStringFunc(s, func(m string) string { return "$$" + m[3:len(m)-3] + "$$" })
