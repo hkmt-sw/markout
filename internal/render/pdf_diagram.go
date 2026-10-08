@@ -32,7 +32,7 @@ func (r *PdfRenderer) drawChart(source string) error {
 			return w
 		},
 		LineHeight: size * 1.3,
-	}, r.contentWidth, r.pageHeight-r.marginTop-r.marginBottom)
+	}, r.contentWidth, r.pageHeight-r.marginTop-r.marginBottom-r.waitingHeight())
 	if err != nil {
 		return err
 	}

@@ -323,6 +323,21 @@ func (r *PdfRenderer) drawHeading(w waitingHeading, pageTop bool) {
 	r.currentY += hd.SpaceAfter
 }
 
+// waitingHeight is the height of the headings that are waiting, if a block
+// that is fitted to the page can leave them room on it: a chart as tall as a
+// page is drawn a little smaller, so that its heading is on the page with
+// it. Headings that would take more than a third of the page get none.
+func (r *PdfRenderer) waitingHeight() float64 {
+	total := 0.0
+	for _, w := range r.waiting {
+		total += w.height
+	}
+	if total > (r.pageHeight-r.marginTop-r.marginBottom)/3 {
+		return 0
+	}
+	return total
+}
+
 // flushHeadings draws the headings that are waiting. need is the height of
 // what comes after them: if the headings and that do not fit on what is left
 // of the page, they start a new page together, so that a heading is never
