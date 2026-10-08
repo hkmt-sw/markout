@@ -74,6 +74,19 @@ type PdfRenderer struct {
 	diagramProblems diagramProblems // see pdf_diagram.go
 
 	waiting []waitingHeading // headings laid out and not yet drawn
+
+	// For the page numbers of a table of contents: the page each heading
+	// is on in this layout, and where they were in the layout before.
+	headingPages map[string]int
+	tocPages     map[string]int
+	images       map[string]loadedImage // read once for both layouts
+}
+
+// loadedImage is an image as it was read, or the reason it could not be.
+type loadedImage struct {
+	data  []byte
+	width int
+	err   error
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -85,42 +98,21 @@ func NewPdfRenderer() *PdfRenderer {
 
 // RenderToFile renders AST document to a PDF file
 func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error {
-	r.pdf = &gopdf.GoPdf{}
-	r.t = r.opts.theme().PDF
-	r.pdf.Start(gopdf.Config{PageSize: gopdf.Rect{W: r.t.Page.Width, H: r.t.Page.Height}})
-	r.footnotes = nil // Reset footnotes
-	r.page = 0
-	r.glyphs, r.widths = map[string]map[rune]bool{}, map[string]map[rune]float64{}
-	r.missing, r.missingSeen, r.rightToLeft = nil, nil, false
-	r.anchors, _ = collectAnchors(astDoc.Elements)
-	r.anchored, r.outline = map[string]bool{}, nil
-	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
-	r.diagramProblems = diagramProblems{}
-	r.waiting = nil
-	// gopdf starts with black text and strokes, a thin line, and no fill set.
-	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
-
-	if err := r.setupDocument(); err != nil {
-		return err
+	// A table of contents gives the page of every heading, which is known
+	// only once the document is laid out. So the document is laid out
+	// twice: once to see where the headings fall, and again with the page
+	// numbers in place. An entry takes the same room with its number as
+	// without, so the headings fall where they did.
+	r.tocPages, r.images = nil, map[string]loadedImage{}
+	if hasTableOfContents(astDoc.Elements) {
+		trace := r.trace
+		r.trace = nil
+		if err := r.layoutDocument(astDoc); err != nil {
+			return err
+		}
+		r.tocPages, r.trace = r.headingPages, trace
 	}
-
-	r.addPage()
-	r.currentY = r.marginTop
-
-	for _, elem := range astDoc.Elements {
-		r.renderElement(elem)
-	}
-
-	// A heading with nothing after it
-	r.flushHeadings(0)
-
-	// Render collected footnotes at the end
-	if len(r.footnotes) > 0 {
-		r.renderFootnoteSection()
-	}
-
-	// Headers and footers go on last, when the page count is known
-	if err := r.drawRunning(infoOf(astDoc)); err != nil {
+	if err := r.layoutDocument(astDoc); err != nil {
 		return err
 	}
 
@@ -144,6 +136,57 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 		}
 	}
 	return nil
+}
+
+// hasTableOfContents reports whether a document has a table of contents.
+func hasTableOfContents(elems []ast.Element) bool {
+	for _, elem := range elems {
+		if _, ok := elem.(ast.TableOfContents); ok {
+			return true
+		}
+	}
+	return false
+}
+
+// layoutDocument lays the document out into a new PDF, held in memory.
+func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
+	r.pdf = &gopdf.GoPdf{}
+	r.t = r.opts.theme().PDF
+	r.pdf.Start(gopdf.Config{PageSize: gopdf.Rect{W: r.t.Page.Width, H: r.t.Page.Height}})
+	r.footnotes = nil // Reset footnotes
+	r.page = 0
+	r.glyphs, r.widths = map[string]map[rune]bool{}, map[string]map[rune]float64{}
+	r.missing, r.missingSeen, r.rightToLeft = nil, nil, false
+	r.anchors, _ = collectAnchors(astDoc.Elements)
+	r.anchored, r.outline = map[string]bool{}, nil
+	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
+	r.diagramProblems = diagramProblems{}
+	r.waiting = nil
+	r.headingPages = map[string]int{}
+	// gopdf starts with black text and strokes, a thin line, and no fill set.
+	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
+
+	if err := r.setupDocument(); err != nil {
+		return err
+	}
+
+	r.addPage()
+	r.currentY = r.marginTop
+
+	for _, elem := range astDoc.Elements {
+		r.renderElement(elem)
+	}
+
+	// A heading with nothing after it
+	r.flushHeadings(0)
+
+	// Render collected footnotes at the end
+	if len(r.footnotes) > 0 {
+		r.renderFootnoteSection()
+	}
+
+	// Headers and footers go on last, when the page count is known
+	return r.drawRunning(infoOf(astDoc))
 }
 
 func (r *PdfRenderer) setupDocument() error {
@@ -690,7 +733,13 @@ func (r *PdfRenderer) renderImage(img ast.Image) {
 // scaling it to fit the content width. Returns an error if the image cannot be
 // loaded or is in an unsupported format.
 func (r *PdfRenderer) embedImage(img ast.Image) error {
-	data, displayWidth, err := loadRasterImage(img.URL, r.opts, img.Width)
+	key := fmt.Sprintf("%s\x00%d", img.URL, img.Width)
+	loaded, done := r.images[key]
+	if !done {
+		loaded.data, loaded.width, loaded.err = loadRasterImage(img.URL, r.opts, img.Width)
+		r.images[key] = loaded
+	}
+	data, displayWidth, err := loaded.data, loaded.width, loaded.err
 	if err != nil {
 		return err
 	}
@@ -1024,17 +1073,57 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	r.cell("Table of Contents")
 	r.currentY += lineHeight + 8
 
-	// Items
+	// Items: the title, a row of dots, and the page the heading is on. The
+	// room for the number is the same whether or not it is known yet, which
+	// keeps the two layouts of the document alike.
 	entry := r.bodyStyle()
 	entry.color = r.t.Link.Color
+	r.setFont(r.bodyFont(), "", r.t.Text.Size)
+	numberWidth, _ := r.pdf.MeasureTextWidth("000")
+	dotWidth, _ := r.pdf.MeasureTextWidth(" .")
+	gap := r.t.Text.Size * 0.6
 	for _, item := range toc.Items {
 		indent := float64(item.Level-1) * r.t.List.Indent
 		// An entry is a link to its heading
 		run := ast.InlineRun{Text: item.Title}
-		if _, ok := r.anchors[item.ID]; ok {
+		_, known := r.anchors[item.ID]
+		if known {
 			run.Link = "#" + item.ID
 		}
-		r.renderRuns([]ast.InlineRun{run}, entry, r.marginLeft+indent, r.contentWidth-indent)
+		left, width := r.marginLeft+indent, r.contentWidth-indent-numberWidth-gap
+		lines := r.layout([]ast.InlineRun{run}, entry, width, width)
+		if len(lines) == 0 {
+			r.currentY += lineHeight
+			continue
+		}
+		r.drawLines(lines, left, left, lineHeight)
+
+		page, numbered := r.tocPages[item.ID]
+		if !numbered {
+			continue
+		}
+		// Beside the last line of the title
+		y := r.currentY - lineHeight
+		number := itoa(page)
+		r.setFont(r.bodyFont(), "", r.t.Text.Size)
+		r.textColor(r.t.Text.Muted)
+		from := left + lines[len(lines)-1].width() + gap/2
+		to := r.marginLeft + r.contentWidth - numberWidth - gap/2
+		if n := int((to - from) / dotWidth); n > 2 {
+			// The dots line up from entry to entry: they are set from the right
+			r.pdf.SetX(to - float64(n)*dotWidth)
+			r.pdf.SetY(y)
+			r.cell(strings.Repeat(" .", n))
+		}
+		r.textColor(r.t.Text.Color)
+		width, _ = r.pdf.MeasureTextWidth(number)
+		x := r.marginLeft + r.contentWidth - width
+		r.pdf.SetX(x)
+		r.pdf.SetY(y)
+		r.cell(number)
+		if known {
+			r.linkTo("#"+item.ID, x, y-2, width, lineHeight)
+		}
 	}
 
 	r.currentY += 8

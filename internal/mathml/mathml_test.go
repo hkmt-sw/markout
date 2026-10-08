@@ -1,6 +1,8 @@
 package mathml
 
 import (
+	"io"
+	"os"
 	"strings"
 	"testing"
 )
@@ -104,5 +106,31 @@ func TestStyledLetters(t *testing.T) {
 		if got := ItalicLetter(plain); got != want {
 			t.Errorf("italic %c: got %c, want %c", plain, got, want)
 		}
+	}
+}
+
+// Reading a formula prints nothing, whatever the formula: what the
+// translator has to say comes back as an error.
+func TestParseIsQuiet(t *testing.T) {
+	read, write, err := os.Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	stdout := os.Stdout
+	os.Stdout = write
+	for _, tex := range []string{`\hat{}`, `\vec{}`, `\begin{cases}\end{cases}`, `x}`, `\nosuchcommand{x}`, `a^2`} {
+		_, err := Parse(tex, true)
+		if err != nil && (strings.Contains(err.Error(), "TreeBlood") || strings.Contains(err.Error(), "\n")) {
+			t.Errorf("%s: the error is the translator's own: %q", tex, err)
+		}
+	}
+	os.Stdout = stdout
+	write.Close()
+	printed, _ := io.ReadAll(read)
+	if len(printed) > 0 {
+		t.Errorf("reading formulas printed:\n%s", printed)
+	}
+	if translatorLog == nil || translatorLog.Writer() != io.Discard {
+		t.Error("the translator's log is not turned off")
 	}
 }

@@ -8,14 +8,29 @@ p1 text  x=130.0 y=116.7 Arial-Bold/24 "DevOps" #000000
 p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=188.7 Arial/11 "Azure DevOps" #2563EB
 p1 goto  x=56.7 y=186.7 w=71.5 azure-devops
+p1 text  x=133.0 y=188.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=188.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=186.7 w=6.1 azure-devops
 p1 text  x=76.7 y=204.7 Arial/11 "Diagram" #2563EB
 p1 goto  x=76.7 y=202.7 w=41.6 diagram
+p1 text  x=126.9 y=204.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=204.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=202.7 w=6.1 diagram
 p1 text  x=76.7 y=220.7 Arial/11 "Math" #2563EB
 p1 goto  x=76.7 y=218.7 w=24.4 math
+p1 text  x=108.6 y=220.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=220.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=218.7 w=6.1 math
 p1 text  x=76.7 y=236.7 Arial/11 "Sized image" #2563EB
 p1 goto  x=76.7 y=234.7 w=60.5 sized-image
+p1 text  x=145.2 y=236.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=236.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=234.7 w=6.1 sized-image
 p1 text  x=76.7 y=252.7 Arial/11 "Rest" #2563EB
 p1 goto  x=76.7 y=250.7 w=22.6 rest
+p1 text  x=108.6 y=252.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=252.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=250.7 w=6.1 rest
 p1 anchor y=294.7 diagram
 p1 bookmark level=2 "Diagram"
 p1 text  x=56.7 y=294.7 Arial-Bold/20 "Diagram" #000000

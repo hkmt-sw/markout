@@ -4,8 +4,14 @@ p1 text  x=56.7 y=76.7 Arial-Bold/24 "Bitbucket" #000000
 p1 text  x=56.7 y=124.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=148.7 Arial/11 "Bitbucket" #2563EB
 p1 goto  x=56.7 y=146.7 w=45.2 bitbucket
+p1 text  x=108.6 y=148.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=148.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=146.7 w=6.1 bitbucket
 p1 text  x=76.7 y=164.7 Arial/11 "Features" #2563EB
 p1 goto  x=76.7 y=162.7 w=43.4 features
+p1 text  x=126.9 y=164.7 Arial/11 " . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . ." #4A4A68
+p1 text  x=532.5 y=164.7 Arial/11 "1" #1A1A2E
+p1 goto  x=532.5 y=162.7 w=6.1 features
 p1 anchor y=206.7 features
 p1 bookmark level=2 "Features"
 p1 text  x=56.7 y=206.7 Arial-Bold/20 "Features" #000000

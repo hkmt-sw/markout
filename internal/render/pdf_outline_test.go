@@ -191,11 +191,12 @@ func TestPDFLinksToHeadings(t *testing.T) {
 			t.Errorf("%s: missing %q in:\n%s", what, want, trace)
 		}
 	}
-	// 7 table of contents entries (the heading before it included) and two
-	// links in the text; the link to a heading that does not exist is none
+	// 7 table of contents entries (the heading before it included), each a
+	// link twice, as its title and as its page number, and two links in the
+	// text; the link to a heading that does not exist is none
 	internal := regexp.MustCompile(`/Subtype /Link [^\n]*/Dest \[\d+ 0 R /XYZ`).FindAll(pdf, -1)
-	if len(internal) != 9 {
-		t.Errorf("%d links within the document, want 9", len(internal))
+	if len(internal) != 16 {
+		t.Errorf("%d links within the document, want 16", len(internal))
 	}
 	if n := bytes.Count(pdf, []byte("/URI (https://example.com)")); n != 1 {
 		t.Errorf("%d links to example.com, want 1", n)

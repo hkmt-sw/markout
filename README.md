@@ -347,7 +347,8 @@ Both formats know where the headings are:
   The heading can be named the way GitHub or GitLab names it, with accented
   letters kept. A link to a heading the document does not have is plain
   colored text.
-- **The entries of a table of contents** are such links too.
+- **The entries of a table of contents** are such links too. In PDF each has
+  the page its heading is on, at the end of a row of dots.
 
 ## What a DOCX is made of
 
