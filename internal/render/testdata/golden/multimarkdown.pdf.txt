@@ -21,10 +21,14 @@ p1 text  x=62.2 y=311.7 Arial/8 "2" #1A1A2E
 p1 text  x=69.7 y=312.7 Arial/11 "and H" #1A1A2E
 p1 text  x=99.0 y=317.7 Arial/8 "2" #1A1A2E
 p1 text  x=103.5 y=312.7 Arial/11 "O, math" #1A1A2E
-p1 text  x=145.6 y=312.7 Arial-Italic/11 "a+b" #7C3AED
-p1 text  x=167.3 y=312.7 Arial/11 "and display" #1A1A2E
-p1 text  x=226.0 y=312.7 Arial-Italic/11 "c = d" #7C3AED
-p1 text  x=250.1 y=312.7 Arial/11 "." #1A1A2E
+p1 text  x=145.6 y=312.0 Math/11 "𝑎" #1A1A2E
+p1 text  x=155.3 y=312.0 Math/11 "+" #1A1A2E
+p1 text  x=166.4 y=312.0 Math/11 "𝑏" #1A1A2E
+p1 text  x=177.0 y=312.7 Arial/11 "and display" #1A1A2E
+p1 text  x=235.7 y=312.0 Math/11 "𝑐" #1A1A2E
+p1 text  x=246.0 y=312.0 Math/11 "=" #1A1A2E
+p1 text  x=257.7 y=312.0 Math/11 "𝑑" #1A1A2E
+p1 text  x=265.9 y=312.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=336.7 Arial/11 "CriticMarkup:" #1A1A2E
 p1 text  x=124.5 y=336.7 Arial/11 "added" #16A34A
 p1 line  x=124.5 y=348.7 to x=155.1 y=348.7 #16A34A/0.6

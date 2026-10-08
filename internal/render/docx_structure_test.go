@@ -175,3 +175,40 @@ func TestReplaceStyles(t *testing.T) {
 		t.Errorf("got  %s\nwant %s", got, want)
 	}
 }
+
+// Formulas are Word equations, in place of the marks that stood for them.
+func TestDOCXEquations(t *testing.T) {
+	doc, err := parse.ParseFlavor([]byte("Inline $x^2$ and a bad $\\nosuchcommand{y}$.\n\n$$\n\\frac{a}{b}\n$$\n\n| f |\n|---|\n| $\\sqrt{z}$ |\n"), flavor.Default(), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(t.TempDir(), "out.docx")
+	var warnings []string
+	if err := RenderDocx(doc, out, Options{Warn: func(m string) { warnings = append(warnings, m) }}); err != nil {
+		t.Fatal(err)
+	}
+	document := docxPart(t, out, "word/document.xml")
+	if err := xml.Unmarshal([]byte(document), new(struct{})); err != nil {
+		t.Fatalf("document.xml is not well-formed: %v", err)
+	}
+	for what, want := range map[string]string{
+		"math namespace":     `xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math"`,
+		"inline equation":    `<m:oMath><m:sSup><m:e><m:r><m:t xml:space="preserve">x</m:t></m:r></m:e>`,
+		"display equation":   `<m:oMathPara><m:oMath><m:f><m:num>`,
+		"equation in a cell": `<m:rad>`,
+		"source of the bad":  `\nosuchcommand{y}`,
+	} {
+		if !strings.Contains(document, want) {
+			t.Errorf("%s: missing %s", what, want)
+		}
+	}
+	if strings.Contains(document, "markout-math") {
+		t.Error("a mark was left in the document")
+	}
+	if n := strings.Count(document, "<m:oMath>"); n != 3 {
+		t.Errorf("%d equations, want 3", n)
+	}
+	if len(warnings) != 1 || !strings.Contains(warnings[0], "1 formula could not be typeset") {
+		t.Errorf("warnings: %q", warnings)
+	}
+}

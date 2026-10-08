@@ -4,6 +4,33 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.0] - 2026-10-08
+
+Formulas are typeset.
+
+### Added
+
+- Math in PDF. Formulas written in LaTeX are laid out by markout itself:
+  fractions, roots, sub- and superscripts, sums and integrals with their
+  limits, brackets that grow with what they enclose, matrices, `cases` and
+  `aligned`, accents, Greek letters and the usual symbols, bold, calligraphic
+  and blackboard letters. A formula in a line of text stands on its
+  baseline; one on a line of its own is centered, and made smaller if it is
+  wider than the text.
+- Math in DOCX. Formulas are Word equations: Word typesets them with its own
+  math font, and they can be edited there.
+- A warning when formulas could not be typeset, saying how many and why the
+  first one could not: a command markout does not know, or a formula that is
+  not well-formed. Such a formula is shown as its source, as all formulas
+  used to be.
+
+### Changed
+
+- Typeset formulas have the color of the text around them. The `math` color
+  of a theme is now the color of a formula shown as its source.
+- The release binaries are about 1.2 MB larger, for the math font and the
+  LaTeX reader.
+
 ## [1.6.0] - 2026-10-08
 
 ### Added

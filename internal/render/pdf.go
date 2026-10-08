@@ -64,6 +64,11 @@ type PdfRenderer struct {
 	anchors  anchors         // what links may call the headings
 	anchored map[string]bool // headings that have been drawn
 	outline  []outlineEntry
+
+	// Formulas; see pdf_math.go.
+	math         *mathFont // the math font, once a formula has needed it
+	formulas     map[mathKeyFor]typesetResult
+	mathProblems mathProblems
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -84,6 +89,7 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.missing, r.missingSeen, r.rightToLeft = nil, nil, false
 	r.anchors, _ = collectAnchors(astDoc.Elements)
 	r.anchored, r.outline = map[string]bool{}, nil
+	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
 
@@ -824,15 +830,18 @@ func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
 	r.textColor(theme.Black)
 }
 
-func (r *PdfRenderer) renderMathBlock(math ast.MathBlock) {
+func (r *PdfRenderer) renderMathBlock(block ast.MathBlock) {
+	if r.drawFormula(block.Expression) {
+		return
+	}
+	// A formula that cannot be typeset is shown as written, centered; a
+	// long one is broken into lines.
 	lineHeight := r.t.Text.LineHeight
 
 	r.setFont(r.bodyFont(), "I", r.t.Text.Size)
 	r.textColor(r.t.Colors.Math)
 
-	// The expression is shown as written, centered; a long one is broken
-	// into lines.
-	expression := r.usable(strings.ReplaceAll(math.Expression, "\n", " "))
+	expression := r.usable(strings.ReplaceAll(block.Expression, "\n", " "))
 	for _, line := range r.wrapChars(expression, r.contentWidth) {
 		r.checkPageBreak(lineHeight)
 		textWidth, _ := r.pdf.MeasureTextWidth(line)
@@ -850,6 +859,42 @@ func (r *PdfRenderer) renderMathBlock(math ast.MathBlock) {
 
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)
 	r.textColor(theme.Black)
+}
+
+// minFormulaScale is how far a formula on its own line is shrunk to fit the
+// width of the text before it is given up on.
+const minFormulaScale = 0.6
+
+// drawFormula typesets a formula on a line of its own, centered. It reports
+// false, having drawn nothing, if the formula cannot be typeset or is too
+// wide for the page even when made smaller.
+func (r *PdfRenderer) drawFormula(tex string) bool {
+	size := r.t.Text.Size
+	box, ok := r.typeset(tex, true, size, r.t.Text.Color)
+	if !ok {
+		return false
+	}
+	if box.w > r.contentWidth {
+		scale := r.contentWidth / box.w * 0.99
+		if scale < minFormulaScale {
+			return false
+		}
+		size *= scale
+		if box, ok = r.typeset(tex, true, size, r.t.Text.Color); !ok || box.w > r.contentWidth {
+			return false
+		}
+	}
+
+	pad := 0.25 * r.t.Text.Size
+	r.checkPageBreak(box.h + box.d + 2*pad)
+	if box.draw != nil {
+		box.draw(r.marginLeft+(r.contentWidth-box.w)/2, r.currentY+pad+box.h)
+	}
+	r.currentY += box.h + box.d + 2*pad + r.t.Text.ParagraphSpacing
+	r.resetText()
+	r.strokeColor(theme.Black)
+	r.lineWidth(0.5)
+	return true
 }
 
 func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {

@@ -19,14 +19,15 @@ p1 text  x=177.1 y=296.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=320.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
 p1 text  x=56.7 y=336.7 Arial/9 "logo.png" #2563EB
 p1 text  x=56.7 y=360.7 Arial/11 "Inline math" #1A1A2E
-p1 text  x=113.5 y=360.7 Arial-Italic/11 "a^2" #7C3AED
-p1 text  x=133.9 y=360.7 Arial/11 "and" #1A1A2E
-p1 text  x=155.3 y=360.7 Arial/11 "“" #1A1A2E
-p1 text  x=159.0 y=360.7 Arial/11 "typographic" #1A1A2E
-p1 text  x=215.9 y=360.7 Arial/11 "”" #1A1A2E
-p1 text  x=222.6 y=360.7 Arial/11 "quotes" #1A1A2E
-p1 text  x=258.6 y=360.7 Arial/11 "–" #1A1A2E
-p1 text  x=267.8 y=360.7 Arial/11 "dashes" #1A1A2E
-p1 text  x=303.2 y=360.7 Arial/11 "." #1A1A2E
+p1 text  x=113.5 y=360.0 Math/11 "𝑎" #1A1A2E
+p1 text  x=121.2 y=357.8 Math/7.92 "2" #1A1A2E
+p1 text  x=129.6 y=360.7 Arial/11 "and" #1A1A2E
+p1 text  x=151.0 y=360.7 Arial/11 "“" #1A1A2E
+p1 text  x=154.6 y=360.7 Arial/11 "typographic" #1A1A2E
+p1 text  x=211.5 y=360.7 Arial/11 "”" #1A1A2E
+p1 text  x=218.2 y=360.7 Arial/11 "quotes" #1A1A2E
+p1 text  x=254.2 y=360.7 Arial/11 "–" #1A1A2E
+p1 text  x=263.4 y=360.7 Arial/11 "dashes" #1A1A2E
+p1 text  x=298.9 y=360.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=384.7 Arial-Bold/11 "Term" #1A1A2E
 p1 text  x=76.7 y=400.7 Arial/11 "Definition" #1A1A2E

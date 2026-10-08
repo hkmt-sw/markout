@@ -34,6 +34,11 @@ var (
 	fontSerifBoldItalic []byte
 	//go:embed fonts/LiberationMono-Regular.ttf
 	fontMonoRegular []byte
+
+	// DejaVu Math TeX Gyre has the symbols and the styled letters formulas
+	// are set in. See fonts/LICENSE-DejaVu.
+	//go:embed fonts/DejaVuMathTeXGyre.ttf
+	fontMath []byte
 )
 
 // fontFiles is the data of a font family, by style ("", "B", "I", "BI").
@@ -45,6 +50,10 @@ type pdfFamily struct {
 	name   string          // base name it is registered under
 	styles map[string]bool // styles that have their own font
 	ascent float64         // height above the baseline, as a fraction of the size
+	// baseline is how far under the top of a line of text gopdf puts the
+	// baseline, as a fraction of the size. It is not the ascent: gopdf
+	// goes by another of the font's measures.
+	baseline float64
 }
 
 // builtinFamilies are the families every theme can use. Their names are the
@@ -86,7 +95,7 @@ func (r *PdfRenderer) loadFonts() error {
 			continue // validated when the theme was loaded; fall back to sans
 		}
 
-		loaded := &pdfFamily{name: name, styles: map[string]bool{}, ascent: ascent}
+		loaded := &pdfFamily{name: name, styles: map[string]bool{}, ascent: ascent, baseline: typoAscent(files[""], ascent)}
 		for _, style := range []string{"", "B", "I", "BI"} {
 			data, ok := files[style]
 			if !ok {
@@ -152,6 +161,38 @@ var fallbackStyles = map[string][]string{
 	"B":  {"B", ""},
 	"I":  {"I", ""},
 	"BI": {"BI", "B", "I", ""},
+}
+
+// typoAscent reads the ascender of a font's OS/2 table, which is where gopdf
+// puts the baseline under the top of a line of text. It returns fallback if
+// the font does not say.
+func typoAscent(data []byte, fallback float64) float64 {
+	if len(data) < 12 {
+		return fallback
+	}
+	numTables := int(binary.BigEndian.Uint16(data[4:6]))
+	var ascender, unitsPerEm float64
+	for i := 0; i < numTables; i++ {
+		rec := 12 + 16*i
+		if rec+16 > len(data) {
+			return fallback
+		}
+		offset := int(binary.BigEndian.Uint32(data[rec+8 : rec+12]))
+		switch string(data[rec : rec+4]) {
+		case "OS/2":
+			if offset+70 <= len(data) {
+				ascender = float64(int16(binary.BigEndian.Uint16(data[offset+68 : offset+70])))
+			}
+		case "head":
+			if offset+20 <= len(data) {
+				unitsPerEm = float64(binary.BigEndian.Uint16(data[offset+18 : offset+20]))
+			}
+		}
+	}
+	if ascender <= 0 || unitsPerEm <= 0 {
+		return fallback
+	}
+	return ascender / unitsPerEm
 }
 
 // ttfAscent reads a TrueType font's ascent as a fraction of its em size, from

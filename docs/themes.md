@@ -415,7 +415,7 @@ The panel holding the source of a diagram.
 
 | Setting | Meaning |
 | --- | --- |
-| `math` | Formulas |
+| `math` | The source of a formula that could not be typeset. Typeset formulas have the color of the text around them |
 | `highlight` | Background of `==marked==` text |
 | `inserted` | Additions in inline diffs |
 | `deleted` | Removals in inline diffs |

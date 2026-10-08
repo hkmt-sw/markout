@@ -14,9 +14,9 @@ a single binary with the fonts built in.
 It reads Markdown the way the platform you wrote it for does: pick GitHub,
 GitLab, YouTrack, Azure DevOps, Obsidian, Pandoc or one of the
 [other flavors](#markdown-flavors), and that dialect's alerts, task lists,
-footnotes, tables of contents and the rest are understood. Math and Mermaid
-diagrams are recognized but shown as their source, not drawn; see
-[Limits](#limits).
+footnotes, tables of contents and the rest are understood. Formulas are
+typeset; Mermaid diagrams are recognized but shown as their source, not
+drawn (see [Limits](#limits)).
 
 ![The markout terminal UI: a file list with a Markdown file highlighted, and the Convert box showing the flavor, format and output file](docs/screenshot.png)
 
@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.6.0 to pin one).
+# Look up the latest release tag (or set VERSION=v1.7.0 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -285,6 +285,28 @@ no language, or one that is not known, is shown in one color. The colors are
 the theme's, under [`[code.syntax]`](docs/themes.md#codesyntax), where
 highlighting can also be turned off.
 
+## Math
+
+Formulas written in LaTeX are typeset, in both formats:
+
+```markdown
+The roots are $x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}$.
+
+$$
+\sum_{i=1}^{n} x_i^2 \le \int_0^\infty e^{-x}\,dx
+$$
+```
+
+- **In PDF** markout sets them itself: fractions, roots, sub- and
+  superscripts, sums and integrals with their limits, brackets that grow,
+  matrices, `cases` and `aligned`, accents, Greek and the usual symbols.
+- **In DOCX** they are Word equations, which Word typesets with its own math
+  font and which can be edited there.
+
+Which delimiters mark a formula (`$…$`, `\(…\)`, ` ```math `) depends on the
+[flavor](#markdown-flavors). What cannot be typeset is listed under
+[Limits](#limits).
+
 ## Finding your way in the output
 
 Both formats know where the headings are:
@@ -315,7 +337,12 @@ one:
 markout lays the document out itself, with no browser or TeX behind it. Some
 things are beyond it for now:
 
-- **Math** is shown as its LaTeX source, in color; it is not typeset.
+- **Math** is typeset by markout itself in PDF, with far fewer rules than
+  TeX has: the result is correct and readable, not TeX's typography. A
+  formula on a line of its own that is wider than the text is made smaller
+  to fit, and one in a paragraph can stand taller than its line. A formula
+  that uses a command markout does not know, or that is not well-formed, is
+  shown as its source in color, and the conversion says so.
 - **Mermaid diagrams** are shown as their source in a labeled box; they are
   not drawn.
 - **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
@@ -367,8 +394,11 @@ It builds on these projects:
 - [docxgo](https://github.com/mmonterroca/docxgo) (DOCX output; MIT)
 - [gopdf](https://github.com/signintech/gopdf) (PDF output; MIT)
 - [Chroma](https://github.com/alecthomas/chroma) (syntax highlighting; MIT)
+- [TreeBlood](https://github.com/wyatt915/treeblood) (reading LaTeX math; MIT)
 - [resvg-go](https://github.com/kanrichan/resvg-go) (SVG rendering; GPL-3.0)
 - [Bubble Tea](https://github.com/charmbracelet/bubbletea) (terminal UI; MIT)
 - The [Liberation fonts](https://github.com/liberationfonts/liberation-fonts),
   embedded for PDF output under the
-  [SIL Open Font License](internal/render/fonts/LICENSE)
+  [SIL Open Font License](internal/render/fonts/LICENSE), and
+  [DejaVu Math TeX Gyre](https://dejavu-fonts.github.io/), embedded for
+  formulas under the [DejaVu fonts license](internal/render/fonts/LICENSE-DejaVu)

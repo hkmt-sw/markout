@@ -270,7 +270,7 @@ func (r Running) Empty() bool {
 
 // Colors are the accent colors of inline elements.
 type Colors struct {
-	Math      Color `key:"math" doc:"formulas"`
+	Math      Color `key:"math" doc:"the source of a formula that could not be typeset"`
 	Highlight Color `key:"highlight" doc:"background of ==marked== text"`
 	Inserted  Color `key:"inserted" doc:"additions in inline diffs"`
 	Deleted   Color `key:"deleted" doc:"removals in inline diffs"`

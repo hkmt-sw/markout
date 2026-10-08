@@ -77,14 +77,21 @@ p1 bookmark level=2 "Math and colors"
 p1 text  x=56.7 y=756.7 Arial-Bold/20 "Math and" #000000
 p1 text  x=149.9 y=756.7 Arial-Bold/20 "colors" #000000
 p2 text  x=56.7 y=56.7 Arial/11 "Inline" #1A1A2E
-p2 text  x=86.0 y=56.7 Arial-Italic/11 "a^2 + b^2 = c^2" #7C3AED
-p2 text  x=165.6 y=56.7 Arial/11 "and" #1A1A2E
-p2 rect  x=187.0 y=56.7 w=10.0 h=10.0 fill=#1773CF
-p2 text  x=199.0 y=58.3 Courier/10 "hsl(210, 80%, 45%)" #CF222E
-p2 text  x=310.1 y=56.7 Arial/11 "and" #1A1A2E
-p2 rect  x=331.5 y=56.7 w=10.0 h=10.0 fill=#FC6D26
-p2 text  x=343.5 y=58.3 Courier/10 "#FC6D26" #CF222E
-p2 text  x=385.5 y=56.7 Arial/11 "." #1A1A2E
+p2 text  x=86.0 y=56.0 Math/11 "𝑎" #1A1A2E
+p2 text  x=93.7 y=53.8 Math/7.92 "2" #1A1A2E
+p2 text  x=101.5 y=56.0 Math/11 "+" #1A1A2E
+p2 text  x=112.6 y=56.0 Math/11 "𝑏" #1A1A2E
+p2 text  x=120.7 y=53.8 Math/7.92 "2" #1A1A2E
+p2 text  x=129.1 y=56.0 Math/11 "=" #1A1A2E
+p2 text  x=140.8 y=56.0 Math/11 "𝑐" #1A1A2E
+p2 text  x=148.5 y=53.8 Math/7.92 "2" #1A1A2E
+p2 text  x=156.9 y=56.7 Arial/11 "and" #1A1A2E
+p2 rect  x=178.3 y=56.7 w=10.0 h=10.0 fill=#1773CF
+p2 text  x=190.3 y=58.3 Courier/10 "hsl(210, 80%, 45%)" #CF222E
+p2 text  x=301.3 y=56.7 Arial/11 "and" #1A1A2E
+p2 rect  x=322.7 y=56.7 w=10.0 h=10.0 fill=#FC6D26
+p2 text  x=334.7 y=58.3 Courier/10 "#FC6D26" #CF222E
+p2 text  x=376.7 y=56.7 Arial/11 "." #1A1A2E
 p2 anchor y=98.7 sized-image
 p2 bookmark level=2 "Sized image"
 p2 text  x=56.7 y=98.7 Arial-Bold/20 "Sized" #000000

@@ -101,6 +101,9 @@ func (r *PdfRenderer) warnings() []string {
 		out = append(out, fmt.Sprintf("%d %s not in the PDF fonts and left out: %s%s. A theme can use a font that has them.",
 			n, what, strings.Join(chars, " "), more))
 	}
+	if w := r.mathProblems.warning(); w != "" {
+		out = append(out, w)
+	}
 	if r.rightToLeft {
 		out = append(out, "right-to-left text (Hebrew, Arabic) is not laid out in PDF: its letters come out in reverse order.")
 	}

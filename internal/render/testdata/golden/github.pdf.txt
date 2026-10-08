@@ -34,35 +34,48 @@ p1 text  x=192.3 y=308.7 Arial/11 "types." #1A1A2E
 p1 text  x=224.7 y=308.7 Arial/11 "They have no custom" #1A1A2E
 p1 text  x=332.9 y=308.7 Arial/11 "titles." #1A1A2E
 p1 text  x=56.7 y=340.7 Arial/11 "Inline math" #1A1A2E
-p1 text  x=113.5 y=340.7 Arial-Italic/11 "E = mc^2" #7C3AED
-p1 text  x=162.3 y=340.7 Arial/11 "and" #1A1A2E
-p1 text  x=183.7 y=340.7 Arial-Italic/11 "a^2 + b^2" #7C3AED
-p1 text  x=231.0 y=340.7 Arial/11 ", color chips" #1A1A2E
-p1 rect  x=292.7 y=340.7 w=10.0 h=10.0 fill=#0969DA
-p1 text  x=304.7 y=342.3 Courier/10 "#0969DA" #CF222E
-p1 text  x=349.8 y=340.7 Arial/11 "and" #1A1A2E
-p1 rect  x=371.2 y=340.7 w=10.0 h=10.0 fill=#0969DA
-p1 text  x=383.2 y=342.3 Courier/10 "rgb(9, 105, 218)" #CF222E
-p1 text  x=479.2 y=340.7 Arial/11 "." #1A1A2E
-p1 text  x=259.5 y=364.7 Arial-Italic/11 "\\sum_{i=1}^{n} i" #7C3AED
-p1 rect  x=56.7 y=388.7 w=481.9 h=40.0 fill=#ECFDF5 stroke=#10B981/0.5
-p1 text  x=64.7 y=396.7 Arial-Bold/11 "Mermaid Diagram" #065F46
-p1 text  x=64.7 y=408.7 Courier/9 "graph TD; A-->B;" #065F46
-p1 text  x=56.7 y=436.7 Arial/11 "Water is H" #1A1A2E
-p1 text  x=108.0 y=441.7 Arial/8 "2" #1A1A2E
-p1 text  x=112.4 y=436.7 Arial/11 "O, press" #1A1A2E
-p1 text  x=157.0 y=438.3 Courier/10 "Ctrl" #CF222E
-p1 text  x=181.0 y=436.7 Arial/11 "," #1A1A2E
-p1 text  x=187.1 y=436.7 Arial/11 "inserted" #1A1A2E
-p1 line  x=187.1 y=448.7 to x=226.2 y=448.7 #1A1A2E/0.6
-p1 text  x=229.3 y=436.7 Arial/11 "text." #1A1A2E
-p1 text  x=56.7 y=460.7 Arial-Bold/11 "► Collapsed section" #1A1A2E
-p1 text  x=56.7 y=484.7 Arial/11 "Hidden" #1A1A2E
-p1 text  x=94.6 y=484.7 Arial/11 "content." #1A1A2E
-p1 text  x=56.7 y=508.7 Arial/11 "A footnote" #1A1A2E
-p1 text  x=106.8 y=508.7 Arial/11 "[1]" #2563EB
-p1 text  x=119.0 y=508.7 Arial/11 "." #1A1A2E
-p1 line  x=56.7 y=552.7 to x=201.3 y=552.7 #B4B4B4/0.5
-p1 text  x=56.7 y=562.7 Arial/9 "1. " #1A1A2E
-p1 text  x=66.7 y=562.7 Arial/9 "The" #1A1A2E
-p1 text  x=84.7 y=562.7 Arial/9 "note." #1A1A2E
+p1 text  x=113.5 y=340.0 Math/11 "𝐸" #1A1A2E
+p1 text  x=126.3 y=340.0 Math/11 "=" #1A1A2E
+p1 text  x=138.1 y=340.0 Math/11 "𝑚" #1A1A2E
+p1 text  x=148.7 y=340.0 Math/11 "𝑐" #1A1A2E
+p1 text  x=156.4 y=337.8 Math/7.92 "2" #1A1A2E
+p1 text  x=164.8 y=340.7 Arial/11 "and" #1A1A2E
+p1 text  x=186.2 y=340.0 Math/11 "𝑎" #1A1A2E
+p1 text  x=193.9 y=337.8 Math/7.92 "2" #1A1A2E
+p1 text  x=201.7 y=340.0 Math/11 "+" #1A1A2E
+p1 text  x=212.8 y=340.0 Math/11 "𝑏" #1A1A2E
+p1 text  x=220.9 y=337.8 Math/7.92 "2" #1A1A2E
+p1 text  x=226.2 y=340.7 Arial/11 ", color chips" #1A1A2E
+p1 rect  x=287.9 y=340.7 w=10.0 h=10.0 fill=#0969DA
+p1 text  x=299.9 y=342.3 Courier/10 "#0969DA" #CF222E
+p1 text  x=345.0 y=340.7 Arial/11 "and" #1A1A2E
+p1 rect  x=366.4 y=340.7 w=10.0 h=10.0 fill=#0969DA
+p1 text  x=378.4 y=342.3 Courier/10 "rgb(9, 105, 218)" #CF222E
+p1 text  x=474.4 y=340.7 Arial/11 "." #1A1A2E
+p1 text  x=286.6 y=373.1 Math/16.5 "∑" #1A1A2E
+p1 text  x=292.0 y=365.4 Math/7.92 "𝑛" #1A1A2E
+p1 text  x=287.5 y=391.2 Math/7.92 "𝑖" #1A1A2E
+p1 text  x=290.5 y=391.2 Math/7.92 "=" #1A1A2E
+p1 text  x=296.7 y=391.2 Math/7.92 "1" #1A1A2E
+p1 text  x=304.5 y=376.0 Math/11 "𝑖" #1A1A2E
+p1 rect  x=56.7 y=408.3 w=481.9 h=40.0 fill=#ECFDF5 stroke=#10B981/0.5
+p1 text  x=64.7 y=416.3 Arial-Bold/11 "Mermaid Diagram" #065F46
+p1 text  x=64.7 y=428.3 Courier/9 "graph TD; A-->B;" #065F46
+p1 text  x=56.7 y=456.3 Arial/11 "Water is H" #1A1A2E
+p1 text  x=108.0 y=461.3 Arial/8 "2" #1A1A2E
+p1 text  x=112.4 y=456.3 Arial/11 "O, press" #1A1A2E
+p1 text  x=157.0 y=457.9 Courier/10 "Ctrl" #CF222E
+p1 text  x=181.0 y=456.3 Arial/11 "," #1A1A2E
+p1 text  x=187.1 y=456.3 Arial/11 "inserted" #1A1A2E
+p1 line  x=187.1 y=468.3 to x=226.2 y=468.3 #1A1A2E/0.6
+p1 text  x=229.3 y=456.3 Arial/11 "text." #1A1A2E
+p1 text  x=56.7 y=480.3 Arial-Bold/11 "► Collapsed section" #1A1A2E
+p1 text  x=56.7 y=504.3 Arial/11 "Hidden" #1A1A2E
+p1 text  x=94.6 y=504.3 Arial/11 "content." #1A1A2E
+p1 text  x=56.7 y=528.3 Arial/11 "A footnote" #1A1A2E
+p1 text  x=106.8 y=528.3 Arial/11 "[1]" #2563EB
+p1 text  x=119.0 y=528.3 Arial/11 "." #1A1A2E
+p1 line  x=56.7 y=572.3 to x=201.3 y=572.3 #B4B4B4/0.5
+p1 text  x=56.7 y=582.3 Arial/9 "1. " #1A1A2E
+p1 text  x=66.7 y=582.3 Arial/9 "The" #1A1A2E
+p1 text  x=84.7 y=582.3 Arial/9 "note." #1A1A2E

@@ -27,28 +27,37 @@ p1 anchor y=406.7 math
 p1 bookmark level=2 "Math"
 p1 text  x=56.7 y=406.7 Arial-Bold/20 "Math" #000000
 p1 text  x=56.7 y=440.7 Arial/11 "Inline" #1A1A2E
-p1 text  x=86.0 y=440.7 Arial-Italic/11 "a + b = c" #7C3AED
-p1 text  x=131.8 y=440.7 Arial/11 "and a block" #1A1A2E
-p1 text  x=188.0 y=440.7 Arial/11 ":" #1A1A2E
-p1 text  x=265.4 y=464.7 Arial-Italic/11 "\\int_0^1 x\\,dx" #7C3AED
-p1 anchor y=506.7 sized-image
+p1 text  x=86.0 y=440.0 Math/11 "𝑎" #1A1A2E
+p1 text  x=95.7 y=440.0 Math/11 "+" #1A1A2E
+p1 text  x=106.8 y=440.0 Math/11 "𝑏" #1A1A2E
+p1 text  x=117.5 y=440.0 Math/11 "=" #1A1A2E
+p1 text  x=129.2 y=440.0 Math/11 "𝑐" #1A1A2E
+p1 text  x=139.5 y=440.7 Arial/11 "and a block" #1A1A2E
+p1 text  x=195.7 y=440.7 Arial/11 ":" #1A1A2E
+p1 text  x=275.2 y=470.4 Math/19.8 "∫" #1A1A2E
+p1 text  x=287.4 y=467.0 Math/7.92 "1" #1A1A2E
+p1 text  x=287.4 y=486.2 Math/7.92 "0" #1A1A2E
+p1 text  x=294.6 y=475.0 Math/11 "𝑥" #1A1A2E
+p1 text  x=304.2 y=475.0 Math/11 "𝑑" #1A1A2E
+p1 text  x=312.4 y=475.0 Math/11 "𝑥" #1A1A2E
+p1 anchor y=521.3 sized-image
 p1 bookmark level=2 "Sized image"
-p1 text  x=56.7 y=506.7 Arial-Bold/20 "Sized" #000000
-p1 text  x=114.4 y=506.7 Arial-Bold/20 "image" #000000
-p1 text  x=56.7 y=540.7 Arial-Italic/11 "[IMG] Architecture" #4A4A68
-p1 text  x=56.7 y=556.7 Arial/9 "arch.png" #2563EB
-p1 anchor y=598.7 rest
+p1 text  x=56.7 y=521.3 Arial-Bold/20 "Sized" #000000
+p1 text  x=114.4 y=521.3 Arial-Bold/20 "image" #000000
+p1 text  x=56.7 y=555.3 Arial-Italic/11 "[IMG] Architecture" #4A4A68
+p1 text  x=56.7 y=571.3 Arial/9 "arch.png" #2563EB
+p1 anchor y=613.3 rest
 p1 bookmark level=2 "Rest"
-p1 text  x=56.7 y=598.7 Arial-Bold/20 "Rest" #000000
-p1 text  x=56.7 y=632.7 Arial/11 "Use" #1A1A2E
-p1 text  x=79.3 y=632.7 Arial/11 "underline" #1A1A2E
-p1 line  x=79.3 y=644.7 to x=124.5 y=644.7 #1A1A2E/0.6
-p1 text  x=127.6 y=632.7 Arial/11 "via HTML," #1A1A2E
-p1 text  x=180.7 y=632.7 Arial/11 "emoji and task lists" #1A1A2E
-p1 text  x=273.6 y=632.7 Arial/11 ":" #1A1A2E
-p1 text  x=76.7 y=656.7 Arial/11 "[x] " #1A1A2E
-p1 text  x=91.3 y=656.7 Arial/11 "Plan" #1A1A2E
-p1 text  x=76.7 y=672.7 Arial/11 "[ ] " #1A1A2E
-p1 text  x=88.9 y=672.7 Arial/11 "Ship" #1A1A2E
-p1 rect  x=56.7 y=694.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=702.7 Courier/9 "graph TD; NotRendered-->InAzure;" #000000
+p1 text  x=56.7 y=613.3 Arial-Bold/20 "Rest" #000000
+p1 text  x=56.7 y=647.3 Arial/11 "Use" #1A1A2E
+p1 text  x=79.3 y=647.3 Arial/11 "underline" #1A1A2E
+p1 line  x=79.3 y=659.3 to x=124.5 y=659.3 #1A1A2E/0.6
+p1 text  x=127.6 y=647.3 Arial/11 "via HTML," #1A1A2E
+p1 text  x=180.7 y=647.3 Arial/11 "emoji and task lists" #1A1A2E
+p1 text  x=273.6 y=647.3 Arial/11 ":" #1A1A2E
+p1 text  x=76.7 y=671.3 Arial/11 "[x] " #1A1A2E
+p1 text  x=91.3 y=671.3 Arial/11 "Plan" #1A1A2E
+p1 text  x=76.7 y=687.3 Arial/11 "[ ] " #1A1A2E
+p1 text  x=88.9 y=687.3 Arial/11 "Ship" #1A1A2E
+p1 rect  x=56.7 y=709.3 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
+p1 text  x=64.7 y=717.3 Courier/9 "graph TD; NotRendered-->InAzure;" #000000

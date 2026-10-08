@@ -67,9 +67,17 @@ TABLE
 P{spacing=/ line=160/exact}
 P{spacing=0/160 line=320/atLeast}
   R "Inline math "
-  R{color=7C3AED i} "E = mc^2"
+  R "E"
+  R "="
+  R "m"
+  R "c"
+  R "2"
   R " and "
-  R{color=7C3AED i} "a^2 + b^2"
+  R "a"
+  R "2"
+  R "+"
+  R "b"
+  R "2"
   R ", color chips "
   R{color=CF222E font=Consolas} "#0969DA"
   R{color=0969DA} "■ "
@@ -78,7 +86,11 @@ P{spacing=0/160 line=320/atLeast}
   R{color=0969DA} "■ "
   R "."
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i sz=22} "\\sum_{i=1}^{n} i"
+  R "i"
+  R "="
+  R "1"
+  R "n"
+  R "i"
 TABLE
   COL w=9070
   ROW

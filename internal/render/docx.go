@@ -39,6 +39,10 @@ type DocxRenderer struct {
 	bookmarkSeq   int               // bookmarks written so far
 	orderedNums   int               // numbered lists started
 	listsUsed     bool
+
+	// See docx_math.go.
+	equations    []string // the Word equations, in the order of their marks
+	mathProblems mathProblems
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -56,6 +60,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.inset, r.tableInsets = 0, nil
 	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
 	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
+	r.equations, r.mathProblems = nil, mathProblems{}
 	r.setupDocument()
 	r.collectHeadings(astDoc.Elements)
 
@@ -93,12 +98,15 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions()); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
 
 	os.Remove(tempFile)
+	if w := r.mathProblems.warning(); w != "" && r.opts.Warn != nil {
+		r.opts.Warn(w)
+	}
 	return nil
 }
 
@@ -277,8 +285,13 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 		return nil
 	}
 
-	// Handle inline math
+	// Handle inline math: a Word equation, or its source if it cannot be
+	// typeset
 	if astRun.Math {
+		if mark, ok := r.mathMark(astRun.Text, false); ok {
+			run.SetText(mark)
+			return nil
+		}
 		run.SetText(astRun.Text)
 		base.setSize(run, base.size)
 		run.SetItalic(true)
@@ -1236,6 +1249,11 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 	if err != nil {
 		return err
 	}
+	// A Word equation, or the source if it cannot be typeset
+	if mark, ok := r.mathMark(math.Expression, true); ok {
+		run.SetText(mark)
+		return nil
+	}
 	run.SetText(math.Expression)
 	run.SetItalic(true)
 	run.SetSize(runSize(r.t.Text.Size))
@@ -1772,7 +1790,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1808,6 +1826,7 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 			content = addTableRowProperties(content)
 			content = indentTables(content, tableInsets)
 			content = wrapTOC(content)
+			content = insertMath(content, equations)
 		}
 		if file.Name == "word/styles.xml" {
 			content = replaceStyles(content, styles)

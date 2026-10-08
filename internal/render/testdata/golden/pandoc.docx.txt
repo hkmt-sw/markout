@@ -85,7 +85,13 @@ P{jc=center spacing=0/160 line=320/atLeast}
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "fig.png"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i sz=22} "e^{i\\pi} + 1 = 0"
+  R "e"
+  R "i"
+  R "π"
+  R "+"
+  R "1"
+  R "="
+  R "0"
 P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
 P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
