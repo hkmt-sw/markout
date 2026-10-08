@@ -113,6 +113,24 @@ it, and add a line to `CHANGELOG.md` if it changes behavior.
 Contributions are accepted under the project's license, the
 [GNU General Public License, version 3](LICENSE).
 
+## Planning
+
+What goes into a version is decided before work on it starts. Each version
+is a [milestone](https://github.com/hkmt-sw/markout/milestones) with one
+theme, and each piece of work in it is an issue.
+
+- **One theme a version.** The milestone says what the version is for; the
+  issues under it are its whole scope.
+- **The scope is closed once work starts.** An idea that comes up on the way
+  becomes an issue in a later milestone, or in none. The exception is a
+  defect in something the version itself adds.
+- **Done means shown.** A feature has a document in `examples` that uses
+  it, tests, and where the output is a DOCX, a look at it in Word.
+- **Fixes do not wait.** A defect in a released version is fixed and
+  released by itself, whatever milestone is being worked on.
+
+Issues with no milestone are things worth doing that have no version yet.
+
 ## Releases
 
 Maintainers release by pushing a version tag (`vX.Y.Z`). The release workflow
@@ -121,9 +139,10 @@ runs the tests, builds the binaries for every platform and publishes them.
 - **A fix** (`X.Y.Z` with a new `Z`) is tagged when its pull request is
   merged.
 - **New features** (a new `X` or `Y`) first go out as a release candidate,
-  `vX.Y.0-rc1`. A candidate is published as a pre-release: it does not
-  become the latest release, and neither the download links nor the update
-  check offer it. It is there to be used on real documents for a few days.
+  `vX.Y.0-rc1`, when every issue of the milestone is done. A candidate is
+  published as a pre-release: it does not become the latest release, and
+  neither the download links nor the update check offer it. It is there to
+  be used on real documents for a few days.
   Problems found are fixed and tagged `-rc2` and so on; the candidate that
   holds up is tagged `vX.Y.0` on the same commit.
 
