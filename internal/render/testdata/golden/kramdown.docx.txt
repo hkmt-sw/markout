@@ -5,42 +5,56 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Title: "
-        R{color=1A1A2E font=Georgia} "kramdown sample"
+        R{b color=4A4A68 font=Georgia sz=22} "Title: "
+        R{color=1A1A2E font=Georgia sz=22} "kramdown sample"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "layout: "
-        R{color=1A1A2E font=Georgia} "post"
+        R{b color=4A4A68 font=Georgia sz=22} "layout: "
+        R{color=1A1A2E font=Georgia sz=22} "post"
 P{spacing=/ line=160/exact}
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "kramdown"
+P{bookmark=_kramdown pStyle=Heading1}
+  R "kramdown"
 P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P{indent=0 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "kramdown"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Section"
+P{pStyle=TOC1}
+  FIELD begin
+  R " TOC \\o \"1-6\" \\h \\z \\u "
+  FIELD separate
+  R{color=2563EB link=#_kramdown rStyle=Hyperlink} "kramdown"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_custom_id rStyle=Hyperlink} "Section"
+  FIELD end
 P{spacing=/ line=160/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "Section"
+P{bookmark=_custom_id pStyle=Heading2}
+  R "Section"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "A paragraph with a class"
-  R{color=1A1A2E font=Georgia} "."
+  R "A paragraph with a class"
+  R "."
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=4A4A68 font=Georgia i} "🖼 Logo"
+  R{color=4A4A68 font=Georgia i sz=22} "🖼 Logo"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "logo.png"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Inline math "
-  R{color=7C3AED font=Georgia i} "a^2"
-  R{color=1A1A2E font=Georgia} " and "
-  R{color=1A1A2E font=Georgia} "“"
-  R{color=1A1A2E font=Georgia} "typographic"
-  R{color=1A1A2E font=Georgia} "”"
-  R{color=1A1A2E font=Georgia} " quotes "
-  R{color=1A1A2E font=Georgia} "–"
-  R{color=1A1A2E font=Georgia} " dashes"
-  R{color=1A1A2E font=Georgia} "."
+  R "Inline math "
+  R{color=7C3AED i} "a^2"
+  R " and "
+  R "“"
+  R "typographic"
+  R "”"
+  R " quotes "
+  R "–"
+  R " dashes"
+  R "."
 P{spacing=0/0 line=320/atLeast}
-  R{b color=1A1A2E font=Georgia} "Term"
+  R{b} "Term"
 P{indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Definition"
+  R "Definition"
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}

@@ -1,21 +1,25 @@
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "Bitbucket"
+P{bookmark=_bitbucket pStyle=Heading1}
+  R "Bitbucket"
 P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P{indent=0 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Bitbucket"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Features"
+P{pStyle=TOC1}
+  FIELD begin
+  R " TOC \\o \"1-6\" \\h \\z \\u "
+  FIELD separate
+  R{color=2563EB link=#_bitbucket rStyle=Hyperlink} "Bitbucket"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_features rStyle=Hyperlink} "Features"
+  FIELD end
 P{spacing=/ line=160/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "Features"
+P{bookmark=_features pStyle=Heading2}
+  R "Features"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Tables, "
-  R{color=8888A0 font=Georgia strike} "deleted"
-  R{color=1A1A2E font=Georgia} " text, footnotes"
-  R{color=2563EB font=Georgia sz=18} "[1]"
-  R{color=1A1A2E font=Georgia} " and wiki links to"
-  R{color=1A1A2E font=Georgia} " Home."
+  R "Tables, "
+  R{color=8888A0 strike} "deleted"
+  R " text, footnotes"
+  R{color=2563EB sz=18} "[1]"
+  R " and wiki links to"
+  R " Home."
 TABLE
   COL w=4535
   COL w=4535
@@ -24,36 +28,46 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "A"
+        R{b} "A"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=4535}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "B"
+        R{b} "B"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "1"
+        R "1"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=4535}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "2"
+        R "2"
 P{spacing=/ line=160/exact}
 P{spacing=0/0 line=320/atLeast}
-  R{b color=1A1A2E font=Georgia} "Apple"
+  R{b} "Apple"
 P{indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "A"
-  R{color=1A1A2E font=Georgia} " fruit"
+  R "A"
+  R " fruit"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "The HTML spec is"
-  R{color=1A1A2E font=Georgia} " long."
+  R "The HTML spec is"
+  R " long."
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Raw "
-  R{color=1A1A2E font=Georgia} "<u>"
-  R{color=1A1A2E font=Georgia} "HTML"
-  R{color=1A1A2E font=Georgia} "</u>"
-  R{color=1A1A2E font=Georgia} " is not"
-  R{color=1A1A2E font=Georgia} " rendered."
+  R "Raw "
+  R "<u>"
+  R "HTML"
+  R "</u>"
+  R " is not"
+  R " rendered."
 P{border-top=single/4/B4B4B4 indent=/6349 spacing=400/ line=200/exact}
 P{spacing=0/80 line=280/atLeast}
   R{color=4A4A68 font=Georgia sz=18} "1. "
   R{color=4A4A68 font=Georgia sz=18} "A"
   R{color=4A4A68 font=Georgia sz=18} " footnote."
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}

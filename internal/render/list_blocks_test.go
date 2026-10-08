@@ -54,15 +54,16 @@ func TestListItemBlocksInDOCX(t *testing.T) {
 	}
 	outline := docxOutline(t, out)
 	for _, want := range []string{
-		`"STEPCODE"`, `"CELL"`, `"More`, `"2. "`,
-		"INDENT 620",   // the code block and the table are moved in
-		"P{indent=620", // and so is the paragraph
+		`"STEPCODE"`, `"CELL"`, `"More`,
+		"P{level=0 list=2", // Word numbers the steps
+		"INDENT 760",       // the code block and the table are moved in
+		"P{indent=760",     // and so is the paragraph
 	} {
 		if !strings.Contains(outline, want) {
 			t.Errorf("missing %s in:\n%s", want, outline)
 		}
 	}
-	if n := strings.Count(outline, "INDENT 620"); n != 2 {
+	if n := strings.Count(outline, "INDENT 760"); n != 2 {
 		t.Errorf("%d tables are moved in, want 2", n)
 	}
 }

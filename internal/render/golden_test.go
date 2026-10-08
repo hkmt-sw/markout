@@ -269,6 +269,20 @@ func docxOutline(t *testing.T, path string) string {
 				inParaProps = true
 			case "hyperlink":
 				link = targets[attr(el, "id")]
+				if anchor := attr(el, "anchor"); anchor != "" {
+					link = "#" + anchor
+				}
+			case "bookmarkStart":
+				paraProps = append(paraProps, "bookmark="+attr(el, "name"))
+			case "numId":
+				paraProps = append(paraProps, "list="+attr(el, "val"))
+			case "ilvl":
+				paraProps = append(paraProps, "level="+attr(el, "val"))
+			case "fldChar":
+				flushPara()
+				depth++
+				line("FIELD %s", attr(el, "fldCharType"))
+				depth--
 			case "r":
 				inRun, runProps = true, nil
 				runText.Reset()
@@ -341,6 +355,118 @@ func docxOutline(t *testing.T, path string) string {
 		case xml.CharData:
 			if inText {
 				runText.Write(el)
+			}
+		}
+	}
+	out.WriteString(stylesOutline(t, read("word/styles.xml")))
+	out.WriteString(listsOutline(t, read("word/numbering.xml")))
+	return out.String()
+}
+
+// stylesOutline lists the styles the renderer defines from the theme, with
+// what they give the text.
+func stylesOutline(t *testing.T, styles []byte) string {
+	t.Helper()
+	want := map[string]bool{"Normal": true, "Hyperlink": true, "TOC1": true, "TOC2": true}
+	for i := 1; i <= 6; i++ {
+		want[fmt.Sprintf("Heading%d", i)] = true
+	}
+	var lines []string
+	var id string
+	var found []string
+	dec := xml.NewDecoder(bytes.NewReader(styles))
+	for {
+		tok, err := dec.Token()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("styles.xml: %v", err)
+		}
+		switch el := tok.(type) {
+		case xml.StartElement:
+			switch name := el.Name.Local; {
+			case name == "style":
+				id, found = attr(el, "styleId"), nil
+			case !want[id]:
+			case name == "keepNext" || name == "keepLines":
+				found = append(found, name)
+			case name == "outlineLvl":
+				found = append(found, "outline="+attr(el, "val"))
+			default:
+				if p := property(el); p != "" {
+					found = append(found, p)
+				}
+			}
+		case xml.EndElement:
+			if el.Name.Local == "style" {
+				if want[id] {
+					lines = append(lines, fmt.Sprintf("STYLE %s%s\n", id, props(found)))
+				}
+				id = ""
+			}
+		}
+	}
+	// The file has them in no particular order
+	sort.Strings(lines)
+	return strings.Join(lines, "")
+}
+
+// listsOutline lists the lists of numbering.xml and the first levels of the
+// two definitions they are made from.
+func listsOutline(t *testing.T, numbering []byte) string {
+	t.Helper()
+	if numbering == nil {
+		return ""
+	}
+	var out strings.Builder
+	var level, format, text, indent, num string
+	inAbstract, restarts := false, false
+	dec := xml.NewDecoder(bytes.NewReader(numbering))
+	for {
+		tok, err := dec.Token()
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			t.Fatalf("numbering.xml: %v", err)
+		}
+		switch el := tok.(type) {
+		case xml.StartElement:
+			switch el.Name.Local {
+			case "abstractNum":
+				inAbstract = true
+				fmt.Fprintf(&out, "LIST DEFINITION %s\n", attr(el, "abstractNumId"))
+			case "lvl":
+				level = attr(el, "ilvl")
+			case "numFmt":
+				format = attr(el, "val")
+			case "lvlText":
+				text = attr(el, "val")
+			case "ind":
+				indent = attr(el, "left") + "/" + attr(el, "hanging")
+			case "num":
+				num, restarts = attr(el, "numId"), false
+			case "startOverride":
+				restarts = true
+			case "abstractNumId":
+				if !inAbstract {
+					num += " definition=" + attr(el, "val")
+				}
+			}
+		case xml.EndElement:
+			switch el.Name.Local {
+			case "abstractNum":
+				inAbstract = false
+			case "lvl":
+				if level < "3" {
+					fmt.Fprintf(&out, "  LEVEL %s %s %q indent=%s\n", level, format, text, indent)
+				}
+			case "num":
+				if restarts {
+					num += " restarts"
+				}
+				fmt.Fprintf(&out, "LIST %s\n", num)
 			}
 		}
 	}

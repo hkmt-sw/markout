@@ -258,7 +258,8 @@ func TestCLIThemes(t *testing.T) {
 	}
 }
 
-// docxDocument returns the main document XML of a DOCX file.
+// docxDocument returns the main document XML of a DOCX file, followed by its styles:
+// how a heading looks is in its style.
 func docxDocument(t *testing.T, path string) string {
 	t.Helper()
 	zr, err := zip.OpenReader(path)
@@ -266,20 +267,24 @@ func docxDocument(t *testing.T, path string) string {
 		t.Fatal(err)
 	}
 	defer zr.Close()
+	parts := map[string]string{}
 	for _, f := range zr.File {
-		if f.Name == "word/document.xml" {
-			rc, err := f.Open()
-			if err != nil {
-				t.Fatal(err)
-			}
-			defer rc.Close()
-			data, err := io.ReadAll(rc)
-			if err != nil {
-				t.Fatal(err)
-			}
-			return string(data)
+		if f.Name != "word/document.xml" && f.Name != "word/styles.xml" {
+			continue
 		}
+		rc, err := f.Open()
+		if err != nil {
+			t.Fatal(err)
+		}
+		data, err := io.ReadAll(rc)
+		rc.Close()
+		if err != nil {
+			t.Fatal(err)
+		}
+		parts[f.Name] = string(data)
 	}
-	t.Fatal("word/document.xml not found")
-	return ""
+	if parts["word/document.xml"] == "" {
+		t.Fatal("word/document.xml not found")
+	}
+	return parts["word/document.xml"] + parts["word/styles.xml"]
 }

@@ -311,7 +311,13 @@ func (w *astWalker) walk(node gmast.Node, entering bool) (gmast.WalkStatus, erro
 
 func (w *astWalker) convertHeading(n *gmast.Heading) ast.Heading {
 	runs := w.extractInlineRuns(n)
-	return ast.NewHeading(n.Level, runs...)
+	heading := ast.NewHeading(n.Level, runs...)
+	if id, ok := n.AttributeString("id"); ok {
+		if b, ok := id.([]byte); ok {
+			heading.ID = string(b)
+		}
+	}
+	return heading
 }
 
 func (w *astWalker) convertParagraph(n *gmast.Paragraph) ast.Paragraph {

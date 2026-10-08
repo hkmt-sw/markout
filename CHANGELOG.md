@@ -4,6 +4,35 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.4.0] - 2026-10-08
+
+A DOCX is a Word document to go on working in: its headings, lists, table of
+contents and links are Word's own.
+
+### Changed
+
+- DOCX headings are in Word's Heading 1 to Heading 6 styles. They show in the
+  navigation pane, a heading stays with the paragraph after it at a page
+  break, and changing a style in Word changes every heading. The styles are
+  written from the theme, so headings look as before.
+- DOCX body text takes its font, size and color from the Normal style
+  instead of carrying them on every piece of text. Text is now exactly the
+  theme's size: where a theme asks for 11 pt (the default theme does), the
+  size was left out of the document and word processors showed 10 pt.
+- DOCX lists are Word lists. Bullets and numbers are drawn by the word
+  processor, a long item's following lines line up under its text, and
+  adding or removing an item in Word renumbers the list. Items sit a little
+  further from their bullet than before.
+- A DOCX table of contents is a field Word can update (right-click, Update
+  Field) to get page numbers. Until then it lists the headings as before.
+
+### Added
+
+- Links to a heading of the same document (`[text](#heading)`) work in DOCX,
+  and so do the entries of a table of contents: they jump to the heading.
+  The heading can be named the way GitHub and GitLab name it, with accented
+  letters kept.
+
 ## [1.3.4] - 2026-10-08
 
 List items keep everything written under them.
