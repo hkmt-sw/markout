@@ -92,11 +92,18 @@ func (List) elementMarker() {}
 
 // ListItem represents a single item in a list
 type ListItem struct {
-	Runs     []InlineRun
-	Level    int // nesting level, 0-based
+	Runs  []InlineRun
+	Level int // nesting level, 0-based
+	// Blocks is what the item holds besides its first paragraph and its
+	// nested lists: more paragraphs, code blocks, quotes, tables, images.
+	// They are shown under the item's text, indented to it, before Children.
+	Blocks   []Element
 	Children []ListItem
-	IsTask   bool // true if this is a task list item (checkbox)
-	Checked  bool // true if checkbox is checked [x], false if unchecked [ ]
+	// ChildrenOrdered says whether the nested list is numbered, which does
+	// not follow from the list the item is in.
+	ChildrenOrdered bool
+	IsTask          bool // true if this is a task list item (checkbox)
+	Checked         bool // true if checkbox is checked [x], false if unchecked [ ]
 }
 
 // CodeBlock represents a fenced code block

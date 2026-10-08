@@ -335,42 +335,84 @@ func (w *astWalker) convertList(n *gmast.List, level int) ast.List {
 
 func (w *astWalker) convertListItem(n *gmast.ListItem, level int) ast.ListItem {
 	var runs []ast.InlineRun
+	var blocks []ast.Element
 	var children []ast.ListItem
+	var childrenOrdered bool
 	var isTask bool
 	var checked bool
+	first := true // the item's own text has not been seen yet
 
 	for child := n.FirstChild(); child != nil; child = child.NextSibling() {
 		switch c := child.(type) {
-		case *gmast.TextBlock:
+		case *gmast.TextBlock, *gmast.Paragraph:
 			// Check for TaskCheckBox at the beginning
 			taskChecked, hasTask := w.extractTaskCheckbox(c)
 			if hasTask {
 				isTask = true
 				checked = taskChecked
 			}
-			runs = append(runs, w.extractInlineRuns(c)...)
-		case *gmast.Paragraph:
-			// Check for TaskCheckBox at the beginning
-			taskChecked, hasTask := w.extractTaskCheckbox(c)
-			if hasTask {
-				isTask = true
-				checked = taskChecked
+			// The first paragraph is the item's text. Further paragraphs,
+			// and images, which are blocks of their own, follow under it.
+			var elems []ast.Element
+			if paragraphHasImageNode(c) {
+				elems = w.splitAtImages(c)
+			} else if r := w.extractInlineRuns(c); len(r) > 0 {
+				elems = []ast.Element{ast.NewParagraph(r...)}
 			}
-			runs = append(runs, w.extractInlineRuns(c)...)
+			if first && len(blocks) == 0 && len(elems) > 0 {
+				if p, ok := elems[0].(ast.Paragraph); ok {
+					runs, elems = p.Runs, elems[1:]
+				}
+			}
+			first = false
+			blocks = append(blocks, elems...)
 		case *gmast.List:
 			// Nested list
 			nestedList := w.convertList(c, level+1)
+			if len(children) == 0 {
+				childrenOrdered = nestedList.Ordered
+			}
 			for _, item := range nestedList.Items {
 				children = append(children, item)
 			}
+		default:
+			blocks = append(blocks, w.convertNestedBlock(child)...)
 		}
 	}
 
 	item := ast.NewListItem(level, runs...)
+	item.Blocks = blocks
 	item.Children = children
+	item.ChildrenOrdered = childrenOrdered
 	item.IsTask = isTask
 	item.Checked = checked
 	return item
+}
+
+// convertNestedBlock converts a block found inside a list item, where the
+// document walk does not go.
+func (w *astWalker) convertNestedBlock(node gmast.Node) []ast.Element {
+	switch c := node.(type) {
+	case *gmast.FencedCodeBlock:
+		return []ast.Element{w.convertFencedCodeBlock(c)}
+	case *gmast.CodeBlock:
+		return []ast.Element{w.convertCodeBlock(c)}
+	case *gmast.Blockquote:
+		return []ast.Element{w.convertBlockquote(c)}
+	case *extTable:
+		return []ast.Element{w.convertTable(c)}
+	case *gmast.ThematicBreak:
+		return []ast.Element{ast.HorizontalRule{}}
+	case *gmast.Heading:
+		return []ast.Element{w.convertHeading(c)}
+	case *gmast.HTMLBlock:
+		return w.convertHTMLBlock(c)
+	case *extMathBlock:
+		return []ast.Element{w.convertMathBlock(c)}
+	case *extDefinitionList:
+		return []ast.Element{w.convertDefinitionList(c)}
+	}
+	return nil
 }
 
 // extractTaskCheckbox checks if a node starts with a TaskCheckBox and returns its state
@@ -495,10 +537,19 @@ func firstImageDescendant(node gmast.Node) *gmast.Image {
 // into a sequence of Paragraph and Image block elements, preserving order. Text
 // runs that surround the images are grouped into their own paragraphs.
 func (w *astWalker) appendParagraphWithImages(n *gmast.Paragraph) {
+	for _, elem := range w.splitAtImages(n) {
+		w.doc.AppendElement(elem)
+	}
+}
+
+// splitAtImages converts a paragraph or text block that has images in it into
+// the paragraphs of text around them and the images between.
+func (w *astWalker) splitAtImages(n gmast.Node) []ast.Element {
+	var out []ast.Element
 	var pending []ast.InlineRun
 	flush := func() {
 		if len(pending) > 0 {
-			w.doc.AppendElement(ast.NewParagraph(pending...))
+			out = append(out, ast.NewParagraph(pending...))
 			pending = nil
 		}
 	}
@@ -510,19 +561,20 @@ func (w *astWalker) appendParagraphWithImages(n *gmast.Paragraph) {
 		}
 		if img, ok := child.(*gmast.Image); ok {
 			flush()
-			w.doc.AppendElement(w.convertImage(img))
+			out = append(out, w.convertImage(img))
 			continue
 		}
 		// A link (or other wrapper) whose subtree is essentially just an image,
 		// e.g. [![alt](img)](url): emit the image as a block element.
 		if img := firstImageDescendant(child); img != nil {
 			flush()
-			w.doc.AppendElement(w.convertImage(img))
+			out = append(out, w.convertImage(img))
 			continue
 		}
 		pending = append(pending, w.extractInlineRunsFromNode(child, false, false, false, false, "")...)
 	}
 	flush()
+	return out
 }
 
 // extractImageAlt extracts alt text from image children
@@ -540,20 +592,11 @@ func (w *astWalker) convertFootnoteDefinition(n *extFootnote) {
 	w.footnoteCounter++
 	id := string(n.Ref)
 
-	// Collect content elements from the footnote
+	// A footnote is shown as paragraphs of text, so whatever else it holds
+	// (a list, a quote, code) is reduced to that.
 	var elements []ast.Element
 	for child := n.FirstChild(); child != nil; child = child.NextSibling() {
-		switch c := child.(type) {
-		case *gmast.Paragraph:
-			para := w.convertParagraph(c)
-			elements = append(elements, para)
-		case *gmast.List:
-			list := w.convertList(c, 0)
-			elements = append(elements, list)
-		case *gmast.Blockquote:
-			bq := w.convertBlockquote(c)
-			elements = append(elements, bq)
-		}
+		elements = append(elements, w.flattenBlock(child)...)
 	}
 
 	def := &ast.FootnoteDefinition{

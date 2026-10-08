@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.3.3 to pin one).
+# Look up the latest release tag (or set VERSION=v1.3.4 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -277,8 +277,6 @@ things are beyond it for now:
 - **Mermaid diagrams** are shown as their source in a labeled box; they are
   not drawn.
 - **Code** is not syntax-highlighted.
-- **Blocks inside a list item** other than text and nested lists (a code
-  block, a quote, a table) are left out, in both formats.
 - **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
   Cyrillic. Other characters (Chinese, Japanese, Korean, Arabic, emoji) are
   left out of a PDF, and the conversion says which ones: as a warning on

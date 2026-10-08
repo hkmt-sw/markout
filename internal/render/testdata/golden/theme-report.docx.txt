@@ -172,6 +172,63 @@ P{indent=400 spacing=0/120 line=310/atLeast}
   R{color=1F2933 font=Arial sz=21} "☐ "
   R{color=1F2933 font=Arial sz=21} "Still to"
   R{color=1F2933 font=Arial sz=21} " do"
+P{spacing=0/160 line=310/atLeast}
+  R{color=1F2933 font=Arial sz=21} "Two numbered steps that hold more than a line of text. Under the first, a"
+  R{color=1F2933 font=Arial sz=21} " code "
+  R{color=1F2933 font=Arial sz=21} "block and then a second paragraph; under the second, a small table and"
+  R{color=1F2933 font=Arial sz=21} " a "
+  R{color=1F2933 font=Arial sz=21} "quote. All of it is indented to the text of its step, and the second step"
+  R{color=1F2933 font=Arial sz=21} " is "
+  R{color=1F2933 font=Arial sz=21} "numbered 2"
+  R{color=1F2933 font=Arial sz=21} ":"
+P{indent=400 spacing=0/80 line=310/atLeast}
+  R{color=1F2933 font=Arial sz=21} "1. "
+  R{color=1F2933 font=Arial sz=21} "Run the command"
+  R{color=1F2933 font=Arial sz=21} ":"
+TABLE
+  INDENT 610
+  COL w=8460
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=8460}
+      P{indent=160/160 spacing=160/160 line=240/atLeast}
+        R{color=1F2933 font=Courier New sz=18} "markout notes.md notes.pdf"
+P{spacing=/ line=160/exact}
+P{indent=610 spacing=0/160 line=310/atLeast}
+  R{color=1F2933 font=Arial sz=21} "The file is written next to the"
+  R{color=1F2933 font=Arial sz=21} " source."
+P{indent=400 spacing=0/120 line=310/atLeast}
+  R{color=1F2933 font=Arial sz=21} "2. "
+  R{color=1F2933 font=Arial sz=21} "Check the result"
+  R{color=1F2933 font=Arial sz=21} ":"
+TABLE
+  INDENT 610
+  COL w=3172
+  COL w=5287
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=3172}
+      P{indent=100/100 spacing=100/100 line=260/atLeast}
+        R{b color=1F2933 font=Arial sz=21} "Format"
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=5287}
+      P{indent=100/100 spacing=100/100 line=260/atLeast}
+        R{b color=1F2933 font=Arial sz=21} "Opens"
+        R{b color=1F2933 font=Arial sz=21} " in"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=3172}
+      P{indent=100/100 spacing=100/100 line=260/atLeast}
+        R{color=1F2933 font=Arial sz=21} "PDF"
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=5287}
+      P{indent=100/100 spacing=100/100 line=260/atLeast}
+        R{color=1F2933 font=Arial sz=21} "any"
+        R{color=1F2933 font=Arial sz=21} " viewer"
+P{spacing=/ line=160/exact}
+P{border-left=single/24/1E3A8A indent=1010 spacing=0/80 line=310/atLeast}
+  R{color=1F2933 font=Arial i sz=21} "Quoted inside a"
+  R{color=1F2933 font=Arial i sz=21} " step."
 P{spacing=400/160 line=440/atLeast}
   R{b color=1E3A8A font=Arial sz=34} "5."
   R{b color=1E3A8A font=Arial sz=34} " Tables"

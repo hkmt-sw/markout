@@ -172,9 +172,76 @@ func flattenListItems(items []ast.ListItem, ordered bool, level int) []ast.Eleme
 		}
 		runs := append([]ast.InlineRun{ast.NewInlineRun(prefix + " ")}, item.Runs...)
 		out = append(out, ast.NewParagraph(runs...))
-		out = append(out, flattenListItems(item.Children, ordered, level+1)...)
+		for _, block := range item.Blocks {
+			out = append(out, flattenElement(block)...)
+		}
+		out = append(out, flattenListItems(item.Children, item.ChildrenOrdered, level+1)...)
 	}
 	return out
+}
+
+// flattenElement does for a converted block what flattenBlock does for a
+// parsed one: it keeps the text, as paragraphs.
+func flattenElement(elem ast.Element) []ast.Element {
+	codeLines := func(code string) []ast.Element {
+		var out []ast.Element
+		for _, line := range strings.Split(strings.TrimRight(code, "\r\n"), "\n") {
+			out = append(out, ast.NewParagraph(ast.NewCodeRun(strings.TrimRight(line, "\r"))))
+		}
+		return out
+	}
+	nested := func(elems []ast.Element) []ast.Element {
+		var out []ast.Element
+		for _, e := range elems {
+			out = append(out, flattenElement(e)...)
+		}
+		return out
+	}
+	switch e := elem.(type) {
+	case ast.Paragraph:
+		return []ast.Element{e}
+	case ast.Heading:
+		runs := append([]ast.InlineRun(nil), e.Runs...)
+		for i := range runs {
+			runs[i].Bold = true
+		}
+		return []ast.Element{ast.NewParagraph(runs...)}
+	case ast.CodeBlock:
+		return codeLines(e.Code)
+	case ast.MermaidDiagram:
+		return codeLines(e.Source)
+	case ast.MathBlock:
+		return []ast.Element{ast.NewParagraph(ast.InlineRun{Text: e.Expression, Math: true})}
+	case ast.Blockquote:
+		return nested(e.Elements)
+	case ast.Alert:
+		return nested(e.Elements)
+	case ast.List:
+		return flattenListItems(e.Items, e.Ordered, 0)
+	case ast.Table:
+		var out []ast.Element
+		for i, row := range append([]ast.TableRow{e.Header}, e.Rows...) {
+			var runs []ast.InlineRun
+			for j, cell := range row.Cells {
+				if j > 0 {
+					runs = append(runs, ast.NewInlineRun(" | "))
+				}
+				for _, r := range cell.Runs {
+					r.Bold = r.Bold || i == 0
+					runs = append(runs, r)
+				}
+			}
+			out = append(out, ast.NewParagraph(runs...))
+		}
+		return out
+	case ast.Image:
+		text := e.Alt
+		if text == "" {
+			text = e.URL
+		}
+		return []ast.Element{ast.NewParagraph(ast.NewInlineRun("[" + text + "]"))}
+	}
+	return nil
 }
 
 // ---- HTML -------------------------------------------------------------------

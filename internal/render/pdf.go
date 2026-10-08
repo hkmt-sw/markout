@@ -322,10 +322,30 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 			r.drawLines(lines, r.marginLeft+indent+bulletWidth, r.marginLeft+indent, lineHeight)
 		}
 
+		if len(item.Blocks) > 0 {
+			r.renderItemBlocks(item.Blocks, indent+bulletWidth)
+		}
+
 		if len(item.Children) > 0 {
-			r.renderListItems(item.Children, ordered, level+1)
+			// A nested list is numbered or not by itself, and counts from one
+			r.listCounters[level+1] = 0
+			r.renderListItems(item.Children, item.ChildrenOrdered, level+1)
 		}
 	}
+}
+
+// renderItemBlocks draws what a list item holds besides its text (code,
+// quotes, tables, more paragraphs) under that text, between margins moved in
+// by inset to where the text starts.
+func (r *PdfRenderer) renderItemBlocks(blocks []ast.Element, inset float64) {
+	left, width, counters := r.marginLeft, r.contentWidth, r.listCounters
+	r.marginLeft, r.contentWidth = left+inset, width-inset
+	r.currentY += r.t.Text.ParagraphSpacing / 2
+	for _, block := range blocks {
+		r.renderElement(block)
+	}
+	// A list inside one of the blocks counts its own items
+	r.marginLeft, r.contentWidth, r.listCounters = left, width, counters
 }
 
 func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {

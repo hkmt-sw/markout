@@ -4,6 +4,31 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.3.4] - 2026-10-08
+
+List items keep everything written under them.
+
+### Fixed
+
+- A code block, table, quote, callout, rule or formula inside a list item was
+  left out of the output, in PDF and in DOCX. A step such as "1. Run this:"
+  followed by an indented code block came out as the text alone. These are
+  now shown under the item, indented to its text, and a numbered list goes on
+  counting after them.
+- A second paragraph in a list item was glued to the end of the first with no
+  space between them. It is a paragraph of its own under the item now.
+- An image in a list item was reduced to its alt text. It is embedded like
+  any other image.
+- A bulleted list inside a numbered one was lettered (a., b.) as if it were
+  numbered too, and a numbered list inside a bulleted one got bullets. A
+  nested list is shown the way it is written.
+- The numbering of a nested list did not start again under the next item: the
+  second item's sub-steps went on from where the first item's stopped.
+- A footnote dropped the lists, quotes and code blocks in it. They are shown
+  as lines of the note. In DOCX the paragraphs of a footnote ran together;
+  each starts on a new line.
+- A list inside a callout dropped the code blocks and tables of its items.
+
 ## [1.3.3] - 2026-10-08
 
 Nothing in a document should go missing from its PDF without a word.

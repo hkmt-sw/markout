@@ -291,6 +291,8 @@ func docxOutline(t *testing.T, path string) string {
 				depth--
 			case "cantSplit", "tblHeader":
 				line("%s", name)
+			case "tblInd":
+				line("INDENT %s", attr(el, "w"))
 			default:
 				p := property(el)
 				switch {
