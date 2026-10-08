@@ -91,17 +91,8 @@ P{jc=center spacing=0/160 line=320/atLeast}
   R "1"
   R "n"
   R "i"
-TABLE
-  COL w=9070
-  ROW
-    cantSplit
-    tblHeader
-    CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
-      P{indent=160/160 spacing=160/0 line=240/atLeast}
-        R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"
-      P{indent=160/160 spacing=0/160 line=240/atLeast}
-        R{color=065F46 font=Consolas sz=19} "graph TD; A-->B;"
-P{spacing=/ line=160/exact}
+P{jc=center spacing=0/160}
+  IMAGE cx=561975 cy=1419225
 P{spacing=0/160 line=320/atLeast}
   R "Water is H"
   R "₂"

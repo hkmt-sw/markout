@@ -104,6 +104,7 @@ func (r *PdfRenderer) warnings() []string {
 	if w := r.mathProblems.warning(); w != "" {
 		out = append(out, w)
 	}
+	out = append(out, r.diagramProblems.warnings()...)
 	if r.rightToLeft {
 		out = append(out, "right-to-left text (Hebrew, Arabic) is not laid out in PDF: its letters come out in reverse order.")
 	}

@@ -14,6 +14,9 @@ type glyphBoxes struct {
 	longLoca   bool
 	loca, glyf []byte
 	groups     []cmapGroup // sorted by first
+
+	hmtx     []byte // advance widths
+	hMetrics int    // how many glyphs have an advance of their own
 }
 
 // cmapGroup maps a run of characters to a run of glyphs.
@@ -44,6 +47,9 @@ func newGlyphBoxes(data []byte) (*glyphBoxes, error) {
 	g := &glyphBoxes{loca: tables["loca"], glyf: tables["glyf"]}
 	if len(head) < 54 || len(cmap) < 4 || g.loca == nil || g.glyf == nil {
 		return nil, fmt.Errorf("the font has no TrueType outlines")
+	}
+	if hhea := tables["hhea"]; len(hhea) >= 36 {
+		g.hmtx, g.hMetrics = tables["hmtx"], int(binary.BigEndian.Uint16(hhea[34:36]))
 	}
 	g.unitsPerEm = float64(binary.BigEndian.Uint16(head[18:20]))
 	g.longLoca = binary.BigEndian.Uint16(head[50:52]) != 0
@@ -182,4 +188,30 @@ func (g *glyphBoxes) bounds(c rune) (yMin, yMax float64, ok bool) {
 	lo := float64(int16(binary.BigEndian.Uint16(header[4:6])))
 	hi := float64(int16(binary.BigEndian.Uint16(header[8:10])))
 	return lo / g.unitsPerEm, hi / g.unitsPerEm, true
+}
+
+// advance returns how far a character moves the pen, as a fraction of the
+// font size. A character the font lacks has none.
+func (g *glyphBoxes) advance(c rune) float64 {
+	id, ok := g.glyph(c)
+	if !ok || g.hMetrics == 0 {
+		return 0
+	}
+	// Glyphs past the last entry are as wide as the last
+	if int(id) >= g.hMetrics {
+		id = uint32(g.hMetrics - 1)
+	}
+	if int(id)*4+2 > len(g.hmtx) {
+		return 0
+	}
+	return float64(binary.BigEndian.Uint16(g.hmtx[id*4:])) / g.unitsPerEm
+}
+
+// width is the width of text at a size, without kerning.
+func (g *glyphBoxes) width(text string, size float64) float64 {
+	total := 0.0
+	for _, c := range text {
+		total += g.advance(c)
+	}
+	return total * size
 }

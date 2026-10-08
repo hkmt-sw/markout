@@ -382,89 +382,141 @@ p5 anchor y=190.7 11-diagram
 p5 bookmark level=2 "11. Diagram"
 p5 text  x=85.0 y=190.7 Serif-Bold/19 "11." #111111
 p5 text  x=113.5 y=190.7 Serif-Bold/19 "Diagram" #111111
-p5 text  x=85.0 y=222.7 Serif/11.5 "Diagram source is shown in a labeled panel, not drawn" #222222
-p5 text  x=337.1 y=222.7 Serif/11.5 ":" #222222
-p5 rect  x=85.0 y=247.7 w=425.2 h=66.0 fill=#ECFDF5 stroke=#10B981/0.5
-p5 text  x=93.0 y=255.7 Serif-Bold/11.5 "Mermaid Diagram" #065F46
-p5 text  x=93.0 y=268.2 Courier/9 "graph LR" #065F46
-p5 text  x=93.0 y=280.7 Courier/9 "    Markdown --> PDF" #065F46
-p5 text  x=93.0 y=293.2 Courier/9 "    Markdown --> DOCX" #065F46
-p5 anchor y=339.7 12-definition-list
-p5 bookmark level=2 "12. Definition list"
-p5 text  x=85.0 y=339.7 Serif-Bold/19 "12. Definition" #111111
-p5 text  x=199.5 y=339.7 Serif-Bold/19 "list" #111111
-p5 text  x=85.0 y=371.7 Serif/11.5 "A bold term with its definition indented below it" #222222
-p5 text  x=307.8 y=371.7 Serif/11.5 ":" #222222
-p5 text  x=85.0 y=396.7 Serif-Bold/11.5 "Markdown" #222222
-p5 text  x=105.0 y=413.7 Serif/11.5 "A plain-text format for writing structured" #222222
-p5 text  x=297.8 y=413.7 Serif/11.5 "documents." #222222
-p5 text  x=85.0 y=434.7 Serif-Bold/11.5 "Flavor" #222222
-p5 text  x=105.0 y=451.7 Serif/11.5 "A dialect of Markdown, such as the one GitHub" #222222
-p5 text  x=328.4 y=451.7 Serif/11.5 "uses." #222222
-p5 anchor y=494.7 13-images
-p5 bookmark level=2 "13. Images"
-p5 text  x=85.0 y=494.7 Serif-Bold/19 "13." #111111
-p5 text  x=113.5 y=494.7 Serif-Bold/19 "Images" #111111
-p5 text  x=85.0 y=526.7 Serif/11.5 "An image that does not exist shows a placeholder with its description" #222222
-p5 text  x=406.1 y=526.7 Serif/11.5 "and" #222222
-p5 text  x=425.5 y=526.7 Serif/11.5 "path instead of a" #222222
-p5 text  x=85.0 y=543.7 Serif/11.5 "picture" #222222
-p5 text  x=116.9 y=543.7 Serif/11.5 ":" #222222
-p5 text  x=85.0 y=568.7 Serif-Italic/11.5 "[IMG] A missing picture" #555555
-p5 text  x=85.0 y=585.7 Serif/9 "does-not-exist.png" #1F3A5F
-p5 anchor y=628.7 14-inline-diff-and-color-chips
-p5 bookmark level=2 "14. Inline diff and color chips"
-p5 text  x=85.0 y=628.7 Serif-Bold/19 "14. Inline diff and color" #111111
-p5 text  x=280.2 y=628.7 Serif-Bold/19 "chips" #111111
-p5 text  x=85.0 y=660.7 Serif/11.5 "An addition is" #222222
-p5 text  x=153.0 y=660.7 Serif/11.5 "green and underlined" #16A34A
-p5 line  x=153.0 y=673.2 to x=250.0 y=673.2 #16A34A/0.6
-p5 text  x=250.0 y=660.7 Serif/11.5 ", a removal is {- red and" #222222
-p5 text  x=364.0 y=660.7 Serif/11.5 "struck" #222222
-p5 text  x=395.0 y=660.7 Serif/11.5 "through -}. A color code" #222222
-p5 text  x=85.0 y=677.7 Serif/11.5 "such as" #222222
-p5 rect  x=121.4 y=677.7 w=10.0 h=10.0 fill=#2563EB
-p5 text  x=133.4 y=679.2 Courier/10.5 "#2563EB" #5B2C2C
-p5 text  x=180.4 y=677.7 Serif/11.5 "is preceded by a small square" #222222
-p5 text  x=318.2 y=677.7 Serif/11.5 "of" #222222
-p5 text  x=330.7 y=677.7 Serif/11.5 "that" #222222
-p5 text  x=350.8 y=677.7 Serif/11.5 "color." #222222
-p5 anchor y=720.7 15-emoji
-p5 bookmark level=2 "15. Emoji"
-p5 text  x=85.0 y=720.7 Serif-Bold/19 "15." #111111
-p5 text  x=113.5 y=720.7 Serif-Bold/19 "Emoji" #111111
-p6 text  x=85.0 y=85.0 Serif/11.5 "Emoji shortcodes become emoji in DOCX:" #222222
-p6 text  x=286.1 y=85.0 Serif/11.5 ". In PDF they are" #222222
-p6 text  x=367.8 y=85.0 Serif/11.5 "left" #222222
-p6 text  x=386.0 y=85.0 Serif/11.5 "out, because the built-in" #222222
-p6 text  x=85.0 y=102.0 Serif/11.5 "fonts have no" #222222
-p6 text  x=149.8 y=102.0 Serif/11.5 "emoji." #222222
-p6 anchor y=145.0 16-footnotes
+p5 text  x=85.0 y=222.7 Serif/11.5 "A Mermaid flowchart is drawn: three boxes, with arrows from the left one" #222222
+p5 text  x=429.0 y=222.7 Serif/11.5 "to" #222222
+p5 text  x=440.8 y=222.7 Serif/11.5 "the two on the" #222222
+p5 text  x=85.0 y=239.7 Serif/11.5 "right." #222222
+p5 curve x=282.7 y=312.1 to x=305.7 y=283.4 #555555/1.1
+p5 curve x=305.7 y=283.4 to x=328.3 y=283.4 #555555/1.1
+p5 shape x=326.9 y=280.2 w=7.0 h=6.3 points=3 F fill=#555555 stroke=#555555/1.1
+p5 curve x=282.7 y=312.1 to x=305.7 y=340.8 #555555/1.1
+p5 curve x=305.7 y=340.8 to x=323.1 y=340.8 #555555/1.1
+p5 shape x=321.7 y=337.7 w=7.0 h=6.3 points=3 F fill=#555555 stroke=#555555/1.1
+p5 shape x=213.3 y=297.4 w=69.4 h=29.5 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=225.3 y=308.6 Serif/10.35 "Markdown" #065F46
+p5 shape x=333.9 y=268.7 w=43.0 h=29.5 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=345.9 y=279.8 Serif/10.35 "PDF" #065F46
+p5 shape x=328.7 y=326.1 w=53.3 h=29.5 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=340.7 y=337.3 Serif/10.35 "DOCX" #065F46
+p5 text  x=85.0 y=367.6 Serif/11.5 "A decision in a diamond with its two answers written on the arrows, a" #222222
+p5 text  x=409.0 y=367.6 Serif/11.5 "rounded" #222222
+p5 text  x=449.5 y=367.6 Serif/11.5 "end, and a" #222222
+p5 text  x=85.0 y=384.6 Serif/11.5 "dotted arrow leading back up the side" #222222
+p5 text  x=257.3 y=384.6 Serif/11.5 ":" #222222
+p5 curve x=263.5 y=443.0 to x=306.9 y=466.0 #555555/1.1
+p5 curve x=306.9 y=466.0 to x=306.9 y=483.4 #555555/1.1
+p5 shape x=303.8 y=482.0 w=6.3 h=7.0 points=3 F fill=#555555 stroke=#555555/1.1
+p5 curve x=306.9 y=537.3 to x=265.3 y=569.0 #555555/1.1
+p5 curve x=265.3 y=569.0 to x=252.9 y=595.2 #555555/1.1
+p5 shape x=249.7 y=593.8 w=6.3 h=7.0 points=3 F fill=#555555 stroke=#555555/1.1
+p5 curve x=306.9 y=537.3 to x=307.8 y=569.0 #555555/1.1
+p5 curve x=307.8 y=569.0 to x=303.7 y=615.5 #555555/1.1
+p5 curve x=303.7 y=615.5 to x=285.3 y=653.2 #555555/1.1
+p5 curve x=285.3 y=653.2 to x=278.3 y=670.6 #555555/1.1
+p5 shape x=275.1 y=669.2 w=6.3 h=7.0 points=3 F fill=#555555 stroke=#555555/1.1
+p5 curve x=252.9 y=630.2 to x=271.3 y=653.2 #555555/1.1
+p5 curve x=271.3 y=653.2 to x=278.3 y=670.6 #555555/1.1
+p5 shape x=275.1 y=669.2 w=6.3 h=7.0 points=3 F fill=#555555 stroke=#555555/1.1
+p5 curve x=220.1 y=615.5 to x=240.4 y=569.0 #555555/1.1
+p5 curve x=240.4 y=569.0 to x=220.0 y=513.2 #555555/1.1
+p5 curve x=220.0 y=513.2 to x=220.0 y=466.0 #555555/1.1
+p5 curve x=220.0 y=466.0 to x=219.5 y=428.3 #555555/1.1
+p5 shape x=218.1 y=425.1 w=7.0 h=6.3 points=3 F fill=#555555 stroke=#555555/1.1
+p5 shape x=225.1 y=413.6 w=76.8 h=29.5 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=237.1 y=424.7 Serif/10.35 "Read the file" #065F46
+p5 shape x=238.0 y=489.0 w=137.8 h=48.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=272.7 y=509.6 Serif/10.35 "Is it Markdown?" #065F46
+p5 shape x=220.1 y=600.8 w=65.6 h=29.5 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=232.1 y=611.9 Serif/10.35 "Convert it" #065F46
+p5 shape x=249.4 y=676.2 w=57.7 h=29.5 points=52 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=268.8 y=687.4 Serif/10.35 "Stop" #065F46
+p5 rect  x=255.4 y=561.3 w=19.8 h=15.5 fill=#FFFFFF
+p5 text  x=258.4 y=565.5 Serif/10.35 "yes" #065F46
+p5 rect  x=299.6 y=561.3 w=16.4 h=15.5 fill=#FFFFFF
+p5 text  x=302.6 y=565.5 Serif/10.35 "no" #065F46
+p5 text  x=85.0 y=717.7 Serif/11.5 "Other kinds of diagram are shown as their source in a labeled panel" #222222
+p5 text  x=394.5 y=717.7 Serif/11.5 ":" #222222
+p6 rect  x=85.0 y=85.0 w=425.2 h=53.5 fill=#ECFDF5 stroke=#10B981/0.5
+p6 text  x=93.0 y=93.0 Serif-Bold/11.5 "Mermaid Diagram" #065F46
+p6 text  x=93.0 y=105.5 Courier/9 "sequenceDiagram" #065F46
+p6 text  x=93.0 y=118.0 Courier/9 "    Reader->>Document: opens" #065F46
+p6 anchor y=164.5 12-definition-list
+p6 bookmark level=2 "12. Definition list"
+p6 text  x=85.0 y=164.5 Serif-Bold/19 "12. Definition" #111111
+p6 text  x=199.5 y=164.5 Serif-Bold/19 "list" #111111
+p6 text  x=85.0 y=196.5 Serif/11.5 "A bold term with its definition indented below it" #222222
+p6 text  x=307.8 y=196.5 Serif/11.5 ":" #222222
+p6 text  x=85.0 y=221.5 Serif-Bold/11.5 "Markdown" #222222
+p6 text  x=105.0 y=238.5 Serif/11.5 "A plain-text format for writing structured" #222222
+p6 text  x=297.8 y=238.5 Serif/11.5 "documents." #222222
+p6 text  x=85.0 y=259.5 Serif-Bold/11.5 "Flavor" #222222
+p6 text  x=105.0 y=276.5 Serif/11.5 "A dialect of Markdown, such as the one GitHub" #222222
+p6 text  x=328.4 y=276.5 Serif/11.5 "uses." #222222
+p6 anchor y=319.5 13-images
+p6 bookmark level=2 "13. Images"
+p6 text  x=85.0 y=319.5 Serif-Bold/19 "13." #111111
+p6 text  x=113.5 y=319.5 Serif-Bold/19 "Images" #111111
+p6 text  x=85.0 y=351.5 Serif/11.5 "An image that does not exist shows a placeholder with its description" #222222
+p6 text  x=406.1 y=351.5 Serif/11.5 "and" #222222
+p6 text  x=425.5 y=351.5 Serif/11.5 "path instead of a" #222222
+p6 text  x=85.0 y=368.5 Serif/11.5 "picture" #222222
+p6 text  x=116.9 y=368.5 Serif/11.5 ":" #222222
+p6 text  x=85.0 y=393.5 Serif-Italic/11.5 "[IMG] A missing picture" #555555
+p6 text  x=85.0 y=410.5 Serif/9 "does-not-exist.png" #1F3A5F
+p6 anchor y=453.5 14-inline-diff-and-color-chips
+p6 bookmark level=2 "14. Inline diff and color chips"
+p6 text  x=85.0 y=453.5 Serif-Bold/19 "14. Inline diff and color" #111111
+p6 text  x=280.2 y=453.5 Serif-Bold/19 "chips" #111111
+p6 text  x=85.0 y=485.5 Serif/11.5 "An addition is" #222222
+p6 text  x=153.0 y=485.5 Serif/11.5 "green and underlined" #16A34A
+p6 line  x=153.0 y=498.0 to x=250.0 y=498.0 #16A34A/0.6
+p6 text  x=250.0 y=485.5 Serif/11.5 ", a removal is {- red and" #222222
+p6 text  x=364.0 y=485.5 Serif/11.5 "struck" #222222
+p6 text  x=395.0 y=485.5 Serif/11.5 "through -}. A color code" #222222
+p6 text  x=85.0 y=502.5 Serif/11.5 "such as" #222222
+p6 rect  x=121.4 y=502.5 w=10.0 h=10.0 fill=#2563EB
+p6 text  x=133.4 y=504.0 Courier/10.5 "#2563EB" #5B2C2C
+p6 text  x=180.4 y=502.5 Serif/11.5 "is preceded by a small square" #222222
+p6 text  x=318.2 y=502.5 Serif/11.5 "of" #222222
+p6 text  x=330.7 y=502.5 Serif/11.5 "that" #222222
+p6 text  x=350.8 y=502.5 Serif/11.5 "color." #222222
+p6 anchor y=545.5 15-emoji
+p6 bookmark level=2 "15. Emoji"
+p6 text  x=85.0 y=545.5 Serif-Bold/19 "15." #111111
+p6 text  x=113.5 y=545.5 Serif-Bold/19 "Emoji" #111111
+p6 text  x=85.0 y=577.5 Serif/11.5 "Emoji shortcodes become emoji in DOCX:" #222222
+p6 text  x=286.1 y=577.5 Serif/11.5 ". In PDF they are" #222222
+p6 text  x=367.8 y=577.5 Serif/11.5 "left" #222222
+p6 text  x=386.0 y=577.5 Serif/11.5 "out, because the built-in" #222222
+p6 text  x=85.0 y=594.5 Serif/11.5 "fonts have no" #222222
+p6 text  x=149.8 y=594.5 Serif/11.5 "emoji." #222222
+p6 anchor y=637.5 16-footnotes
 p6 bookmark level=2 "16. Footnotes"
-p6 text  x=85.0 y=145.0 Serif-Bold/19 "16." #111111
-p6 text  x=113.5 y=145.0 Serif-Bold/19 "Footnotes" #111111
-p6 text  x=85.0 y=177.0 Serif/11.5 "This sentence has a footnote" #222222
-p6 text  x=215.2 y=177.0 Serif/11.5 "[1]" #1F3A5F
-p6 text  x=228.6 y=177.0 Serif/11.5 ", and this one has another" #222222
-p6 text  x=345.4 y=177.0 Serif/11.5 "[2]" #1F3A5F
-p6 text  x=358.8 y=177.0 Serif/11.5 "." #222222
-p6 text  x=364.6 y=177.0 Serif/11.5 "The" #222222
-p6 text  x=385.3 y=177.0 Serif/11.5 "numbers should be" #222222
-p6 text  x=85.0 y=194.0 Serif/11.5 "colored, and both notes should appear at the end of" #222222
-p6 text  x=322.2 y=194.0 Serif/11.5 "the" #222222
-p6 text  x=339.1 y=194.0 Serif/11.5 "document under a short" #222222
-p6 text  x=450.1 y=194.0 Serif/11.5 "line." #222222
-p6 line  x=85.0 y=239.0 to x=212.6 y=239.0 #9A968A/0.5
-p6 text  x=85.0 y=249.0 Serif/9 "1. " #222222
-p6 text  x=94.0 y=249.0 Serif/9 "The first footnote, with" #222222
-p6 text  x=179.7 y=249.0 Serif-Bold/9 "bold" #222222
-p6 text  x=199.0 y=249.0 Serif/9 "text." #222222
-p6 text  x=85.0 y=267.0 Serif/9 "2. " #222222
-p6 text  x=94.0 y=267.0 Serif/9 "The second" #222222
-p6 text  x=137.5 y=267.0 Serif/9 "footnote." #222222
+p6 text  x=85.0 y=637.5 Serif-Bold/19 "16." #111111
+p6 text  x=113.5 y=637.5 Serif-Bold/19 "Footnotes" #111111
+p6 text  x=85.0 y=669.5 Serif/11.5 "This sentence has a footnote" #222222
+p6 text  x=215.2 y=669.5 Serif/11.5 "[1]" #1F3A5F
+p6 text  x=228.6 y=669.5 Serif/11.5 ", and this one has another" #222222
+p6 text  x=345.4 y=669.5 Serif/11.5 "[2]" #1F3A5F
+p6 text  x=358.8 y=669.5 Serif/11.5 "." #222222
+p6 text  x=364.6 y=669.5 Serif/11.5 "The" #222222
+p6 text  x=385.3 y=669.5 Serif/11.5 "numbers should be" #222222
+p6 text  x=85.0 y=686.5 Serif/11.5 "colored, and both notes should appear at the end of" #222222
+p6 text  x=322.2 y=686.5 Serif/11.5 "the" #222222
+p6 text  x=339.1 y=686.5 Serif/11.5 "document under a short" #222222
+p6 text  x=450.1 y=686.5 Serif/11.5 "line." #222222
+p6 line  x=85.0 y=731.5 to x=212.6 y=731.5 #9A968A/0.5
+p6 text  x=85.0 y=741.5 Serif/9 "1. " #222222
+p6 text  x=94.0 y=741.5 Serif/9 "The first footnote, with" #222222
+p6 text  x=179.7 y=741.5 Serif-Bold/9 "bold" #222222
+p6 text  x=199.0 y=741.5 Serif/9 "text." #222222
+p7 text  x=85.0 y=85.0 Serif/9 "2. " #222222
+p7 text  x=94.0 y=85.0 Serif/9 "The second" #222222
+p7 text  x=137.5 y=85.0 Serif/9 "footnote." #222222
 p1 text  x=295.4 y=794.9 Serif/9 "1" #555555
 p2 text  x=295.4 y=794.9 Serif/9 "2" #555555
 p3 text  x=295.4 y=794.9 Serif/9 "3" #555555
 p4 text  x=295.4 y=794.9 Serif/9 "4" #555555
 p5 text  x=295.4 y=794.9 Serif/9 "5" #555555
 p6 text  x=295.4 y=794.9 Serif/9 "6" #555555
+p7 text  x=295.4 y=794.9 Serif/9 "7" #555555

@@ -69,6 +69,8 @@ type PdfRenderer struct {
 	math         *mathFont // the math font, once a formula has needed it
 	formulas     map[mathKeyFor]typesetResult
 	mathProblems mathProblems
+
+	diagramProblems diagramProblems // see pdf_diagram.go
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -90,6 +92,7 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.anchors, _ = collectAnchors(astDoc.Elements)
 	r.anchored, r.outline = map[string]bool{}, nil
 	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
+	r.diagramProblems = diagramProblems{}
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
 
@@ -799,7 +802,9 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	r.textColor(theme.Black)
 }
 
-func (r *PdfRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) {
+// renderDiagramSource shows a diagram that is not drawn as its source, in a
+// labeled panel.
+func (r *PdfRenderer) renderDiagramSource(diagram ast.MermaidDiagram) {
 	padding := r.t.Code.Padding
 	bg, border, textColor := r.t.Diagram.Background, r.t.Diagram.Border, r.t.Diagram.Text
 
