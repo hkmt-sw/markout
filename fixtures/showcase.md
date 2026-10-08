@@ -77,6 +77,27 @@ A task list, the first box checked and the second empty:
 - [x] Done
 - [ ] Still to do
 
+Two numbered steps that hold more than a line of text. Under the first, a code
+block and then a second paragraph; under the second, a small table and a
+quote. All of it is indented to the text of its step, and the second step is
+numbered 2:
+
+1. Run the command:
+
+   ```sh
+   markout notes.md notes.pdf
+   ```
+
+   The file is written next to the source.
+
+2. Check the result:
+
+   | Format | Opens in |
+   | ------ | -------- |
+   | PDF    | any viewer |
+
+   > Quoted inside a step.
+
 ## 5. Tables
 
 A table with a shaded header row, borders, and the numbers in the third column

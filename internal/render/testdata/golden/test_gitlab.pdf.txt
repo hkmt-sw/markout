@@ -223,12 +223,12 @@ p4 text  x=113.3 y=340.7 Arial/11 "item" #1A1A2E
 p4 text  x=76.7 y=356.7 Arial/11 "2. " #1A1A2E
 p4 text  x=88.9 y=356.7 Arial/11 "Second" #1A1A2E
 p4 text  x=129.2 y=356.7 Arial/11 "item" #1A1A2E
-p4 text  x=96.7 y=372.7 Arial/11 "a. " #1A1A2E
-p4 text  x=108.9 y=372.7 Arial/11 "Nested" #1A1A2E
-p4 text  x=146.8 y=372.7 Arial/11 "bullet" #1A1A2E
-p4 text  x=96.7 y=388.7 Arial/11 "b. " #1A1A2E
-p4 text  x=108.9 y=388.7 Arial/11 "Another nested" #1A1A2E
-p4 text  x=186.5 y=388.7 Arial/11 "bullet" #1A1A2E
+p4 text  x=96.7 y=372.7 Arial/11 "◦ " #1A1A2E
+p4 text  x=103.6 y=372.7 Arial/11 "Nested" #1A1A2E
+p4 text  x=141.5 y=372.7 Arial/11 "bullet" #1A1A2E
+p4 text  x=96.7 y=388.7 Arial/11 "◦ " #1A1A2E
+p4 text  x=103.6 y=388.7 Arial/11 "Another nested" #1A1A2E
+p4 text  x=181.2 y=388.7 Arial/11 "bullet" #1A1A2E
 p4 text  x=76.7 y=404.7 Arial/11 "3. " #1A1A2E
 p4 text  x=88.9 y=404.7 Arial/11 "Third" #1A1A2E
 p4 text  x=117.0 y=404.7 Arial/11 "item" #1A1A2E

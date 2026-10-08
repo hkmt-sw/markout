@@ -172,6 +172,63 @@ P{indent=400 spacing=0/120 line=340/atLeast}
   R{color=222222 font=Times New Roman sz=23} "☐ "
   R{color=222222 font=Times New Roman sz=23} "Still to"
   R{color=222222 font=Times New Roman sz=23} " do"
+P{spacing=0/160 line=340/atLeast}
+  R{color=222222 font=Times New Roman sz=23} "Two numbered steps that hold more than a line of text. Under the first, a"
+  R{color=222222 font=Times New Roman sz=23} " code "
+  R{color=222222 font=Times New Roman sz=23} "block and then a second paragraph; under the second, a small table and"
+  R{color=222222 font=Times New Roman sz=23} " a "
+  R{color=222222 font=Times New Roman sz=23} "quote. All of it is indented to the text of its step, and the second step"
+  R{color=222222 font=Times New Roman sz=23} " is "
+  R{color=222222 font=Times New Roman sz=23} "numbered 2"
+  R{color=222222 font=Times New Roman sz=23} ":"
+P{indent=400 spacing=0/80 line=340/atLeast}
+  R{color=222222 font=Times New Roman sz=23} "1. "
+  R{color=222222 font=Times New Roman sz=23} "Run the command"
+  R{color=222222 font=Times New Roman sz=23} ":"
+TABLE
+  INDENT 630
+  COL w=7873
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/DDDAD0 border-left=single/4/DDDAD0 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F7F6F2 w=7873}
+      P{indent=160/160 spacing=160/160 line=250/atLeast}
+        R{color=222222 font=Courier New sz=18} "markout notes.md notes.pdf"
+P{spacing=/ line=160/exact}
+P{indent=630 spacing=0/160 line=340/atLeast}
+  R{color=222222 font=Times New Roman sz=23} "The file is written next to the"
+  R{color=222222 font=Times New Roman sz=23} " source."
+P{indent=400 spacing=0/120 line=340/atLeast}
+  R{color=222222 font=Times New Roman sz=23} "2. "
+  R{color=222222 font=Times New Roman sz=23} "Check the result"
+  R{color=222222 font=Times New Roman sz=23} ":"
+TABLE
+  INDENT 630
+  COL w=2952
+  COL w=4920
+  ROW
+    cantSplit
+    tblHeader
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=EFEDE6 w=2952}
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
+        R{b color=222222 font=Times New Roman sz=23} "Format"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=EFEDE6 w=4920}
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
+        R{b color=222222 font=Times New Roman sz=23} "Opens"
+        R{b color=222222 font=Times New Roman sz=23} " in"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=2952}
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
+        R{color=222222 font=Times New Roman sz=23} "PDF"
+    CELL{border-bottom=single/4/BDB9AD border-left=single/4/BDB9AD border-right=single/4/BDB9AD border-top=single/4/BDB9AD fill=FFFFFF w=4920}
+      P{indent=80/80 spacing=80/80 line=260/atLeast}
+        R{color=222222 font=Times New Roman sz=23} "any"
+        R{color=222222 font=Times New Roman sz=23} " viewer"
+P{spacing=/ line=160/exact}
+P{border-left=single/24/9A968A indent=1030 spacing=0/80 line=340/atLeast}
+  R{color=222222 font=Times New Roman i sz=23} "Quoted inside a"
+  R{color=222222 font=Times New Roman i sz=23} " step."
 P{spacing=360/160 line=480/atLeast}
   R{b color=111111 font=Times New Roman sz=38} "5."
   R{b color=111111 font=Times New Roman sz=38} " Tables"

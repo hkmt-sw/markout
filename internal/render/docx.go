@@ -24,6 +24,12 @@ type DocxRenderer struct {
 	footnotes    []ast.FootnoteDefinition // Collected footnotes
 	opts         Options                  // base directory and image loading policy
 	t            theme.Theme              // how everything looks
+
+	// inset is how far, in points, blocks are moved in from the left margin:
+	// the blocks of a list item sit under its text. tableInsets has it, in
+	// twips, for every table of the body.
+	inset       float64
+	tableInsets []int
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -38,6 +44,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.t = r.opts.theme().DOCX
 	r.doc = docx.NewDocument()
 	r.footnotes = nil // Reset footnotes
+	r.inset, r.tableInsets = 0, nil
 	r.setupDocument()
 
 	for _, elem := range astDoc.Elements {
@@ -63,8 +70,9 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		return err
 	}
 
-	// Post-process to add table row properties (cantSplit, tblHeader)
-	if err := postProcessDocx(tempFile, filename); err != nil {
+	// Post-process to add table row properties (cantSplit, tblHeader) and
+	// table indents
+	if err := postProcessDocx(tempFile, filename, r.tableInsets); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -158,6 +166,7 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 	hd := r.t.Heading[level-1]
 
 	r.space(para, hd.LineHeight, hd.SpaceBefore, hd.SpaceAfter)
+	r.inside(para)
 
 	// Black is what a word processor uses when no color is given
 	base := runBase{size: hd.Size, font: r.t.Fonts.Heading, color: hd.Color, noColor: hd.Color == theme.Black, bold: true}
@@ -186,6 +195,7 @@ func (r *DocxRenderer) renderParagraph(p ast.Paragraph) error {
 		para.SetAlignment(domain.AlignmentJustify)
 	}
 	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
+	r.inside(para)
 
 	for _, astRun := range p.Runs {
 		if err := r.addRunToParagraph(para, astRun); err != nil {
@@ -401,9 +411,21 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level
 			}
 		}
 
+		// What the item holds besides its text goes under it, moved in to
+		// about where the text starts after the bullet
+		if len(item.Blocks) > 0 {
+			para.SetSpacingAfter(twips(r.t.Text.ParagraphSpacing / 2))
+			inset := r.inset + float64(level+1)*r.t.List.Indent + r.t.Text.Size
+			if err := r.renderItemBlocks(item.Blocks, inset); err != nil {
+				return err
+			}
+		}
+
 		// Nested items
 		if len(item.Children) > 0 {
-			if err := r.renderListItems(item.Children, ordered, level+1); err != nil {
+			// A nested list is numbered or not by itself, and counts from one
+			r.listCounters[level+1] = 0
+			if err := r.renderListItems(item.Children, item.ChildrenOrdered, level+1); err != nil {
 				return err
 			}
 		}
@@ -432,7 +454,7 @@ func formatOrderedBullet(num int, level int) string {
 
 func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	// Create a single-cell table for IDE-like appearance
-	table, err := r.doc.AddTable(1, 1)
+	table, err := r.addTable(1, 1)
 	if err != nil {
 		return err
 	}
@@ -529,7 +551,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 		return nil
 	}
 
-	table, err := r.doc.AddTable(numRows, numCols)
+	table, err := r.addTable(numRows, numCols)
 	if err != nil {
 		return err
 	}
@@ -784,6 +806,7 @@ func (r *DocxRenderer) renderHorizontalRule() error {
 
 	// A paragraph with nothing in it but a border below
 	rule := r.t.Rule
+	r.inside(para)
 	para.SetBorderBottom(ruleBorder(rule.Width, rule.Color))
 	para.SetLineSpacing(domain.LineSpacing{Rule: domain.LineSpacingExact, Value: 20})
 	para.SetSpacingBefore(twips(rule.Space))
@@ -841,7 +864,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 
 	// Honor an explicit width hint, then scale down to the content width
 	// (96 DPI), preserving aspect ratio.
-	maxWidthPx := int(r.t.Page.ContentWidth() * 96.0 / 72.0)
+	maxWidthPx := int((r.t.Page.ContentWidth() - r.inset) * 96.0 / 72.0)
 	w, h := cfg.Width, cfg.Height
 	if displayWidth > 0 {
 		h = h * displayWidth / w
@@ -857,6 +880,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 		return err
 	}
 	para.SetAlignment(domain.AlignmentCenter)
+	r.inside(para)
 	r.space(para, 0, 0, r.t.Text.ParagraphSpacing)
 	if _, err := para.AddImageWithSize(tmpPath, domain.NewImageSize(w, h)); err != nil {
 		return err
@@ -907,6 +931,7 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
 
 	para.SetAlignment(domain.AlignmentCenter)
+	r.inside(para)
 
 	// Add image placeholder
 	run, err := para.AddRun()
@@ -978,9 +1003,18 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		numRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		numRun.SetColor(docxColor(r.t.Text.Muted))
 
-		// Footnote content
+		// Footnote content; its paragraphs are lines of the one paragraph
+		first := true
 		for _, elem := range fn.Elements {
 			if p, ok := elem.(ast.Paragraph); ok {
+				if !first {
+					br, err := para.AddRun()
+					if err != nil {
+						return err
+					}
+					br.AddBreak(domain.BreakTypeLine)
+				}
+				first = false
 				note := runBase{size: r.t.Footnote.Size, font: r.t.Fonts.Body, color: r.t.Text.Muted}
 				for _, astRun := range p.Runs {
 					if err := r.addRun(para, astRun, note); err != nil {
@@ -1001,7 +1035,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	bgColor, borderColor := colors.Background.Hex(), colors.Border.Hex()
 
 	// Create a single-cell table (like code blocks)
-	table, err := r.doc.AddTable(1, 1)
+	table, err := r.addTable(1, 1)
 	if err != nil {
 		return err
 	}
@@ -1077,7 +1111,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 
 // renderMermaidDiagram renders a mermaid diagram as a labeled placeholder
 func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
-	table, err := r.doc.AddTable(1, 1)
+	table, err := r.addTable(1, 1)
 	if err != nil {
 		return err
 	}
@@ -1162,6 +1196,7 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 	}
 	para.SetAlignment(domain.AlignmentCenter)
 	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
+	r.inside(para)
 
 	run, err := para.AddRun()
 	if err != nil {
@@ -1262,7 +1297,7 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 // renderFrontMatter renders YAML front matter as a styled metadata block
 func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	// Create a single-cell table for the metadata block
-	table, err := r.doc.AddTable(1, 1)
+	table, err := r.addTable(1, 1)
 	if err != nil {
 		return err
 	}
@@ -1468,9 +1503,10 @@ func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float
 	p.SetSpacingAfter(twips(after))
 }
 
-// indent sets a paragraph's left and right indent.
+// indent sets a paragraph's left and right indent, counted from the list
+// item it is in, if any.
 func (r *DocxRenderer) indent(p domain.Paragraph, left, right float64) {
-	p.SetIndentLeft(twips(left))
+	p.SetIndentLeft(twips(left + r.inset))
 	p.SetIndentRight(twips(right))
 }
 
@@ -1486,7 +1522,8 @@ func (r *DocxRenderer) pad(paragraphs []domain.Paragraph, padding, lineHeight fl
 			after = padding
 		}
 		r.space(p, lineHeight, before, after)
-		r.indent(p, padding, padding)
+		p.SetIndentLeft(twips(padding))
+		p.SetIndentRight(twips(padding))
 	}
 }
 
@@ -1555,9 +1592,39 @@ func docxColor(c theme.Color) domain.Color {
 	return domain.Color{R: c.R, G: c.G, B: c.B}
 }
 
-// contentTwips is the width between the page margins.
+// contentTwips is the width blocks have: between the page margins, less the
+// inset of the list item they are in.
 func (r *DocxRenderer) contentTwips() int {
-	return twips(r.t.Page.ContentWidth())
+	return twips(r.t.Page.ContentWidth() - r.inset)
+}
+
+// addTable adds a table to the body, noting how far it is to be moved in;
+// see indentTables.
+func (r *DocxRenderer) addTable(rows, cols int) (domain.Table, error) {
+	r.tableInsets = append(r.tableInsets, twips(r.inset))
+	return r.doc.AddTable(rows, cols)
+}
+
+// inside moves a paragraph that has no indent of its own in to the list item
+// it is in.
+func (r *DocxRenderer) inside(p domain.Paragraph) {
+	if r.inset > 0 {
+		p.SetIndentLeft(twips(r.inset))
+	}
+}
+
+// renderItemBlocks renders the blocks of a list item under its text, moved in
+// by inset points.
+func (r *DocxRenderer) renderItemBlocks(blocks []ast.Element, inset float64) error {
+	outer, counters, last := r.inset, r.listCounters, r.lastListItem
+	r.inset = inset
+	defer func() { r.inset, r.listCounters, r.lastListItem = outer, counters, last }()
+	for _, block := range blocks {
+		if err := r.renderElement(block); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 // Helper functions
@@ -1595,7 +1662,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1629,6 +1696,7 @@ func postProcessDocx(inputFile, outputFile string) error {
 		// Modify document.xml to add table row properties
 		if file.Name == "word/document.xml" {
 			content = addTableRowProperties(content)
+			content = indentTables(content, tableInsets)
 		}
 		// The library marks every field as needing an update, which makes
 		// Word ask "This document contains fields that may refer to other
@@ -1650,6 +1718,41 @@ func postProcessDocx(inputFile, outputFile string) error {
 	}
 
 	return nil
+}
+
+// indentTables moves tables in from the left margin: insets has the distance
+// in twips for each table of the body, in order. A table in a list item is
+// moved in like the text around it; the library has no call for that.
+func indentTables(content []byte, insets []int) []byte {
+	const open = "<w:tbl>"
+	str := string(content)
+	if strings.Count(str, open) != len(insets) {
+		return content
+	}
+	var out strings.Builder
+	for _, inset := range insets {
+		at := strings.Index(str, open) + len(open)
+		out.WriteString(str[:at])
+		str = str[at:]
+		if inset <= 0 {
+			continue
+		}
+		end := strings.Index(str, "</w:tblPr>")
+		if end < 0 {
+			continue
+		}
+		// The schema wants tblInd after the width and before these
+		for _, later := range []string{"<w:tblBorders", "<w:shd", "<w:tblLayout", "<w:tblCellMar", "<w:tblLook"} {
+			if i := strings.Index(str[:end], later); i >= 0 && i < end {
+				end = i
+			}
+		}
+		out.WriteString(str[:end])
+		fmt.Fprintf(&out, `<w:tblInd w:w="%d" w:type="dxa"/>`, inset)
+		str = str[end:]
+	}
+	out.WriteString(str)
+	return []byte(out.String())
 }
 
 // addTableRowProperties adds cantSplit and tblHeader to table rows

@@ -386,11 +386,11 @@ P{indent=400 spacing=0/0 line=320/atLeast}
   R{color=1A1A2E font=Georgia} "Second"
   R{color=1A1A2E font=Georgia} " item"
 P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "a. "
+  R{color=1A1A2E font=Georgia} "◦ "
   R{color=1A1A2E font=Georgia} "Nested"
   R{color=1A1A2E font=Georgia} " bullet"
 P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "b. "
+  R{color=1A1A2E font=Georgia} "◦ "
   R{color=1A1A2E font=Georgia} "Another nested"
   R{color=1A1A2E font=Georgia} " bullet"
 P{indent=400 spacing=0/120 line=320/atLeast}
