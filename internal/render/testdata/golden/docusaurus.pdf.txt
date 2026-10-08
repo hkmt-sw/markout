@@ -20,4 +20,6 @@ p1 text  x=64.7 y=276.7 Arial-Bold/11 "Take care" #EF4444
 p1 text  x=64.7 y=292.7 Arial/11 "With a plain" #1A1A2E
 p1 text  x=125.2 y=292.7 Arial/11 "title." #1A1A2E
 p1 rect  x=56.7 y=324.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=332.7 Courier/9 "console.log(\"hi\");" #000000
+p1 text  x=64.7 y=332.7 Courier/9 "console.log(" #000000
+p1 text  x=129.5 y=332.7 Courier/9 "\"hi\"" #0A3069
+p1 text  x=151.1 y=332.7 Courier/9 ");" #000000

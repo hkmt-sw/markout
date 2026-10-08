@@ -71,7 +71,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
-        R{color=24292F font=Consolas sz=19} "print(\"hi\")"
+        R{color=953800 font=Consolas sz=19} "print"
+        R{color=24292F font=Consolas sz=19} "("
+        R{color=0A3069 font=Consolas sz=19} "\"hi\""
+        R{color=24292F font=Consolas sz=19} ")"
 P{spacing=/ line=160/exact}
 P{spacing=0/0 line=320/atLeast}
   R{b} "Term"

@@ -4,6 +4,22 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.6.0] - 2026-10-08
+
+### Added
+
+- Syntax highlighting. A code block that names its language (` ```go `,
+  ` ```python `, ...) has its keywords, strings, comments, numbers, function
+  names and type names in colors of their own, in PDF and in DOCX. Almost
+  300 languages are known, by the names GitHub uses. A block without a
+  language, or with one that is not known, is shown in one color as before.
+- Themes set the colors under `[code.syntax]`, and `highlight = false` there
+  turns highlighting off. See the [theme guide](docs/themes.md#codesyntax).
+
+### Changed
+
+- The release binaries are about 3 MB larger, for the language definitions.
+
 ## [1.5.0] - 2026-10-08
 
 PDFs you can find your way around in.

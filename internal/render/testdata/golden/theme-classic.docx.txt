@@ -288,7 +288,9 @@ P{bookmark=_6_code pStyle=Heading2}
 P{spacing=0/160 line=340/atLeast}
   R "A code block in a monospace font on a shaded panel, with its"
   R " indentation "
-  R "preserved"
+  R "preserved. It names its language, so the keywords, the function names and"
+  R " the "
+  R "text in quotes each have a color of their own"
   R ":"
 TABLE
   COL w=8503
@@ -297,11 +299,20 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/DDDAD0 border-left=single/4/DDDAD0 border-right=single/4/DDDAD0 border-top=single/4/DDDAD0 fill=F7F6F2 w=8503}
       P{indent=160/160 spacing=160/160 line=250/atLeast}
-        R{color=222222 font=Courier New sz=18} "func main() {"
+        R{color=CF222E font=Courier New sz=18} "func "
+        R{color=6639BA font=Courier New sz=18} "main"
+        R{color=222222 font=Courier New sz=18} "() {"
         R "<br>"
-        R{color=222222 font=Courier New sz=18} "\tif ok := convert(); !ok {"
+        R{color=CF222E font=Courier New sz=18} "\tif "
+        R{color=222222 font=Courier New sz=18} "ok := "
+        R{color=6639BA font=Courier New sz=18} "convert"
+        R{color=222222 font=Courier New sz=18} "(); !ok {"
         R "<br>"
-        R{color=222222 font=Courier New sz=18} "\t\tfmt.Println(\"failed\")"
+        R{color=222222 font=Courier New sz=18} "\t\tfmt."
+        R{color=6639BA font=Courier New sz=18} "Println"
+        R{color=222222 font=Courier New sz=18} "("
+        R{color=0A3069 font=Courier New sz=18} "\"failed\""
+        R{color=222222 font=Courier New sz=18} ")"
         R "<br>"
         R{color=222222 font=Courier New sz=18} "\t}"
         R "<br>"
