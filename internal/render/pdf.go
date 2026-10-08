@@ -9,6 +9,7 @@ import (
 	_ "image/jpeg"
 	_ "image/png"
 	"io"
+	"math"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -71,6 +72,8 @@ type PdfRenderer struct {
 	mathProblems mathProblems
 
 	diagramProblems diagramProblems // see pdf_diagram.go
+
+	waiting []waitingHeading // headings laid out and not yet drawn
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -93,6 +96,7 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.anchored, r.outline = map[string]bool{}, nil
 	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
 	r.diagramProblems = diagramProblems{}
+	r.waiting = nil
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
 
@@ -106,6 +110,9 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	for _, elem := range astDoc.Elements {
 		r.renderElement(elem)
 	}
+
+	// A heading with nothing after it
+	r.flushHeadings(0)
 
 	// Render collected footnotes at the end
 	if len(r.footnotes) > 0 {
@@ -232,6 +239,7 @@ func (r *PdfRenderer) image(holder gopdf.ImageHolder, x, y, w, h float64) error 
 }
 
 func (r *PdfRenderer) checkPageBreak(height float64) {
+	r.flushHeadings(height)
 	if r.currentY+height > r.pageHeight-r.marginBottom {
 		r.addPage()
 		r.currentY = r.marginTop
@@ -284,14 +292,62 @@ func (r *PdfRenderer) renderHeading(h ast.Heading) {
 	}
 	hd := r.t.Heading[level-1]
 
-	r.currentY += hd.SpaceBefore
-	r.checkPageBreak(hd.LineHeight)
-	r.markHeading(h, level)
-
+	// A heading is not drawn yet: it waits for what follows it, to be on
+	// the same page (see checkPageBreak)
 	style := textStyle{font: r.headingFont(), size: hd.Size, bold: true, color: hd.Color, lineHeight: hd.LineHeight}
-	r.drawLines(r.layout(h.Runs, style, r.contentWidth, r.contentWidth), r.marginLeft, r.marginLeft, hd.LineHeight)
+	lines := r.layout(h.Runs, style, r.contentWidth, r.contentWidth)
+	r.waiting = append(r.waiting, waitingHeading{
+		heading: h, level: level, lines: lines,
+		height: hd.SpaceBefore + float64(len(lines))*hd.LineHeight + hd.SpaceAfter,
+	})
+}
 
+// waitingHeading is a heading that has been laid out and not yet drawn.
+type waitingHeading struct {
+	heading ast.Heading
+	level   int
+	lines   []textLine
+	height  float64 // with the space before and after it
+}
+
+// drawHeading draws a heading at the current position. One that starts a
+// page it was moved to has no space above it.
+func (r *PdfRenderer) drawHeading(w waitingHeading, pageTop bool) {
+	hd := r.t.Heading[w.level-1]
+	if !pageTop {
+		r.currentY += hd.SpaceBefore
+	}
+	r.checkPageBreak(hd.LineHeight)
+	r.markHeading(w.heading, w.level)
+	r.drawLines(w.lines, r.marginLeft, r.marginLeft, hd.LineHeight)
 	r.currentY += hd.SpaceAfter
+}
+
+// flushHeadings draws the headings that are waiting. need is the height of
+// what comes after them: if the headings and that do not fit on what is left
+// of the page, they start a new page together, so that a heading is never
+// the last thing on a page.
+func (r *PdfRenderer) flushHeadings(need float64) {
+	if len(r.waiting) == 0 {
+		return
+	}
+	waiting := r.waiting
+	r.waiting = nil
+	// At least two lines of text go with a heading
+	total := math.Max(need, 2*r.t.Text.LineHeight)
+	for _, w := range waiting {
+		total += w.height
+	}
+	room := r.pageHeight - r.marginTop - r.marginBottom
+	moved := false
+	if r.currentY+total > r.pageHeight-r.marginBottom && total <= room && r.currentY > r.marginTop {
+		r.addPage()
+		r.currentY = r.marginTop
+		moved = true
+	}
+	for i, w := range waiting {
+		r.drawHeading(w, moved && i == 0)
+	}
 }
 
 func (r *PdfRenderer) renderParagraph(p ast.Paragraph) {
@@ -507,6 +563,17 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		drawRow(laidOut, rowH, true, 0)
 	}
 
+	// The header is not left alone at the bottom of a page: it goes with
+	// the first row
+	first := 0.0
+	if len(headerCells) > 0 {
+		first, _ = layoutRow(headerCells, true)
+	}
+	if len(t.Rows) > 0 {
+		rowH, _ := layoutRow(t.Rows[0].Cells, false)
+		first += rowH
+	}
+	r.checkPageBreak(first)
 	renderHeader()
 
 	// Render data rows
@@ -581,6 +648,7 @@ func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 
 func (r *PdfRenderer) renderHorizontalRule() {
 	rule := r.t.Rule
+	r.flushHeadings(rule.Space + 1)
 	r.currentY += rule.Space
 	r.checkPageBreak(1)
 
@@ -909,7 +977,8 @@ func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
 	indent := r.t.List.Indent
 
 	for _, item := range dl.Items {
-		r.checkPageBreak(lineHeight)
+		// A term goes with the first line of its definition
+		r.checkPageBreak(2 * lineHeight)
 
 		// Term - bold
 		term := def
@@ -930,6 +999,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	lineHeight := r.t.Text.LineHeight
 
 	// Title, in the size of a third-level heading
+	r.flushHeadings(8 + lineHeight)
 	r.currentY += 8
 	r.checkPageBreak(lineHeight)
 	r.setFont(r.headingFont(), "B", r.t.Heading[2].Size)

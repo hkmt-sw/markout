@@ -42,63 +42,104 @@ func TestGoldenCorpus(t *testing.T) {
 			if !ok {
 				t.Fatalf("no flavor for the directory %s", dir)
 			}
-			source, err := os.ReadFile(path)
-			if err != nil {
-				t.Fatal(err)
-			}
-			doc, err := parse.ParseFlavor(source, fl, filepath.Dir(path))
-			if err != nil {
-				t.Fatal(err)
-			}
-
-			var summary strings.Builder
-			fmt.Fprintf(&summary, "source: %d lines\n", strings.Count(string(source), "\n"))
-			summary.WriteString("holds: " + elementCounts(doc.Elements) + "\n")
-			for _, w := range doc.Warnings {
-				summary.WriteString("reading warns: " + w + "\n")
-			}
-
-			// PDF
-			dir := t.TempDir()
-			var warnings []string
-			pdf := NewPdfRenderer()
-			pdf.opts = Options{BaseDir: filepath.Dir(path), Warn: func(m string) { warnings = append(warnings, m) }}
-			pdf.trace = &strings.Builder{}
-			if err := pdf.RenderToFile(doc, filepath.Join(dir, "out.pdf")); err != nil {
-				t.Fatalf("PDF: %v", err)
-			}
-			trace := pdf.trace.String()
-			checkOnThePage(t, trace)
-			if written, err := os.ReadFile(filepath.Join(dir, "out.pdf")); err != nil {
-				t.Fatal(err)
-			} else {
-				checkPDFObjects(t, written)
-			}
-			fmt.Fprintf(&summary, "pdf: %d pages, %d bookmarks, %d links within the document\n",
-				pdf.page, len(traceLines(trace, "bookmark")), len(traceLines(trace, "goto")))
-			for _, w := range warnings {
-				summary.WriteString("pdf warns: " + w + "\n")
-			}
-
-			// DOCX
-			out := filepath.Join(dir, "out.docx")
-			warnings = nil
-			err = RenderDocx(doc, out, Options{BaseDir: filepath.Dir(path), Warn: func(m string) { warnings = append(warnings, m) }})
-			if err != nil {
-				t.Fatalf("DOCX: %v", err)
-			}
-			document := docxPart(t, out, "word/document.xml")
-			checkDocxConsistent(t, out)
-			count := func(s string) int { return strings.Count(document, s) }
-			fmt.Fprintf(&summary, "docx: %d paragraphs, %d headings, %d list items, %d tables, %d equations, %d images\n",
-				count("<w:p>"), count(`<w:pStyle w:val="Heading`), count("<w:numPr>"), count("<w:tbl>"), count("<m:oMath>"), count("<w:drawing>"))
-			for _, w := range warnings {
-				summary.WriteString("docx warns: " + w + "\n")
-			}
-
-			checkGolden(t, filepath.Join("corpus", name+".txt"), summary.String())
+			summary, _ := convertAndSummarize(t, path, fl)
+			checkGolden(t, filepath.Join("corpus", name+".txt"), summary)
 		})
 	}
+}
+
+// The examples (the examples directory of the repository) are documents
+// written for markout, of the kinds people convert: a policy, a runbook, a
+// report, minutes. They are converted like the corpus, and one thing more is
+// asked of them: that the conversion has nothing to warn about. An example
+// that needs a warning is a poor example, or shows something to fix.
+func TestGoldenExamples(t *testing.T) {
+	files, _ := filepath.Glob(filepath.Join("..", "..", "examples", "*", "*.md*"))
+	sort.Strings(files)
+	if len(files) < 8 {
+		t.Fatalf("found only %d examples", len(files))
+	}
+	for _, path := range files {
+		dir := filepath.Base(filepath.Dir(path))
+		name := dir + "-" + strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+		t.Run(name, func(t *testing.T) {
+			// A directory named after a flavor holds documents in it
+			fl, ok := flavor.ByID(dir)
+			if !ok {
+				fl = flavor.Default()
+			}
+			summary, warnings := convertAndSummarize(t, path, fl)
+			for _, w := range warnings {
+				t.Errorf("the conversion warns: %s", w)
+			}
+			checkGolden(t, filepath.Join("examples", name+".txt"), summary)
+		})
+	}
+}
+
+// convertAndSummarize converts a document to both formats, checks what must
+// hold of any conversion, and returns a summary of the result with every
+// warning the reading and the conversions gave.
+func convertAndSummarize(t *testing.T, path string, fl flavor.Flavor) (string, []string) {
+	t.Helper()
+	source, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	doc, err := parse.ParseFlavor(source, fl, filepath.Dir(path))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	var summary strings.Builder
+	var all []string
+	fmt.Fprintf(&summary, "source: %d lines\n", strings.Count(string(source), "\n"))
+	summary.WriteString("holds: " + elementCounts(doc.Elements) + "\n")
+	for _, w := range doc.Warnings {
+		summary.WriteString("reading warns: " + w + "\n")
+	}
+	all = append(all, doc.Warnings...)
+
+	// PDF
+	dir := t.TempDir()
+	var warnings []string
+	pdf := NewPdfRenderer()
+	pdf.opts = Options{BaseDir: filepath.Dir(path), Warn: func(m string) { warnings = append(warnings, m) }}
+	pdf.trace = &strings.Builder{}
+	if err := pdf.RenderToFile(doc, filepath.Join(dir, "out.pdf")); err != nil {
+		t.Fatalf("PDF: %v", err)
+	}
+	trace := pdf.trace.String()
+	checkOnThePage(t, trace)
+	if written, err := os.ReadFile(filepath.Join(dir, "out.pdf")); err != nil {
+		t.Fatal(err)
+	} else {
+		checkPDFObjects(t, written)
+	}
+	fmt.Fprintf(&summary, "pdf: %d pages, %d bookmarks, %d links within the document\n",
+		pdf.page, len(traceLines(trace, "bookmark")), len(traceLines(trace, "goto")))
+	for _, w := range warnings {
+		summary.WriteString("pdf warns: " + w + "\n")
+	}
+	all = append(all, warnings...)
+
+	// DOCX
+	out := filepath.Join(dir, "out.docx")
+	warnings = nil
+	err = RenderDocx(doc, out, Options{BaseDir: filepath.Dir(path), Warn: func(m string) { warnings = append(warnings, m) }})
+	if err != nil {
+		t.Fatalf("DOCX: %v", err)
+	}
+	document := docxPart(t, out, "word/document.xml")
+	checkDocxConsistent(t, out)
+	count := func(s string) int { return strings.Count(document, s) }
+	fmt.Fprintf(&summary, "docx: %d paragraphs, %d headings, %d list items, %d tables, %d equations, %d images\n",
+		count("<w:p>"), count(`<w:pStyle w:val="Heading`), count("<w:numPr>"), count("<w:tbl>"), count("<m:oMath>"), count("<w:drawing>"))
+	for _, w := range warnings {
+		summary.WriteString("docx warns: " + w + "\n")
+	}
+	all = append(all, warnings...)
+	return summary.String(), all
 }
 
 // elementCounts says how many elements of each kind a document has, the

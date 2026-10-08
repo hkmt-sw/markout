@@ -72,55 +72,55 @@ p1 text  x=88.9 y=700.7 Arial/11 "Not applicable" #8888A0
 p1 line  x=88.9 y=707.1 to x=158.6 y=707.1 #8888A0/0.6
 p1 text  x=76.7 y=716.7 Arial/11 "[ ] " #1A1A2E
 p1 text  x=88.9 y=716.7 Arial/11 "Open" #1A1A2E
-p1 anchor y=756.7 math-and-colors
-p1 bookmark level=2 "Math and colors"
-p1 text  x=56.7 y=756.7 Arial-Bold/20 "Math and" #000000
-p1 text  x=149.9 y=756.7 Arial-Bold/20 "colors" #000000
-p2 text  x=56.7 y=56.7 Arial/11 "Inline" #1A1A2E
-p2 text  x=86.0 y=56.0 Math/11 "𝑎" #1A1A2E
-p2 text  x=93.7 y=53.8 Math/7.92 "2" #1A1A2E
-p2 text  x=101.5 y=56.0 Math/11 "+" #1A1A2E
-p2 text  x=112.6 y=56.0 Math/11 "𝑏" #1A1A2E
-p2 text  x=120.7 y=53.8 Math/7.92 "2" #1A1A2E
-p2 text  x=129.1 y=56.0 Math/11 "=" #1A1A2E
-p2 text  x=140.8 y=56.0 Math/11 "𝑐" #1A1A2E
-p2 text  x=148.5 y=53.8 Math/7.92 "2" #1A1A2E
-p2 text  x=156.9 y=56.7 Arial/11 "and" #1A1A2E
-p2 rect  x=178.3 y=56.7 w=10.0 h=10.0 fill=#1773CF
-p2 text  x=190.3 y=58.3 Courier/10 "hsl(210, 80%, 45%)" #CF222E
-p2 text  x=301.3 y=56.7 Arial/11 "and" #1A1A2E
-p2 rect  x=322.7 y=56.7 w=10.0 h=10.0 fill=#FC6D26
-p2 text  x=334.7 y=58.3 Courier/10 "#FC6D26" #CF222E
-p2 text  x=376.7 y=56.7 Arial/11 "." #1A1A2E
-p2 anchor y=98.7 sized-image
+p2 anchor y=56.7 math-and-colors
+p2 bookmark level=2 "Math and colors"
+p2 text  x=56.7 y=56.7 Arial-Bold/20 "Math and" #000000
+p2 text  x=149.9 y=56.7 Arial-Bold/20 "colors" #000000
+p2 text  x=56.7 y=90.7 Arial/11 "Inline" #1A1A2E
+p2 text  x=86.0 y=90.0 Math/11 "𝑎" #1A1A2E
+p2 text  x=93.7 y=87.8 Math/7.92 "2" #1A1A2E
+p2 text  x=101.5 y=90.0 Math/11 "+" #1A1A2E
+p2 text  x=112.6 y=90.0 Math/11 "𝑏" #1A1A2E
+p2 text  x=120.7 y=87.8 Math/7.92 "2" #1A1A2E
+p2 text  x=129.1 y=90.0 Math/11 "=" #1A1A2E
+p2 text  x=140.8 y=90.0 Math/11 "𝑐" #1A1A2E
+p2 text  x=148.5 y=87.8 Math/7.92 "2" #1A1A2E
+p2 text  x=156.9 y=90.7 Arial/11 "and" #1A1A2E
+p2 rect  x=178.3 y=90.7 w=10.0 h=10.0 fill=#1773CF
+p2 text  x=190.3 y=92.3 Courier/10 "hsl(210, 80%, 45%)" #CF222E
+p2 text  x=301.3 y=90.7 Arial/11 "and" #1A1A2E
+p2 rect  x=322.7 y=90.7 w=10.0 h=10.0 fill=#FC6D26
+p2 text  x=334.7 y=92.3 Courier/10 "#FC6D26" #CF222E
+p2 text  x=376.7 y=90.7 Arial/11 "." #1A1A2E
+p2 anchor y=132.7 sized-image
 p2 bookmark level=2 "Sized image"
-p2 text  x=56.7 y=98.7 Arial-Bold/20 "Sized" #000000
-p2 text  x=114.4 y=98.7 Arial-Bold/20 "image" #000000
-p2 text  x=56.7 y=132.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
-p2 text  x=56.7 y=148.7 Arial/9 "logo.png" #2563EB
-p2 anchor y=190.7 json-table
+p2 text  x=56.7 y=132.7 Arial-Bold/20 "Sized" #000000
+p2 text  x=114.4 y=132.7 Arial-Bold/20 "image" #000000
+p2 text  x=56.7 y=166.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
+p2 text  x=56.7 y=182.7 Arial/9 "logo.png" #2563EB
+p2 anchor y=224.7 json-table
 p2 bookmark level=2 "JSON table"
-p2 text  x=56.7 y=190.7 Arial-Bold/20 "JSON" #000000
-p2 text  x=116.7 y=190.7 Arial-Bold/20 "table" #000000
-p2 rect  x=56.7 y=224.7 w=166.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
-p2 rect  x=223.0 y=224.7 w=315.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
-p2 text  x=60.7 y=228.7 Arial-Bold/11 "Name" #1A1A2E
-p2 text  x=227.0 y=228.7 Arial-Bold/11 "role" #1A1A2E
-p2 rect  x=56.7 y=245.7 w=166.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
-p2 rect  x=223.0 y=245.7 w=315.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
-p2 text  x=60.7 y=249.7 Arial/11 "Ada" #1A1A2E
-p2 text  x=227.0 y=249.7 Arial/11 "Engineer" #1A1A2E
-p2 rect  x=56.7 y=266.7 w=166.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
-p2 rect  x=223.0 y=266.7 w=315.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
-p2 text  x=60.7 y=270.7 Arial/11 "Linus" #1A1A2E
-p2 text  x=227.0 y=270.7 Arial/11 "Maintainer" #1A1A2E
-p2 anchor y=313.7 include
+p2 text  x=56.7 y=224.7 Arial-Bold/20 "JSON" #000000
+p2 text  x=116.7 y=224.7 Arial-Bold/20 "table" #000000
+p2 rect  x=56.7 y=258.7 w=166.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p2 rect  x=223.0 y=258.7 w=315.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
+p2 text  x=60.7 y=262.7 Arial-Bold/11 "Name" #1A1A2E
+p2 text  x=227.0 y=262.7 Arial-Bold/11 "role" #1A1A2E
+p2 rect  x=56.7 y=279.7 w=166.3 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p2 rect  x=223.0 y=279.7 w=315.6 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
+p2 text  x=60.7 y=283.7 Arial/11 "Ada" #1A1A2E
+p2 text  x=227.0 y=283.7 Arial/11 "Engineer" #1A1A2E
+p2 rect  x=56.7 y=300.7 w=166.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p2 rect  x=223.0 y=300.7 w=315.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
+p2 text  x=60.7 y=304.7 Arial/11 "Linus" #1A1A2E
+p2 text  x=227.0 y=304.7 Arial/11 "Maintainer" #1A1A2E
+p2 anchor y=347.7 include
 p2 bookmark level=2 "Include"
-p2 text  x=56.7 y=313.7 Arial-Bold/20 "Include" #000000
-p2 text  x=56.7 y=347.7 Arial/11 "This paragraph comes from an" #1A1A2E
-p2 text  x=209.4 y=347.7 Arial-Bold/11 "included" #1A1A2E
-p2 text  x=257.7 y=347.7 Arial/11 "file." #1A1A2E
-p2 text  x=56.7 y=371.7 Arial-Bold/11 "Term" #1A1A2E
-p2 text  x=76.7 y=387.7 Arial/11 "Definition of the" #1A1A2E
-p2 text  x=156.1 y=387.7 Arial/11 "term" #1A1A2E
-p2 text  x=56.7 y=411.7 Arial/11 "Emoji" #1A1A2E
+p2 text  x=56.7 y=347.7 Arial-Bold/20 "Include" #000000
+p2 text  x=56.7 y=381.7 Arial/11 "This paragraph comes from an" #1A1A2E
+p2 text  x=209.4 y=381.7 Arial-Bold/11 "included" #1A1A2E
+p2 text  x=257.7 y=381.7 Arial/11 "file." #1A1A2E
+p2 text  x=56.7 y=405.7 Arial-Bold/11 "Term" #1A1A2E
+p2 text  x=76.7 y=421.7 Arial/11 "Definition of the" #1A1A2E
+p2 text  x=156.1 y=421.7 Arial/11 "term" #1A1A2E
+p2 text  x=56.7 y=445.7 Arial/11 "Emoji" #1A1A2E
