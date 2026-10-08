@@ -41,10 +41,17 @@ p1 bookmark level=2 "Tabs"
 p1 text  x=56.7 y=490.7 Arial-Bold/20 "Tabs" #000000
 p1 text  x=56.7 y=524.7 Arial-Bold/11 "Python" #1A1A2E
 p1 rect  x=56.7 y=548.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=556.7 Courier/9 "print(\"hi\")" #000000
+p1 text  x=64.7 y=556.7 Courier/9 "print" #953800
+p1 text  x=91.7 y=556.7 Courier/9 "(" #000000
+p1 text  x=97.1 y=556.7 Courier/9 "\"hi\"" #0A3069
+p1 text  x=118.7 y=556.7 Courier/9 ")" #000000
 p1 text  x=56.7 y=584.7 Arial-Bold/11 "Go" #1A1A2E
 p1 rect  x=56.7 y=608.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=616.7 Courier/9 "fmt.Println(\"hi\")" #000000
+p1 text  x=64.7 y=616.7 Courier/9 "fmt." #000000
+p1 text  x=86.3 y=616.7 Courier/9 "Println" #6639BA
+p1 text  x=124.1 y=616.7 Courier/9 "(" #000000
+p1 text  x=129.5 y=616.7 Courier/9 "\"hi\"" #0A3069
+p1 text  x=151.1 y=616.7 Courier/9 ")" #000000
 p1 anchor y=662.7 inline
 p1 bookmark level=2 "Inline"
 p1 text  x=56.7 y=662.7 Arial-Bold/20 "Inline" #000000

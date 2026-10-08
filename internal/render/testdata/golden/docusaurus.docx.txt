@@ -53,7 +53,9 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
-        R{color=24292F font=Consolas sz=19} "console.log(\"hi\");"
+        R{color=24292F font=Consolas sz=19} "console.log("
+        R{color=0A3069 font=Consolas sz=19} "\"hi\""
+        R{color=24292F font=Consolas sz=19} ");"
 P{spacing=/ line=160/exact}
 STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
 STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}

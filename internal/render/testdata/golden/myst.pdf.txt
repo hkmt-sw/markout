@@ -32,7 +32,10 @@ p1 text  x=64.7 y=432.7 Arial-Bold/11 "Custom title" #22C55E
 p1 text  x=64.7 y=448.7 Arial/11 "Body" #1A1A2E
 p1 text  x=92.8 y=448.7 Arial/11 "text." #1A1A2E
 p1 rect  x=56.7 y=480.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=488.7 Courier/9 "print(\"hello\")" #000000
+p1 text  x=64.7 y=488.7 Courier/9 "print" #953800
+p1 text  x=91.7 y=488.7 Courier/9 "(" #000000
+p1 text  x=97.1 y=488.7 Courier/9 "\"hello\"" #0A3069
+p1 text  x=134.9 y=488.7 Courier/9 ")" #000000
 p1 text  x=259.4 y=516.7 Arial-Italic/11 "a^2 + b^2 = c^2" #7C3AED
 p1 text  x=56.7 y=540.7 Arial-Italic/11 "[IMG] A plot" #4A4A68
 p1 text  x=56.7 y=556.7 Arial/9 "plot.png" #2563EB

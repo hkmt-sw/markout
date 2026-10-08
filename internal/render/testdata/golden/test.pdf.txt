@@ -234,41 +234,90 @@ p4 bookmark level=3 "Szintaxis kiemelés nyelvjelöléssel"
 p4 text  x=56.7 y=392.7 Arial-Bold/16 "Szintaxis kiemelés" #000000
 p4 text  x=202.4 y=392.7 Arial-Bold/16 "nyelvjelöléssel" #000000
 p4 rect  x=56.7 y=420.7 w=481.9 h=88.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p4 text  x=64.7 y=428.7 Courier/9 "function greet(name) {" #000000
-p4 text  x=64.7 y=440.7 Courier/9 "    return `Hello, ${name}!`;" #000000
+p4 text  x=64.7 y=428.7 Courier/9 "function " #CF222E
+p4 text  x=113.3 y=428.7 Courier/9 "greet(name) {" #000000
+p4 text  x=64.7 y=440.7 Courier/9 "    return " #CF222E
+p4 text  x=124.1 y=440.7 Courier/9 "`Hello, ${" #0A3069
+p4 text  x=178.1 y=440.7 Courier/9 "name" #000000
+p4 text  x=199.7 y=440.7 Courier/9 "}!`" #0A3069
+p4 text  x=215.9 y=440.7 Courier/9 ";" #000000
 p4 text  x=64.7 y=452.7 Courier/9 "}" #000000
 p4 text  x=64.7 y=464.7 Courier/9 " " #000000
-p4 text  x=64.7 y=476.7 Courier/9 "const result = greet(\"Világ\");" #000000
+p4 text  x=64.7 y=476.7 Courier/9 "const " #CF222E
+p4 text  x=97.1 y=476.7 Courier/9 "result = greet(" #000000
+p4 text  x=178.1 y=476.7 Courier/9 "\"Világ\"" #0A3069
+p4 text  x=215.9 y=476.7 Courier/9 ");" #000000
 p4 text  x=64.7 y=488.7 Courier/9 "console.log(result);" #000000
 p4 rect  x=56.7 y=516.7 w=481.9 h=88.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p4 text  x=64.7 y=524.7 Courier/9 "def greet(name):" #000000
-p4 text  x=64.7 y=536.7 Courier/9 "    \"\"\"Üdvözlő függvény\"\"\"" #000000
-p4 text  x=64.7 y=548.7 Courier/9 "    return f\"Hello, {name}!\"" #000000
+p4 text  x=64.7 y=524.7 Courier/9 "def " #CF222E
+p4 text  x=86.3 y=524.7 Courier/9 "greet" #6639BA
+p4 text  x=113.3 y=524.7 Courier/9 "(name):" #000000
+p4 text  x=64.7 y=536.7 Courier/9 "    \"\"\"Üdvözlő függvény\"\"\"" #0A3069
+p4 text  x=64.7 y=548.7 Courier/9 "    return " #CF222E
+p4 text  x=124.1 y=548.7 Courier/9 "f\"Hello, {" #0A3069
+p4 text  x=178.1 y=548.7 Courier/9 "name" #000000
+p4 text  x=199.7 y=548.7 Courier/9 "}!\"" #0A3069
 p4 text  x=64.7 y=560.7 Courier/9 " " #000000
-p4 text  x=64.7 y=572.7 Courier/9 "if __name__ == \"__main__\":" #000000
-p4 text  x=64.7 y=584.7 Courier/9 "    print(greet(\"Világ\"))" #000000
+p4 text  x=64.7 y=572.7 Courier/9 "if " #CF222E
+p4 text  x=80.9 y=572.7 Courier/9 "__name__ == " #000000
+p4 text  x=145.7 y=572.7 Courier/9 "\"__main__\"" #0A3069
+p4 text  x=199.7 y=572.7 Courier/9 ":" #000000
+p4 text  x=64.7 y=584.7 Courier/9 "    print" #953800
+p4 text  x=113.3 y=584.7 Courier/9 "(greet(" #000000
+p4 text  x=151.1 y=584.7 Courier/9 "\"Világ\"" #0A3069
+p4 text  x=188.9 y=584.7 Courier/9 "))" #000000
 p4 rect  x=56.7 y=612.7 w=481.9 h=124.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p4 text  x=64.7 y=620.7 Courier/9 "SELECT " #000000
+p4 text  x=64.7 y=620.7 Courier/9 "SELECT " #CF222E
 p4 text  x=64.7 y=632.7 Courier/9 "    u.name," #000000
-p4 text  x=64.7 y=644.7 Courier/9 "    COUNT(o.id) as order_count" #000000
-p4 text  x=64.7 y=656.7 Courier/9 "FROM users u" #000000
-p4 text  x=64.7 y=668.7 Courier/9 "LEFT JOIN orders o ON u.id = o.user_id" #000000
-p4 text  x=64.7 y=680.7 Courier/9 "WHERE u.created_at > '2024-01-01'" #000000
-p4 text  x=64.7 y=692.7 Courier/9 "GROUP BY u.id" #000000
-p4 text  x=64.7 y=704.7 Courier/9 "HAVING order_count > 5" #000000
-p4 text  x=64.7 y=716.7 Courier/9 "ORDER BY order_count DESC;" #000000
+p4 text  x=64.7 y=644.7 Courier/9 "    COUNT" #CF222E
+p4 text  x=113.3 y=644.7 Courier/9 "(o.id) " #000000
+p4 text  x=151.1 y=644.7 Courier/9 "as " #CF222E
+p4 text  x=167.3 y=644.7 Courier/9 "order_count" #000000
+p4 text  x=64.7 y=656.7 Courier/9 "FROM " #CF222E
+p4 text  x=91.7 y=656.7 Courier/9 "users u" #000000
+p4 text  x=64.7 y=668.7 Courier/9 "LEFT JOIN " #CF222E
+p4 text  x=118.7 y=668.7 Courier/9 "orders o " #000000
+p4 text  x=167.3 y=668.7 Courier/9 "ON " #CF222E
+p4 text  x=183.5 y=668.7 Courier/9 "u.id = o.user_id" #000000
+p4 text  x=64.7 y=680.7 Courier/9 "WHERE " #CF222E
+p4 text  x=97.1 y=680.7 Courier/9 "u.created_at > " #000000
+p4 text  x=178.1 y=680.7 Courier/9 "'2024-01-01'" #0A3069
+p4 text  x=64.7 y=692.7 Courier/9 "GROUP BY " #CF222E
+p4 text  x=113.3 y=692.7 Courier/9 "u.id" #000000
+p4 text  x=64.7 y=704.7 Courier/9 "HAVING " #CF222E
+p4 text  x=102.5 y=704.7 Courier/9 "order_count > " #000000
+p4 text  x=178.1 y=704.7 Courier/9 "5" #0550AE
+p4 text  x=64.7 y=716.7 Courier/9 "ORDER BY " #CF222E
+p4 text  x=113.3 y=716.7 Courier/9 "order_count " #000000
+p4 text  x=178.1 y=716.7 Courier/9 "DESC" #CF222E
+p4 text  x=199.7 y=716.7 Courier/9 ";" #000000
 p5 rect  x=56.7 y=56.7 w=481.9 h=76.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p5 text  x=64.7 y=64.7 Courier/9 "#!/bin/bash" #000000
-p5 text  x=64.7 y=76.7 Courier/9 "echo \"Hello World\"" #000000
-p5 text  x=64.7 y=88.7 Courier/9 "for i in {1..5}; do" #000000
-p5 text  x=64.7 y=100.7 Courier/9 "    echo \"Iteration $i\"" #000000
-p5 text  x=64.7 y=112.7 Courier/9 "done" #000000
+p5 text  x=64.7 y=64.7 Courier/9 "#!/bin/bash" #57606A
+p5 text  x=64.7 y=76.7 Courier/9 "echo " #953800
+p5 text  x=91.7 y=76.7 Courier/9 "\"Hello World\"" #0A3069
+p5 text  x=64.7 y=88.7 Courier/9 "for" #CF222E
+p5 text  x=80.9 y=88.7 Courier/9 " i in {1..5}; " #000000
+p5 text  x=156.5 y=88.7 Courier/9 "do" #CF222E
+p5 text  x=64.7 y=100.7 Courier/9 "    echo " #953800
+p5 text  x=113.3 y=100.7 Courier/9 "\"Iteration " #0A3069
+p5 text  x=172.7 y=100.7 Courier/9 "$i" #000000
+p5 text  x=183.5 y=100.7 Courier/9 "\"" #0A3069
+p5 text  x=64.7 y=112.7 Courier/9 "done" #CF222E
 p5 rect  x=56.7 y=140.7 w=481.9 h=100.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p5 text  x=64.7 y=148.7 Courier/9 "{" #000000
-p5 text  x=64.7 y=160.7 Courier/9 "  \"name\": \"projekt\"," #000000
-p5 text  x=64.7 y=172.7 Courier/9 "  \"version\": \"1.0.0\"," #000000
-p5 text  x=64.7 y=184.7 Courier/9 "  \"dependencies\": {" #000000
-p5 text  x=64.7 y=196.7 Courier/9 "    \"docx\": \"^9.0.0\"" #000000
+p5 text  x=64.7 y=160.7 Courier/9 "  \"name\"" #CF222E
+p5 text  x=107.9 y=160.7 Courier/9 ": " #000000
+p5 text  x=118.7 y=160.7 Courier/9 "\"projekt\"" #0A3069
+p5 text  x=167.3 y=160.7 Courier/9 "," #000000
+p5 text  x=64.7 y=172.7 Courier/9 "  \"version\"" #CF222E
+p5 text  x=124.1 y=172.7 Courier/9 ": " #000000
+p5 text  x=134.9 y=172.7 Courier/9 "\"1.0.0\"" #0A3069
+p5 text  x=172.7 y=172.7 Courier/9 "," #000000
+p5 text  x=64.7 y=184.7 Courier/9 "  \"dependencies\"" #CF222E
+p5 text  x=151.1 y=184.7 Courier/9 ": {" #000000
+p5 text  x=64.7 y=196.7 Courier/9 "    \"docx\"" #CF222E
+p5 text  x=118.7 y=196.7 Courier/9 ": " #000000
+p5 text  x=129.5 y=196.7 Courier/9 "\"^9.0.0\"" #0A3069
 p5 text  x=64.7 y=208.7 Courier/9 "  }" #000000
 p5 text  x=64.7 y=220.7 Courier/9 "}" #000000
 p5 rect  x=56.7 y=248.7 w=481.9 h=64.0 fill=#F5F5F5 stroke=#C8C8C8/0.5

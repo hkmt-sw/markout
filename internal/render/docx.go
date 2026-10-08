@@ -527,8 +527,8 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	}
 	r.pad([]domain.Paragraph{para}, r.t.Code.Padding, r.t.Code.BlockLineHeight)
 
-	lines := splitLines(cb.Code)
-	for i, line := range lines {
+	// Code in a language the block names is colored by what it means
+	for i, line := range highlight(cb, r.t) {
 		if i > 0 {
 			// Add break for new line
 			run, err := para.AddRun()
@@ -538,19 +538,20 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 			run.AddBreak(domain.BreakTypeLine)
 		}
 
-		run, err := para.AddRun()
-		if err != nil {
-			return err
+		for _, span := range line {
+			run, err := para.AddRun()
+			if err != nil {
+				return err
+			}
+			if span.text == "" {
+				run.SetText(" ") // Preserve empty lines
+			} else {
+				run.SetText(span.text)
+			}
+			run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
+			run.SetSize(runSize(r.t.Code.BlockSize))
+			run.SetColor(docxColor(span.color))
 		}
-
-		if line == "" {
-			run.SetText(" ") // Preserve empty lines
-		} else {
-			run.SetText(line)
-		}
-		run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
-		run.SetSize(runSize(r.t.Code.BlockSize))
-		run.SetColor(docxColor(r.t.Code.BlockColor))
 	}
 
 	return r.gap(r.t.Code.SpaceAfter)

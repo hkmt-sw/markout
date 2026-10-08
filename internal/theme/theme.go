@@ -155,6 +155,20 @@ type Code struct {
 	BlockColor      Color   `key:"block-color" doc:"text in code blocks"`
 	Background      Color   `key:"background"`
 	Border          Color   `key:"border"`
+
+	Syntax Syntax `key:"syntax"`
+}
+
+// Syntax colors the parts of the code in a code block that names its
+// language. Everything else in the block keeps the block's text color.
+type Syntax struct {
+	Highlight bool  `key:"highlight" doc:"false leaves code in one color"`
+	Keyword   Color `key:"keyword" doc:"also tag names in markup"`
+	String    Color `key:"string"`
+	Comment   Color `key:"comment"`
+	Number    Color `key:"number" doc:"and other literal values"`
+	Function  Color `key:"function" doc:"function names, and attribute names in markup"`
+	Type      Color `key:"type" doc:"type names and built-in names"`
 }
 
 // List is bulleted, numbered and task lists.

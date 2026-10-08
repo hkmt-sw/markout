@@ -295,6 +295,40 @@ A setting directly under `[heading]` applies to all six levels;
 | `background` | Panel background |
 | `border` | Panel border |
 
+### `[code.syntax]`
+
+A code block that names its language (` ```go `, ` ```python `, ...) has
+its code colored by what it means. Everything these settings do not name
+(punctuation, variable names) keeps `block-color`, and so does all the code
+of a block with no language or one markout does not know.
+
+| Setting | Meaning |
+| --- | --- |
+| `highlight` | `false` leaves all code in `block-color` |
+| `keyword` | Keywords, and tag names in markup |
+| `string` | Text in quotes |
+| `comment` | Comments |
+| `number` | Numbers and other literal values |
+| `function` | Function names, and attribute names in markup |
+| `type` | Type names and built-in names |
+
+The colors are for a light panel. A theme that makes `background` dark
+should set them all:
+
+```toml
+[code]
+background  = "#1E1E2E"
+block-color = "#CDD6F4"
+
+[code.syntax]
+keyword  = "#CBA6F7"
+string   = "#A6E3A1"
+comment  = "#9399B2"
+number   = "#FAB387"
+function = "#89B4FA"
+type     = "#F9E2AF"
+```
+
 ### `[list]`
 
 | Setting | Meaning |

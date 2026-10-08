@@ -370,8 +370,9 @@ func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 	code := r.t.Code
 	padding := code.Padding
 
+	// Code in a language the block names is colored by what it means
 	r.setFont(r.codeFont(), "", code.BlockSize)
-	lines := r.codeLines(cb.Code, r.contentWidth-2*padding)
+	lines := r.wrapCode(highlight(cb, r.t), r.contentWidth-2*padding)
 
 	r.panel(len(lines), code.BlockLineHeight, padding, func(y, h float64) {
 		r.fillColor(code.Background)
@@ -379,10 +380,15 @@ func (r *PdfRenderer) renderCodeBlock(cb ast.CodeBlock) {
 		r.rect(r.marginLeft, y, r.contentWidth, h, "FD")
 	}, func(i int, y float64) {
 		r.setFont(r.codeFont(), "", code.BlockSize)
-		r.textColor(code.BlockColor)
-		r.pdf.SetX(r.marginLeft + padding)
-		r.pdf.SetY(y)
-		r.cell(lines[i])
+		x := r.marginLeft + padding
+		for _, span := range lines[i] {
+			r.textColor(span.color)
+			r.pdf.SetX(x)
+			r.pdf.SetY(y)
+			r.cell(span.text)
+			width, _ := r.pdf.MeasureTextWidth(span.text)
+			x += width
+		}
 	})
 
 	r.currentY += code.SpaceAfter

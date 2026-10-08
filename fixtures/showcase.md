@@ -112,7 +112,8 @@ right-aligned. The last row has formatting and a long cell that wraps.
 ## 6. Code
 
 A code block in a monospace font on a shaded panel, with its indentation
-preserved:
+preserved. It names its language, so the keywords, the function names and the
+text in quotes each have a color of their own:
 
 ```go
 func main() {

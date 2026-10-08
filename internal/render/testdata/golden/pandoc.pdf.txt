@@ -41,7 +41,10 @@ p1 text  x=114.2 y=316.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=348.7 Arial/11 "Unknown divs keep their content" #1A1A2E
 p1 text  x=215.6 y=348.7 Arial/11 "." #1A1A2E
 p1 rect  x=56.7 y=372.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
-p1 text  x=64.7 y=380.7 Courier/9 "print(\"hi\")" #000000
+p1 text  x=64.7 y=380.7 Courier/9 "print" #953800
+p1 text  x=91.7 y=380.7 Courier/9 "(" #000000
+p1 text  x=97.1 y=380.7 Courier/9 "\"hi\"" #0A3069
+p1 text  x=118.7 y=380.7 Courier/9 ")" #000000
 p1 text  x=56.7 y=408.7 Arial-Bold/11 "Term" #1A1A2E
 p1 text  x=76.7 y=424.7 Arial/11 "Definition" #1A1A2E
 p1 text  x=56.7 y=448.7 Arial-Italic/11 "[IMG] Figure" #4A4A68

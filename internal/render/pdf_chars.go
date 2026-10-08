@@ -160,12 +160,18 @@ func (r *PdfRenderer) codeLines(code string, width float64) []string {
 }
 
 func expandTabs(line string) string {
-	if !strings.Contains(line, "\t") {
-		return line
+	out, _ := expandTabsFrom(line, 0)
+	return out
+}
+
+// expandTabsFrom expands the tabs of a piece of a line that starts at column
+// col, and returns the column the piece ends at.
+func expandTabsFrom(text string, col int) (string, int) {
+	if !strings.Contains(text, "\t") {
+		return text, col + len([]rune(text))
 	}
 	var b strings.Builder
-	col := 0
-	for _, c := range line {
+	for _, c := range text {
 		if c != '\t' {
 			b.WriteRune(c)
 			col++
@@ -175,7 +181,44 @@ func expandTabs(line string) string {
 		b.WriteString(strings.Repeat(" ", n))
 		col += n
 	}
-	return b.String()
+	return b.String(), col
+}
+
+// wrapCode prepares highlighted code for drawing in the current font, as
+// codeLines does plain code: one entry per line on the page, with tabs
+// expanded, undrawable characters left out and lines wider than width
+// broken, the colors kept.
+func (r *PdfRenderer) wrapCode(lines [][]codeSpan, width float64) [][]codeSpan {
+	var out [][]codeSpan
+	for _, line := range lines {
+		var cur []codeSpan
+		col, x := 0, 0.0
+		for _, span := range line {
+			var text string
+			text, col = expandTabsFrom(span.text, col)
+			text = r.usable(text)
+			start := 0
+			for i, c := range text {
+				w := r.charWidth(c)
+				if x+w > width && x > 0 {
+					if i > start {
+						cur = append(cur, codeSpan{text[start:i], span.color})
+					}
+					out, cur = append(out, cur), nil
+					start, x = i, 0
+				}
+				x += w
+			}
+			if start < len(text) {
+				cur = append(cur, codeSpan{text[start:], span.color})
+			}
+		}
+		if len(cur) == 0 {
+			cur = []codeSpan{{" ", r.t.Code.BlockColor}}
+		}
+		out = append(out, cur)
+	}
+	return out
 }
 
 // minPanelLines is how many lines of a panel must fit under what is already

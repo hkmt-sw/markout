@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.5.0 to pin one).
+# Look up the latest release tag (or set VERSION=v1.6.0 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -268,6 +268,23 @@ Things that only make sense on the original platform have no document
 equivalent and stay as text: `@mentions`, issue references such as `#123` or
 `ABC-123`, and links to other wiki pages.
 
+## Code blocks
+
+A code block that names its language is syntax-highlighted, in PDF and in
+DOCX:
+
+````markdown
+```python
+def greet(name):
+    return f"Hello, {name}"
+```
+````
+
+Almost 300 languages are known, by the names GitHub uses for them. A block with
+no language, or one that is not known, is shown in one color. The colors are
+the theme's, under [`[code.syntax]`](docs/themes.md#codesyntax), where
+highlighting can also be turned off.
+
 ## Finding your way in the output
 
 Both formats know where the headings are:
@@ -301,7 +318,6 @@ things are beyond it for now:
 - **Math** is shown as its LaTeX source, in color; it is not typeset.
 - **Mermaid diagrams** are shown as their source in a labeled box; they are
   not drawn.
-- **Code** is not syntax-highlighted.
 - **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
   Cyrillic. Other characters (Chinese, Japanese, Korean, Arabic, emoji) are
   left out of a PDF, and the conversion says which ones: as a warning on
@@ -350,6 +366,7 @@ It builds on these projects:
 - [goldmark](https://github.com/yuin/goldmark) and its extensions (Markdown parsing; MIT, BSD-3-Clause)
 - [docxgo](https://github.com/mmonterroca/docxgo) (DOCX output; MIT)
 - [gopdf](https://github.com/signintech/gopdf) (PDF output; MIT)
+- [Chroma](https://github.com/alecthomas/chroma) (syntax highlighting; MIT)
 - [resvg-go](https://github.com/kanrichan/resvg-go) (SVG rendering; GPL-3.0)
 - [Bubble Tea](https://github.com/charmbracelet/bubbletea) (terminal UI; MIT)
 - The [Liberation fonts](https://github.com/liberationfonts/liberation-fonts),

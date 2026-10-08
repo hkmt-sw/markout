@@ -52,6 +52,12 @@ func Default() Set {
 			Color:     Hex("CF222E"),
 			BlockSize: 9, BlockLineHeight: 12, Padding: 8, SpaceAfter: 8,
 			BlockColor: Black, Background: Hex("F5F5F5"), Border: Hex("C8C8C8"),
+			// Each is readable on the light panels the themes use
+			Syntax: Syntax{
+				Highlight: true,
+				Keyword:   Hex("CF222E"), String: Hex("0A3069"), Comment: Hex("57606A"),
+				Number: Hex("0550AE"), Function: Hex("6639BA"), Type: Hex("953800"),
+			},
 		},
 		List: List{Indent: 20, SpaceAfter: 6},
 		Table: Table{

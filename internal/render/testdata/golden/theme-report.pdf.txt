@@ -234,35 +234,48 @@ p3 text  x=70.9 y=386.5 Arial-Bold/17 "6." #1E3A8A
 p3 text  x=89.7 y=386.5 Arial-Bold/17 "Code" #1E3A8A
 p3 text  x=70.9 y=416.5 Arial/10.5 "A code block in a monospace font on a shaded panel, with its" #1F2933
 p3 text  x=358.4 y=416.5 Arial/10.5 "indentation" #1F2933
-p3 text  x=412.7 y=416.5 Arial/10.5 "preserved" #1F2933
-p3 text  x=459.3 y=416.5 Arial/10.5 ":" #1F2933
-p3 rect  x=70.9 y=440.0 w=453.5 h=76.0 fill=#F5F7FA stroke=#CBD2D9/0.5
-p3 text  x=78.9 y=448.0 Courier/9 "func main() {" #1F2933
-p3 text  x=78.9 y=460.0 Courier/9 "    if ok := convert(); !ok {" #1F2933
-p3 text  x=78.9 y=472.0 Courier/9 "        fmt.Println(\"failed\")" #1F2933
-p3 text  x=78.9 y=484.0 Courier/9 "    }" #1F2933
-p3 text  x=78.9 y=496.0 Courier/9 "}" #1F2933
-p3 anchor y=544.0 7-quotes
+p3 text  x=412.7 y=416.5 Arial/10.5 "preserved. It names its" #1F2933
+p3 text  x=70.9 y=432.0 Arial/10.5 "language, so the keywords, the function names and" #1F2933
+p3 text  x=313.5 y=432.0 Arial/10.5 "the" #1F2933
+p3 text  x=331.0 y=432.0 Arial/10.5 "text in quotes each have a color of their" #1F2933
+p3 text  x=70.9 y=447.5 Arial/10.5 "own" #1F2933
+p3 text  x=90.1 y=447.5 Arial/10.5 ":" #1F2933
+p3 rect  x=70.9 y=471.0 w=453.5 h=76.0 fill=#F5F7FA stroke=#CBD2D9/0.5
+p3 text  x=78.9 y=479.0 Courier/9 "func " #CF222E
+p3 text  x=105.9 y=479.0 Courier/9 "main" #6639BA
+p3 text  x=127.5 y=479.0 Courier/9 "() {" #1F2933
+p3 text  x=78.9 y=491.0 Courier/9 "    if " #CF222E
+p3 text  x=116.7 y=491.0 Courier/9 "ok := " #1F2933
+p3 text  x=149.1 y=491.0 Courier/9 "convert" #6639BA
+p3 text  x=186.9 y=491.0 Courier/9 "(); !ok {" #1F2933
+p3 text  x=78.9 y=503.0 Courier/9 "        fmt." #1F2933
+p3 text  x=143.7 y=503.0 Courier/9 "Println" #6639BA
+p3 text  x=181.5 y=503.0 Courier/9 "(" #1F2933
+p3 text  x=186.9 y=503.0 Courier/9 "\"failed\"" #0A3069
+p3 text  x=230.1 y=503.0 Courier/9 ")" #1F2933
+p3 text  x=78.9 y=515.0 Courier/9 "    }" #1F2933
+p3 text  x=78.9 y=527.0 Courier/9 "}" #1F2933
+p3 anchor y=575.0 7-quotes
 p3 bookmark level=2 "7. Quotes"
-p3 text  x=70.9 y=544.0 Arial-Bold/17 "7." #1E3A8A
-p3 text  x=89.7 y=544.0 Arial-Bold/17 "Quotes" #1E3A8A
-p3 text  x=70.9 y=574.0 Arial/10.5 "A quote, set off from the text by a bar on the left" #1F2933
-p3 text  x=292.4 y=574.0 Arial/10.5 ":" #1F2933
-p3 text  x=90.9 y=597.5 Arial-Italic/10.5 "The first paragraph of the quote, with" #1F2933
-p3 text  x=265.2 y=597.5 Arial-Italic/10.5 "emphasis" #1F2933
-p3 text  x=310.1 y=597.5 Arial-Italic/10.5 "." #1F2933
-p3 line  x=75.9 y=597.5 to x=75.9 y=613.0 #1E3A8A/3.0
-p3 text  x=90.9 y=617.0 Arial-Italic/10.5 "The second paragraph of the" #1F2933
-p3 text  x=228.5 y=617.0 Arial-Italic/10.5 "quote." #1F2933
-p3 line  x=75.9 y=617.0 to x=75.9 y=632.5 #1E3A8A/3.0
-p3 anchor y=656.5 8-callouts
+p3 text  x=70.9 y=575.0 Arial-Bold/17 "7." #1E3A8A
+p3 text  x=89.7 y=575.0 Arial-Bold/17 "Quotes" #1E3A8A
+p3 text  x=70.9 y=605.0 Arial/10.5 "A quote, set off from the text by a bar on the left" #1F2933
+p3 text  x=292.4 y=605.0 Arial/10.5 ":" #1F2933
+p3 text  x=90.9 y=628.5 Arial-Italic/10.5 "The first paragraph of the quote, with" #1F2933
+p3 text  x=265.2 y=628.5 Arial-Italic/10.5 "emphasis" #1F2933
+p3 text  x=310.1 y=628.5 Arial-Italic/10.5 "." #1F2933
+p3 line  x=75.9 y=628.5 to x=75.9 y=644.0 #1E3A8A/3.0
+p3 text  x=90.9 y=648.0 Arial-Italic/10.5 "The second paragraph of the" #1F2933
+p3 text  x=228.5 y=648.0 Arial-Italic/10.5 "quote." #1F2933
+p3 line  x=75.9 y=648.0 to x=75.9 y=663.5 #1E3A8A/3.0
+p3 anchor y=687.5 8-callouts
 p3 bookmark level=2 "8. Callouts"
-p3 text  x=70.9 y=656.5 Arial-Bold/17 "8." #1E3A8A
-p3 text  x=89.7 y=656.5 Arial-Bold/17 "Callouts" #1E3A8A
-p3 text  x=70.9 y=686.5 Arial/10.5 "Five boxes with a colored bar and title: blue note, green tip," #1F2933
-p3 text  x=348.5 y=686.5 Arial/10.5 "purple" #1F2933
-p3 text  x=380.5 y=686.5 Arial/10.5 "important, amber caution, red" #1F2933
-p3 text  x=70.9 y=702.0 Arial/10.5 "warning." #1F2933
+p3 text  x=70.9 y=687.5 Arial-Bold/17 "8." #1E3A8A
+p3 text  x=89.7 y=687.5 Arial-Bold/17 "Callouts" #1E3A8A
+p3 text  x=70.9 y=717.5 Arial/10.5 "Five boxes with a colored bar and title: blue note, green tip," #1F2933
+p3 text  x=348.5 y=717.5 Arial/10.5 "purple" #1F2933
+p3 text  x=380.5 y=717.5 Arial/10.5 "important, amber caution, red" #1F2933
+p3 text  x=70.9 y=733.0 Arial/10.5 "warning." #1F2933
 p4 rect  x=70.9 y=85.0 w=453.5 h=47.0 fill=#DBEAFE
 p4 line  x=70.9 y=85.0 to x=70.9 y=132.0 #3B82F6/3.0
 p4 text  x=78.9 y=93.0 Arial-Bold/10.5 "NOTE" #3B82F6
