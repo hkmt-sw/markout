@@ -1,3 +1,5 @@
+p1 anchor y=76.7 youtrack
+p1 bookmark level=1 "YouTrack"
 p1 text  x=56.7 y=76.7 Arial-Bold/24 "YouTrack" #000000
 p1 text  x=56.7 y=116.7 Arial/11 "Checklists," #1A1A2E
 p1 text  x=112.9 y=116.7 Arial/11 "strikethrough" #8888A0

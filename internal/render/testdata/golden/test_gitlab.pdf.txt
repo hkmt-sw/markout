@@ -7,26 +7,44 @@ p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: " #4A4A68
 p1 text  x=95.2 y=96.7 Arial/11 "2026-02-22" #1A1A2E
 p1 text  x=64.7 y=112.7 Arial-Bold/11 "version: " #4A4A68
 p1 text  x=110.5 y=112.7 Arial/11 "1.0" #1A1A2E
+p1 anchor y=164.7 gitlab-flavored-markdown-features
+p1 bookmark level=1 "GitLab Flavored Markdown Features"
 p1 text  x=56.7 y=164.7 Arial-Bold/24 "GitLab Flavored Markdown" #000000
 p1 text  x=371.1 y=164.7 Arial-Bold/24 "Features" #000000
 p1 text  x=56.7 y=204.7 Arial/11 "This document demonstrates all GitLab-specific Markdown extensions supported by" #1A1A2E
 p1 text  x=467.3 y=204.7 Arial/11 "Markout." #1A1A2E
 p1 text  x=56.7 y=236.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=260.7 Arial/11 "GitLab Flavored Markdown Features" #2563EB
+p1 goto  x=56.7 y=258.7 w=178.4 gitlab-flavored-markdown-features
 p1 text  x=76.7 y=276.7 Arial/11 "1. Alerts / Callouts" #2563EB
+p1 goto  x=76.7 y=274.7 w=89.2 1-alerts--callouts
 p1 text  x=76.7 y=292.7 Arial/11 "2. Mermaid Diagrams" #2563EB
+p1 goto  x=76.7 y=290.7 w=105.1 2-mermaid-diagrams
 p1 text  x=76.7 y=308.7 Arial/11 "3. Color Chips" #2563EB
+p1 goto  x=76.7 y=306.7 w=69.7 3-color-chips
 p1 text  x=76.7 y=324.7 Arial/11 "4. Description Lists" #2563EB
+p1 goto  x=76.7 y=322.7 w=92.9 4-description-lists
 p1 text  x=76.7 y=340.7 Arial/11 "5. Math (LaTeX)" #2563EB
+p1 goto  x=76.7 y=338.7 w=79.4 5-math-latex
 p1 text  x=96.7 y=356.7 Arial/11 "Inline Math" #2563EB
+p1 goto  x=96.7 y=354.7 w=53.8 inline-math
 p1 text  x=96.7 y=372.7 Arial/11 "Block Math" #2563EB
+p1 goto  x=96.7 y=370.7 w=54.4 block-math
 p1 text  x=76.7 y=388.7 Arial/11 "6. Table of Contents" #2563EB
+p1 goto  x=76.7 y=386.7 w=99.0 6-table-of-contents
 p1 text  x=76.7 y=404.7 Arial/11 "7. Front Matter" #2563EB
+p1 goto  x=76.7 y=402.7 w=72.1 7-front-matter
 p1 text  x=76.7 y=420.7 Arial/11 "Mixed Content Test" #2563EB
+p1 goto  x=76.7 y=418.7 w=95.3 mixed-content-test
 p1 text  x=96.7 y=436.7 Arial/11 "Tables Still Work" #2563EB
+p1 goto  x=96.7 y=434.7 w=82.4 tables-still-work
 p1 text  x=96.7 y=452.7 Arial/11 "Lists Still Work" #2563EB
+p1 goto  x=96.7 y=450.7 w=72.0 lists-still-work
 p1 text  x=96.7 y=468.7 Arial/11 "Task Lists Still Work" #2563EB
+p1 goto  x=96.7 y=466.7 w=98.9 task-lists-still-work
 p1 line  x=56.7 y=504.7 to x=538.6 y=504.7 #B4B4B4/1.0
+p1 anchor y=534.7 1-alerts--callouts
+p1 bookmark level=2 "1. Alerts / Callouts"
 p1 text  x=56.7 y=534.7 Arial-Bold/20 "1. Alerts /" #000000
 p1 text  x=152.2 y=534.7 Arial-Bold/20 "Callouts" #000000
 p1 rect  x=56.7 y=568.7 w=481.9 h=48.0 fill=#DBEAFE
@@ -62,6 +80,8 @@ p2 text  x=216.6 y=136.7 Arial-Italic/11 "It should render as" #1A1A2E
 p2 text  x=310.7 y=136.7 Arial-Italic/11 "before." #1A1A2E
 p2 line  x=61.7 y=136.7 to x=61.7 y=152.7 #B4B4B4/3.0
 p2 line  x=56.7 y=168.7 to x=538.6 y=168.7 #B4B4B4/1.0
+p2 anchor y=198.7 2-mermaid-diagrams
+p2 bookmark level=2 "2. Mermaid Diagrams"
 p2 text  x=56.7 y=198.7 Arial-Bold/20 "2. Mermaid" #000000
 p2 text  x=166.6 y=198.7 Arial-Bold/20 "Diagrams" #000000
 p2 rect  x=56.7 y=232.7 w=481.9 h=100.0 fill=#ECFDF5 stroke=#10B981/0.5
@@ -80,6 +100,8 @@ p2 text  x=64.7 y=384.7 Courier/9 "    participant Server" #065F46
 p2 text  x=64.7 y=396.7 Courier/9 "    Client->>Server: Request" #065F46
 p2 text  x=64.7 y=408.7 Courier/9 "    Server-->>Client: Response" #065F46
 p2 line  x=56.7 y=448.7 to x=538.6 y=448.7 #B4B4B4/1.0
+p2 anchor y=478.7 3-color-chips
+p2 bookmark level=2 "3. Color Chips"
 p2 text  x=56.7 y=478.7 Arial-Bold/20 "3. Color" #000000
 p2 text  x=136.6 y=478.7 Arial-Bold/20 "Chips" #000000
 p2 text  x=56.7 y=512.7 Arial/11 "Inline color swatches for hex color codes" #1A1A2E
@@ -115,6 +137,8 @@ p2 text  x=123.1 y=634.3 Courier/10 "#008080" #CF222E
 p2 text  x=56.7 y=654.7 Arial/11 "Regular inline code is unaffected:" #1A1A2E
 p2 text  x=222.3 y=656.3 Courier/10 "console.log(\"hello\")" #CF222E
 p2 line  x=56.7 y=690.7 to x=538.6 y=690.7 #B4B4B4/1.0
+p2 anchor y=720.7 4-description-lists
+p2 bookmark level=2 "4. Description Lists"
 p2 text  x=56.7 y=720.7 Arial-Bold/20 "4. Description" #000000
 p2 text  x=194.4 y=720.7 Arial-Bold/20 "Lists" #000000
 p2 text  x=56.7 y=754.7 Arial-Bold/11 "HTTP" #1A1A2E
@@ -137,8 +161,12 @@ p3 text  x=56.7 y=176.7 Arial-Bold/11 "Markdown" #1A1A2E
 p3 text  x=76.7 y=192.7 Arial/11 "A lightweight markup language for creating formatted" #1A1A2E
 p3 text  x=337.6 y=192.7 Arial/11 "text" #1A1A2E
 p3 line  x=56.7 y=228.7 to x=538.6 y=228.7 #B4B4B4/1.0
+p3 anchor y=258.7 5-math-latex
+p3 bookmark level=2 "5. Math (LaTeX)"
 p3 text  x=56.7 y=258.7 Arial-Bold/20 "5. Math" #000000
 p3 text  x=131.1 y=258.7 Arial-Bold/20 "(LaTeX)" #000000
+p3 anchor y=306.7 inline-math
+p3 bookmark level=3 "Inline Math"
 p3 text  x=56.7 y=306.7 Arial-Bold/16 "Inline" #000000
 p3 text  x=102.8 y=306.7 Arial-Bold/16 "Math" #000000
 p3 text  x=56.7 y=334.7 Arial/11 "The quadratic formula is" #1A1A2E
@@ -146,11 +174,15 @@ p3 text  x=177.7 y=334.7 Arial-Italic/11 "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{
 p3 text  x=354.7 y=334.7 Arial/11 "and Euler's identity is" #1A1A2E
 p3 text  x=461.3 y=334.7 Arial-Italic/11 "e^{i\\pi} + 1 = 0" #7C3AED
 p3 text  x=531.2 y=334.7 Arial/11 "." #1A1A2E
+p3 anchor y=372.7 block-math
+p3 bookmark level=3 "Block Math"
 p3 text  x=56.7 y=372.7 Arial-Bold/16 "Block" #000000
 p3 text  x=104.7 y=372.7 Arial-Bold/16 "Math" #000000
 p3 text  x=187.4 y=400.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n" #7C3AED
 p3 text  x=183.3 y=424.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}" #7C3AED
 p3 line  x=56.7 y=460.7 to x=538.6 y=460.7 #B4B4B4/1.0
+p3 anchor y=490.7 6-table-of-contents
+p3 bookmark level=2 "6. Table of Contents"
 p3 text  x=56.7 y=490.7 Arial-Bold/20 "6. Table of" #000000
 p3 text  x=161.0 y=490.7 Arial-Bold/20 "Contents" #000000
 p3 text  x=56.7 y=524.7 Arial/11 "The" #1A1A2E
@@ -159,6 +191,8 @@ p3 text  x=135.7 y=524.7 Arial/11 "marker above generates a table of contents fr
 p3 text  x=56.7 y=540.7 Arial/11 "This is a GitLab-specific feature commonly used in wiki pages and" #1A1A2E
 p3 text  x=381.1 y=540.7 Arial/11 "documentation." #1A1A2E
 p3 line  x=56.7 y=576.7 to x=538.6 y=576.7 #B4B4B4/1.0
+p3 anchor y=606.7 7-front-matter
+p3 bookmark level=2 "7. Front Matter"
 p3 text  x=56.7 y=606.7 Arial-Bold/20 "7. Front" #000000
 p3 text  x=135.5 y=606.7 Arial-Bold/20 "Matter" #000000
 p3 text  x=56.7 y=640.7 Arial/11 "The YAML front matter at the top of this document (between" #1A1A2E
@@ -174,10 +208,14 @@ p3 text  x=512.0 y=656.7 Arial/11 ", plus" #1A1A2E
 p3 text  x=56.7 y=672.7 Arial/11 "arbitrary custom" #1A1A2E
 p3 text  x=138.6 y=672.7 Arial/11 "fields." #1A1A2E
 p3 line  x=56.7 y=708.7 to x=538.6 y=708.7 #B4B4B4/1.0
+p3 anchor y=738.7 mixed-content-test
+p3 bookmark level=2 "Mixed Content Test"
 p3 text  x=56.7 y=738.7 Arial-Bold/20 "Mixed Content" #000000
 p3 text  x=199.9 y=738.7 Arial-Bold/20 "Test" #000000
 p4 text  x=56.7 y=56.7 Arial/11 "This section tests that all features work alongside standard Markdown" #1A1A2E
 p4 text  x=395.8 y=56.7 Arial/11 ":" #1A1A2E
+p4 anchor y=94.7 tables-still-work
+p4 bookmark level=3 "Tables Still Work"
 p4 text  x=56.7 y=94.7 Arial-Bold/16 "Tables Still" #000000
 p4 text  x=145.5 y=94.7 Arial-Bold/16 "Work" #000000
 p4 rect  x=56.7 y=122.7 w=301.2 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
@@ -215,6 +253,8 @@ p4 rect  x=357.9 y=269.7 w=180.7 h=21.0 fill=#FFFFFF stroke=#D1D5DE/0.5
 p4 text  x=60.7 y=273.7 Arial/11 "Front" #1A1A2E
 p4 text  x=89.4 y=273.7 Arial/11 "Matter" #1A1A2E
 p4 text  x=361.9 y=273.7 Arial/11 "Supported" #1A1A2E
+p4 anchor y=312.7 lists-still-work
+p4 bookmark level=3 "Lists Still Work"
 p4 text  x=56.7 y=312.7 Arial-Bold/16 "Lists Still" #000000
 p4 text  x=132.1 y=312.7 Arial-Bold/16 "Work" #000000
 p4 text  x=76.7 y=340.7 Arial/11 "1. " #1A1A2E
@@ -232,6 +272,8 @@ p4 text  x=181.2 y=388.7 Arial/11 "bullet" #1A1A2E
 p4 text  x=76.7 y=404.7 Arial/11 "3. " #1A1A2E
 p4 text  x=88.9 y=404.7 Arial/11 "Third" #1A1A2E
 p4 text  x=117.0 y=404.7 Arial/11 "item" #1A1A2E
+p4 anchor y=440.7 task-lists-still-work
+p4 bookmark level=3 "Task Lists Still Work"
 p4 text  x=56.7 y=440.7 Arial-Bold/16 "Task Lists Still" #000000
 p4 text  x=173.0 y=440.7 Arial-Bold/16 "Work" #000000
 p4 text  x=76.7 y=468.7 Arial/11 "[x] " #1A1A2E

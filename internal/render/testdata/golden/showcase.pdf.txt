@@ -5,6 +5,8 @@ p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: " #4A4A68
 p1 text  x=107.4 y=80.7 Arial/11 "The markout project" #1A1A2E
 p1 text  x=64.7 y=96.7 Arial-Bold/11 "Date: " #4A4A68
 p1 text  x=95.2 y=96.7 Arial/11 "2026-10-06" #1A1A2E
+p1 anchor y=148.7 markout-showcase
+p1 bookmark level=1 "markout showcase"
 p1 text  x=56.7 y=148.7 Arial-Bold/24 "markout" #000000
 p1 text  x=158.0 y=148.7 Arial-Bold/24 "showcase" #000000
 p1 text  x=56.7 y=188.7 Arial/11 "This document contains every kind of element markout can render, each with" #1A1A2E
@@ -20,22 +22,38 @@ p1 text  x=64.7 y=252.7 Courier/9 "markout fixtures/showcase.md showcase.pdf" #0
 p1 text  x=64.7 y=264.7 Courier/9 "markout fixtures/showcase.md showcase.docx" #000000
 p1 text  x=56.7 y=292.7 Arial/11 "Above this heading there should be a panel listing the title, author and" #1A1A2E
 p1 text  x=399.5 y=292.7 Arial/11 "date." #1A1A2E
+p1 anchor y=334.7 1-headings
+p1 bookmark level=2 "1. Headings"
 p1 text  x=56.7 y=334.7 Arial-Bold/20 "1." #000000
 p1 text  x=78.9 y=334.7 Arial-Bold/20 "Headings" #000000
 p1 text  x=56.7 y=368.7 Arial/11 "The six heading levels follow, each smaller than the one" #1A1A2E
 p1 text  x=332.3 y=368.7 Arial/11 "before." #1A1A2E
+p1 anchor y=412.7 heading-level-1
+p1 bookmark level=1 "Heading level 1"
 p1 text  x=56.7 y=412.7 Arial-Bold/24 "Heading level" #000000
 p1 text  x=217.9 y=412.7 Arial-Bold/24 "1" #000000
+p1 anchor y=470.7 heading-level-2
+p1 bookmark level=2 "Heading level 2"
 p1 text  x=56.7 y=470.7 Arial-Bold/20 "Heading level" #000000
 p1 text  x=191.0 y=470.7 Arial-Bold/20 "2" #000000
+p1 anchor y=518.7 heading-level-3
+p1 bookmark level=3 "Heading level 3"
 p1 text  x=56.7 y=518.7 Arial-Bold/16 "Heading level" #000000
 p1 text  x=164.2 y=518.7 Arial-Bold/16 "3" #000000
+p1 anchor y=558.7 heading-level-4
+p1 bookmark level=4 "Heading level 4"
 p1 text  x=56.7 y=558.7 Arial-Bold/14 "Heading level" #000000
 p1 text  x=150.7 y=558.7 Arial-Bold/14 "4" #000000
+p1 anchor y=592.7 heading-level-5
+p1 bookmark level=5 "Heading level 5"
 p1 text  x=56.7 y=592.7 Arial-Bold/12 "Heading level" #000000
 p1 text  x=137.3 y=592.7 Arial-Bold/12 "5" #000000
+p1 anchor y=624.7 heading-level-6
+p1 bookmark level=6 "Heading level 6"
 p1 text  x=56.7 y=624.7 Arial-Bold/11 "Heading level" #000000
 p1 text  x=130.6 y=624.7 Arial-Bold/11 "6" #000000
+p1 anchor y=662.7 2-text-formatting
+p1 bookmark level=2 "2. Text formatting"
 p1 text  x=56.7 y=662.7 Arial-Bold/20 "2. Text" #000000
 p1 text  x=125.5 y=662.7 Arial-Bold/20 "formatting" #000000
 p1 text  x=56.7 y=696.7 Arial/11 "Each word in quotes should look the way it describes itself: \"" #1A1A2E
@@ -84,6 +102,8 @@ p2 text  x=394.0 y=112.7 Arial/11 "a" #1A1A2E
 p2 text  x=403.1 y=112.7 Arial/11 "heading, [not a link]. A" #1A1A2E
 p2 text  x=56.7 y=128.7 Arial/11 "copyright sign from an entity:" #1A1A2E
 p2 text  x=200.3 y=128.7 Arial/11 "©." #1A1A2E
+p2 anchor y=170.7 3-links
+p2 bookmark level=2 "3. Links"
 p2 text  x=56.7 y=170.7 Arial-Bold/20 "3." #000000
 p2 text  x=78.9 y=170.7 Arial-Bold/20 "Links" #000000
 p2 text  x=56.7 y=204.7 Arial/11 "A" #1A1A2E
@@ -93,6 +113,8 @@ p2 text  x=185.6 y=204.7 Arial/11 "address," #1A1A2E
 p2 text  x=230.8 y=204.7 Arial/11 "https://example.com/bare" #2563EB
 p2 text  x=354.2 y=204.7 Arial/11 ", should both be colored and" #1A1A2E
 p2 text  x=56.7 y=220.7 Arial/11 "clickable." #1A1A2E
+p2 anchor y=262.7 4-lists
+p2 bookmark level=2 "4. Lists"
 p2 text  x=56.7 y=262.7 Arial-Bold/20 "4." #000000
 p2 text  x=78.9 y=262.7 Arial-Bold/20 "Lists" #000000
 p2 text  x=56.7 y=296.7 Arial/11 "Three bullets, the second with two nested ones" #1A1A2E
@@ -167,6 +189,8 @@ p2 text  x=292.6 y=743.7 Arial/11 "viewer" #1A1A2E
 p2 text  x=108.9 y=768.7 Arial-Italic/11 "Quoted inside a" #1A1A2E
 p2 text  x=188.9 y=768.7 Arial-Italic/11 "step." #1A1A2E
 p2 line  x=93.9 y=768.7 to x=93.9 y=784.7 #B4B4B4/3.0
+p3 anchor y=56.7 5-tables
+p3 bookmark level=2 "5. Tables"
 p3 text  x=56.7 y=56.7 Arial-Bold/20 "5." #000000
 p3 text  x=78.9 y=56.7 Arial-Bold/20 "Tables" #000000
 p3 text  x=56.7 y=90.7 Arial/11 "A table with a shaded header row, borders, and the numbers in the third" #1A1A2E
@@ -204,6 +228,8 @@ p3 text  x=148.9 y=197.7 Arial/11 "A cell with enough text that it has to wrap o
 p3 text  x=148.9 y=210.7 Arial/11 "inside its" #1A1A2E
 p3 text  x=194.7 y=210.7 Arial/11 "column" #1A1A2E
 p3 text  x=516.2 y=197.7 Arial/11 "333" #1A1A2E
+p3 anchor y=253.7 6-code
+p3 bookmark level=2 "6. Code"
 p3 text  x=56.7 y=253.7 Arial-Bold/20 "6." #000000
 p3 text  x=78.9 y=253.7 Arial-Bold/20 "Code" #000000
 p3 text  x=56.7 y=287.7 Arial/11 "A code block in a monospace font on a shaded panel, with its" #1A1A2E
@@ -216,6 +242,8 @@ p3 text  x=64.7 y=331.7 Courier/9 "    if ok := convert(); !ok {" #000000
 p3 text  x=64.7 y=343.7 Courier/9 "        fmt.Println(\"failed\")" #000000
 p3 text  x=64.7 y=355.7 Courier/9 "    }" #000000
 p3 text  x=64.7 y=367.7 Courier/9 "}" #000000
+p3 anchor y=413.7 7-quotes
+p3 bookmark level=2 "7. Quotes"
 p3 text  x=56.7 y=413.7 Arial-Bold/20 "7." #000000
 p3 text  x=78.9 y=413.7 Arial-Bold/20 "Quotes" #000000
 p3 text  x=56.7 y=447.7 Arial/11 "A quote, set off from the text by a bar on the left" #1A1A2E
@@ -227,6 +255,8 @@ p3 line  x=61.7 y=471.7 to x=61.7 y=487.7 #B4B4B4/3.0
 p3 text  x=76.7 y=491.7 Arial-Italic/11 "The second paragraph of the" #1A1A2E
 p3 text  x=220.9 y=491.7 Arial-Italic/11 "quote." #1A1A2E
 p3 line  x=61.7 y=491.7 to x=61.7 y=507.7 #B4B4B4/3.0
+p3 anchor y=529.7 8-callouts
+p3 bookmark level=2 "8. Callouts"
 p3 text  x=56.7 y=529.7 Arial-Bold/20 "8." #000000
 p3 text  x=78.9 y=529.7 Arial-Bold/20 "Callouts" #000000
 p3 text  x=56.7 y=563.7 Arial/11 "Five boxes with a colored bar and title: blue note, green tip," #1A1A2E
@@ -264,11 +294,15 @@ p4 text  x=408.7 y=136.7 Arial/11 "the" #1A1A2E
 p4 text  x=427.0 y=136.7 Arial/11 "box should grow to" #1A1A2E
 p4 text  x=64.7 y=152.7 Arial/11 "contain all of" #1A1A2E
 p4 text  x=129.4 y=152.7 Arial/11 "it." #1A1A2E
+p4 anchor y=202.7 9-rule
+p4 bookmark level=2 "9. Rule"
 p4 text  x=56.7 y=202.7 Arial-Bold/20 "9." #000000
 p4 text  x=78.9 y=202.7 Arial-Bold/20 "Rule" #000000
 p4 text  x=56.7 y=236.7 Arial/11 "A horizontal line across the page" #1A1A2E
 p4 text  x=219.2 y=236.7 Arial/11 "follows." #1A1A2E
 p4 line  x=56.7 y=272.7 to x=538.6 y=272.7 #B4B4B4/1.0
+p4 anchor y=302.7 10-math
+p4 bookmark level=2 "10. Math"
 p4 text  x=56.7 y=302.7 Arial-Bold/20 "10." #000000
 p4 text  x=90.0 y=302.7 Arial-Bold/20 "Math" #000000
 p4 text  x=56.7 y=336.7 Arial/11 "Formulas are shown as their LaTeX source in a distinct color, not" #1A1A2E
@@ -281,6 +315,8 @@ p4 text  x=56.7 y=352.7 Arial-Italic/11 "+ b^2 = c^2" #7C3AED
 p4 text  x=112.8 y=352.7 Arial/11 ". On a line of its own, centered" #1A1A2E
 p4 text  x=261.3 y=352.7 Arial/11 ":" #1A1A2E
 p4 text  x=226.4 y=376.7 Arial-Italic/11 "\\int_0^1 x^2 \\, dx = \\frac{1}{3}" #7C3AED
+p4 anchor y=418.7 11-diagram
+p4 bookmark level=2 "11. Diagram"
 p4 text  x=56.7 y=418.7 Arial-Bold/20 "11." #000000
 p4 text  x=90.0 y=418.7 Arial-Bold/20 "Diagram" #000000
 p4 text  x=56.7 y=452.7 Arial/11 "Diagram source is shown in a labeled panel, not drawn" #1A1A2E
@@ -290,6 +326,8 @@ p4 text  x=64.7 y=484.7 Arial-Bold/11 "Mermaid Diagram" #065F46
 p4 text  x=64.7 y=496.7 Courier/9 "graph LR" #065F46
 p4 text  x=64.7 y=508.7 Courier/9 "    Markdown --> PDF" #065F46
 p4 text  x=64.7 y=520.7 Courier/9 "    Markdown --> DOCX" #065F46
+p4 anchor y=566.7 12-definition-list
+p4 bookmark level=2 "12. Definition list"
 p4 text  x=56.7 y=566.7 Arial-Bold/20 "12. Definition" #000000
 p4 text  x=187.7 y=566.7 Arial-Bold/20 "list" #000000
 p4 text  x=56.7 y=600.7 Arial/11 "A bold term with its definition indented below it" #1A1A2E
@@ -300,6 +338,8 @@ p4 text  x=271.5 y=640.7 Arial/11 "documents." #1A1A2E
 p4 text  x=56.7 y=660.7 Arial-Bold/11 "Flavor" #1A1A2E
 p4 text  x=76.7 y=676.7 Arial/11 "A dialect of Markdown, such as the one GitHub" #1A1A2E
 p4 text  x=308.8 y=676.7 Arial/11 "uses." #1A1A2E
+p4 anchor y=718.7 13-images
+p4 bookmark level=2 "13. Images"
 p4 text  x=56.7 y=718.7 Arial-Bold/20 "13." #000000
 p4 text  x=90.0 y=718.7 Arial-Bold/20 "Images" #000000
 p4 text  x=56.7 y=752.7 Arial/11 "An image that does not exist shows a placeholder with its description" #1A1A2E
@@ -308,6 +348,8 @@ p4 text  x=416.0 y=752.7 Arial/11 "path instead of a picture" #1A1A2E
 p4 text  x=533.3 y=752.7 Arial/11 ":" #1A1A2E
 p5 text  x=56.7 y=56.7 Arial-Italic/11 "[IMG] A missing picture" #4A4A68
 p5 text  x=56.7 y=72.7 Arial/9 "does-not-exist.png" #2563EB
+p5 anchor y=114.7 14-inline-diff-and-color-chips
+p5 bookmark level=2 "14. Inline diff and color chips"
 p5 text  x=56.7 y=114.7 Arial-Bold/20 "14. Inline diff and color" #000000
 p5 text  x=279.7 y=114.7 Arial-Bold/20 "chips" #000000
 p5 text  x=56.7 y=148.7 Arial/11 "An addition is" #1A1A2E
@@ -322,6 +364,8 @@ p5 text  x=113.7 y=164.7 Arial/11 "is preceded by a small square" #1A1A2E
 p5 text  x=262.8 y=164.7 Arial/11 "of" #1A1A2E
 p5 text  x=275.1 y=164.7 Arial/11 "that" #1A1A2E
 p5 text  x=296.4 y=164.7 Arial/11 "color." #1A1A2E
+p5 anchor y=206.7 15-emoji
+p5 bookmark level=2 "15. Emoji"
 p5 text  x=56.7 y=206.7 Arial-Bold/20 "15." #000000
 p5 text  x=90.0 y=206.7 Arial-Bold/20 "Emoji" #000000
 p5 text  x=56.7 y=240.7 Arial/11 "Emoji shortcodes become emoji in DOCX:" #1A1A2E
@@ -330,6 +374,8 @@ p5 text  x=351.1 y=240.7 Arial/11 "left" #1A1A2E
 p5 text  x=368.8 y=240.7 Arial/11 "out, because the built-in fonts" #1A1A2E
 p5 text  x=56.7 y=256.7 Arial/11 "have no" #1A1A2E
 p5 text  x=98.9 y=256.7 Arial/11 "emoji." #1A1A2E
+p5 anchor y=298.7 16-footnotes
+p5 bookmark level=2 "16. Footnotes"
 p5 text  x=56.7 y=298.7 Arial-Bold/20 "16." #000000
 p5 text  x=90.0 y=298.7 Arial-Bold/20 "Footnotes" #000000
 p5 text  x=56.7 y=332.7 Arial/11 "This sentence has a footnote" #1A1A2E

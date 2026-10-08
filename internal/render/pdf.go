@@ -59,6 +59,11 @@ type PdfRenderer struct {
 	missing     []rune // characters left out, in order of appearance
 	missingSeen map[rune]bool
 	rightToLeft bool
+
+	// Bookmarks and links within the document; see pdf_outline.go.
+	anchors  anchors         // what links may call the headings
+	anchored map[string]bool // headings that have been drawn
+	outline  []outlineEntry
 }
 
 // NewPdfRenderer creates a new PDF renderer
@@ -77,6 +82,8 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	r.page = 0
 	r.glyphs, r.widths = map[string]map[rune]bool{}, map[string]map[rune]float64{}
 	r.missing, r.missingSeen, r.rightToLeft = nil, nil, false
+	r.anchors, _ = collectAnchors(astDoc.Elements)
+	r.anchored, r.outline = map[string]bool{}, nil
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
 
@@ -101,7 +108,17 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 		return err
 	}
 
-	if err := r.pdf.WritePdf(filename); err != nil {
+	// The bookmarks are nested by heading level, which gopdf's outline
+	// object has to be told about in the finished file
+	top, last := r.nestOutline()
+	data, err := r.pdf.GetBytesPdfReturnErr()
+	if err != nil {
+		return err
+	}
+	if top > 0 {
+		data = fixOutlineRoot(data, top, last)
+	}
+	if err := os.WriteFile(filename, data, 0o666); err != nil {
 		return err
 	}
 	if r.opts.Warn != nil {
@@ -259,6 +276,7 @@ func (r *PdfRenderer) renderHeading(h ast.Heading) {
 
 	r.currentY += hd.SpaceBefore
 	r.checkPageBreak(hd.LineHeight)
+	r.markHeading(h, level)
 
 	style := textStyle{font: r.headingFont(), size: hd.Size, bold: true, color: hd.Color, lineHeight: hd.LineHeight}
 	r.drawLines(r.layout(h.Runs, style, r.contentWidth, r.contentWidth), r.marginLeft, r.marginLeft, hd.LineHeight)
@@ -869,7 +887,12 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	entry.color = r.t.Link.Color
 	for _, item := range toc.Items {
 		indent := float64(item.Level-1) * r.t.List.Indent
-		r.renderRuns([]ast.InlineRun{{Text: item.Title}}, entry, r.marginLeft+indent, r.contentWidth-indent)
+		// An entry is a link to its heading
+		run := ast.InlineRun{Text: item.Title}
+		if _, ok := r.anchors[item.ID]; ok {
+			run.Link = "#" + item.ID
+		}
+		r.renderRuns([]ast.InlineRun{run}, entry, r.marginLeft+indent, r.contentWidth-indent)
 	}
 
 	r.currentY += 8

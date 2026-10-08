@@ -1,6 +1,8 @@
 p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
 p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "Docusaurus" #1A1A2E
+p1 anchor y=116.7 custom-id
+p1 bookmark level=1 "Docusaurus"
 p1 text  x=56.7 y=116.7 Arial-Bold/24 "Docusaurus" #000000
 p1 rect  x=56.7 y=156.7 w=481.9 h=48.0 fill=#DBEAFE
 p1 line  x=56.7 y=156.7 to x=56.7 y=204.7 #3B82F6/3.0

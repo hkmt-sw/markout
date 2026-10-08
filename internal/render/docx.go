@@ -35,7 +35,7 @@ type DocxRenderer struct {
 	bookmarks     map[string]string // heading ID -> the name of its bookmark
 	bookmarkNames map[string]bool   // names taken
 	bookmarked    map[string]bool   // names a heading has been given
-	slugs         map[string]int    // how many headings share a GitHub-style anchor
+	anchors       anchors           // what links may call the headings
 	bookmarkSeq   int               // bookmarks written so far
 	orderedNums   int               // numbered lists started
 	listsUsed     bool
@@ -55,7 +55,6 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.footnotes = nil // Reset footnotes
 	r.inset, r.tableInsets = 0, nil
 	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
-	r.slugs = map[string]int{}
 	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
 	r.setupDocument()
 	r.collectHeadings(astDoc.Elements)

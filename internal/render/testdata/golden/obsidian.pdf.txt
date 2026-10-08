@@ -1,3 +1,5 @@
+p1 anchor y=76.7 obsidian
+p1 bookmark level=1 "Obsidian"
 p1 text  x=56.7 y=76.7 Arial-Bold/24 "Obsidian" #000000
 p1 text  x=56.7 y=116.7 Arial/11 "Link to Another note and a custom" #1A1A2E
 p1 text  x=227.2 y=116.7 Arial/11 "label." #1A1A2E
