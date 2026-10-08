@@ -226,6 +226,7 @@ var (
 	includeLine   = regexp.MustCompile(`^::include\{file=([^}]+)\}[ \t]*$`)
 	mdxImport     = regexp.MustCompile(`^import\s+(?:.+\sfrom\s+)?['"][^'"]+['"];?[ \t]*$`)
 	mdxTabItem    = regexp.MustCompile(`^<TabItem\b([^>]*)>$`)
+	mdxComponent  = regexp.MustCompile(`<([A-Z][\w.]*)(?:\s[^<>]*)?/>`)
 	mdxTabsTag    = regexp.MustCompile(`^</?Tabs\b[^>]*>$|^</TabItem>$`)
 	mdxExport     = regexp.MustCompile(`^export\s+(?:const|let|var|default|function)\b.*$`)
 	taskNA        = regexp.MustCompile(`^([ \t]*(?:[*+-]|\d+[.)])[ \t]+)\[~\][ \t]+(.*)$`)
@@ -456,6 +457,15 @@ func (p *preprocessor) blocks(lines []string) []string {
 				out = append(out, "")
 				continue
 			}
+			// A component that stands by itself (<Chart data={x} />) draws
+			// something on the site that a document cannot have. It is
+			// left out, and the conversion says so
+			mapOutsideCode(line, func(s string) string {
+				for _, m := range mdxComponent.FindAllStringSubmatch(s, -1) {
+					p.left.add("<" + m[1] + " />")
+				}
+				return s
+			})
 		}
 
 		if f.InapplicableTasks {

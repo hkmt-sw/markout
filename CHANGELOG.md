@@ -25,6 +25,9 @@ Fixes found by converting real documents, and a slower way of releasing.
   is read like other HTML in the document, instead of both being left out.
   `{versionadded}`, `{versionchanged}`, `{deprecated}`, `{table}`,
   `{tab-set}` and `{line-block}` are understood.
+- Docusaurus: a JSX component that stands by itself (`<Chart />`) shows
+  nothing in a document and was dropped without a word. It is still left
+  out, and the conversion now names it.
 
 ### Changed
 

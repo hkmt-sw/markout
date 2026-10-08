@@ -364,7 +364,8 @@ things are beyond it for now:
   - A MyST `eval-rst` block is shown as its source, since reStructuredText
     is not read.
   - `raw` blocks for a format other than HTML, `bibliography` and `index`,
-    and the `video` and `query-table` blocks of Azure DevOps, are left out,
+    the `video` and `query-table` blocks of Azure DevOps, and JSX
+    components that stand by themselves in MDX (`<Chart />`), are left out,
     and the conversion names them.
   - A directive markout does not know is shown as plain text, and the
     conversion names it.

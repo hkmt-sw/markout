@@ -180,3 +180,32 @@ func TestSphinxDirectives(t *testing.T) {
 		})
 	}
 }
+
+// A JSX component that stands by itself shows nothing in a document; the
+// conversion names it. One that wraps content keeps the content.
+func TestMDXComponentsAreReported(t *testing.T) {
+	mdx := "<Chart data={points} />\n\nText with <Badge /> and `<InCode />`.\n\n<Wrapper>\n\nKEPT\n\n</Wrapper>\n\n" +
+		"```jsx\n<InFence />\n```\n\n<Chart />\n\n<br />\n"
+	doc := parseDoc(t, "docusaurus", mdx)
+	if text := allText(doc.Elements); !strings.Contains(text, "KEPT") || strings.Contains(text, "Chart") {
+		t.Errorf("text: %q", text)
+	}
+	if len(doc.Warnings) != 1 {
+		t.Fatalf("warnings: %q", doc.Warnings)
+	}
+	w := doc.Warnings[0]
+	for _, want := range []string{"3 blocks", "<Chart /> (2)", "<Badge />"} {
+		if !strings.Contains(w, want) {
+			t.Errorf("warning does not have %q: %s", want, w)
+		}
+	}
+	for _, not := range []string{"InCode", "InFence", "Wrapper", "br"} {
+		if strings.Contains(w, not) {
+			t.Errorf("warning names %s: %s", not, w)
+		}
+	}
+	// Other flavors do not read JSX
+	if doc := parseDoc(t, "github", "<Chart />\n"); len(doc.Warnings) != 0 {
+		t.Errorf("warnings: %q", doc.Warnings)
+	}
+}
