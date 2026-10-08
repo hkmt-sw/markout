@@ -78,3 +78,18 @@ func TestHeaderRowsAndTermsStayWithWhatFollows(t *testing.T) {
 		t.Errorf("the term is on page %d, its definition on page %d", a, b)
 	}
 }
+
+// A chart that fills a page leaves room for its heading on that page.
+func TestHeadingStaysWithATallChart(t *testing.T) {
+	var chart strings.Builder
+	chart.WriteString("Intro.\n\n## Process\n\n```mermaid\ngraph TD\n")
+	for i := 0; i < 24; i++ {
+		chart.WriteString("    n" + string(rune('a'+i)) + "[STEP] --> n" + string(rune('b'+i)) + "\n")
+	}
+	chart.WriteString("```\n")
+	trace := pdfTrace(t, chart.String())
+	if heading, first := pageOf(t, trace, "Process"), pageOf(t, trace, "STEP"); heading != first {
+		t.Errorf("the heading is on page %d, its chart on page %d", heading, first)
+	}
+	checkOnThePage(t, trace)
+}

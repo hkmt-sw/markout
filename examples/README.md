@@ -69,3 +69,11 @@ summary:
 ```sh
 go test ./internal/render -run Golden -update
 ```
+
+## License
+
+The documents in this directory are dedicated to the public domain under
+[CC0 1.0](LICENSE). Copy them, change them, and use them as the start of
+your own documents; there is no need to say where they came from. This holds
+for the files in this directory only: markout itself is under the GNU General
+Public License, version 3.

@@ -31,7 +31,8 @@ Mermaid flowcharts are drawn.
   architecture description, a runbook, a risk assessment, minutes, a README,
   an assistant's answer, a MyST page, a Docusaurus page, and a procedure in
   Hungarian). They are converted by the tests, which require that the
-  conversion has nothing to warn about.
+  conversion has nothing to warn about. The examples are in the public
+  domain (CC0 1.0), to be copied as the start of your own documents.
 - A table whose header row is empty has no header row: the way Markdown
   writes a table without one. A MyST `{csv-table}` without a header no
   longer gets an empty one.
@@ -56,7 +57,8 @@ Mermaid flowcharts are drawn.
 - In PDF a heading could be the last thing on a page, with what it heads on
   the next. A heading now goes to the next page together with what follows
   it. The same holds for the header row of a table and its first row, and
-  for a term and its definition.
+  for a term and its definition. A chart as tall as a page is drawn a little
+  smaller, to leave room for its heading on the same page.
 - MyST: the `:caption:` of a `code-block` was dropped. It is shown above the
   block.
 

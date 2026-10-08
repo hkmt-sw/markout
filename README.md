@@ -444,6 +444,10 @@ markout is free software: you can redistribute it and/or modify it under the
 terms of the [GNU General Public License, version 3](LICENSE). It is
 distributed in the hope that it will be useful, but without any warranty.
 
+The documents under [`examples`](examples/README.md) are an exception: they
+are dedicated to the public domain ([CC0 1.0](examples/LICENSE)), so that
+they can be copied as the start of your own.
+
 It builds on these projects:
 
 - [goldmark](https://github.com/yuin/goldmark) and its extensions (Markdown parsing; MIT, BSD-3-Clause)
