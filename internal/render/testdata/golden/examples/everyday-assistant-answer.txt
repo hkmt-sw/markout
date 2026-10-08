@@ -1,0 +1,4 @@
+source: 87 lines
+holds: Blockquote 1, CodeBlock 2, Heading 6, List 2, ListItem 8, MathBlock 3, Paragraph 8, Table 1
+pdf: 2 pages, 6 bookmarks, 0 links within the document
+docx: 42 paragraphs, 6 headings, 8 list items, 3 tables, 21 equations, 0 images

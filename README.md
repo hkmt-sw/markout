@@ -307,6 +307,18 @@ Which delimiters mark a formula (`$…$`, `\(…\)`, ` ```math `) depends on the
 [flavor](#markdown-flavors). What cannot be typeset is listed under
 [Limits](#limits).
 
+## Examples
+
+The [`examples`](examples/README.md) directory has documents of the kinds
+people convert (a security policy, an incident procedure, an architecture
+description, a runbook, a risk assessment, meeting minutes), each using what
+such a document needs: tables, flowcharts, formulas, code, callouts,
+footnotes. Convert one to see what markout makes of it:
+
+```sh
+markout examples/technical/architecture.md architecture.pdf
+```
+
 ## Diagrams
 
 A Mermaid flowchart is drawn, in both formats:
@@ -414,6 +426,7 @@ things are beyond it for now:
 | `internal/theme`   | Themes: the built-in ones and theme files       |
 | `internal/settings`| Saved preferences (the selected flavor)         |
 | `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor, `corpus/` has real documents from public projects |
+| `examples`         | [Example documents](examples/README.md): a policy, a runbook, a report, minutes and more, to convert and to copy from |
 | `docs`             | The [theme guide](docs/themes.md) and pictures  |
 | `cmd/debug`        | Dumps the parsed AST as JSON for debugging       |
 

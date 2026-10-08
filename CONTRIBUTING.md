@@ -40,6 +40,14 @@ files in your pull request, where the diff shows reviewers exactly what moved:
 go test ./internal/render -run Golden -update
 ```
 
+### Examples
+
+`examples/` holds documents written for markout, of the kinds people
+convert. `TestGoldenExamples` converts each one and requires a conversion
+with nothing to warn about. They are the place to see how a change reads in
+a whole document, and a new kind of document worth supporting is worth an
+example.
+
 ### Real documents
 
 `fixtures/corpus` holds documents from public projects, unedited, with

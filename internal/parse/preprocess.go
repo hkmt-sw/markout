@@ -843,7 +843,13 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		if fs := strings.Fields(args); len(fs) > 0 && name != "literalinclude" {
 			lang = fs[0]
 		}
-		out := []string{"", "```" + lang}
+		out := []string{""}
+		// The caption of a block (:caption: main.py) goes above it, like
+		// the title of a fenced block
+		if caption := opts["caption"]; caption != "" {
+			out = append(out, "**"+caption+"**", "")
+		}
+		out = append(out, "```"+lang)
 		out = append(out, body...)
 		return append(out, "```", "")
 

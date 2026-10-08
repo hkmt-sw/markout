@@ -1,0 +1,159 @@
+---
+title: Getting Started
+sidebar_position: 1
+description: Install the client, make a first request, and handle errors.
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Getting Started {#getting-started}
+
+This page is written in MDX, the Markdown that Docusaurus reads: Markdown
+with components such as tabs in it. It takes you from nothing to a first
+request against the Parcel API.
+
+## Install the client {#install}
+
+<Tabs groupId="package-manager">
+  <TabItem value="npm" label="npm" default>
+
+    ```bash
+    npm install @example/parcel-client
+    ```
+
+  </TabItem>
+  <TabItem value="yarn" label="Yarn">
+
+    ```bash
+    yarn add @example/parcel-client
+    ```
+
+  </TabItem>
+  <TabItem value="pnpm" label="pnpm">
+
+    ```bash
+    pnpm add @example/parcel-client
+    ```
+
+  </TabItem>
+</Tabs>
+
+:::info Requirements
+
+Node.js 20 or newer. The client has no dependencies of its own.
+
+:::
+
+## Make a request {#first-request}
+
+Create a client with your API key, and ask for a parcel by its tracking
+number.
+
+```js title="track.js"
+import { ParcelClient } from '@example/parcel-client';
+
+const client = new ParcelClient({ apiKey: process.env.PARCEL_API_KEY });
+
+const parcel = await client.track('PX-2041-7788');
+console.log(parcel.status, parcel.estimatedDelivery);
+```
+
+```text title="Output"
+in_transit 2026-10-12
+```
+
+:::tip
+
+Keep the key in an environment variable, as above, and out of the code you
+commit.
+
+:::
+
+## What comes back {#response}
+
+| Field | Type | Meaning |
+| --- | --- | --- |
+| `status` | string | `created`, `in_transit`, `delivered` or `returned` |
+| `estimatedDelivery` | date | Absent once the parcel is delivered |
+| `events` | array | Every scan of the parcel, newest first |
+| `weight` | number | In grams |
+
+<details>
+  <summary>The full response, as JSON</summary>
+
+```json
+{
+  "trackingNumber": "PX-2041-7788",
+  "status": "in_transit",
+  "estimatedDelivery": "2026-10-12",
+  "weight": 1250,
+  "events": [
+    { "at": "2026-10-08T06:14:00Z", "place": "Vienna hub", "what": "departed" },
+    { "at": "2026-10-07T19:02:00Z", "place": "Vienna hub", "what": "arrived" }
+  ]
+}
+```
+
+</details>
+
+## Handle errors {#errors}
+
+Every method throws a `ParcelError` with a `code` you can switch on.
+
+<Tabs>
+  <TabItem value="async" label="async / await">
+
+    ```js
+    try {
+      await client.track('nope');
+    } catch (err) {
+      if (err.code === 'not_found') {
+        console.log('No such parcel');
+      } else {
+        throw err;
+      }
+    }
+    ```
+
+  </TabItem>
+  <TabItem value="then" label="Promises">
+
+    ```js
+    client.track('nope').catch((err) => {
+      if (err.code !== 'not_found') throw err;
+      console.log('No such parcel');
+    });
+    ```
+
+  </TabItem>
+</Tabs>
+
+| Code | When | Retry? |
+| --- | --- | :---: |
+| `not_found` | No parcel has this tracking number | no |
+| `unauthorized` | The key is missing or wrong | no |
+| `rate_limited` | More than 100 requests in a minute | after a pause |
+| `unavailable` | The service is down | yes |
+
+:::warning[Rate limits]
+
+The limit is per key, not per machine. Two services sharing a key share its
+limit.
+
+:::
+
+:::danger
+
+Never put the API key in code that runs in a browser. Anyone who opens the
+page can read it.
+
+:::
+
+## Next steps {#next}
+
+1. Read about [webhooks](#errors), to be told when a parcel moves instead of
+   asking.
+2. Set up a second key for testing: requests made with it never touch real
+   parcels.
+3. Look at the full list of [error codes](#errors).

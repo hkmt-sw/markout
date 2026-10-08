@@ -1,5 +1,5 @@
 source: 1153 lines
 holds: Alert 12, CodeBlock 51, Heading 57, HorizontalRule 2, Image 12, List 18, ListItem 138, Paragraph 118, Table 5
-pdf: 22 pages, 57 bookmarks, 62 links within the document
+pdf: 23 pages, 57 bookmarks, 62 links within the document
 pdf warns: 1 character is not in the PDF fonts and left out: ❤. A theme can use a font that has them.
 docx: 553 paragraphs, 57 headings, 138 list items, 68 tables, 0 equations, 0 images

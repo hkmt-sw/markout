@@ -380,141 +380,141 @@ p4 text  x=70.9 y=696.1 Arial/10.5 "A formula markout cannot typeset is shown as
 p4 text  x=417.3 y=696.1 Arial/10.5 ":" #1F2933
 p4 text  x=423.1 y=696.1 Arial-Italic/10.5 "\\notacommand{x}" #7C3AED
 p4 text  x=504.7 y=696.1 Arial/10.5 "." #1F2933
-p4 anchor y=739.6 11-diagram
-p4 bookmark level=2 "11. Diagram"
-p4 text  x=70.9 y=739.6 Arial-Bold/17 "11." #1E3A8A
-p4 text  x=99.2 y=739.6 Arial-Bold/17 "Diagram" #1E3A8A
-p5 text  x=70.9 y=85.0 Arial/10.5 "A Mermaid flowchart is drawn: three boxes, with arrows from the left one" #1F2933
-p5 text  x=409.6 y=85.0 Arial/10.5 "to" #1F2933
-p5 text  x=421.3 y=85.0 Arial/10.5 "the two on the" #1F2933
-p5 text  x=490.1 y=85.0 Arial/10.5 "right." #1F2933
-p5 curve x=282.8 y=154.8 to x=305.8 y=126.7 #52606D/1.1
-p5 curve x=305.8 y=126.7 to x=327.4 y=126.7 #52606D/1.1
-p5 shape x=326.0 y=123.5 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 curve x=282.8 y=154.8 to x=305.8 y=183.0 #52606D/1.1
-p5 curve x=305.8 y=183.0 to x=323.2 y=183.0 #52606D/1.1
-p5 shape x=321.8 y=179.8 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 shape x=215.2 y=140.7 w=67.6 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=227.2 y=151.3 Arial/9.450000000000001 "Markdown" #065F46
-p5 shape x=333.0 y=112.5 w=42.9 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=345.0 y=123.1 Arial/9.450000000000001 "PDF" #065F46
-p5 shape x=328.8 y=168.8 w=51.3 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=340.8 y=179.4 Arial/9.450000000000001 "DOCX" #065F46
-p5 text  x=70.9 y=209.1 Arial/10.5 "A decision in a diamond with its two answers written on the arrows, a" #1F2933
-p5 text  x=393.3 y=209.1 Arial/10.5 "rounded" #1F2933
-p5 text  x=434.8 y=209.1 Arial/10.5 "end, and a dotted" #1F2933
-p5 text  x=70.9 y=224.6 Arial/10.5 "arrow leading back up the side" #1F2933
-p5 text  x=213.2 y=224.6 Arial/10.5 ":" #1F2933
-p5 curve x=264.9 y=280.4 to x=307.4 y=303.4 #52606D/1.1
-p5 curve x=307.4 y=303.4 to x=307.4 y=320.8 #52606D/1.1
-p5 shape x=304.3 y=319.4 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 curve x=307.4 y=373.2 to x=267.0 y=404.3 #52606D/1.1
-p5 curve x=267.0 y=404.3 to x=254.3 y=429.8 #52606D/1.1
-p5 shape x=251.1 y=428.4 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 curve x=307.4 y=373.2 to x=309.4 y=404.3 #52606D/1.1
-p5 curve x=309.4 y=404.3 to x=304.5 y=449.6 #52606D/1.1
-p5 curve x=304.5 y=449.6 to x=286.4 y=486.7 #52606D/1.1
-p5 curve x=286.4 y=486.7 to x=279.4 y=504.1 #52606D/1.1
-p5 shape x=276.2 y=502.7 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 curve x=254.3 y=463.7 to x=272.4 y=486.7 #52606D/1.1
-p5 curve x=272.4 y=486.7 to x=279.4 y=504.1 #52606D/1.1
-p5 shape x=276.2 y=502.7 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 curve x=222.1 y=449.6 to x=241.6 y=404.3 #52606D/1.1
-p5 curve x=241.6 y=404.3 to x=222.4 y=349.8 #52606D/1.1
-p5 curve x=222.4 y=349.8 to x=222.4 y=303.4 #52606D/1.1
-p5 curve x=222.4 y=303.4 to x=220.8 y=266.3 #52606D/1.1
-p5 shape x=219.4 y=263.1 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
-p5 shape x=226.4 y=252.1 w=77.0 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=238.4 y=262.7 Arial/9.450000000000001 "Read the file" #065F46
-p5 shape x=240.4 y=326.4 w=134.1 h=46.8 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=274.4 y=346.2 Arial/9.450000000000001 "Is it Markdown?" #065F46
-p5 shape x=222.1 y=435.4 w=64.4 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=234.1 y=446.0 Arial/9.450000000000001 "Convert it" #065F46
-p5 shape x=250.6 y=509.7 w=57.6 h=28.3 points=52 FD fill=#ECFDF5 stroke=#10B981/1.0
-p5 text  x=269.7 y=520.3 Arial/9.450000000000001 "Stop" #065F46
-p5 rect  x=256.6 y=397.2 w=20.7 h=14.3 fill=#FFFFFF
-p5 text  x=259.6 y=400.7 Arial/9.450000000000001 "yes" #065F46
-p5 rect  x=301.1 y=397.2 w=16.5 h=14.3 fill=#FFFFFF
-p5 text  x=304.1 y=400.7 Arial/9.450000000000001 "no" #065F46
-p5 text  x=70.9 y=550.0 Arial/10.5 "Other kinds of diagram are shown as their source in a labeled panel" #1F2933
-p5 text  x=385.3 y=550.0 Arial/10.5 ":" #1F2933
-p5 rect  x=70.9 y=573.5 w=453.5 h=52.0 fill=#ECFDF5 stroke=#10B981/0.5
-p5 text  x=78.9 y=581.5 Arial-Bold/10.5 "Mermaid Diagram" #065F46
-p5 text  x=78.9 y=593.5 Courier/9 "sequenceDiagram" #065F46
-p5 text  x=78.9 y=605.5 Courier/9 "    Reader->>Document: opens" #065F46
-p5 anchor y=653.5 12-definition-list
+p5 anchor y=85.0 11-diagram
+p5 bookmark level=2 "11. Diagram"
+p5 text  x=70.9 y=85.0 Arial-Bold/17 "11." #1E3A8A
+p5 text  x=99.2 y=85.0 Arial-Bold/17 "Diagram" #1E3A8A
+p5 text  x=70.9 y=115.0 Arial/10.5 "A Mermaid flowchart is drawn: three boxes, with arrows from the left one" #1F2933
+p5 text  x=409.6 y=115.0 Arial/10.5 "to" #1F2933
+p5 text  x=421.3 y=115.0 Arial/10.5 "the two on the" #1F2933
+p5 text  x=490.1 y=115.0 Arial/10.5 "right." #1F2933
+p5 curve x=282.8 y=184.8 to x=305.8 y=156.7 #52606D/1.1
+p5 curve x=305.8 y=156.7 to x=327.4 y=156.7 #52606D/1.1
+p5 shape x=326.0 y=153.5 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 curve x=282.8 y=184.8 to x=305.8 y=213.0 #52606D/1.1
+p5 curve x=305.8 y=213.0 to x=323.2 y=213.0 #52606D/1.1
+p5 shape x=321.8 y=209.8 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 shape x=215.2 y=170.7 w=67.6 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=227.2 y=181.3 Arial/9.450000000000001 "Markdown" #065F46
+p5 shape x=333.0 y=142.5 w=42.9 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=345.0 y=153.1 Arial/9.450000000000001 "PDF" #065F46
+p5 shape x=328.8 y=198.8 w=51.3 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=340.8 y=209.4 Arial/9.450000000000001 "DOCX" #065F46
+p5 text  x=70.9 y=239.1 Arial/10.5 "A decision in a diamond with its two answers written on the arrows, a" #1F2933
+p5 text  x=393.3 y=239.1 Arial/10.5 "rounded" #1F2933
+p5 text  x=434.8 y=239.1 Arial/10.5 "end, and a dotted" #1F2933
+p5 text  x=70.9 y=254.6 Arial/10.5 "arrow leading back up the side" #1F2933
+p5 text  x=213.2 y=254.6 Arial/10.5 ":" #1F2933
+p5 curve x=264.9 y=310.4 to x=307.4 y=333.4 #52606D/1.1
+p5 curve x=307.4 y=333.4 to x=307.4 y=350.8 #52606D/1.1
+p5 shape x=304.3 y=349.4 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 curve x=307.4 y=403.2 to x=267.0 y=434.3 #52606D/1.1
+p5 curve x=267.0 y=434.3 to x=254.3 y=459.8 #52606D/1.1
+p5 shape x=251.1 y=458.4 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 curve x=307.4 y=403.2 to x=309.4 y=434.3 #52606D/1.1
+p5 curve x=309.4 y=434.3 to x=304.5 y=479.6 #52606D/1.1
+p5 curve x=304.5 y=479.6 to x=286.4 y=516.7 #52606D/1.1
+p5 curve x=286.4 y=516.7 to x=279.4 y=534.1 #52606D/1.1
+p5 shape x=276.2 y=532.7 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 curve x=254.3 y=493.7 to x=272.4 y=516.7 #52606D/1.1
+p5 curve x=272.4 y=516.7 to x=279.4 y=534.1 #52606D/1.1
+p5 shape x=276.2 y=532.7 w=6.3 h=7.0 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 curve x=222.1 y=479.6 to x=241.6 y=434.3 #52606D/1.1
+p5 curve x=241.6 y=434.3 to x=222.4 y=379.8 #52606D/1.1
+p5 curve x=222.4 y=379.8 to x=222.4 y=333.4 #52606D/1.1
+p5 curve x=222.4 y=333.4 to x=220.8 y=296.3 #52606D/1.1
+p5 shape x=219.4 y=293.1 w=7.0 h=6.3 points=3 F fill=#52606D stroke=#52606D/1.1
+p5 shape x=226.4 y=282.1 w=77.0 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=238.4 y=292.7 Arial/9.450000000000001 "Read the file" #065F46
+p5 shape x=240.4 y=356.4 w=134.1 h=46.8 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=274.4 y=376.2 Arial/9.450000000000001 "Is it Markdown?" #065F46
+p5 shape x=222.1 y=465.4 w=64.4 h=28.3 points=4 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=234.1 y=476.0 Arial/9.450000000000001 "Convert it" #065F46
+p5 shape x=250.6 y=539.7 w=57.6 h=28.3 points=52 FD fill=#ECFDF5 stroke=#10B981/1.0
+p5 text  x=269.7 y=550.3 Arial/9.450000000000001 "Stop" #065F46
+p5 rect  x=256.6 y=427.2 w=20.7 h=14.3 fill=#FFFFFF
+p5 text  x=259.6 y=430.7 Arial/9.450000000000001 "yes" #065F46
+p5 rect  x=301.1 y=427.2 w=16.5 h=14.3 fill=#FFFFFF
+p5 text  x=304.1 y=430.7 Arial/9.450000000000001 "no" #065F46
+p5 text  x=70.9 y=580.0 Arial/10.5 "Other kinds of diagram are shown as their source in a labeled panel" #1F2933
+p5 text  x=385.3 y=580.0 Arial/10.5 ":" #1F2933
+p5 rect  x=70.9 y=603.5 w=453.5 h=52.0 fill=#ECFDF5 stroke=#10B981/0.5
+p5 text  x=78.9 y=611.5 Arial-Bold/10.5 "Mermaid Diagram" #065F46
+p5 text  x=78.9 y=623.5 Courier/9 "sequenceDiagram" #065F46
+p5 text  x=78.9 y=635.5 Courier/9 "    Reader->>Document: opens" #065F46
+p5 anchor y=683.5 12-definition-list
 p5 bookmark level=2 "12. Definition list"
-p5 text  x=70.9 y=653.5 Arial-Bold/17 "12. Definition" #1E3A8A
-p5 text  x=182.2 y=653.5 Arial-Bold/17 "list" #1E3A8A
-p5 text  x=70.9 y=683.5 Arial/10.5 "A bold term with its definition indented below it" #1F2933
-p5 text  x=286.0 y=683.5 Arial/10.5 ":" #1F2933
-p5 text  x=70.9 y=707.0 Arial-Bold/10.5 "Markdown" #1F2933
-p5 text  x=90.9 y=722.5 Arial/10.5 "A plain-text format for writing structured" #1F2933
-p5 text  x=276.9 y=722.5 Arial/10.5 "documents." #1F2933
-p5 text  x=70.9 y=742.0 Arial-Bold/10.5 "Flavor" #1F2933
-p6 text  x=90.9 y=85.0 Arial/10.5 "A dialect of Markdown, such as the one GitHub" #1F2933
-p6 text  x=312.5 y=85.0 Arial/10.5 "uses." #1F2933
-p6 anchor y=128.5 13-images
+p5 text  x=70.9 y=683.5 Arial-Bold/17 "12. Definition" #1E3A8A
+p5 text  x=182.2 y=683.5 Arial-Bold/17 "list" #1E3A8A
+p5 text  x=70.9 y=713.5 Arial/10.5 "A bold term with its definition indented below it" #1F2933
+p5 text  x=286.0 y=713.5 Arial/10.5 ":" #1F2933
+p5 text  x=70.9 y=737.0 Arial-Bold/10.5 "Markdown" #1F2933
+p5 text  x=90.9 y=752.5 Arial/10.5 "A plain-text format for writing structured" #1F2933
+p5 text  x=276.9 y=752.5 Arial/10.5 "documents." #1F2933
+p6 text  x=70.9 y=85.0 Arial-Bold/10.5 "Flavor" #1F2933
+p6 text  x=90.9 y=100.5 Arial/10.5 "A dialect of Markdown, such as the one GitHub" #1F2933
+p6 text  x=312.5 y=100.5 Arial/10.5 "uses." #1F2933
+p6 anchor y=144.0 13-images
 p6 bookmark level=2 "13. Images"
-p6 text  x=70.9 y=128.5 Arial-Bold/17 "13." #1E3A8A
-p6 text  x=99.2 y=128.5 Arial-Bold/17 "Images" #1E3A8A
-p6 text  x=70.9 y=158.5 Arial/10.5 "An image that does not exist shows a placeholder with its description" #1F2933
-p6 text  x=393.4 y=158.5 Arial/10.5 "and" #1F2933
-p6 text  x=413.8 y=158.5 Arial/10.5 "path instead of a" #1F2933
-p6 text  x=70.9 y=174.0 Arial/10.5 "picture" #1F2933
-p6 text  x=102.4 y=174.0 Arial/10.5 ":" #1F2933
-p6 text  x=70.9 y=197.5 Arial-Italic/10.5 "[IMG] A missing picture" #52606D
-p6 text  x=70.9 y=213.0 Arial/9 "does-not-exist.png" #1D4ED8
-p6 anchor y=256.5 14-inline-diff-and-color-chips
+p6 text  x=70.9 y=144.0 Arial-Bold/17 "13." #1E3A8A
+p6 text  x=99.2 y=144.0 Arial-Bold/17 "Images" #1E3A8A
+p6 text  x=70.9 y=174.0 Arial/10.5 "An image that does not exist shows a placeholder with its description" #1F2933
+p6 text  x=393.4 y=174.0 Arial/10.5 "and" #1F2933
+p6 text  x=413.8 y=174.0 Arial/10.5 "path instead of a" #1F2933
+p6 text  x=70.9 y=189.5 Arial/10.5 "picture" #1F2933
+p6 text  x=102.4 y=189.5 Arial/10.5 ":" #1F2933
+p6 text  x=70.9 y=213.0 Arial-Italic/10.5 "[IMG] A missing picture" #52606D
+p6 text  x=70.9 y=228.5 Arial/9 "does-not-exist.png" #1D4ED8
+p6 anchor y=272.0 14-inline-diff-and-color-chips
 p6 bookmark level=2 "14. Inline diff and color chips"
-p6 text  x=70.9 y=256.5 Arial-Bold/17 "14. Inline diff and color" #1E3A8A
-p6 text  x=260.5 y=256.5 Arial-Bold/17 "chips" #1E3A8A
-p6 text  x=70.9 y=286.5 Arial/10.5 "An addition is" #1F2933
-p6 text  x=136.8 y=286.5 Arial/10.5 "green and underlined" #16A34A
-p6 line  x=136.8 y=298.0 to x=236.0 y=298.0 #16A34A/0.6
-p6 text  x=236.0 y=286.5 Arial/10.5 ", a removal is {- red and" #1F2933
-p6 text  x=349.7 y=286.5 Arial/10.5 "struck" #1F2933
-p6 text  x=380.6 y=286.5 Arial/10.5 "through -}. A color code such" #1F2933
-p6 text  x=70.9 y=302.0 Arial/10.5 "as" #1F2933
-p6 rect  x=84.9 y=302.0 w=10.0 h=10.0 fill=#2563EB
-p6 text  x=96.9 y=303.6 Courier/9.5 "#2563EB" #9F1239
-p6 text  x=139.7 y=302.0 Arial/10.5 "is preceded by a small square" #1F2933
-p6 text  x=282.0 y=302.0 Arial/10.5 "of" #1F2933
-p6 text  x=293.7 y=302.0 Arial/10.5 "that" #1F2933
-p6 text  x=314.1 y=302.0 Arial/10.5 "color." #1F2933
-p6 anchor y=345.5 15-emoji
+p6 text  x=70.9 y=272.0 Arial-Bold/17 "14. Inline diff and color" #1E3A8A
+p6 text  x=260.5 y=272.0 Arial-Bold/17 "chips" #1E3A8A
+p6 text  x=70.9 y=302.0 Arial/10.5 "An addition is" #1F2933
+p6 text  x=136.8 y=302.0 Arial/10.5 "green and underlined" #16A34A
+p6 line  x=136.8 y=313.5 to x=236.0 y=313.5 #16A34A/0.6
+p6 text  x=236.0 y=302.0 Arial/10.5 ", a removal is {- red and" #1F2933
+p6 text  x=349.7 y=302.0 Arial/10.5 "struck" #1F2933
+p6 text  x=380.6 y=302.0 Arial/10.5 "through -}. A color code such" #1F2933
+p6 text  x=70.9 y=317.5 Arial/10.5 "as" #1F2933
+p6 rect  x=84.9 y=317.5 w=10.0 h=10.0 fill=#2563EB
+p6 text  x=96.9 y=319.1 Courier/9.5 "#2563EB" #9F1239
+p6 text  x=139.7 y=317.5 Arial/10.5 "is preceded by a small square" #1F2933
+p6 text  x=282.0 y=317.5 Arial/10.5 "of" #1F2933
+p6 text  x=293.7 y=317.5 Arial/10.5 "that" #1F2933
+p6 text  x=314.1 y=317.5 Arial/10.5 "color." #1F2933
+p6 anchor y=361.0 15-emoji
 p6 bookmark level=2 "15. Emoji"
-p6 text  x=70.9 y=345.5 Arial-Bold/17 "15." #1E3A8A
-p6 text  x=99.2 y=345.5 Arial-Bold/17 "Emoji" #1E3A8A
-p6 text  x=70.9 y=375.5 Arial/10.5 "Emoji shortcodes become emoji in DOCX:" #1F2933
-p6 text  x=269.7 y=375.5 Arial/10.5 ". In PDF they are" #1F2933
-p6 text  x=351.9 y=375.5 Arial/10.5 "left" #1F2933
-p6 text  x=368.8 y=375.5 Arial/10.5 "out, because the built-in fonts" #1F2933
-p6 text  x=70.9 y=391.0 Arial/10.5 "have no" #1F2933
-p6 text  x=111.1 y=391.0 Arial/10.5 "emoji." #1F2933
-p6 anchor y=434.5 16-footnotes
+p6 text  x=70.9 y=361.0 Arial-Bold/17 "15." #1E3A8A
+p6 text  x=99.2 y=361.0 Arial-Bold/17 "Emoji" #1E3A8A
+p6 text  x=70.9 y=391.0 Arial/10.5 "Emoji shortcodes become emoji in DOCX:" #1F2933
+p6 text  x=269.7 y=391.0 Arial/10.5 ". In PDF they are" #1F2933
+p6 text  x=351.9 y=391.0 Arial/10.5 "left" #1F2933
+p6 text  x=368.8 y=391.0 Arial/10.5 "out, because the built-in fonts" #1F2933
+p6 text  x=70.9 y=406.5 Arial/10.5 "have no" #1F2933
+p6 text  x=111.1 y=406.5 Arial/10.5 "emoji." #1F2933
+p6 anchor y=450.0 16-footnotes
 p6 bookmark level=2 "16. Footnotes"
-p6 text  x=70.9 y=434.5 Arial-Bold/17 "16." #1E3A8A
-p6 text  x=99.2 y=434.5 Arial-Bold/17 "Footnotes" #1E3A8A
-p6 text  x=70.9 y=464.5 Arial/10.5 "This sentence has a footnote" #1F2933
-p6 text  x=205.6 y=464.5 Arial/10.5 "[1]" #1D4ED8
-p6 text  x=217.3 y=464.5 Arial/10.5 ", and this one has another" #1F2933
-p6 text  x=338.6 y=464.5 Arial/10.5 "[2]" #1D4ED8
-p6 text  x=350.2 y=464.5 Arial/10.5 "." #1F2933
-p6 text  x=356.1 y=464.5 Arial/10.5 "The" #1F2933
-p6 text  x=377.0 y=464.5 Arial/10.5 "numbers should be colored," #1F2933
-p6 text  x=70.9 y=480.0 Arial/10.5 "and both notes should appear at the end of" #1F2933
-p6 text  x=273.9 y=480.0 Arial/10.5 "the" #1F2933
-p6 text  x=291.4 y=480.0 Arial/10.5 "document under a short" #1F2933
-p6 text  x=405.1 y=480.0 Arial/10.5 "line." #1F2933
-p6 line  x=70.9 y=523.5 to x=206.9 y=523.5 #CBD2D9/0.5
-p6 text  x=70.9 y=533.5 Arial/9 "1. " #1F2933
-p6 text  x=80.9 y=533.5 Arial/9 "The first footnote, with" #1F2933
-p6 text  x=171.8 y=533.5 Arial-Bold/9 "bold" #1F2933
-p6 text  x=193.2 y=533.5 Arial/9 "text." #1F2933
-p6 text  x=70.9 y=551.5 Arial/9 "2. " #1F2933
-p6 text  x=80.9 y=551.5 Arial/9 "The second" #1F2933
-p6 text  x=130.4 y=551.5 Arial/9 "footnote." #1F2933
+p6 text  x=70.9 y=450.0 Arial-Bold/17 "16." #1E3A8A
+p6 text  x=99.2 y=450.0 Arial-Bold/17 "Footnotes" #1E3A8A
+p6 text  x=70.9 y=480.0 Arial/10.5 "This sentence has a footnote" #1F2933
+p6 text  x=205.6 y=480.0 Arial/10.5 "[1]" #1D4ED8
+p6 text  x=217.3 y=480.0 Arial/10.5 ", and this one has another" #1F2933
+p6 text  x=338.6 y=480.0 Arial/10.5 "[2]" #1D4ED8
+p6 text  x=350.2 y=480.0 Arial/10.5 "." #1F2933
+p6 text  x=356.1 y=480.0 Arial/10.5 "The" #1F2933
+p6 text  x=377.0 y=480.0 Arial/10.5 "numbers should be colored," #1F2933
+p6 text  x=70.9 y=495.5 Arial/10.5 "and both notes should appear at the end of" #1F2933
+p6 text  x=273.9 y=495.5 Arial/10.5 "the" #1F2933
+p6 text  x=291.4 y=495.5 Arial/10.5 "document under a short" #1F2933
+p6 text  x=405.1 y=495.5 Arial/10.5 "line." #1F2933
+p6 line  x=70.9 y=539.0 to x=206.9 y=539.0 #CBD2D9/0.5
+p6 text  x=70.9 y=549.0 Arial/9 "1. " #1F2933
+p6 text  x=80.9 y=549.0 Arial/9 "The first footnote, with" #1F2933
+p6 text  x=171.8 y=549.0 Arial-Bold/9 "bold" #1F2933
+p6 text  x=193.2 y=549.0 Arial/9 "text." #1F2933
+p6 text  x=70.9 y=567.0 Arial/9 "2. " #1F2933
+p6 text  x=80.9 y=567.0 Arial/9 "The second" #1F2933
+p6 text  x=130.4 y=567.0 Arial/9 "footnote." #1F2933
 p1 text  x=70.9 y=38.0 Arial/9 "markout showcase" #52606D
 p1 text  x=478.4 y=38.0 Arial/9 "2026-10-06" #52606D
 p1 line  x=70.9 y=52.0 to x=524.4 y=52.0 #CBD2D9/0.5

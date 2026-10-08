@@ -1,0 +1,4 @@
+source: 124 lines
+holds: Alert 1, CodeBlock 1, FootnoteDefinition 2, FrontMatter 1, Heading 10, List 5, ListItem 19, MermaidDiagram 1, Paragraph 8, Table 3
+pdf: 4 pages, 10 bookmarks, 0 links within the document
+docx: 109 paragraphs, 10 headings, 15 list items, 6 tables, 0 equations, 1 images

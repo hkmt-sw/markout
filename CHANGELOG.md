@@ -26,6 +26,12 @@ Mermaid flowcharts are drawn.
   (`++ctrl+alt+del++`) are shown as `Ctrl`+`Alt`+`Del`. Icons
   (`:material-check:`) are left out, with a warning. Markdown inside HTML
   that has the `markdown` attribute (grid cards) is read.
+- Examples: the [`examples`](examples/README.md) directory has eleven
+  documents of the kinds people convert (a policy, an incident procedure, an
+  architecture description, a runbook, a risk assessment, minutes, a README,
+  an assistant's answer, a MyST page, a Docusaurus page, and a procedure in
+  Hungarian). They are converted by the tests, which require that the
+  conversion has nothing to warn about.
 - A table whose header row is empty has no header row: the way Markdown
   writes a table without one. A MyST `{csv-table}` without a header no
   longer gets an empty one.
@@ -47,6 +53,12 @@ Mermaid flowcharts are drawn.
   In MDX indentation does not make code, and it no longer does here.
 - A flowchart that cannot be read is reported with the line the problem is
   on.
+- In PDF a heading could be the last thing on a page, with what it heads on
+  the next. A heading now goes to the next page together with what follows
+  it. The same holds for the header row of a table and its first row, and
+  for a term and its definition.
+- MyST: the `:caption:` of a `code-block` was dropped. It is shown above the
+  block.
 
 ## [1.7.2] - 2026-10-08
 
