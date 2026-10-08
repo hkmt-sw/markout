@@ -5,6 +5,8 @@ p1 text  x=93.0 y=110.0 Serif-Bold/11.5 "Author: " #555555
 p1 text  x=135.5 y=110.0 Serif/11.5 "The markout project" #222222
 p1 text  x=93.0 y=127.0 Serif-Bold/11.5 "Date: " #555555
 p1 text  x=122.7 y=127.0 Serif/11.5 "2026-10-06" #222222
+p1 anchor y=180.0 markout-showcase
+p1 bookmark level=1 "markout showcase"
 p1 text  x=85.0 y=180.0 Serif-Bold/26 "markout" #111111
 p1 text  x=188.3 y=180.0 Serif-Bold/26 "showcase" #111111
 p1 text  x=85.0 y=223.0 Serif/11.5 "This document contains every kind of element markout can render, each with" #222222
@@ -20,22 +22,38 @@ p1 text  x=93.0 y=290.0 Courier/9 "markout fixtures/showcase.md showcase.pdf" #2
 p1 text  x=93.0 y=302.5 Courier/9 "markout fixtures/showcase.md showcase.docx" #222222
 p1 text  x=85.0 y=331.0 Serif/11.5 "Above this heading there should be a panel listing the title, author and" #222222
 p1 text  x=409.9 y=331.0 Serif/11.5 "date." #222222
+p1 anchor y=374.0 1-headings
+p1 bookmark level=2 "1. Headings"
 p1 text  x=85.0 y=374.0 Serif-Bold/19 "1." #111111
 p1 text  x=104.0 y=374.0 Serif-Bold/19 "Headings" #111111
 p1 text  x=85.0 y=406.0 Serif/11.5 "The six heading levels follow, each smaller than the one" #222222
 p1 text  x=346.3 y=406.0 Serif/11.5 "before." #222222
+p1 anchor y=451.0 heading-level-1
+p1 bookmark level=1 "Heading level 1"
 p1 text  x=85.0 y=451.0 Serif-Bold/26 "Heading level" #111111
 p1 text  x=242.3 y=451.0 Serif-Bold/26 "1" #111111
+p1 anchor y=512.0 heading-level-2
+p1 bookmark level=2 "Heading level 2"
 p1 text  x=85.0 y=512.0 Serif-Bold/19 "Heading level" #111111
 p1 text  x=200.0 y=512.0 Serif-Bold/19 "2" #111111
+p1 anchor y=558.0 heading-level-3
+p1 bookmark level=3 "Heading level 3"
 p1 text  x=85.0 y=558.0 Serif-Bold/15 "Heading level" #111111
 p1 text  x=175.8 y=558.0 Serif-Bold/15 "3" #111111
+p1 anchor y=596.0 heading-level-4
+p1 bookmark level=4 "Heading level 4"
 p1 text  x=85.0 y=596.0 Serif-Bold/13 "Heading level" #111111
 p1 text  x=163.7 y=596.0 Serif-Bold/13 "4" #111111
+p1 anchor y=630.0 heading-level-5
+p1 bookmark level=5 "Heading level 5"
 p1 text  x=85.0 y=630.0 Serif-Bold/12 "Heading level" #111111
 p1 text  x=157.6 y=630.0 Serif-Bold/12 "5" #111111
+p1 anchor y=662.0 heading-level-6
+p1 bookmark level=6 "Heading level 6"
 p1 text  x=85.0 y=662.0 Serif-Bold/11.5 "Heading level" #111111
 p1 text  x=154.6 y=662.0 Serif-Bold/11.5 "6" #111111
+p1 anchor y=702.0 2-text-formatting
+p1 bookmark level=2 "2. Text formatting"
 p1 text  x=85.0 y=702.0 Serif-Bold/19 "2. Text" #111111
 p1 text  x=145.7 y=702.0 Serif-Bold/19 "formatting" #111111
 p1 text  x=85.0 y=734.0 Serif/11.5 "Each word in quotes should look the way it describes itself: \"" #222222
@@ -82,6 +100,8 @@ p2 text  x=405.6 y=211.0 Serif/11.5 "a" #222222
 p2 text  x=413.6 y=211.0 Serif/11.5 "heading, [not a link]." #222222
 p2 text  x=85.0 y=228.0 Serif/11.5 "A copyright sign from an entity:" #222222
 p2 text  x=236.3 y=228.0 Serif/11.5 "©." #222222
+p2 anchor y=271.0 3-links
+p2 bookmark level=2 "3. Links"
 p2 text  x=85.0 y=271.0 Serif-Bold/19 "3." #111111
 p2 text  x=104.0 y=271.0 Serif-Bold/19 "Links" #111111
 p2 text  x=85.0 y=303.0 Serif/11.5 "A" #222222
@@ -91,6 +111,8 @@ p2 text  x=210.4 y=303.0 Serif/11.5 "address," #222222
 p2 text  x=250.7 y=303.0 Serif/11.5 "https://example.com/bare" #1F3A5F
 p2 text  x=367.1 y=303.0 Serif/11.5 ", should both be colored and" #222222
 p2 text  x=85.0 y=320.0 Serif/11.5 "clickable." #222222
+p2 anchor y=363.0 4-lists
+p2 bookmark level=2 "4. Lists"
 p2 text  x=85.0 y=363.0 Serif-Bold/19 "4." #111111
 p2 text  x=104.0 y=363.0 Serif-Bold/19 "Lists" #111111
 p2 text  x=85.0 y=395.0 Serif/11.5 "Three bullets, the second with two nested ones" #222222
@@ -164,6 +186,8 @@ p3 text  x=297.9 y=192.5 Serif/11.5 "viewer" #222222
 p3 text  x=136.5 y=217.5 Serif-Italic/11.5 "Quoted inside a" #222222
 p3 text  x=212.2 y=217.5 Serif-Italic/11.5 "step." #222222
 p3 line  x=121.5 y=217.5 to x=121.5 y=234.5 #9A968A/3.0
+p3 anchor y=262.5 5-tables
+p3 bookmark level=2 "5. Tables"
 p3 text  x=85.0 y=262.5 Serif-Bold/19 "5." #111111
 p3 text  x=104.0 y=262.5 Serif-Bold/19 "Tables" #111111
 p3 text  x=85.0 y=294.5 Serif/11.5 "A table with a shaded header row, borders, and the numbers in the third" #222222
@@ -200,6 +224,8 @@ p3 text  x=172.1 y=403.5 Serif/11.5 "A cell with enough text that it has to wrap
 p3 text  x=172.1 y=416.5 Serif/11.5 "one line inside its" #222222
 p3 text  x=255.7 y=416.5 Serif/11.5 "column" #222222
 p3 text  x=489.0 y=403.5 Serif/11.5 "333" #222222
+p3 anchor y=459.5 6-code
+p3 bookmark level=2 "6. Code"
 p3 text  x=85.0 y=459.5 Serif-Bold/19 "6." #111111
 p3 text  x=104.0 y=459.5 Serif-Bold/19 "Code" #111111
 p3 text  x=85.0 y=491.5 Serif/11.5 "A code block in a monospace font on a shaded panel, with its" #222222
@@ -212,6 +238,8 @@ p3 text  x=93.0 y=537.0 Courier/9 "    if ok := convert(); !ok {" #222222
 p3 text  x=93.0 y=549.5 Courier/9 "        fmt.Println(\"failed\")" #222222
 p3 text  x=93.0 y=562.0 Courier/9 "    }" #222222
 p3 text  x=93.0 y=574.5 Courier/9 "}" #222222
+p3 anchor y=621.0 7-quotes
+p3 bookmark level=2 "7. Quotes"
 p3 text  x=85.0 y=621.0 Serif-Bold/19 "7." #111111
 p3 text  x=104.0 y=621.0 Serif-Bold/19 "Quotes" #111111
 p3 text  x=85.0 y=653.0 Serif/11.5 "A quote, set off from the text by a bar on the left" #222222
@@ -223,6 +251,8 @@ p3 line  x=90.0 y=678.0 to x=90.0 y=695.0 #9A968A/3.0
 p3 text  x=105.0 y=699.0 Serif-Italic/11.5 "The second paragraph of the" #222222
 p3 text  x=240.7 y=699.0 Serif-Italic/11.5 "quote." #222222
 p3 line  x=90.0 y=699.0 to x=90.0 y=716.0 #9A968A/3.0
+p4 anchor y=85.0 8-callouts
+p4 bookmark level=2 "8. Callouts"
 p4 text  x=85.0 y=85.0 Serif-Bold/19 "8." #111111
 p4 text  x=104.0 y=85.0 Serif-Bold/19 "Callouts" #111111
 p4 text  x=85.0 y=117.0 Serif/11.5 "Five boxes with a colored bar and title: blue note, green tip," #222222
@@ -261,11 +291,15 @@ p4 text  x=422.1 y=416.0 Serif/11.5 "the" #222222
 p4 text  x=439.0 y=416.0 Serif/11.5 "box should" #222222
 p4 text  x=93.0 y=433.0 Serif/11.5 "grow to contain all of" #222222
 p4 text  x=194.8 y=433.0 Serif/11.5 "it." #222222
+p4 anchor y=484.0 9-rule
+p4 bookmark level=2 "9. Rule"
 p4 text  x=85.0 y=484.0 Serif-Bold/19 "9." #111111
 p4 text  x=104.0 y=484.0 Serif-Bold/19 "Rule" #111111
 p4 text  x=85.0 y=516.0 Serif/11.5 "A horizontal line across the page" #222222
 p4 text  x=238.8 y=516.0 Serif/11.5 "follows." #222222
 p4 line  x=85.0 y=553.0 to x=510.2 y=553.0 #9A968A/0.8
+p4 anchor y=583.0 10-math
+p4 bookmark level=2 "10. Math"
 p4 text  x=85.0 y=583.0 Serif-Bold/19 "10." #111111
 p4 text  x=113.5 y=583.0 Serif-Bold/19 "Math" #111111
 p4 text  x=85.0 y=615.0 Serif/11.5 "Formulas are shown as their LaTeX source in a distinct color, not" #222222
@@ -277,6 +311,8 @@ p4 text  x=104.5 y=632.0 Serif-Italic/11.5 "a^2 + b^2 = c^2" #7C3AED
 p4 text  x=179.9 y=632.0 Serif/11.5 ". On a line of its own, centered" #222222
 p4 text  x=321.2 y=632.0 Serif/11.5 ":" #222222
 p4 text  x=225.8 y=657.0 Serif-Italic/11.5 "\\int_0^1 x^2 \\, dx = \\frac{1}{3}" #7C3AED
+p4 anchor y=700.0 11-diagram
+p4 bookmark level=2 "11. Diagram"
 p4 text  x=85.0 y=700.0 Serif-Bold/19 "11." #111111
 p4 text  x=113.5 y=700.0 Serif-Bold/19 "Diagram" #111111
 p4 text  x=85.0 y=732.0 Serif/11.5 "Diagram source is shown in a labeled panel, not drawn" #222222
@@ -286,6 +322,8 @@ p5 text  x=93.0 y=93.0 Serif-Bold/11.5 "Mermaid Diagram" #065F46
 p5 text  x=93.0 y=105.5 Courier/9 "graph LR" #065F46
 p5 text  x=93.0 y=118.0 Courier/9 "    Markdown --> PDF" #065F46
 p5 text  x=93.0 y=130.5 Courier/9 "    Markdown --> DOCX" #065F46
+p5 anchor y=177.0 12-definition-list
+p5 bookmark level=2 "12. Definition list"
 p5 text  x=85.0 y=177.0 Serif-Bold/19 "12. Definition" #111111
 p5 text  x=199.5 y=177.0 Serif-Bold/19 "list" #111111
 p5 text  x=85.0 y=209.0 Serif/11.5 "A bold term with its definition indented below it" #222222
@@ -296,6 +334,8 @@ p5 text  x=297.8 y=251.0 Serif/11.5 "documents." #222222
 p5 text  x=85.0 y=272.0 Serif-Bold/11.5 "Flavor" #222222
 p5 text  x=105.0 y=289.0 Serif/11.5 "A dialect of Markdown, such as the one GitHub" #222222
 p5 text  x=328.4 y=289.0 Serif/11.5 "uses." #222222
+p5 anchor y=332.0 13-images
+p5 bookmark level=2 "13. Images"
 p5 text  x=85.0 y=332.0 Serif-Bold/19 "13." #111111
 p5 text  x=113.5 y=332.0 Serif-Bold/19 "Images" #111111
 p5 text  x=85.0 y=364.0 Serif/11.5 "An image that does not exist shows a placeholder with its description" #222222
@@ -305,6 +345,8 @@ p5 text  x=85.0 y=381.0 Serif/11.5 "picture" #222222
 p5 text  x=116.9 y=381.0 Serif/11.5 ":" #222222
 p5 text  x=85.0 y=406.0 Serif-Italic/11.5 "[IMG] A missing picture" #555555
 p5 text  x=85.0 y=423.0 Serif/9 "does-not-exist.png" #1F3A5F
+p5 anchor y=466.0 14-inline-diff-and-color-chips
+p5 bookmark level=2 "14. Inline diff and color chips"
 p5 text  x=85.0 y=466.0 Serif-Bold/19 "14. Inline diff and color" #111111
 p5 text  x=280.2 y=466.0 Serif-Bold/19 "chips" #111111
 p5 text  x=85.0 y=498.0 Serif/11.5 "An addition is" #222222
@@ -320,6 +362,8 @@ p5 text  x=180.4 y=515.0 Serif/11.5 "is preceded by a small square" #222222
 p5 text  x=318.2 y=515.0 Serif/11.5 "of" #222222
 p5 text  x=330.7 y=515.0 Serif/11.5 "that" #222222
 p5 text  x=350.8 y=515.0 Serif/11.5 "color." #222222
+p5 anchor y=558.0 15-emoji
+p5 bookmark level=2 "15. Emoji"
 p5 text  x=85.0 y=558.0 Serif-Bold/19 "15." #111111
 p5 text  x=113.5 y=558.0 Serif-Bold/19 "Emoji" #111111
 p5 text  x=85.0 y=590.0 Serif/11.5 "Emoji shortcodes become emoji in DOCX:" #222222
@@ -328,6 +372,8 @@ p5 text  x=367.8 y=590.0 Serif/11.5 "left" #222222
 p5 text  x=386.0 y=590.0 Serif/11.5 "out, because the built-in" #222222
 p5 text  x=85.0 y=607.0 Serif/11.5 "fonts have no" #222222
 p5 text  x=149.8 y=607.0 Serif/11.5 "emoji." #222222
+p5 anchor y=650.0 16-footnotes
+p5 bookmark level=2 "16. Footnotes"
 p5 text  x=85.0 y=650.0 Serif-Bold/19 "16." #111111
 p5 text  x=113.5 y=650.0 Serif-Bold/19 "Footnotes" #111111
 p5 text  x=85.0 y=682.0 Serif/11.5 "This sentence has a footnote" #222222

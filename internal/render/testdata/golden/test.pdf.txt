@@ -1,29 +1,51 @@
+p1 anchor y=76.7 github-flavored-markdown-gfm---teljes-referencia
+p1 bookmark level=1 "GitHub Flavored Markdown (GFM) - Teljes Referencia"
 p1 text  x=56.7 y=76.7 Arial-Bold/24 "GitHub Flavored Markdown (GFM) - Teljes" #000000
 p1 text  x=56.7 y=104.7 Arial-Bold/24 "Referencia" #000000
 p1 text  x=56.7 y=144.7 Arial/11 "Ez a dokumentum a GFM összes elemét bemutatja" #1A1A2E
 p1 text  x=309.6 y=144.7 Arial/11 "példákkal." #1A1A2E
 p1 line  x=56.7 y=180.7 to x=538.6 y=180.7 #B4B4B4/1.0
+p1 anchor y=210.7 1-fejlcek-headings
+p1 bookmark level=2 "1. Fejlécek (Headings)"
 p1 text  x=56.7 y=210.7 Arial-Bold/20 "1. Fejlécek" #000000
 p1 text  x=163.3 y=210.7 Arial-Bold/20 "(Headings)" #000000
+p1 anchor y=264.7 h1---legnagyobb-fejlc
+p1 bookmark level=1 "H1 - Legnagyobb fejléc"
 p1 text  x=56.7 y=264.7 Arial-Bold/24 "H1 - Legnagyobb" #000000
 p1 text  x=257.8 y=264.7 Arial-Bold/24 "fejléc" #000000
+p1 anchor y=322.7 h2---msodlagos-fejlc
+p1 bookmark level=2 "H2 - Másodlagos fejléc"
 p1 text  x=56.7 y=322.7 Arial-Bold/20 "H2 - Másodlagos" #000000
 p1 text  x=221.0 y=322.7 Arial-Bold/20 "fejléc" #000000
+p1 anchor y=370.7 h3---harmadlagos-fejlc
+p1 bookmark level=3 "H3 - Harmadlagos fejléc"
 p1 text  x=56.7 y=370.7 Arial-Bold/16 "H3 - Harmadlagos" #000000
 p1 text  x=197.1 y=370.7 Arial-Bold/16 "fejléc" #000000
+p1 anchor y=410.7 h4---negyedszint-fejlc
+p1 bookmark level=4 "H4 - Negyedszintű fejléc"
 p1 text  x=56.7 y=410.7 Arial-Bold/14 "H4 - Negyedszintű" #000000
 p1 text  x=181.8 y=410.7 Arial-Bold/14 "fejléc" #000000
+p1 anchor y=444.7 h5---tdszint-fejlc
+p1 bookmark level=5 "H5 - Ötödszintű fejléc"
 p1 text  x=56.7 y=444.7 Arial-Bold/12 "H5 - Ötödszintű" #000000
 p1 text  x=148.6 y=444.7 Arial-Bold/12 "fejléc" #000000
+p1 anchor y=476.7 h6---legkisebb-fejlc
+p1 bookmark level=6 "H6 - Legkisebb fejléc"
 p1 text  x=56.7 y=476.7 Arial-Bold/11 "H6 - Legkisebb" #000000
 p1 text  x=137.9 y=476.7 Arial-Bold/11 "fejléc" #000000
 p1 text  x=56.7 y=496.7 Arial/11 "Alternatív szintaxis H1 és H2 esetén" #1A1A2E
 p1 text  x=233.3 y=496.7 Arial/11 ":" #1A1A2E
+p1 anchor y=540.7 alternatv-h1
+p1 bookmark level=1 "Alternatív H1"
 p1 text  x=56.7 y=540.7 Arial-Bold/24 "Alternatív" #000000
 p1 text  x=174.0 y=540.7 Arial-Bold/24 "H1" #000000
+p1 anchor y=598.7 alternatv-h2
+p1 bookmark level=2 "Alternatív H2"
 p1 text  x=56.7 y=598.7 Arial-Bold/20 "Alternatív" #000000
 p1 text  x=154.4 y=598.7 Arial-Bold/20 "H2" #000000
 p1 line  x=56.7 y=644.7 to x=538.6 y=644.7 #B4B4B4/1.0
+p1 anchor y=674.7 2-szvegformzs-text-formatting
+p1 bookmark level=2 "2. Szövegformázás (Text Formatting)"
 p1 text  x=56.7 y=674.7 Arial-Bold/20 "2. Szövegformázás (Text" #000000
 p1 text  x=295.5 y=674.7 Arial-Bold/20 "Formatting)" #000000
 p1 text  x=56.7 y=708.7 Arial-Bold/11 "Félkövér szöveg" #1A1A2E
@@ -44,8 +66,12 @@ p2 text  x=93.3 y=82.3 Courier/10 "inline kód" #CF222E
 p2 text  x=156.4 y=80.7 Arial/11 "a" #1A1A2E
 p2 text  x=165.6 y=80.7 Arial/11 "szövegben." #1A1A2E
 p2 line  x=56.7 y=116.7 to x=538.6 y=116.7 #B4B4B4/1.0
+p2 anchor y=146.7 3-listk-lists
+p2 bookmark level=2 "3. Listák (Lists)"
 p2 text  x=56.7 y=146.7 Arial-Bold/20 "3. Listák" #000000
 p2 text  x=142.2 y=146.7 Arial-Bold/20 "(Lists)" #000000
+p2 anchor y=194.7 felsorols-unordered-list
+p2 bookmark level=3 "Felsorolás (Unordered List)"
 p2 text  x=56.7 y=194.7 Arial-Bold/16 "Felsorolás (Unordered" #000000
 p2 text  x=231.7 y=194.7 Arial-Bold/16 "List)" #000000
 p2 text  x=76.7 y=222.7 Arial/11 "• " #1A1A2E
@@ -72,6 +98,8 @@ p2 text  x=76.7 y=348.7 Arial/11 "• " #1A1A2E
 p2 text  x=83.6 y=348.7 Arial/11 "Csillaggal" #1A1A2E
 p2 text  x=76.7 y=370.7 Arial/11 "• " #1A1A2E
 p2 text  x=83.6 y=370.7 Arial/11 "Plusszal" #1A1A2E
+p2 anchor y=406.7 szmozott-lista-ordered-list
+p2 bookmark level=3 "Számozott lista (Ordered List)"
 p2 text  x=56.7 y=406.7 Arial-Bold/16 "Számozott lista (Ordered" #000000
 p2 text  x=249.4 y=406.7 Arial-Bold/16 "List)" #000000
 p2 text  x=76.7 y=434.7 Arial/11 "1. " #1A1A2E
@@ -97,6 +125,8 @@ p2 text  x=76.7 y=560.7 Arial/11 "2. " #1A1A2E
 p2 text  x=88.9 y=560.7 Arial/11 "Második" #1A1A2E
 p2 text  x=76.7 y=576.7 Arial/11 "3. " #1A1A2E
 p2 text  x=88.9 y=576.7 Arial/11 "Harmadik" #1A1A2E
+p2 anchor y=612.7 feladatlista--checkbox-task-list---gfm-specifikus
+p2 bookmark level=3 "Feladatlista / Checkbox (Task List) - GFM specifikus"
 p2 text  x=56.7 y=612.7 Arial-Bold/16 "Feladatlista / Checkbox (Task List) - GFM" #000000
 p2 text  x=372.9 y=612.7 Arial-Bold/16 "specifikus" #000000
 p2 text  x=76.7 y=640.7 Arial/11 "[x] " #1A1A2E
@@ -118,61 +148,89 @@ p2 text  x=96.7 y=720.7 Arial/11 "[x] " #1A1A2E
 p2 text  x=111.3 y=720.7 Arial/11 "Beágyazott kész" #1A1A2E
 p2 text  x=195.0 y=720.7 Arial/11 "feladat" #1A1A2E
 p2 line  x=56.7 y=754.7 to x=538.6 y=754.7 #B4B4B4/1.0
+p3 anchor y=56.7 4-linkek-links
+p3 bookmark level=2 "4. Linkek (Links)"
 p3 text  x=56.7 y=56.7 Arial-Bold/20 "4. Linkek" #000000
 p3 text  x=147.7 y=56.7 Arial-Bold/20 "(Links)" #000000
+p3 anchor y=104.7 inline-link
+p3 bookmark level=3 "Inline link"
 p3 text  x=56.7 y=104.7 Arial-Bold/16 "Inline" #000000
 p3 text  x=102.8 y=104.7 Arial-Bold/16 "link" #000000
 p3 text  x=56.7 y=132.7 Arial/11 "Látható szöveg" #2563EB
 p3 text  x=56.7 y=156.7 Arial/11 "Link címmel" #2563EB
+p3 anchor y=194.7 automatikus-linkek-autolinks---gfm-specifikus
+p3 bookmark level=3 "Automatikus linkek (Autolinks) - GFM specifikus"
 p3 text  x=56.7 y=194.7 Arial-Bold/16 "Automatikus linkek (Autolinks) - GFM" #000000
 p3 text  x=345.3 y=194.7 Arial-Bold/16 "specifikus" #000000
 p3 text  x=56.7 y=222.7 Arial/11 "Egyszerűen beírt URL:" #1A1A2E
 p3 text  x=170.9 y=222.7 Arial/11 "https://github.com" #2563EB
 p3 text  x=56.7 y=246.7 Arial/11 "Email automatikus link:" #1A1A2E
 p3 text  x=172.1 y=246.7 Arial/11 "info@example.com" #2563EB
+p3 anchor y=284.7 referencia-stlus-linkek
+p3 bookmark level=3 "Referencia stílusú linkek"
 p3 text  x=56.7 y=284.7 Arial-Bold/16 "Referencia stílusú" #000000
 p3 text  x=198.8 y=284.7 Arial-Bold/16 "linkek" #000000
 p3 text  x=56.7 y=312.7 Arial/11 "Ez egy referencia link" #2563EB
 p3 text  x=56.7 y=336.7 Arial/11 "Ez is referencia" #2563EB
+p3 anchor y=374.7 relatv-linkek
+p3 bookmark level=3 "Relatív linkek"
 p3 text  x=56.7 y=374.7 Arial-Bold/16 "Relatív" #000000
 p3 text  x=113.6 y=374.7 Arial-Bold/16 "linkek" #000000
 p3 text  x=56.7 y=402.7 Arial/11 "Másik fájl" #2563EB
 p3 text  x=56.7 y=426.7 Arial/11 "Képek mappa" #2563EB
 p3 line  x=56.7 y=462.7 to x=538.6 y=462.7 #B4B4B4/1.0
+p3 anchor y=492.7 5-kpek-images
+p3 bookmark level=2 "5. Képek (Images)"
 p3 text  x=56.7 y=492.7 Arial-Bold/20 "5. Képek" #000000
 p3 text  x=144.4 y=492.7 Arial-Bold/20 "(Images)" #000000
+p3 anchor y=540.7 inline-kp
+p3 bookmark level=3 "Inline kép"
 p3 text  x=56.7 y=540.7 Arial-Bold/16 "Inline" #000000
 p3 text  x=102.8 y=540.7 Arial-Bold/16 "kép" #000000
 p3 text  x=56.7 y=568.7 Arial-Italic/11 "[IMG] Alt szöveg" #4A4A68
 p3 text  x=56.7 y=584.7 Arial/9 "https://via.placeholder.com/150x100" #2563EB
+p3 anchor y=622.7 referencia-stlus-kp
+p3 bookmark level=3 "Referencia stílusú kép"
 p3 text  x=56.7 y=622.7 Arial-Bold/16 "Referencia stílusú" #000000
 p3 text  x=198.8 y=622.7 Arial-Bold/16 "kép" #000000
 p3 text  x=56.7 y=650.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
 p3 text  x=56.7 y=666.7 Arial/9 "https://via.placeholder.com/200x50" #2563EB
+p3 anchor y=704.7 kp-linkknt
+p3 bookmark level=3 "Kép linkként"
 p3 text  x=56.7 y=704.7 Arial-Bold/16 "Kép" #000000
 p3 text  x=91.3 y=704.7 Arial-Bold/16 "linkként" #000000
 p3 text  x=56.7 y=732.7 Arial-Italic/11 "[IMG] Kattintható kép" #4A4A68
 p3 text  x=56.7 y=748.7 Arial/9 "https://via.placeholder.com/100x100" #2563EB
 p4 line  x=56.7 y=56.7 to x=538.6 y=56.7 #B4B4B4/1.0
+p4 anchor y=86.7 6-kdblokkok-code-blocks
+p4 bookmark level=2 "6. Kódblokkok (Code Blocks)"
 p4 text  x=56.7 y=86.7 Arial-Bold/20 "6. Kódblokkok (Code" #000000
 p4 text  x=260.9 y=86.7 Arial-Bold/20 "Blocks)" #000000
+p4 anchor y=134.7 inline-kd
+p4 bookmark level=3 "Inline kód"
 p4 text  x=56.7 y=134.7 Arial-Bold/16 "Inline" #000000
 p4 text  x=102.8 y=134.7 Arial-Bold/16 "kód" #000000
 p4 text  x=56.7 y=162.7 Arial/11 "Használd a" #1A1A2E
 p4 text  x=114.8 y=164.3 Courier/10 "console.log()" #CF222E
 p4 text  x=195.8 y=162.7 Arial/11 "függvényt" #1A1A2E
 p4 text  x=246.5 y=162.7 Arial/11 "debugoláshoz." #1A1A2E
+p4 anchor y=200.7 behzssal-4-szkz-vagy-1-tab
+p4 bookmark level=3 "Behúzással (4 szóköz vagy 1 tab)"
 p4 text  x=56.7 y=200.7 Arial-Bold/16 "Behúzással (4 szóköz vagy 1" #000000
 p4 text  x=279.7 y=200.7 Arial-Bold/16 "tab)" #000000
 p4 rect  x=56.7 y=228.7 w=481.9 h=52.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p4 text  x=64.7 y=236.7 Courier/9 "function hello() {" #000000
 p4 text  x=64.7 y=248.7 Courier/9 "    console.log(\"Hello\");" #000000
 p4 text  x=64.7 y=260.7 Courier/9 "}" #000000
+p4 anchor y=302.7 kertett-kdblokk-fenced-code-block---gfm-specifikus
+p4 bookmark level=3 "Kerített kódblokk (Fenced Code Block) - GFM specifikus"
 p4 text  x=56.7 y=302.7 Arial-Bold/16 "Kerített kódblokk (Fenced Code Block) - GFM" #000000
 p4 text  x=404.8 y=302.7 Arial-Bold/16 "specifikus" #000000
 p4 rect  x=56.7 y=330.7 w=481.9 h=40.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p4 text  x=64.7 y=338.7 Courier/9 "Nincs nyelvjelölés" #000000
 p4 text  x=64.7 y=350.7 Courier/9 "Egyszerű szöveg" #000000
+p4 anchor y=392.7 szintaxis-kiemels-nyelvjellssel
+p4 bookmark level=3 "Szintaxis kiemelés nyelvjelöléssel"
 p4 text  x=56.7 y=392.7 Arial-Bold/16 "Szintaxis kiemelés" #000000
 p4 text  x=202.4 y=392.7 Arial-Bold/16 "nyelvjelöléssel" #000000
 p4 rect  x=56.7 y=420.7 w=481.9 h=88.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
@@ -219,8 +277,12 @@ p5 text  x=64.7 y=268.7 Courier/9 "begin" #000000
 p5 text  x=64.7 y=280.7 Courier/9 "  ShowMessage('Hello Delphi!');" #000000
 p5 text  x=64.7 y=292.7 Courier/9 "end;" #000000
 p5 line  x=56.7 y=332.7 to x=538.6 y=332.7 #B4B4B4/1.0
+p5 anchor y=362.7 7-tblzatok-tables---gfm-specifikus
+p5 bookmark level=2 "7. Táblázatok (Tables) - GFM specifikus"
 p5 text  x=56.7 y=362.7 Arial-Bold/20 "7. Táblázatok (Tables) - GFM" #000000
 p5 text  x=332.0 y=362.7 Arial-Bold/20 "specifikus" #000000
+p5 anchor y=410.7 alapvet-tblzat
+p5 bookmark level=3 "Alapvető táblázat"
 p5 text  x=56.7 y=410.7 Arial-Bold/16 "Alapvető" #000000
 p5 text  x=128.6 y=410.7 Arial-Bold/16 "táblázat" #000000
 p5 rect  x=56.7 y=438.7 w=160.6 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
@@ -250,6 +312,8 @@ p5 text  x=221.3 y=484.7 Arial/11 "Cella" #1A1A2E
 p5 text  x=249.4 y=484.7 Arial/11 "5" #1A1A2E
 p5 text  x=382.0 y=484.7 Arial/11 "Cella" #1A1A2E
 p5 text  x=410.1 y=484.7 Arial/11 "6" #1A1A2E
+p5 anchor y=523.7 igazts
+p5 bookmark level=3 "Igazítás"
 p5 text  x=56.7 y=523.7 Arial-Bold/16 "Igazítás" #000000
 p5 rect  x=56.7 y=551.7 w=235.4 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
 p5 rect  x=292.1 y=551.7 w=132.1 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
@@ -276,6 +340,8 @@ p5 text  x=60.7 y=618.7 Arial/11 "hosszabb" #1A1A2E
 p5 text  x=110.8 y=618.7 Arial/11 "szöveg" #1A1A2E
 p5 text  x=346.2 y=618.7 Arial/11 "rövid" #1A1A2E
 p5 text  x=504.0 y=618.7 Arial/11 "45678" #1A1A2E
+p5 anchor y=657.7 formzs-tblzatban
+p5 bookmark level=3 "Formázás táblázatban"
 p5 text  x=56.7 y=657.7 Arial-Bold/16 "Formázás" #000000
 p5 text  x=135.8 y=657.7 Arial-Bold/16 "táblázatban" #000000
 p5 rect  x=56.7 y=685.7 w=134.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
@@ -315,6 +381,8 @@ p6 text  x=60.7 y=81.7 Arial/11 "Link" #1A1A2E
 p6 text  x=195.0 y=83.3 Courier/10 "[szöveg](url)" #CF222E
 p6 text  x=408.3 y=81.7 Arial/11 "szöveg" #2563EB
 p6 line  x=56.7 y=118.7 to x=538.6 y=118.7 #B4B4B4/1.0
+p6 anchor y=148.7 8-idzetek-blockquotes
+p6 bookmark level=2 "8. Idézetek (Blockquotes)"
 p6 text  x=56.7 y=148.7 Arial-Bold/20 "8. Idézetek" #000000
 p6 text  x=163.3 y=148.7 Arial-Bold/20 "(Blockquotes)" #000000
 p6 text  x=76.7 y=182.7 Arial-Italic/11 "Ez egy" #1A1A2E
@@ -350,6 +418,8 @@ p6 text  x=127.6 y=338.7 Arial/11 "elem" #1A1A2E
 p6 text  x=76.7 y=362.3 Courier/10 "Kód is lehet benne" #CF222E
 p6 line  x=61.7 y=360.7 to x=61.7 y=376.7 #B4B4B4/3.0
 p6 line  x=56.7 y=392.7 to x=538.6 y=392.7 #B4B4B4/1.0
+p6 anchor y=422.7 9-vzszintes-vonal-horizontal-rule
+p6 bookmark level=2 "9. Vízszintes vonal (Horizontal Rule)"
 p6 text  x=56.7 y=422.7 Arial-Bold/20 "9. Vízszintes vonal (Horizontal" #000000
 p6 text  x=348.7 y=422.7 Arial-Bold/20 "Rule)" #000000
 p6 text  x=56.7 y=456.7 Arial/11 "Három féle módon" #1A1A2E
@@ -358,6 +428,8 @@ p6 line  x=56.7 y=492.7 to x=538.6 y=492.7 #B4B4B4/1.0
 p6 line  x=56.7 y=516.7 to x=538.6 y=516.7 #B4B4B4/1.0
 p6 line  x=56.7 y=540.7 to x=538.6 y=540.7 #B4B4B4/1.0
 p6 line  x=56.7 y=564.7 to x=538.6 y=564.7 #B4B4B4/1.0
+p6 anchor y=594.7 10-escape-karakterek-escaping
+p6 bookmark level=2 "10. Escape karakterek (Escaping)"
 p6 text  x=56.7 y=594.7 Arial-Bold/20 "10. Escape karakterek" #000000
 p6 text  x=271.2 y=594.7 Arial-Bold/20 "(Escaping)" #000000
 p6 text  x=56.7 y=628.7 Arial/11 "Speciális karakterek megjelenítése backslash-sel" #1A1A2E
@@ -375,6 +447,8 @@ p6 text  x=103.7 y=748.7 Arial/11 "`" #1A1A2E
 p7 text  x=56.7 y=56.7 Arial/11 "Pipe táblázatban:" #1A1A2E
 p7 text  x=144.7 y=56.7 Arial/11 "|" #1A1A2E
 p7 line  x=56.7 y=92.7 to x=538.6 y=92.7 #B4B4B4/1.0
+p7 anchor y=122.7 11-html-tmogats
+p7 bookmark level=2 "11. HTML támogatás"
 p7 text  x=56.7 y=122.7 Arial-Bold/20 "11. HTML" #000000
 p7 text  x=151.1 y=122.7 Arial-Bold/20 "támogatás" #000000
 p7 text  x=56.7 y=156.7 Arial/11 "GFM támogatja a nyers HTML-t" #1A1A2E
@@ -406,6 +480,8 @@ p7 text  x=56.7 y=338.7 Arial/11 "Kiemelt szöveg" #1A1A2E
 p7 text  x=56.7 y=362.7 Arial/11 "Sortörés HTML-lel" #1A1A2E
 p7 text  x=148.9 y=362.7 Arial/11 "fent." #1A1A2E
 p7 line  x=56.7 y=398.7 to x=538.6 y=398.7 #B4B4B4/1.0
+p7 anchor y=428.7 12-lbjegyzetek-footnotes---gfm-kiterjeszts
+p7 bookmark level=2 "12. Lábjegyzetek (Footnotes) - GFM kiterjesztés"
 p7 text  x=56.7 y=428.7 Arial-Bold/20 "12. Lábjegyzetek (Footnotes) - GFM" #000000
 p7 text  x=398.6 y=428.7 Arial-Bold/20 "kiterjesztés" #000000
 p7 text  x=56.7 y=462.7 Arial/11 "Ez egy szöveg lábjegyzettel" #1A1A2E
@@ -417,6 +493,8 @@ p7 text  x=166.7 y=486.7 Arial/11 "és egy nevesített" #1A1A2E
 p7 text  x=249.8 y=486.7 Arial/11 "[3]" #2563EB
 p7 text  x=262.0 y=486.7 Arial/11 "." #1A1A2E
 p7 line  x=56.7 y=522.7 to x=538.6 y=522.7 #B4B4B4/1.0
+p7 anchor y=552.7 13-defincis-lista---egyes-implementcikban
+p7 bookmark level=2 "13. Definíciós lista - Egyes implementációkban"
 p7 text  x=56.7 y=552.7 Arial-Bold/20 "13. Definíciós lista - Egyes" #000000
 p7 text  x=313.2 y=552.7 Arial-Bold/20 "implementációkban" #000000
 p7 text  x=56.7 y=586.7 Arial-Bold/11 "Kifejezés" #1A1A2E
@@ -429,28 +507,42 @@ p7 text  x=101.1 y=638.7 Arial/11 "definíció" #1A1A2E
 p7 text  x=76.7 y=654.7 Arial/11 "Második" #1A1A2E
 p7 text  x=120.7 y=654.7 Arial/11 "definíció" #1A1A2E
 p7 line  x=56.7 y=690.7 to x=538.6 y=690.7 #B4B4B4/1.0
+p7 anchor y=720.7 14-emoji---gfm-specifikus
+p7 bookmark level=2 "14. Emoji - GFM specifikus"
 p7 text  x=56.7 y=720.7 Arial-Bold/20 "14. Emoji - GFM" #000000
 p7 text  x=212.1 y=720.7 Arial-Bold/20 "specifikus" #000000
 p8 text  x=56.7 y=80.7 Arial/11 "Unicode emoji is működik:" #1A1A2E
 p8 line  x=56.7 y=116.7 to x=538.6 y=116.7 #B4B4B4/1.0
+p8 anchor y=146.7 15-megemltsek-s-hivatkozsok---github-specifikus
+p8 bookmark level=2 "15. Megemlítések és hivatkozások - GitHub specifikus"
 p8 text  x=56.7 y=146.7 Arial-Bold/20 "15. Megemlítések és hivatkozások - GitHub" #000000
 p8 text  x=56.7 y=170.7 Arial-Bold/20 "specifikus" #000000
+p8 anchor y=218.7 felhasznl-megemltse
+p8 bookmark level=3 "Felhasználó megemlítése"
 p8 text  x=56.7 y=218.7 Arial-Bold/16 "Felhasználó" #000000
 p8 text  x=152.6 y=218.7 Arial-Bold/16 "megemlítése" #000000
 p8 text  x=56.7 y=246.7 Arial/11 "@username (GitHubon" #1A1A2E
 p8 text  x=173.0 y=246.7 Arial/11 "működik)" #1A1A2E
+p8 anchor y=284.7 issuepr-hivatkozs
+p8 bookmark level=3 "Issue/PR hivatkozás"
 p8 text  x=56.7 y=284.7 Arial-Bold/16 "Issue/PR" #000000
 p8 text  x=128.6 y=284.7 Arial-Bold/16 "hivatkozás" #000000
 p8 text  x=56.7 y=312.7 Arial/11 "#123 (Issue vagy Pull Request" #1A1A2E
 p8 text  x=208.8 y=312.7 Arial/11 "száma)" #1A1A2E
+p8 anchor y=350.7 commit-hivatkozs
+p8 bookmark level=3 "Commit hivatkozás"
 p8 text  x=56.7 y=350.7 Arial-Bold/16 "Commit" #000000
 p8 text  x=120.6 y=350.7 Arial-Bold/16 "hivatkozás" #000000
 p8 text  x=56.7 y=378.7 Arial/11 "SHA: a]5c3d2e1f (rövidített commit" #1A1A2E
 p8 text  x=230.2 y=378.7 Arial/11 "hash)" #1A1A2E
+p8 anchor y=416.7 repository-hivatkozs
+p8 bookmark level=3 "Repository hivatkozás"
 p8 text  x=56.7 y=416.7 Arial-Bold/16 "Repository" #000000
 p8 text  x=144.6 y=416.7 Arial-Bold/16 "hivatkozás" #000000
 p8 text  x=56.7 y=444.7 Arial/11 "owner/repo#123" #1A1A2E
 p8 line  x=56.7 y=480.7 to x=538.6 y=480.7 #B4B4B4/1.0
+p8 anchor y=510.7 16-matematikai-kpletek---gfm-kiterjeszts
+p8 bookmark level=2 "16. Matematikai képletek - GFM kiterjesztés"
 p8 text  x=56.7 y=510.7 Arial-Bold/20 "16. Matematikai képletek - GFM" #000000
 p8 text  x=357.7 y=510.7 Arial-Bold/20 "kiterjesztés" #000000
 p8 text  x=56.7 y=544.7 Arial/11 "Inline matek:" #1A1A2E
@@ -460,6 +552,8 @@ p8 text  x=116.6 y=568.7 Arial/11 ":" #1A1A2E
 p8 text  x=187.4 y=592.7 Arial-Italic/11 "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n" #7C3AED
 p8 text  x=183.3 y=616.7 Arial-Italic/11 "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}" #7C3AED
 p8 line  x=56.7 y=652.7 to x=538.6 y=652.7 #B4B4B4/1.0
+p8 anchor y=682.7 17-mermaid-diagramok---gfm-kiterjeszts
+p8 bookmark level=2 "17. Mermaid diagramok - GFM kiterjesztés"
 p8 text  x=56.7 y=682.7 Arial-Bold/20 "17. Mermaid diagramok - GFM" #000000
 p8 text  x=346.5 y=682.7 Arial-Bold/20 "kiterjesztés" #000000
 p9 rect  x=56.7 y=56.7 w=481.9 h=100.0 fill=#ECFDF5 stroke=#10B981/0.5
@@ -478,6 +572,8 @@ p9 text  x=64.7 y=208.7 Courier/9 "    participant S as Szerver" #065F46
 p9 text  x=64.7 y=220.7 Courier/9 "    K->>S: Kérés" #065F46
 p9 text  x=64.7 y=232.7 Courier/9 "    S-->>K: Válasz" #065F46
 p9 line  x=56.7 y=272.7 to x=538.6 y=272.7 #B4B4B4/1.0
+p9 anchor y=302.7 18-sortrsek-line-breaks
+p9 bookmark level=2 "18. Sortörések (Line Breaks)"
 p9 text  x=56.7 y=302.7 Arial-Bold/20 "18. Sortörések (Line" #000000
 p9 text  x=253.2 y=302.7 Arial-Bold/20 "Breaks)" #000000
 p9 text  x=56.7 y=336.7 Arial/11 "Egyszerű sortörés (két szóköz a sor végén)" #1A1A2E
@@ -492,19 +588,31 @@ p9 text  x=56.7 y=408.7 Arial/11 "HTML sortörés: első sor" #1A1A2E
 p9 text  x=177.0 y=408.7 Arial/11 "második" #1A1A2E
 p9 text  x=221.0 y=408.7 Arial/11 "sor" #1A1A2E
 p9 line  x=56.7 y=444.7 to x=538.6 y=444.7 #B4B4B4/1.0
+p9 anchor y=474.7 19-specilis-linkek
+p9 bookmark level=2 "19. Speciális linkek"
 p9 text  x=56.7 y=474.7 Arial-Bold/20 "19. Speciális" #000000
 p9 text  x=182.2 y=474.7 Arial-Bold/20 "linkek" #000000
+p9 anchor y=522.7 anchor-linkek-dokumentumon-belli
+p9 bookmark level=3 "Anchor linkek (dokumentumon belüli)"
 p9 text  x=56.7 y=522.7 Arial-Bold/16 "Anchor linkek (dokumentumon" #000000
 p9 text  x=296.5 y=522.7 Arial-Bold/16 "belüli)" #000000
 p9 text  x=56.7 y=550.7 Arial/11 "Ugrás a táblázatokhoz" #2563EB
+p9 goto  x=56.7 y=548.7 w=109.4 7-tblzatok-tables---gfm-specifikus
 p9 text  x=56.7 y=574.7 Arial/11 "Vissza az elejére" #2563EB
+p9 goto  x=56.7 y=572.7 w=83.1 github-flavored-markdown-gfm---teljes-referencia
+p9 anchor y=612.7 mailto-link
+p9 bookmark level=3 "Mailto link"
 p9 text  x=56.7 y=612.7 Arial-Bold/16 "Mailto" #000000
 p9 text  x=107.3 y=612.7 Arial-Bold/16 "link" #000000
 p9 text  x=56.7 y=640.7 Arial/11 "Küldj emailt" #2563EB
+p9 anchor y=678.7 tel-link
+p9 bookmark level=3 "Tel link"
 p9 text  x=56.7 y=678.7 Arial-Bold/16 "Tel" #000000
 p9 text  x=84.2 y=678.7 Arial-Bold/16 "link" #000000
 p9 text  x=56.7 y=706.7 Arial/11 "Hívj fel" #2563EB
 p9 line  x=56.7 y=742.7 to x=538.6 y=742.7 #B4B4B4/1.0
+p10 anchor y=56.7 20-sszefoglal-tblzat
+p10 bookmark level=2 "20. Összefoglaló táblázat"
 p10 text  x=56.7 y=56.7 Arial-Bold/20 "20. Összefoglaló" #000000
 p10 text  x=219.9 y=56.7 Arial-Bold/20 "táblázat" #000000
 p10 rect  x=56.7 y=90.7 w=186.7 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5

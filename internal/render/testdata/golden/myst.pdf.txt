@@ -1,11 +1,18 @@
 p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
 p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "MyST sample" #1A1A2E
+p1 anchor y=116.7 myst
+p1 bookmark level=1 "MyST"
 p1 text  x=56.7 y=116.7 Arial-Bold/24 "MyST" #000000
 p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=188.7 Arial/11 "MyST" #2563EB
+p1 goto  x=56.7 y=186.7 w=28.7 myst
 p1 text  x=76.7 y=204.7 Arial/11 "Directives" #2563EB
+p1 goto  x=76.7 y=202.7 w=48.3 directives
 p1 text  x=76.7 y=220.7 Arial/11 "Roles" #2563EB
+p1 goto  x=76.7 y=218.7 w=28.1 roles
+p1 anchor y=262.7 directives
+p1 bookmark level=2 "Directives"
 p1 text  x=56.7 y=262.7 Arial-Bold/20 "Directives" #000000
 p1 rect  x=56.7 y=296.7 w=481.9 h=48.0 fill=#DBEAFE
 p1 line  x=56.7 y=296.7 to x=56.7 y=344.7 #3B82F6/3.0
@@ -31,6 +38,8 @@ p1 text  x=56.7 y=540.7 Arial-Italic/11 "[IMG] A plot" #4A4A68
 p1 text  x=56.7 y=556.7 Arial/9 "plot.png" #2563EB
 p1 text  x=56.7 y=580.7 Arial/11 "The" #1A1A2E
 p1 text  x=78.7 y=580.7 Arial/11 "caption." #1A1A2E
+p1 anchor y=622.7 roles
+p1 bookmark level=2 "Roles"
 p1 text  x=56.7 y=622.7 Arial-Bold/20 "Roles" #000000
 p1 text  x=56.7 y=656.7 Arial/11 "Inline" #1A1A2E
 p1 text  x=86.0 y=656.7 Arial-Italic/11 "x_i" #7C3AED

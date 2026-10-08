@@ -4,6 +4,26 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.5.0] - 2026-10-08
+
+PDFs you can find your way around in.
+
+### Added
+
+- PDF bookmarks. The headings of a document are its outline, nested by
+  level, which viewers show in a pane beside the pages. A PDF with headings
+  opens with that pane showing where the viewer follows the document's wish.
+- Links to a heading of the same document (`[text](#heading)`) jump to it in
+  PDF, as they do in DOCX since 1.4.0. The heading can be named by the
+  anchor GitHub and GitLab give it, accented letters included.
+- The entries of a PDF table of contents are links to their headings.
+
+### Fixed
+
+- A link to `#something` was written into a PDF as a link to the web address
+  "#something", which did nothing or opened a browser. A link to a heading
+  the document does not have is now plain colored text.
+
 ## [1.4.0] - 2026-10-08
 
 A DOCX is a Word document to go on working in: its headings, lists, table of

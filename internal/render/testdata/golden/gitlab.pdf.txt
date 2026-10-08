@@ -3,18 +3,31 @@ p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "GitLab Flavored Markdown" #1A1A2E
 p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: " #4A4A68
 p1 text  x=107.4 y=80.7 Arial/11 "Markout" #1A1A2E
+p1 anchor y=132.7 gitlab-glfm
+p1 bookmark level=1 "GitLab (GLFM)"
 p1 text  x=56.7 y=132.7 Arial-Bold/24 "GitLab" #000000
 p1 text  x=139.3 y=132.7 Arial-Bold/24 "(GLFM)" #000000
 p1 text  x=56.7 y=180.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=204.7 Arial/11 "GitLab (GLFM)" #2563EB
+p1 goto  x=56.7 y=202.7 w=73.3 gitlab-glfm
 p1 text  x=76.7 y=220.7 Arial/11 "Inline diff" #2563EB
+p1 goto  x=76.7 y=218.7 w=44.0 inline-diff
 p1 text  x=76.7 y=236.7 Arial/11 "Multiline blockquote" #2563EB
+p1 goto  x=76.7 y=234.7 w=96.6 multiline-blockquote
 p1 text  x=76.7 y=252.7 Arial/11 "Alerts with titles" #2563EB
+p1 goto  x=76.7 y=250.7 w=76.3 alerts-with-titles
 p1 text  x=76.7 y=268.7 Arial/11 "Tasks" #2563EB
+p1 goto  x=76.7 y=266.7 w=29.3 tasks
 p1 text  x=76.7 y=284.7 Arial/11 "Math and colors" #2563EB
+p1 goto  x=76.7 y=282.7 w=78.2 math-and-colors
 p1 text  x=76.7 y=300.7 Arial/11 "Sized image" #2563EB
+p1 goto  x=76.7 y=298.7 w=60.5 sized-image
 p1 text  x=76.7 y=316.7 Arial/11 "JSON table" #2563EB
+p1 goto  x=76.7 y=314.7 w=56.2 json-table
 p1 text  x=76.7 y=332.7 Arial/11 "Include" #2563EB
+p1 goto  x=76.7 y=330.7 w=35.5 include
+p1 anchor y=374.7 inline-diff
+p1 bookmark level=2 "Inline diff"
 p1 text  x=56.7 y=374.7 Arial-Bold/20 "Inline" #000000
 p1 text  x=114.4 y=374.7 Arial-Bold/20 "diff" #000000
 p1 text  x=56.7 y=408.7 Arial/11 "This was" #1A1A2E
@@ -30,6 +43,8 @@ p1 text  x=290.7 y=408.7 Arial/11 "and" #1A1A2E
 p1 text  x=312.1 y=408.7 Arial/11 "new" #16A34A
 p1 line  x=312.1 y=420.7 to x=332.3 y=420.7 #16A34A/0.6
 p1 text  x=332.3 y=408.7 Arial/11 "." #1A1A2E
+p1 anchor y=450.7 multiline-blockquote
+p1 bookmark level=2 "Multiline blockquote"
 p1 text  x=56.7 y=450.7 Arial-Bold/20 "Multiline" #000000
 p1 text  x=143.2 y=450.7 Arial-Bold/20 "blockquote" #000000
 p1 text  x=76.7 y=484.7 Arial-Italic/11 "First quoted" #1A1A2E
@@ -38,6 +53,8 @@ p1 line  x=61.7 y=484.7 to x=61.7 y=500.7 #B4B4B4/3.0
 p1 text  x=76.7 y=504.7 Arial-Italic/11 "Second quoted" #1A1A2E
 p1 text  x=153.7 y=504.7 Arial-Italic/11 "paragraph." #1A1A2E
 p1 line  x=61.7 y=504.7 to x=61.7 y=520.7 #B4B4B4/3.0
+p1 anchor y=542.7 alerts-with-titles
+p1 bookmark level=2 "Alerts with titles"
 p1 text  x=56.7 y=542.7 Arial-Bold/20 "Alerts with" #000000
 p1 text  x=164.4 y=542.7 Arial-Bold/20 "titles" #000000
 p1 rect  x=56.7 y=576.7 w=481.9 h=48.0 fill=#FEE2E2
@@ -45,6 +62,8 @@ p1 line  x=56.7 y=576.7 to x=56.7 y=624.7 #EF4444/3.0
 p1 text  x=64.7 y=584.7 Arial-Bold/11 "Data loss" #EF4444
 p1 text  x=64.7 y=600.7 Arial/11 "Back up" #1A1A2E
 p1 text  x=107.5 y=600.7 Arial/11 "first." #1A1A2E
+p1 anchor y=650.7 tasks
+p1 bookmark level=2 "Tasks"
 p1 text  x=56.7 y=650.7 Arial-Bold/20 "Tasks" #000000
 p1 text  x=76.7 y=684.7 Arial/11 "[x] " #1A1A2E
 p1 text  x=91.3 y=684.7 Arial/11 "Done" #1A1A2E
@@ -53,6 +72,8 @@ p1 text  x=88.9 y=700.7 Arial/11 "Not applicable" #8888A0
 p1 line  x=88.9 y=707.1 to x=158.6 y=707.1 #8888A0/0.6
 p1 text  x=76.7 y=716.7 Arial/11 "[ ] " #1A1A2E
 p1 text  x=88.9 y=716.7 Arial/11 "Open" #1A1A2E
+p1 anchor y=756.7 math-and-colors
+p1 bookmark level=2 "Math and colors"
 p1 text  x=56.7 y=756.7 Arial-Bold/20 "Math and" #000000
 p1 text  x=149.9 y=756.7 Arial-Bold/20 "colors" #000000
 p2 text  x=56.7 y=56.7 Arial/11 "Inline" #1A1A2E
@@ -64,10 +85,14 @@ p2 text  x=310.1 y=56.7 Arial/11 "and" #1A1A2E
 p2 rect  x=331.5 y=56.7 w=10.0 h=10.0 fill=#FC6D26
 p2 text  x=343.5 y=58.3 Courier/10 "#FC6D26" #CF222E
 p2 text  x=385.5 y=56.7 Arial/11 "." #1A1A2E
+p2 anchor y=98.7 sized-image
+p2 bookmark level=2 "Sized image"
 p2 text  x=56.7 y=98.7 Arial-Bold/20 "Sized" #000000
 p2 text  x=114.4 y=98.7 Arial-Bold/20 "image" #000000
 p2 text  x=56.7 y=132.7 Arial-Italic/11 "[IMG] Logo" #4A4A68
 p2 text  x=56.7 y=148.7 Arial/9 "logo.png" #2563EB
+p2 anchor y=190.7 json-table
+p2 bookmark level=2 "JSON table"
 p2 text  x=56.7 y=190.7 Arial-Bold/20 "JSON" #000000
 p2 text  x=116.7 y=190.7 Arial-Bold/20 "table" #000000
 p2 rect  x=56.7 y=224.7 w=166.3 h=21.0 fill=#F1F3F9 stroke=#D1D5DE/0.5
@@ -82,6 +107,8 @@ p2 rect  x=56.7 y=266.7 w=166.3 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
 p2 rect  x=223.0 y=266.7 w=315.6 h=21.0 fill=#F8F9FC stroke=#D1D5DE/0.5
 p2 text  x=60.7 y=270.7 Arial/11 "Linus" #1A1A2E
 p2 text  x=227.0 y=270.7 Arial/11 "Maintainer" #1A1A2E
+p2 anchor y=313.7 include
+p2 bookmark level=2 "Include"
 p2 text  x=56.7 y=313.7 Arial-Bold/20 "Include" #000000
 p2 text  x=56.7 y=347.7 Arial/11 "This paragraph comes from an" #1A1A2E
 p2 text  x=209.4 y=347.7 Arial-Bold/11 "included" #1A1A2E

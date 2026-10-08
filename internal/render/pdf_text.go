@@ -256,7 +256,7 @@ func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 		r.cell(f.text)
 
 		if f.run.Link != "" {
-			r.pdf.AddExternalLink(f.run.Link, x, y0-2, f.width, lineHeight)
+			r.linkTo(f.run.Link, x, y0-2, f.width, lineHeight)
 		}
 
 		underline := f.run.Underline || f.run.Inserted

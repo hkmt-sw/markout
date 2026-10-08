@@ -3,6 +3,8 @@ p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "GitHub Flavored Markdown" #1A1A2E
 p1 text  x=64.7 y=80.7 Arial-Bold/11 "Author: " #4A4A68
 p1 text  x=107.4 y=80.7 Arial/11 "Markout" #1A1A2E
+p1 anchor y=132.7 github-gfm
+p1 bookmark level=1 "GitHub (GFM)"
 p1 text  x=56.7 y=132.7 Arial-Bold/24 "GitHub" #000000
 p1 text  x=143.2 y=132.7 Arial-Bold/24 "(GFM)" #000000
 p1 text  x=56.7 y=172.7 Arial/11 "Task lists," #1A1A2E

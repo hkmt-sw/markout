@@ -1,14 +1,23 @@
 p1 rect  x=56.7 y=56.7 w=481.9 h=32.0 fill=#F8F9FC stroke=#E2E4EB/1.0
 p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "MkDocs Material" #1A1A2E
+p1 anchor y=116.7 mkdocs-material
+p1 bookmark level=1 "MkDocs Material"
 p1 text  x=56.7 y=116.7 Arial-Bold/24 "MkDocs" #000000
 p1 text  x=155.3 y=116.7 Arial-Bold/24 "Material" #000000
 p1 text  x=56.7 y=164.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=188.7 Arial/11 "MkDocs Material" #2563EB
+p1 goto  x=56.7 y=186.7 w=81.9 mkdocs-material
 p1 text  x=76.7 y=204.7 Arial/11 "Admonitions" #2563EB
+p1 goto  x=76.7 y=202.7 w=60.5 admonitions
 p1 text  x=76.7 y=220.7 Arial/11 "Tabs" #2563EB
+p1 goto  x=76.7 y=218.7 w=24.4 tabs
 p1 text  x=76.7 y=236.7 Arial/11 "Inline" #2563EB
+p1 goto  x=76.7 y=234.7 w=26.3 inline
 p1 text  x=76.7 y=252.7 Arial/11 "Heading with attrs" #2563EB
+p1 goto  x=76.7 y=250.7 w=88.0 anchor
+p1 anchor y=294.7 admonitions
+p1 bookmark level=2 "Admonitions"
 p1 text  x=56.7 y=294.7 Arial-Bold/20 "Admonitions" #000000
 p1 rect  x=56.7 y=328.7 w=481.9 h=80.0 fill=#DBEAFE
 p1 line  x=56.7 y=328.7 to x=56.7 y=408.7 #3B82F6/3.0
@@ -27,6 +36,8 @@ p1 line  x=56.7 y=416.7 to x=56.7 y=464.7 #EF4444/3.0
 p1 text  x=64.7 y=424.7 Arial-Bold/11 "Danger" #EF4444
 p1 text  x=64.7 y=440.7 Arial/11 "Collapsible, default" #1A1A2E
 p1 text  x=160.6 y=440.7 Arial/11 "title." #1A1A2E
+p1 anchor y=490.7 tabs
+p1 bookmark level=2 "Tabs"
 p1 text  x=56.7 y=490.7 Arial-Bold/20 "Tabs" #000000
 p1 text  x=56.7 y=524.7 Arial-Bold/11 "Python" #1A1A2E
 p1 rect  x=56.7 y=548.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
@@ -34,6 +45,8 @@ p1 text  x=64.7 y=556.7 Courier/9 "print(\"hi\")" #000000
 p1 text  x=56.7 y=584.7 Arial-Bold/11 "Go" #1A1A2E
 p1 rect  x=56.7 y=608.7 w=481.9 h=28.0 fill=#F5F5F5 stroke=#C8C8C8/0.5
 p1 text  x=64.7 y=616.7 Courier/9 "fmt.Println(\"hi\")" #000000
+p1 anchor y=662.7 inline
+p1 bookmark level=2 "Inline"
 p1 text  x=56.7 y=662.7 Arial-Bold/20 "Inline" #000000
 p1 rect  x=56.7 y=695.7 w=36.7 h=14.0 fill=#FFF082
 p1 text  x=56.7 y=696.7 Arial/11 "marked" #1A1A2E
@@ -54,6 +67,8 @@ p1 text  x=276.9 y=696.7 Arial/11 "and" #1A1A2E
 p1 text  x=298.3 y=696.7 Arial/11 "." #1A1A2E
 p1 text  x=56.7 y=720.7 Arial-Italic/11 "[IMG] Image" #4A4A68
 p1 text  x=56.7 y=736.7 Arial/9 "img.png" #2563EB
+p2 anchor y=56.7 anchor
+p2 bookmark level=2 "Heading with attrs"
 p2 text  x=56.7 y=56.7 Arial-Bold/20 "Heading with" #000000
 p2 text  x=186.5 y=56.7 Arial-Bold/20 "attrs" #000000
 p2 text  x=56.7 y=90.7 Arial/11 "The API is" #1A1A2E

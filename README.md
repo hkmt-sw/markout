@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.4.0 to pin one).
+# Look up the latest release tag (or set VERSION=v1.5.0 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -268,6 +268,18 @@ Things that only make sense on the original platform have no document
 equivalent and stay as text: `@mentions`, issue references such as `#123` or
 `ABC-123`, and links to other wiki pages.
 
+## Finding your way in the output
+
+Both formats know where the headings are:
+
+- **A PDF has bookmarks**: its headings, nested by level, in the pane a
+  viewer shows beside the pages.
+- **Links to a heading** (`[text](#heading)`) jump to it, in PDF and in DOCX.
+  The heading can be named the way GitHub or GitLab names it, with accented
+  letters kept. A link to a heading the document does not have is plain
+  colored text.
+- **The entries of a table of contents** are such links too.
+
 ## What a DOCX is made of
 
 A DOCX from markout is a Word document to go on working in, not a picture of
@@ -280,8 +292,6 @@ one:
   renumbered.
 - **A table of contents** is a field Word can update, and its entries are
   links to the headings.
-- **Links to a heading** (`[text](#heading)`) jump to it. The heading can be
-  named the way GitHub or GitLab names it.
 
 ## Limits
 
@@ -301,8 +311,6 @@ things are beyond it for now:
   processor.
 - **Right-to-left text** (Hebrew, Arabic) is not laid out in PDF: its letters
   come out in reverse order. The conversion warns about this too.
-- **Links to a heading** of the same document (`[text](#heading)`) jump
-  there in DOCX but not in PDF, and a PDF has no bookmarks.
 - **A table of contents in DOCX** lists the headings without page numbers
   until Word is asked to update it (right-click it, *Update Field*); where
   the pages break is Word's decision, so markout cannot know the numbers.

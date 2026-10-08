@@ -3,10 +3,16 @@ p1 text  x=64.7 y=64.7 Arial-Bold/11 "Title: " #4A4A68
 p1 text  x=94.0 y=64.7 Arial/11 "kramdown sample" #1A1A2E
 p1 text  x=64.7 y=80.7 Arial-Bold/11 "layout: " #4A4A68
 p1 text  x=103.8 y=80.7 Arial/11 "post" #1A1A2E
+p1 anchor y=132.7 kramdown
+p1 bookmark level=1 "kramdown"
 p1 text  x=56.7 y=132.7 Arial-Bold/24 "kramdown" #000000
 p1 text  x=56.7 y=180.7 Arial-Bold/16 "Table of Contents" #1A1A2E
 p1 text  x=56.7 y=204.7 Arial/11 "kramdown" #2563EB
+p1 goto  x=56.7 y=202.7 w=50.7 kramdown
 p1 text  x=76.7 y=220.7 Arial/11 "Section" #2563EB
+p1 goto  x=76.7 y=218.7 w=36.7 custom-id
+p1 anchor y=262.7 custom-id
+p1 bookmark level=2 "Section"
 p1 text  x=56.7 y=262.7 Arial-Bold/20 "Section" #000000
 p1 text  x=56.7 y=296.7 Arial/11 "A paragraph with a class" #1A1A2E
 p1 text  x=177.1 y=296.7 Arial/11 "." #1A1A2E

@@ -3,7 +3,6 @@ package render
 import (
 	"bytes"
 	"fmt"
-	"net/url"
 	"regexp"
 	"sort"
 	"strings"
@@ -25,53 +24,11 @@ import (
 // collectHeadings gives every heading with an ID a bookmark name, so that a
 // link can refer to a heading that comes after it.
 func (r *DocxRenderer) collectHeadings(elems []ast.Element) {
-	for _, elem := range elems {
-		switch e := elem.(type) {
-		case ast.Heading:
-			if e.ID == "" {
-				continue
-			}
-			if _, seen := r.bookmarks[e.ID]; !seen {
-				r.bookmarks[e.ID] = r.newBookmarkName(e.ID)
-			}
-			// A link may also name the heading the way GitHub and GitLab
-			// do, which keeps accented and other non-ASCII letters
-			slug := headingSlug(e.Runs)
-			if n := r.slugs[slug]; n > 0 {
-				slug = fmt.Sprintf("%s-%d", slug, n)
-			}
-			r.slugs[headingSlug(e.Runs)]++
-			if _, taken := r.bookmarks[slug]; !taken && slug != "" {
-				r.bookmarks[slug] = r.bookmarks[e.ID]
-			}
-		case ast.List:
-			r.collectItemHeadings(e.Items)
-		}
+	var headings []ast.Heading
+	r.anchors, headings = collectAnchors(elems)
+	for _, h := range headings {
+		r.bookmarks[h.ID] = r.newBookmarkName(h.ID)
 	}
-}
-
-func (r *DocxRenderer) collectItemHeadings(items []ast.ListItem) {
-	for _, item := range items {
-		r.collectHeadings(item.Blocks)
-		r.collectItemHeadings(item.Children)
-	}
-}
-
-// headingSlug is the anchor GitHub gives a heading: its text in lower case,
-// with spaces as hyphens and punctuation dropped.
-func headingSlug(runs []ast.InlineRun) string {
-	var b strings.Builder
-	for _, run := range runs {
-		for _, c := range strings.ToLower(run.Text) {
-			switch {
-			case unicode.IsLetter(c) || unicode.IsDigit(c) || c == '-' || c == '_':
-				b.WriteRune(c)
-			case c == ' ':
-				b.WriteByte('-')
-			}
-		}
-	}
-	return b.String()
 }
 
 // maxBookmarkName is the longest name Word accepts for a bookmark.
@@ -104,17 +61,11 @@ func (r *DocxRenderer) newBookmarkName(id string) string {
 
 // bookmarkFor returns the bookmark a link to "#id" jumps to.
 func (r *DocxRenderer) bookmarkFor(link string) (string, bool) {
-	if !strings.HasPrefix(link, "#") {
+	id, ok := r.anchors.resolve(link)
+	if !ok {
 		return "", false
 	}
-	id := link[1:]
-	if decoded, err := url.PathUnescape(id); err == nil {
-		id = decoded
-	}
-	if name, ok := r.bookmarks[id]; ok {
-		return name, true
-	}
-	name, ok := r.bookmarks[strings.ToLower(id)]
+	name, ok := r.bookmarks[id]
 	return name, ok
 }
 
