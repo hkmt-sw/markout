@@ -123,6 +123,12 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		return err
 	}
 
+	if opts.Warn != nil {
+		for _, w := range doc.Warnings {
+			opts.Warn(w)
+		}
+	}
+
 	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Warn: opts.Warn}
 
 	// Render to output format

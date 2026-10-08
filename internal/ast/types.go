@@ -3,6 +3,10 @@ package ast
 // Document represents a complete markdown document
 type Document struct {
 	Elements []Element
+	// Warnings say what in the source has no place in a document and was
+	// left out, such as a block that only means something to the platform
+	// the Markdown was written for.
+	Warnings []string
 }
 
 // Element is the interface for all document elements

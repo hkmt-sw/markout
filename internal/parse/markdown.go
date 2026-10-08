@@ -91,6 +91,7 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 	tocTree, _ := toc.Inspect(gmDoc, source)
 
 	doc := ast.NewDocument()
+	doc.Warnings = pre.left.warnings()
 
 	// Extract and prepend front matter
 	if pre.frontMatter != nil {

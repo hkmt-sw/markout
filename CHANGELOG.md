@@ -4,6 +4,28 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.1] - 2026-10-08
+
+Nothing in a document goes missing without a word, in the documentation
+dialects too.
+
+### Fixed
+
+- MyST `{eval-rst}` blocks vanished from the output. Their content is now
+  shown as source. `{only}` blocks vanished as well; their content is shown.
+- MyST `{toctree}`, `{raw}`, `{bibliography}` and `{index}`, and the
+  `video` and `query-table` blocks of Azure DevOps wikis, have nothing a
+  document can show and are still left out, but the conversion now warns
+  and names them.
+- A directive markout does not know lost its argument. The argument is kept
+  with the content, and the conversion warns that the directive was not
+  understood.
+- MyST `{list-table}` came out as a nested list and `{csv-table}` as a line
+  of text. Both are tables now, with their header row and caption.
+- The `title="…"` of a code block was dropped. It is shown above the block.
+- The labels of Docusaurus `<Tabs>` were dropped. Each tab's content is
+  shown under its label.
+
 ## [1.7.0] - 2026-10-08
 
 Formulas are typeset.

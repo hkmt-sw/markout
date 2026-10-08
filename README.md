@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.7.0 to pin one).
+# Look up the latest release tag (or set VERSION=v1.7.1 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -354,6 +354,16 @@ things are beyond it for now:
   processor.
 - **Right-to-left text** (Hebrew, Arabic) is not laid out in PDF: its letters
   come out in reverse order. The conversion warns about this too.
+- **Documentation-site Markdown** (MyST, MkDocs Material, Docusaurus) is
+  read for what a document can show: admonitions, tabs with their labels,
+  code block titles, MyST `list-table` and `csv-table`. The rest of what
+  those sites build is not: MkDocs snippets (`--8<--`), keys (`++ctrl++`)
+  and icons (`:material-…:`) stay as written; a MyST `eval-rst` block is
+  shown as its source; `toctree`, `raw`, `bibliography` and `index`, and
+  the `video` and `query-table` blocks of Azure DevOps, are left out, and a
+  directive markout does not know is shown as plain text. The conversion
+  says so in both of those cases. MDX `import` and `export` lines and
+  comments are dropped, as they show nothing on the site either.
 - **A table of contents in DOCX** lists the headings without page numbers
   until Word is asked to update it (right-click it, *Update Field*); where
   the pages break is Word's decision, so markout cannot know the numbers.
