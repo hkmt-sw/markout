@@ -46,6 +46,8 @@ TABLE
         R "With a plain"
         R " title."
 P{spacing=/ line=160/exact}
+P{spacing=0/160 line=320/atLeast}
+  R{b} "src/index.js"
 TABLE
   COL w=9070
   ROW

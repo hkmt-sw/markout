@@ -1,12 +1,14 @@
 package parse
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
@@ -52,10 +54,72 @@ type preprocessor struct {
 	nesting     int              // container depth of the blocks being rewritten
 	notes       []string         // definitions collected from ^[inline notes]
 	frontMatter *ast.FrontMatter // metadata found in a non-YAML/TOML form
+	left        *leftOut         // what was left out, shared with included files
 }
 
 func newPreprocessor(f flavor.Features, baseDir string) *preprocessor {
-	return &preprocessor{f: f, root: baseDir, baseDir: baseDir}
+	return &preprocessor{f: f, root: baseDir, baseDir: baseDir, left: &leftOut{count: map[string]int{}}}
+}
+
+// leftOut counts the blocks that were left out of the document because
+// they have no equivalent in one: what they show is made by the platform
+// the Markdown was written for.
+type leftOut struct {
+	names []string // in order of first appearance
+	count map[string]int
+
+	// Directives markout does not know. Their content is kept, as text.
+	unknown      []string
+	unknownCount map[string]int
+}
+
+func (l *leftOut) addUnknown(name string) {
+	if l.unknownCount == nil {
+		l.unknownCount = map[string]int{}
+	}
+	if l.unknownCount[name] == 0 {
+		l.unknown = append(l.unknown, name)
+	}
+	l.unknownCount[name]++
+}
+
+func (l *leftOut) add(name string) {
+	if l.count[name] == 0 {
+		l.names = append(l.names, name)
+	}
+	l.count[name]++
+}
+
+// warnings says what was left out and what was not understood, or nothing.
+func (l *leftOut) warnings() []string {
+	list := func(names []string, count map[string]int) (int, string) {
+		total := 0
+		parts := make([]string, len(names))
+		for i, name := range names {
+			total += count[name]
+			parts[i] = name
+			if n := count[name]; n > 1 {
+				parts[i] = fmt.Sprintf("%s (%d)", name, n)
+			}
+		}
+		return total, strings.Join(parts, ", ")
+	}
+	var out []string
+	if total, names := list(l.names, l.count); total > 0 {
+		what := "blocks have no equivalent in a document and were"
+		if total == 1 {
+			what = "block has no equivalent in a document and was"
+		}
+		out = append(out, fmt.Sprintf("%d %s left out: %s", total, what, names))
+	}
+	if total, names := list(l.unknown, l.unknownCount); total > 0 {
+		what := "directives are not known; their content is"
+		if total == 1 {
+			what = "directive is not known; its content is"
+		}
+		out = append(out, fmt.Sprintf("%d %s shown as plain text: %s", total, what, names))
+	}
+	return out
 }
 
 func (p *preprocessor) run(src []byte) []byte {
@@ -159,6 +223,8 @@ var (
 	abbrDef       = regexp.MustCompile(`^\*\[[^\]]+\]:`)
 	includeLine   = regexp.MustCompile(`^::include\{file=([^}]+)\}[ \t]*$`)
 	mdxImport     = regexp.MustCompile(`^import\s+(?:.+\sfrom\s+)?['"][^'"]+['"];?[ \t]*$`)
+	mdxTabItem    = regexp.MustCompile(`^<TabItem\b([^>]*)>$`)
+	mdxTabsTag    = regexp.MustCompile(`^</?Tabs\b[^>]*>$|^</TabItem>$`)
 	mdxExport     = regexp.MustCompile(`^export\s+(?:const|let|var|default|function)\b.*$`)
 	taskNA        = regexp.MustCompile(`^([ \t]*(?:[*+-]|\d+[.)])[ \t]+)\[~\][ \t]+(.*)$`)
 	optionLine    = regexp.MustCompile(`^:([\w-]+):[ \t]*(.*)$`)
@@ -347,6 +413,26 @@ func (p *preprocessor) blocks(lines []string) []string {
 		if f.MDX && (mdxImport.MatchString(line) || mdxExport.MatchString(line)) {
 			continue
 		}
+		if f.MDX {
+			// <Tabs> hold <TabItem label="...">s, shown one after the
+			// other, each under its label
+			tag := strings.TrimSpace(line)
+			if m := mdxTabItem.FindStringSubmatch(tag); m != nil {
+				label := mdxAttr(m[1], "label")
+				if label == "" {
+					label = mdxAttr(m[1], "value")
+				}
+				out = append(out, "")
+				if label != "" {
+					out = append(out, "**"+label+"**", "")
+				}
+				continue
+			}
+			if mdxTabsTag.MatchString(tag) {
+				out = append(out, "")
+				continue
+			}
+		}
 
 		if f.InapplicableTasks {
 			if m := taskNA.FindStringSubmatch(line); m != nil {
@@ -509,8 +595,19 @@ func (p *preprocessor) fenced(open, marker, info string, body []string) (lines [
 			open = open[:strings.Index(open, marker)+len(marker)] + lang
 		}
 	}
+	// A title given to the block ("py title="main.py"", as documentation
+	// sites show above the code) goes above it
+	if m := fenceTitle.FindStringSubmatch(info); m != nil {
+		if title := strings.TrimSpace(m[1] + m[2]); title != "" {
+			indent := open[:len(open)-len(strings.TrimLeft(open, " \t"))]
+			out := []string{indent + "**" + title + "**", ""}
+			return append(append(out, open), body...), true
+		}
+	}
 	return append([]string{open}, body...), true
 }
+
+var fenceTitle = regexp.MustCompile(`(?:^|\s)title=(?:"([^"]*)"|'([^']*)')`)
 
 // colonBlock converts the body of a ":::" fence. ok is false when the fence is
 // not one the flavor understands and the lines should be left alone.
@@ -528,7 +625,8 @@ func (p *preprocessor) colonBlock(head string, body []string) ([]string, bool) {
 			out = append(out, body...)
 			return append(out, "```", ""), true
 		case "video", "query-table":
-			return nil, true // embedded widgets have no document equivalent
+			p.left.add("::: " + word) // embedded widgets have no document equivalent
+			return nil, true
 		}
 	}
 
@@ -632,7 +730,17 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		out = append(out, p.blocks(body)...) // figure caption
 		return append(out, "")
 
-	case "toctree", "eval-rst", "raw", "bibliography", "index", "only":
+	case "eval-rst":
+		// reStructuredText is not read, but what is written in it is not
+		// dropped either: it is shown as it is
+		out := []string{"", "```rst"}
+		out = append(out, body...)
+		return append(out, "```", "")
+
+	case "toctree", "raw", "bibliography", "index":
+		// What these show is made by Sphinx: a list of other pages, markup
+		// for one output format, lists gathered from the whole project
+		p.left.add("{" + name + "}")
 		return nil
 
 	case "admonition":
@@ -643,6 +751,32 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 			}
 		}
 		return p.alert(kind, args, p.blocks(body))
+
+	case "only":
+		// Content for one output format or another; a document shows it
+		return unwrap(p.blocks(body))
+
+	case "list-table", "csv-table":
+		var rows [][]string
+		header := 0
+		if name == "list-table" {
+			rows = listTableRows(body)
+			header, _ = strconv.Atoi(opts["header-rows"])
+		} else {
+			rows = csvRows(strings.Join(body, "\n"))
+			if head := csvRows(opts["header"]); len(head) == 1 {
+				rows, header = append(head, rows...), 1
+			}
+		}
+		if table := pipeTable(rows, header > 0); table != nil {
+			out := []string{""}
+			if args != "" {
+				out = append(out, "**"+args+"**", "")
+			}
+			out = append(out, table...)
+			return append(out, "")
+		}
+		// Not in the form expected: the content is kept as it is
 
 	case "dropdown", "card", "tab-item", "topic", "sidebar", "margin":
 		out := []string{""}
@@ -661,7 +795,101 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		return p.alert(name, "", p.blocks(body))
 	}
 
+	// A directive markout does not know keeps what it holds, argument
+	// included, and the conversion says that it was not understood
+	if name != "list-table" && name != "csv-table" {
+		p.left.addUnknown("{" + name + "}")
+	}
+	if args != "" {
+		body = append([]string{args, ""}, body...)
+	}
 	return unwrap(p.blocks(body))
+}
+
+// listTableRows reads the body of a list-table: a list of rows, each a list
+// of cells.
+//
+//   - - Name
+//   - Value
+//   - - a
+//   - 1
+func listTableRows(body []string) [][]string {
+	var rows [][]string
+	for _, line := range body {
+		text := strings.TrimSpace(line)
+		switch {
+		case strings.HasPrefix(text, "* - ") || text == "* -":
+			rows = append(rows, []string{strings.TrimSpace(text[3:])})
+		case len(rows) == 0:
+			if text != "" {
+				return nil // something else comes first: not a list of rows
+			}
+		case strings.HasPrefix(text, "- ") || text == "-":
+			rows[len(rows)-1] = append(rows[len(rows)-1], strings.TrimSpace(text[1:]))
+		case text != "":
+			// A cell goes on over several lines
+			cells := rows[len(rows)-1]
+			cells[len(cells)-1] = strings.TrimSpace(cells[len(cells)-1] + " " + text)
+		}
+	}
+	return rows
+}
+
+// csvRows reads comma-separated values, as a csv-table has them.
+func csvRows(text string) [][]string {
+	if strings.TrimSpace(text) == "" {
+		return nil
+	}
+	reader := csv.NewReader(strings.NewReader(text))
+	reader.FieldsPerRecord = -1
+	reader.TrimLeadingSpace = true
+	reader.LazyQuotes = true
+	rows, err := reader.ReadAll()
+	if err != nil {
+		return nil
+	}
+	return rows
+}
+
+// pipeTable writes rows as a Markdown table. Its first row is the header; a
+// table that has none gets an empty one, which a Markdown table must have.
+func pipeTable(rows [][]string, header bool) []string {
+	columns := 0
+	for _, row := range rows {
+		columns = max(columns, len(row))
+	}
+	if columns == 0 {
+		return nil
+	}
+	if !header {
+		rows = append([][]string{make([]string, columns)}, rows...)
+	}
+	line := func(cells []string) string {
+		var b strings.Builder
+		b.WriteString("|")
+		for c := 0; c < columns; c++ {
+			cell := ""
+			if c < len(cells) {
+				cell = strings.ReplaceAll(strings.Join(strings.Fields(cells[c]), " "), "|", "\\|")
+			}
+			b.WriteString(" " + cell + " |")
+		}
+		return b.String()
+	}
+	out := []string{line(rows[0]), "|" + strings.Repeat(" --- |", columns)}
+	for _, row := range rows[1:] {
+		out = append(out, line(row))
+	}
+	return out
+}
+
+// mdxAttr returns the value of an attribute of a JSX tag, as label="x".
+func mdxAttr(attrs, name string) string {
+	m := regexp.MustCompile(`\b` + name + `=(?:"([^"]*)"|'([^']*)')`).FindStringSubmatch(attrs)
+	if m == nil {
+		return ""
+	}
+	return m[1] + m[2]
 }
 
 // include reads a file named by ::include. The file must be a regular file
@@ -698,7 +926,7 @@ func (p *preprocessor) include(rel string) ([]string, bool) {
 		return nil, false
 	}
 
-	sub := &preprocessor{f: p.f, root: p.root, baseDir: filepath.Dir(path), depth: p.depth + 1, nesting: p.nesting}
+	sub := &preprocessor{f: p.f, root: p.root, baseDir: filepath.Dir(path), depth: p.depth + 1, nesting: p.nesting, left: p.left}
 	lines := sub.blocks(strings.Split(strings.ReplaceAll(string(data), "\r\n", "\n"), "\n"))
 	p.notes = append(p.notes, sub.notes...)
 	return unwrap(lines), true
