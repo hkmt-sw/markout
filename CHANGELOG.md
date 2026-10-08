@@ -4,7 +4,7 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [1.8.0] - Unreleased
+## [1.8.0] - 2026-10-08
 
 Mermaid flowcharts are drawn.
 
@@ -101,8 +101,7 @@ Fixes found by converting real documents, and a slower way of releasing.
   published as a pre-release that the download links and the update check
   do not offer, and become a release after being used for a few days. Fixes
   are still released as they are merged. See `CONTRIBUTING.md`.
-- A build of a release candidate is told when its release, or a later
-  candidate, is out.
+- A build of a release candidate is told when its release is out.
 - The tests convert a corpus of real documents from public projects
   (`fixtures/corpus`): READMEs and pages of the MkDocs Material, MyST and
   Docusaurus documentation.
