@@ -1,0 +1,4 @@
+source: 539 lines
+holds: Alert 11, CodeBlock 27, FootnoteDefinition 1, FrontMatter 1, Heading 13, List 2, ListItem 4, Paragraph 87
+pdf: 10 pages, 13 bookmarks, 3 links within the document
+docx: 184 paragraphs, 13 headings, 4 list items, 39 tables, 0 equations, 0 images

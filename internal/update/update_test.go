@@ -21,6 +21,12 @@ func TestNewer(t *testing.T) {
 		{"v1.2.0", "dev", false},
 		{"v1.2.0", "v1.1.2-3-gabc123-dirty", false},
 		{"garbage", "v1.0.0", false},
+		// A release is newer than its candidates, and a candidate than the one before
+		{"v1.8.0", "v1.8.0-rc2", true},
+		{"v1.8.0-rc2", "v1.8.0-rc1", true},
+		{"v1.8.0-rc1", "v1.8.0", false},
+		{"v1.8.0-rc1", "v1.7.9", true},
+		{"v1.7.9", "v1.8.0-rc1", false},
 	}
 	for _, tt := range tests {
 		if got := Newer(tt.latest, tt.current); got != tt.want {
@@ -31,7 +37,8 @@ func TestNewer(t *testing.T) {
 
 func TestIsRelease(t *testing.T) {
 	for v, want := range map[string]bool{"v1.2.3": true, "1.2.3": true, "dev": false, "": false,
-		"v1.2": false, "v1.2.3-rc1": false, "v1.1.2-3-gabc123": false, "v01.2.3": false} {
+		"v1.2": false, "v1.2.3-rc1": true, "v1.2.3-rc0": false, "v1.2.3-rc": false, "v1.2.3-rc1-2-gabc": false,
+		"v1.2.3-beta1": false, "v1.1.2-3-gabc123": false, "v01.2.3": false} {
 		if got := IsRelease(v); got != want {
 			t.Errorf("IsRelease(%q) = %v, want %v", v, got, want)
 		}

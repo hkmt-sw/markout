@@ -92,6 +92,8 @@ P{jc=center spacing=0/160 line=320/atLeast}
 P{spacing=0/160 line=320/atLeast}
   R "The"
   R " caption."
+P{level=0 list=1 spacing=0/120 line=320/atLeast}
+  R "intro"
 P{bookmark=_roles pStyle=Heading2}
   R "Roles"
 P{spacing=0/160 line=320/atLeast}
@@ -113,3 +115,12 @@ STYLE Hyperlink{color=2563EB}
 STYLE Normal{color=1A1A2E font=Georgia sz=22}
 STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
 STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}
+LIST DEFINITION 0
+  LEVEL 0 bullet "•" indent=760/360
+  LEVEL 1 bullet "◦" indent=1160/360
+  LEVEL 2 bullet "▪" indent=1560/360
+LIST DEFINITION 1
+  LEVEL 0 decimal "%1." indent=760/360
+  LEVEL 1 lowerLetter "%2." indent=1160/360
+  LEVEL 2 decimal "%3)" indent=1560/360
+LIST 1 definition=0

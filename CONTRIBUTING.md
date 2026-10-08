@@ -40,6 +40,17 @@ files in your pull request, where the diff shows reviewers exactly what moved:
 go test ./internal/render -run Golden -update
 ```
 
+### Real documents
+
+`fixtures/corpus` holds documents from public projects, unedited, with
+their origins and licenses in its `SOURCES.md`. `TestGoldenCorpus` converts
+each to both formats, checks that nothing is drawn off the page and that the
+DOCX is consistent, and compares a few lines of summary (what the document
+holds, its page count, the warnings) with a recording under
+`testdata/golden/corpus`. They are there because documents written to test
+a feature are written by someone who knows how the feature reads them. When
+a real document shows a problem, add it to the corpus with the fix.
+
 ### Checking the output by eye
 
 `fixtures/showcase.md` contains every element markout renders, each with a
@@ -98,3 +109,16 @@ Contributions are accepted under the project's license, the
 
 Maintainers release by pushing a version tag (`vX.Y.Z`). The release workflow
 runs the tests, builds the binaries for every platform and publishes them.
+
+- **A fix** (`X.Y.Z` with a new `Z`) is tagged when its pull request is
+  merged.
+- **New features** (a new `X` or `Y`) first go out as a release candidate,
+  `vX.Y.0-rc1`. A candidate is published as a pre-release: it does not
+  become the latest release, and neither the download links nor the update
+  check offer it. It is there to be used on real documents for a few days.
+  Problems found are fixed and tagged `-rc2` and so on; the candidate that
+  holds up is tagged `vX.Y.0` on the same commit.
+
+While a version is a candidate, its entry in `CHANGELOG.md` is headed
+`## [X.Y.0] - Unreleased`. The pull request that ends the candidate period
+puts the date there.

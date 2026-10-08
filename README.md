@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.7.1 to pin one).
+# Look up the latest release tag (or set VERSION=v1.7.2 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -356,14 +356,21 @@ things are beyond it for now:
   come out in reverse order. The conversion warns about this too.
 - **Documentation-site Markdown** (MyST, MkDocs Material, Docusaurus) is
   read for what a document can show: admonitions, tabs with their labels,
-  code block titles, MyST `list-table` and `csv-table`. The rest of what
-  those sites build is not: MkDocs snippets (`--8<--`), keys (`++ctrl++`)
-  and icons (`:material-…:`) stay as written; a MyST `eval-rst` block is
-  shown as its source; `toctree`, `raw`, `bibliography` and `index`, and
-  the `video` and `query-table` blocks of Azure DevOps, are left out, and a
-  directive markout does not know is shown as plain text. The conversion
-  says so in both of those cases. MDX `import` and `export` lines and
-  comments are dropped, as they show nothing on the site either.
+  code block titles, MyST tables, version notes, and the pages a `toctree`
+  names, as a list. Some of what those sites build has no place in a single
+  document:
+  - MkDocs snippets (`--8<--`), keys (`++ctrl++`) and icons
+    (`:material-…:`) stay as written.
+  - A MyST `eval-rst` block is shown as its source, since reStructuredText
+    is not read.
+  - `raw` blocks for a format other than HTML, `bibliography` and `index`,
+    the `video` and `query-table` blocks of Azure DevOps, and JSX
+    components that stand by themselves in MDX (`<Chart />`), are left out,
+    and the conversion names them.
+  - A directive markout does not know is shown as plain text, and the
+    conversion names it.
+  - MDX `import` and `export` lines and comments are dropped: they show
+    nothing on the site either.
 - **A table of contents in DOCX** lists the headings without page numbers
   until Word is asked to update it (right-click it, *Update Field*); where
   the pages break is Word's decision, so markout cannot know the numbers.
@@ -380,7 +387,7 @@ things are beyond it for now:
 | `internal/convert` | Conversion orchestration                        |
 | `internal/theme`   | Themes: the built-in ones and theme files       |
 | `internal/settings`| Saved preferences (the selected flavor)         |
-| `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor |
+| `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor, `corpus/` has real documents from public projects |
 | `docs`             | The [theme guide](docs/themes.md) and pictures  |
 | `cmd/debug`        | Dumps the parsed AST as JSON for debugging       |
 

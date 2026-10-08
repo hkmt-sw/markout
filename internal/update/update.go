@@ -59,15 +59,16 @@ func Latest(ctx context.Context, url, current string) (string, error) {
 	return release.TagName, nil
 }
 
-// IsRelease reports whether v is a plain release version (v1.2.3). Development
-// builds ("dev", "v1.2.3-4-gabc123-dirty") are not, and are never told to
-// update.
+// IsRelease reports whether v is a release version: a plain one (v1.2.3) or
+// a release candidate (v1.2.3-rc1). Development builds ("dev",
+// "v1.2.3-4-gabc123-dirty") are not, and are never told to update.
 func IsRelease(v string) bool {
 	_, ok := parse(v)
 	return ok
 }
 
-// Newer reports whether release version latest is higher than current.
+// Newer reports whether release version latest is higher than current. A
+// release is newer than its own candidates.
 func Newer(latest, current string) bool {
 	l, ok1 := parse(latest)
 	c, ok2 := parse(current)
@@ -82,10 +83,23 @@ func Newer(latest, current string) bool {
 	return false
 }
 
-// parse reads "v1.2.3" or "1.2.3" into its three numbers.
-func parse(v string) ([3]int, bool) {
-	var out [3]int
-	parts := strings.Split(strings.TrimPrefix(v, "v"), ".")
+// final stands for "not a candidate" in the place of a candidate's number,
+// which puts a release after all of its candidates.
+const final = 1 << 30
+
+// parse reads "v1.2.3" or "1.2.3" into its three numbers, followed by the
+// number of the release candidate for "v1.2.3-rc2".
+func parse(v string) ([4]int, bool) {
+	out := [4]int{3: final}
+	v = strings.TrimPrefix(v, "v")
+	if base, candidate, ok := strings.Cut(v, "-rc"); ok {
+		n, err := strconv.Atoi(candidate)
+		if err != nil || n < 1 || candidate[0] == '0' {
+			return out, false
+		}
+		v, out[3] = base, n
+	}
+	parts := strings.Split(v, ".")
 	if len(parts) != 3 {
 		return out, false
 	}

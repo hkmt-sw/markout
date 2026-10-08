@@ -46,3 +46,8 @@ jobs:
           files: dist/*
           generate_release_notes: true
           fail_on_unmatched_files: true
+          # A tag such as v1.8.0-rc1 is a release candidate: published as a
+          # pre-release, and not what "latest" points at, so the download
+          # links and the update check keep offering the last real release.
+          prerelease: ${{ contains(github.ref_name, '-') }}
+          make_latest: ${{ contains(github.ref_name, '-') && 'false' || 'true' }}

@@ -1,0 +1,5 @@
+source: 93 lines
+holds: Alert 2, Blockquote 1, Heading 4, List 2, ListItem 3, MathBlock 5, Paragraph 15
+reading warns: 3 directives are not known; their content is shown as plain text: {syntax-example} (3)
+pdf: 2 pages, 4 bookmarks, 0 links within the document
+docx: 31 paragraphs, 4 headings, 3 list items, 2 tables, 8 equations, 0 images

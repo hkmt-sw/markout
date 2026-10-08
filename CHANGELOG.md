@@ -4,6 +4,43 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.7.2] - 2026-10-08
+
+Fixes found by converting real documents, and a slower way of releasing.
+
+### Fixed
+
+- MyST: a display formula closed with its label (`$$ (label)`) was not seen
+  to end, and took the rest of the document into the formula.
+- MyST: `{list-table}` written with more than one space after the `*`, and
+  `{csv-table}` with its header on a line of its own (`:header: >`), were
+  not read as tables.
+- MyST: the formulas of a `{math}` block separated by a blank line are
+  formulas of their own, and LaTeX environments at the top level
+  (`\begin{align}` … `\end{align}`) are formulas.
+- Math: a formula of several lines broken with `\\` needs no `aligned`
+  around it, and `gather`, `multline`, `eqnarray` and the starred forms of
+  environments are read.
+- MyST `{toctree}` is shown as the list of pages it names, and `{raw} html`
+  is read like other HTML in the document, instead of both being left out.
+  `{versionadded}`, `{versionchanged}`, `{deprecated}`, `{table}`,
+  `{tab-set}` and `{line-block}` are understood.
+- Docusaurus: a JSX component that stands by itself (`<Chart />`) shows
+  nothing in a document and was dropped without a word. It is still left
+  out, and the conversion now names it.
+
+### Changed
+
+- New features now go out as a release candidate first (`v1.8.0-rc1`),
+  published as a pre-release that the download links and the update check
+  do not offer, and become a release after being used for a few days. Fixes
+  are still released as they are merged. See `CONTRIBUTING.md`.
+- A build of a release candidate is told when its release, or a later
+  candidate, is out.
+- The tests convert a corpus of real documents from public projects
+  (`fixtures/corpus`): READMEs and pages of the MkDocs Material, MyST and
+  Docusaurus documentation.
+
 ## [1.7.1] - 2026-10-08
 
 Nothing in a document goes missing without a word, in the documentation

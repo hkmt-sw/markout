@@ -1,0 +1,5 @@
+source: 122 lines
+holds: Alert 1, CodeBlock 4, Heading 13, Image 1, List 4, ListItem 9, Paragraph 20
+pdf: 3 pages, 13 bookmarks, 4 links within the document
+pdf warns: 1 character is not in the PDF fonts and left out: ✓. A theme can use a font that has them.
+docx: 53 paragraphs, 13 headings, 9 list items, 5 tables, 0 equations, 0 images
