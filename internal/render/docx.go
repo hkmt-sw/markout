@@ -30,6 +30,15 @@ type DocxRenderer struct {
 	// twips, for every table of the body.
 	inset       float64
 	tableInsets []int
+
+	// See docx_structure.go.
+	bookmarks     map[string]string // heading ID -> the name of its bookmark
+	bookmarkNames map[string]bool   // names taken
+	bookmarked    map[string]bool   // names a heading has been given
+	slugs         map[string]int    // how many headings share a GitHub-style anchor
+	bookmarkSeq   int               // bookmarks written so far
+	orderedNums   int               // numbered lists started
+	listsUsed     bool
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -45,7 +54,11 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.doc = docx.NewDocument()
 	r.footnotes = nil // Reset footnotes
 	r.inset, r.tableInsets = 0, nil
+	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
+	r.slugs = map[string]int{}
+	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
 	r.setupDocument()
+	r.collectHeadings(astDoc.Elements)
 
 	for _, elem := range astDoc.Elements {
 		if err := r.renderElement(elem); err != nil {
@@ -64,15 +77,24 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		return err
 	}
 
+	// The definitions of the lists the paragraphs refer to
+	if r.listsUsed {
+		part, ok := r.doc.(interface{ SetNumberingPart([]byte, string) })
+		if !ok {
+			return fmt.Errorf("the DOCX library cannot store list definitions")
+		}
+		part.SetNumberingPart(r.numberingXML(), "numbering.xml")
+	}
+
 	// Save to temp file first
 	tempFile := filename + ".tmp"
 	if err := r.doc.SaveAs(tempFile); err != nil {
 		return err
 	}
 
-	// Post-process to add table row properties (cantSplit, tblHeader) and
-	// table indents
-	if err := postProcessDocx(tempFile, filename, r.tableInsets); err != nil {
+	// Post-process to add table row properties (cantSplit, tblHeader), table
+	// indents, the table of contents field and the styles
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions()); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -155,7 +177,6 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 		return err
 	}
 
-	// Font size in half-points
 	level := h.Level
 	if level < 1 {
 		level = 1
@@ -165,11 +186,24 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 	}
 	hd := r.t.Heading[level-1]
 
-	r.space(para, hd.LineHeight, hd.SpaceBefore, hd.SpaceAfter)
+	// The heading style has the font, size, color and spacing; see
+	// styleDefinitions. It is also what puts the heading in Word's
+	// navigation pane and table of contents.
+	if err := para.SetStyle(fmt.Sprintf("Heading%d", level)); err != nil {
+		return err
+	}
 	r.inside(para)
 
-	// Black is what a word processor uses when no color is given
-	base := runBase{size: hd.Size, font: r.t.Fonts.Heading, color: hd.Color, noColor: hd.Color == theme.Black, bold: true}
+	// The bookmark links to this heading jump to
+	if name, ok := r.bookmarks[h.ID]; ok && !r.bookmarked[name] {
+		if marked, ok := para.(interface{ HydrateBookmark(id, name string) }); ok {
+			r.bookmarkSeq++
+			marked.HydrateBookmark(itoa(r.bookmarkSeq), name)
+			r.bookmarked[name] = true
+		}
+	}
+
+	base := runBase{size: hd.Size, font: r.t.Fonts.Heading, color: hd.Color, bold: true, styled: true, styledBold: true}
 	for _, astRun := range h.Runs {
 		if err := r.addRun(para, astRun, base); err != nil {
 			return err
@@ -220,8 +254,8 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 	// Handle footnote reference
 	if astRun.FootnoteIndex > 0 {
 		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
-		run.SetSize(halfPoints(r.t.Footnote.Size))
-		run.SetFont(domain.Font{Name: base.font})
+		base.setSize(run, r.t.Footnote.Size)
+		base.setFont(run, base.font)
 		run.SetColor(docxColor(r.t.Link.Color))
 		return nil
 	}
@@ -230,16 +264,16 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 	if astRun.Link != "" {
 		run.SetColor(docxColor(r.t.Link.Color)) // Electric blue for links
 		run.SetUnderline(domain.UnderlineSingle)
-		run.SetSize(halfPoints(base.size))
-		run.SetFont(domain.Font{Name: base.font})
-		if base.bold {
-			run.SetBold(true)
-		}
-		if base.italic {
-			run.SetItalic(true)
+		base.setSize(run, base.size)
+		base.setFont(run, base.font)
+		base.setWeight(run, false, false)
+		// A link to a heading of this document goes to its bookmark
+		target := astRun.Link
+		if name, ok := r.bookmarkFor(target); ok {
+			target = "#" + name
 		}
 		// Add clickable hyperlink field
-		linkField := docx.NewHyperlinkField(astRun.Link, astRun.Text)
+		linkField := docx.NewHyperlinkField(target, astRun.Text)
 		run.AddField(linkField)
 		return nil
 	}
@@ -247,9 +281,9 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 	// Handle inline math
 	if astRun.Math {
 		run.SetText(astRun.Text)
-		run.SetSize(halfPoints(base.size))
+		base.setSize(run, base.size)
 		run.SetItalic(true)
-		run.SetFont(domain.Font{Name: base.font})
+		base.setFont(run, base.font)
 		run.SetColor(docxColor(r.t.Colors.Math))
 		return nil
 	}
@@ -262,13 +296,13 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 			return err
 		}
 		chipRun.SetText("\u25A0 ") // Filled square
-		chipRun.SetSize(halfPoints(base.size))
-		chipRun.SetFont(domain.Font{Name: base.font})
+		base.setSize(chipRun, base.size)
+		base.setFont(chipRun, base.font)
 		chipRun.SetColor(hexToColor(strings.TrimPrefix(astRun.ColorChip, "#")))
 
 		// Then render the hex text as code
 		run.SetText(astRun.Text)
-		run.SetSize(halfPoints(base.size))
+		base.setSize(run, base.size)
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
 		run.SetColor(docxColor(r.t.Code.Color))
 		return nil
@@ -276,33 +310,26 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 
 	// Superscripts and subscripts use the Unicode script characters where
 	// they exist, and smaller type otherwise.
-	text, size := astRun.Text, halfPoints(base.size)
+	text, size := astRun.Text, base.size
 	if astRun.Superscript || astRun.Subscript {
 		if script, ok := scriptText(text, astRun.Superscript); ok {
 			text = script
 		} else {
-			size = halfPoints(base.size * 0.64)
+			size = base.size * 0.64
 		}
 	}
 	run.SetText(text)
-	run.SetSize(size)
+	base.setSize(run, size)
 
 	if astRun.Code {
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
 		run.SetColor(docxColor(r.t.Code.Color)) // Syntax red for inline code
 	} else {
-		run.SetFont(domain.Font{Name: base.font})
-		if !base.noColor {
-			run.SetColor(docxColor(base.color))
-		}
+		base.setFont(run, base.font)
+		base.setColor(run, base.color)
 	}
 
-	if astRun.Bold || base.bold {
-		run.SetBold(true)
-	}
-	if astRun.Italic || base.italic {
-		run.SetItalic(true)
-	}
+	base.setWeight(run, astRun.Bold, astRun.Italic)
 	if astRun.Strikethrough {
 		run.SetStrike(true)
 		run.SetColor(docxColor(r.t.Text.Faint)) // Muted for strikethrough
@@ -355,9 +382,8 @@ func scriptText(text string, super bool) (string, bool) {
 }
 
 func (r *DocxRenderer) renderList(l ast.List) error {
-	r.listCounters = make(map[int]int)
 	r.lastListItem = nil
-	if err := r.renderListItems(l.Items, l.Ordered, 0); err != nil {
+	if err := r.renderListItems(l.Items, r.listNum(l.Ordered), 0); err != nil {
 		return err
 	}
 	// The space after a list goes under its last item
@@ -367,42 +393,53 @@ func (r *DocxRenderer) renderList(l ast.List) error {
 	return nil
 }
 
-func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level int) error {
+// listNum is the Word list the items of a list belong to: the one list of
+// bullets, or a new numbered list, which counts from one.
+func (r *DocxRenderer) listNum(ordered bool) int {
+	r.listsUsed = true
+	if ordered {
+		return r.newOrderedNum()
+	}
+	return bulletNum
+}
+
+func (r *DocxRenderer) renderListItems(items []ast.ListItem, num, level int) error {
+	ilvl := level
+	if ilvl > maxListLevel {
+		ilvl = maxListLevel
+	}
 	for _, item := range items {
 		para, err := r.doc.AddParagraph()
 		if err != nil {
 			return err
 		}
-
-		// Add bullet/number or checkbox
-		var prefix string
-		if item.IsTask {
-			// Task list item - use checkbox symbol
-			if item.Checked {
-				prefix = "☑" // Checked checkbox
-			} else {
-				prefix = "☐" // Unchecked checkbox
-			}
-		} else if ordered {
-			r.listCounters[level]++
-			prefix = formatOrderedBullet(r.listCounters[level], level)
-		} else {
-			prefix = getBulletChar(level)
-		}
-
-		// Indentation based on level
-		r.indent(para, float64(level+1)*r.t.List.Indent, 0)
 		r.space(para, r.t.Text.LineHeight, 0, 0)
 		r.lastListItem = para
 
-		bulletRun, err := para.AddRun()
-		if err != nil {
-			return err
+		if item.IsTask {
+			// A task has its box in place of a bullet or number
+			box := "☐"
+			if item.Checked {
+				box = "☑"
+			}
+			r.indent(para, float64(level+1)*r.t.List.Indent, 0)
+			boxRun, err := para.AddRun()
+			if err != nil {
+				return err
+			}
+			boxRun.SetText(box + " ")
+		} else {
+			// Word draws the bullet or number, and where is in the list's
+			// definition; an item inside another item's blocks is moved in
+			// with them
+			if err := para.SetNumbering(domain.NumberingReference{ID: num, Level: ilvl}); err != nil {
+				return err
+			}
+			if r.inset > 0 {
+				para.SetIndentLeft(twips(r.inset + r.itemIndent(ilvl)))
+				para.SetIndentHanging(twips(r.listHang()))
+			}
 		}
-		bulletRun.SetText(prefix + " ")
-		bulletRun.SetSize(halfPoints(r.t.Text.Size))
-		bulletRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		bulletRun.SetColor(docxColor(r.t.Text.Color))
 
 		// Add content
 		for _, astRun := range item.Runs {
@@ -412,20 +449,17 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, ordered bool, level
 		}
 
 		// What the item holds besides its text goes under it, moved in to
-		// about where the text starts after the bullet
+		// where the text starts
 		if len(item.Blocks) > 0 {
 			para.SetSpacingAfter(twips(r.t.Text.ParagraphSpacing / 2))
-			inset := r.inset + float64(level+1)*r.t.List.Indent + r.t.Text.Size
-			if err := r.renderItemBlocks(item.Blocks, inset); err != nil {
+			if err := r.renderItemBlocks(item.Blocks, r.inset+r.itemIndent(ilvl)); err != nil {
 				return err
 			}
 		}
 
-		// Nested items
+		// Nested items: a list of their own kind, counted from one
 		if len(item.Children) > 0 {
-			// A nested list is numbered or not by itself, and counts from one
-			r.listCounters[level+1] = 0
-			if err := r.renderListItems(item.Children, item.ChildrenOrdered, level+1); err != nil {
+			if err := r.renderListItems(item.Children, r.listNum(item.ChildrenOrdered), level+1); err != nil {
 				return err
 			}
 		}
@@ -516,7 +550,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 			run.SetText(line)
 		}
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code}) // Consolas
-		run.SetSize(halfPoints(r.t.Code.BlockSize))
+		run.SetSize(runSize(r.t.Code.BlockSize))
 		run.SetColor(docxColor(r.t.Code.BlockColor))
 	}
 
@@ -900,7 +934,7 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 		altRun.SetText(img.Alt)
 		altRun.SetColor(docxColor(r.t.Text.Muted))
 		altRun.SetItalic(true)
-		altRun.SetSize(halfPoints(r.t.Caption.Size))
+		altRun.SetSize(runSize(r.t.Caption.Size))
 		altRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	}
 
@@ -948,7 +982,7 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 	run.SetText("🖼 " + displayText)
 	run.SetColor(docxColor(r.t.Text.Muted))
 	run.SetItalic(true)
-	run.SetSize(halfPoints(r.t.Text.Size))
+	run.SetSize(runSize(r.t.Text.Size))
 	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 
 	// Add URL on next line if present
@@ -966,7 +1000,7 @@ func (r *DocxRenderer) renderImagePlaceholder(img ast.Image) error {
 		urlTextRun.SetText(img.URL)
 		urlTextRun.SetColor(docxColor(r.t.Link.Color))
 		urlTextRun.SetUnderline(domain.UnderlineSingle)
-		urlTextRun.SetSize(halfPoints(r.t.Caption.Size))
+		urlTextRun.SetSize(runSize(r.t.Caption.Size))
 		urlTextRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	}
 
@@ -999,7 +1033,7 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 			return err
 		}
 		numRun.SetText(itoa(fn.Index) + ". ")
-		numRun.SetSize(halfPoints(r.t.Footnote.Size))
+		numRun.SetSize(runSize(r.t.Footnote.Size))
 		numRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		numRun.SetColor(docxColor(r.t.Text.Muted))
 
@@ -1085,7 +1119,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	}
 	titleRun.SetText(alert.Title)
 	titleRun.SetBold(true)
-	titleRun.SetSize(halfPoints(r.t.Text.Size))
+	titleRun.SetSize(runSize(r.t.Text.Size))
 	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	titleRun.SetColor(hexToColor(borderColor))
 
@@ -1151,7 +1185,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 	}
 	labelRun.SetText("Mermaid Diagram")
 	labelRun.SetBold(true)
-	labelRun.SetSize(halfPoints(r.t.Text.Size))
+	labelRun.SetSize(runSize(r.t.Text.Size))
 	labelRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	labelRun.SetColor(docxColor(r.t.Diagram.Text))
 
@@ -1181,7 +1215,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 			run.SetText(line)
 		}
 		run.SetFont(domain.Font{Name: r.t.Fonts.Code})
-		run.SetSize(halfPoints(r.t.Code.BlockSize))
+		run.SetSize(runSize(r.t.Code.BlockSize))
 		run.SetColor(docxColor(r.t.Diagram.Text))
 	}
 
@@ -1204,7 +1238,7 @@ func (r *DocxRenderer) renderMathBlock(math ast.MathBlock) error {
 	}
 	run.SetText(math.Expression)
 	run.SetItalic(true)
-	run.SetSize(halfPoints(r.t.Text.Size))
+	run.SetSize(runSize(r.t.Text.Size))
 	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	run.SetColor(docxColor(r.t.Colors.Math))
 
@@ -1266,35 +1300,65 @@ func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
 	}
 	titleRun.SetText("Table of Contents")
 	titleRun.SetBold(true)
-	titleRun.SetSize(halfPoints(r.t.Heading[2].Size))
+	titleRun.SetSize(runSize(r.t.Heading[2].Size))
 	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 	titleRun.SetColor(docxColor(r.t.Text.Color))
 
-	// TOC items with level-based indent
-	for _, item := range toc.Items {
+	// The entries are in Word's TOC styles and link to the headings. Around
+	// them goes a TOC field (see wrapTOC), so that Word can rebuild the
+	// table, with page numbers, when asked to update it.
+	for i, item := range toc.Items {
 		para, err := r.doc.AddParagraph()
 		if err != nil {
 			return err
 		}
+		level := item.Level
+		if level < 1 {
+			level = 1
+		}
+		if level > 9 {
+			level = 9
+		}
+		if err := para.SetStyle(fmt.Sprintf("TOC%d", level)); err != nil {
+			return err
+		}
+		if r.inset > 0 {
+			r.indent(para, float64(level-1)*r.t.List.Indent, 0)
+		}
 
-		// Indent based on level
-		r.indent(para, float64(item.Level-1)*r.t.List.Indent, 0)
-		r.space(para, r.t.Text.LineHeight, 0, 0)
-
+		if i == 0 {
+			if err := tocMark(para, tocBeginMark); err != nil {
+				return err
+			}
+		}
 		run, err := para.AddRun()
 		if err != nil {
 			return err
 		}
-		run.SetText(item.Title)
-		run.SetSize(halfPoints(r.t.Text.Size))
-		run.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		run.SetColor(docxColor(r.t.Link.Color))
+		if name, ok := r.bookmarks[item.ID]; ok {
+			run.AddField(docx.NewHyperlinkField("#"+name, item.Title))
+		} else {
+			run.SetText(item.Title)
+		}
+		if i == len(toc.Items)-1 {
+			if err := tocMark(para, tocEndMark); err != nil {
+				return err
+			}
+		}
 	}
 
 	return r.gap(r.t.Text.ParagraphSpacing)
 }
 
-// renderFrontMatter renders YAML front matter as a styled metadata block
+func tocMark(para domain.Paragraph, mark string) error {
+	run, err := para.AddRun()
+	if err != nil {
+		return err
+	}
+	return run.SetText(mark)
+}
+
 func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 	// Create a single-cell table for the metadata block
 	table, err := r.addTable(1, 1)
@@ -1343,7 +1407,7 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 		}
 		labelRun.SetText(label + ": ")
 		labelRun.SetBold(true)
-		labelRun.SetSize(halfPoints(r.t.Text.Size))
+		labelRun.SetSize(runSize(r.t.Text.Size))
 		labelRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		labelRun.SetColor(docxColor(r.t.Text.Muted))
 
@@ -1352,7 +1416,7 @@ func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
 			return err
 		}
 		valueRun.SetText(value)
-		valueRun.SetSize(halfPoints(r.t.Text.Size))
+		valueRun.SetSize(runSize(r.t.Text.Size))
 		valueRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		valueRun.SetColor(docxColor(r.t.Text.Color))
 		return nil
@@ -1469,7 +1533,7 @@ func (r *DocxRenderer) fillRunning(part runningPart, run theme.Running, info doc
 			if err != nil {
 				return err
 			}
-			piece.SetSize(halfPoints(run.Size))
+			piece.SetSize(runSize(run.Size))
 			piece.SetFont(domain.Font{Name: r.t.Fonts.Body})
 			piece.SetColor(docxColor(run.Color))
 			switch part {
@@ -1559,17 +1623,49 @@ func ruleBorder(width float64, c theme.Color) domain.BorderStyle {
 // runBase is the look of the text a run belongs to; the run's own
 // formatting is applied on top of it.
 type runBase struct {
-	size    float64
-	font    string
-	color   theme.Color
-	noColor bool // leave plain text in the word processor's default color
-	bold    bool
-	italic  bool
+	size   float64
+	font   string
+	color  theme.Color
+	bold   bool
+	italic bool
+	// styled says that the paragraph's style gives its text this size, font
+	// and color, so a run only states what it has differently. styledBold
+	// says the same of the weight.
+	styled     bool
+	styledBold bool
 }
 
-// bodyBase is the look of ordinary text.
+func (b runBase) setSize(run domain.Run, pt float64) {
+	if !b.styled || pt != b.size {
+		run.SetSize(runSize(pt))
+	}
+}
+
+func (b runBase) setFont(run domain.Run, name string) {
+	if !b.styled || name != b.font {
+		run.SetFont(domain.Font{Name: name})
+	}
+}
+
+func (b runBase) setColor(run domain.Run, c theme.Color) {
+	if !b.styled || c != b.color {
+		run.SetColor(docxColor(c))
+	}
+}
+
+func (b runBase) setWeight(run domain.Run, bold, italic bool) {
+	if bold || (b.bold && !b.styledBold) {
+		run.SetBold(true)
+	}
+	if italic || b.italic {
+		run.SetItalic(true)
+	}
+}
+
+// bodyBase is the look of ordinary text, which is what the Normal style
+// gives a paragraph.
 func (r *DocxRenderer) bodyBase() runBase {
-	return runBase{size: r.t.Text.Size, font: r.t.Fonts.Body, color: r.t.Text.Color}
+	return runBase{size: r.t.Text.Size, font: r.t.Fonts.Body, color: r.t.Text.Color, styled: true}
 }
 
 // near reports whether two lengths in points are within a point of each other.
@@ -1583,6 +1679,20 @@ func twips(pt float64) int {
 }
 
 // halfPoints converts points to half-points, the unit of DOCX font sizes.
+// explicitDefaultSize stands for 11 pt on a run. The library leaves that size
+// out of the file, taking it for what a run has anyway, but a run with no
+// size has its paragraph style's; the stand-in is written and put right
+// afterwards (see postProcessDocx).
+const explicitDefaultSize = 2222
+
+// runSize is a size in the form runs take it.
+func runSize(pt float64) int {
+	if hp := halfPoints(pt); hp != 22 {
+		return hp
+	}
+	return explicitDefaultSize
+}
+
 func halfPoints(pt float64) int {
 	return int(pt * 2)
 }
@@ -1616,9 +1726,9 @@ func (r *DocxRenderer) inside(p domain.Paragraph) {
 // renderItemBlocks renders the blocks of a list item under its text, moved in
 // by inset points.
 func (r *DocxRenderer) renderItemBlocks(blocks []ast.Element, inset float64) error {
-	outer, counters, last := r.inset, r.listCounters, r.lastListItem
+	outer, last := r.inset, r.lastListItem
 	r.inset = inset
-	defer func() { r.inset, r.listCounters, r.lastListItem = outer, counters, last }()
+	defer func() { r.inset, r.lastListItem = outer, last }()
 	for _, block := range blocks {
 		if err := r.renderElement(block); err != nil {
 			return err
@@ -1662,7 +1772,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1697,6 +1807,10 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int) error {
 		if file.Name == "word/document.xml" {
 			content = addTableRowProperties(content)
 			content = indentTables(content, tableInsets)
+			content = wrapTOC(content)
+		}
+		if file.Name == "word/styles.xml" {
+			content = replaceStyles(content, styles)
 		}
 		// The library marks every field as needing an update, which makes
 		// Word ask "This document contains fields that may refer to other
@@ -1704,6 +1818,11 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int) error {
 		// are recalculated by the word processor anyway.
 		if strings.HasPrefix(file.Name, "word/") && strings.HasSuffix(file.Name, ".xml") {
 			content = bytes.ReplaceAll(content, []byte(` w:dirty="true"`), nil)
+			for _, el := range []string{"w:sz", "w:szCs"} {
+				content = bytes.ReplaceAll(content,
+					[]byte(fmt.Sprintf(`<%s w:val="%d">`, el, explicitDefaultSize)),
+					[]byte(fmt.Sprintf(`<%s w:val="22">`, el)))
+			}
 		}
 
 		// Write to output

@@ -5,22 +5,26 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
       P{indent=160/160 spacing=160/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Title: "
-        R{color=1A1A2E font=Georgia} "MyST sample"
+        R{b color=4A4A68 font=Georgia sz=22} "Title: "
+        R{color=1A1A2E font=Georgia sz=22} "MyST sample"
 P{spacing=/ line=160/exact}
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "MyST"
+P{bookmark=_myst pStyle=Heading1}
+  R "MyST"
 P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P{indent=0 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "MyST"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Directives"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Roles"
+P{pStyle=TOC1}
+  FIELD begin
+  R " TOC \\o \"1-6\" \\h \\z \\u "
+  FIELD separate
+  R{color=2563EB link=#_myst rStyle=Hyperlink} "MyST"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_directives rStyle=Hyperlink} "Directives"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_roles rStyle=Hyperlink} "Roles"
+  FIELD end
 P{spacing=/ line=160/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "Directives"
+P{bookmark=_directives pStyle=Heading2}
+  R "Directives"
 TABLE
   COL w=9070
   ROW
@@ -28,11 +32,11 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=3B82F6 font=Georgia} "NOTE"
+        R{b color=3B82F6 font=Georgia sz=22} "NOTE"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "A backtick directive with "
-        R{b color=1A1A2E font=Georgia} "markup"
-        R{color=1A1A2E font=Georgia} "."
+        R "A backtick directive with "
+        R{b} "markup"
+        R "."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -41,12 +45,12 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=EF4444 font=Georgia} "WARNING"
+        R{b color=EF4444 font=Georgia sz=22} "WARNING"
       P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "Careful"
+        R "Careful"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "A colon"
-        R{color=1A1A2E font=Georgia} " directive."
+        R "A colon"
+        R " directive."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -55,10 +59,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=22C55E font=Georgia} "Custom title"
+        R{b color=22C55E font=Georgia sz=22} "Custom title"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "Body"
-        R{color=1A1A2E font=Georgia} " text."
+        R "Body"
+        R " text."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -70,21 +74,31 @@ TABLE
         R{color=24292F font=Consolas sz=19} "print(\"hello\")"
 P{spacing=/ line=160/exact}
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i} "a^2 + b^2 = c^2"
+  R{color=7C3AED font=Georgia i sz=22} "a^2 + b^2 = c^2"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=4A4A68 font=Georgia i} "🖼 A plot"
+  R{color=4A4A68 font=Georgia i sz=22} "🖼 A plot"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "plot.png"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "The"
-  R{color=1A1A2E font=Georgia} " caption."
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "Roles"
+  R "The"
+  R " caption."
+P{bookmark=_roles pStyle=Heading2}
+  R "Roles"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Inline "
-  R{color=7C3AED font=Georgia i} "x_i"
-  R{color=1A1A2E font=Georgia} ", H"
-  R{color=1A1A2E font=Georgia} "₂"
-  R{color=1A1A2E font=Georgia} "O, a link title and "
+  R "Inline "
+  R{color=7C3AED i} "x_i"
+  R ", H"
+  R "₂"
+  R "O, a link title and "
   R{color=CF222E font=Consolas} "Ctrl"
-  R{color=1A1A2E font=Georgia} "."
+  R "."
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}

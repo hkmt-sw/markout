@@ -5,59 +5,63 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Title: "
-        R{color=1A1A2E font=Georgia} "GitLab Flavored Markdown Test"
+        R{b color=4A4A68 font=Georgia sz=22} "Title: "
+        R{color=1A1A2E font=Georgia sz=22} "GitLab Flavored Markdown Test"
       P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Author: "
-        R{color=1A1A2E font=Georgia} "Markout Team"
+        R{b color=4A4A68 font=Georgia sz=22} "Author: "
+        R{color=1A1A2E font=Georgia sz=22} "Markout Team"
       P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Date: "
-        R{color=1A1A2E font=Georgia} "2026-02-22"
+        R{b color=4A4A68 font=Georgia sz=22} "Date: "
+        R{color=1A1A2E font=Georgia sz=22} "2026-02-22"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "version: "
-        R{color=1A1A2E font=Georgia} "1.0"
+        R{b color=4A4A68 font=Georgia sz=22} "version: "
+        R{color=1A1A2E font=Georgia sz=22} "1.0"
 P{spacing=/ line=160/exact}
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "GitLab Flavored Markdown"
-  R{b font=Georgia sz=56} " Features"
+P{bookmark=_gitlab_flavored_markdown_features pStyle=Heading1}
+  R "GitLab Flavored Markdown"
+  R " Features"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "This document demonstrates all GitLab-specific Markdown extensions supported by"
-  R{color=1A1A2E font=Georgia} " Markout."
+  R "This document demonstrates all GitLab-specific Markdown extensions supported by"
+  R " Markout."
 P{spacing=160/160}
   R{b color=1A1A2E font=Georgia sz=34} "Table of Contents"
-P{indent=0 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "GitLab Flavored Markdown Features"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "1. Alerts / Callouts"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "2. Mermaid Diagrams"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "3. Color Chips"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "4. Description Lists"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "5. Math (LaTeX)"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Inline Math"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Block Math"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "6. Table of Contents"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "7. Front Matter"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Mixed Content Test"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Tables Still Work"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Lists Still Work"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=2563EB font=Georgia} "Task Lists Still Work"
+P{pStyle=TOC1}
+  FIELD begin
+  R " TOC \\o \"1-6\" \\h \\z \\u "
+  FIELD separate
+  R{color=2563EB link=#_gitlab_flavored_markdown_features rStyle=Hyperlink} "GitLab Flavored Markdown Features"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_1_alerts__callouts rStyle=Hyperlink} "1. Alerts / Callouts"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_2_mermaid_diagrams rStyle=Hyperlink} "2. Mermaid Diagrams"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_3_color_chips rStyle=Hyperlink} "3. Color Chips"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_4_description_lists rStyle=Hyperlink} "4. Description Lists"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_5_math_latex rStyle=Hyperlink} "5. Math (LaTeX)"
+P{pStyle=TOC3}
+  R{color=2563EB link=#_inline_math rStyle=Hyperlink} "Inline Math"
+P{pStyle=TOC3}
+  R{color=2563EB link=#_block_math rStyle=Hyperlink} "Block Math"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_6_table_of_contents rStyle=Hyperlink} "6. Table of Contents"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_7_front_matter rStyle=Hyperlink} "7. Front Matter"
+P{pStyle=TOC2}
+  R{color=2563EB link=#_mixed_content_test rStyle=Hyperlink} "Mixed Content Test"
+P{pStyle=TOC3}
+  R{color=2563EB link=#_tables_still_work rStyle=Hyperlink} "Tables Still Work"
+P{pStyle=TOC3}
+  R{color=2563EB link=#_lists_still_work rStyle=Hyperlink} "Lists Still Work"
+P{pStyle=TOC3}
+  R{color=2563EB link=#_task_lists_still_work rStyle=Hyperlink} "Task Lists Still Work"
+  FIELD end
 P{spacing=/ line=160/exact}
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "1. Alerts /"
-  R{b font=Georgia sz=44} " Callouts"
+P{bookmark=_1_alerts__callouts pStyle=Heading2}
+  R "1. Alerts /"
+  R " Callouts"
 TABLE
   COL w=9070
   ROW
@@ -65,10 +69,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=3B82F6 font=Georgia} "NOTE"
+        R{b color=3B82F6 font=Georgia sz=22} "NOTE"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "This is a note callout. Use it to highlight information that users should take into"
-        R{color=1A1A2E font=Georgia} " account."
+        R "This is a note callout. Use it to highlight information that users should take into"
+        R " account."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -77,10 +81,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=22C55E font=Georgia} "TIP"
+        R{b color=22C55E font=Georgia sz=22} "TIP"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "This is a tip callout. Use it to provide helpful advice or"
-        R{color=1A1A2E font=Georgia} " shortcuts."
+        R "This is a tip callout. Use it to provide helpful advice or"
+        R " shortcuts."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -89,10 +93,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/A855F7 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F3E8FF w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=A855F7 font=Georgia} "IMPORTANT"
+        R{b color=A855F7 font=Georgia sz=22} "IMPORTANT"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "This is an important callout. Use it to highlight crucial"
-        R{color=1A1A2E font=Georgia} " information."
+        R "This is an important callout. Use it to highlight crucial"
+        R " information."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -101,10 +105,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EAB308 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEF9C3 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=EAB308 font=Georgia} "CAUTION"
+        R{b color=EAB308 font=Georgia sz=22} "CAUTION"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "This is a caution callout. Use it to advise users to be"
-        R{color=1A1A2E font=Georgia} " careful."
+        R "This is a caution callout. Use it to advise users to be"
+        R " careful."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -113,23 +117,23 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=EF4444 font=Georgia} "WARNING"
+        R{b color=EF4444 font=Georgia sz=22} "WARNING"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "This is a warning callout. Use it to highlight dangerous or destructive"
-        R{color=1A1A2E font=Georgia} " actions."
+        R "This is a warning callout. Use it to highlight dangerous or destructive"
+        R " actions."
 P{spacing=/ line=160/exact}
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Regular blockquotes still work as expected"
-  R{color=1A1A2E font=Georgia} ":"
+  R "Regular blockquotes still work as expected"
+  R ":"
 P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia i} "This is a normal"
-  R{color=1A1A2E font=Georgia i} " blockquote. "
-  R{color=1A1A2E font=Georgia i} "It should render as"
-  R{color=1A1A2E font=Georgia i} " before."
+  R{i} "This is a normal"
+  R{i} " blockquote. "
+  R{i} "It should render as"
+  R{i} " before."
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "2. Mermaid"
-  R{b font=Georgia sz=44} " Diagrams"
+P{bookmark=_2_mermaid_diagrams pStyle=Heading2}
+  R "2. Mermaid"
+  R " Diagrams"
 TABLE
   COL w=9070
   ROW
@@ -137,7 +141,7 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
       P{indent=160/160 spacing=160/0 line=240/atLeast}
-        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+        R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"
       P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "graph TD"
         R "<br>"
@@ -158,7 +162,7 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
       P{indent=160/160 spacing=160/0 line=240/atLeast}
-        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+        R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"
       P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "sequenceDiagram"
         R "<br>"
@@ -171,137 +175,130 @@ TABLE
         R{color=065F46 font=Consolas sz=19} "    Server-->>Client: Response"
 P{spacing=/ line=160/exact}
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "3. Color"
-  R{b font=Georgia sz=44} " Chips"
+P{bookmark=_3_color_chips pStyle=Heading2}
+  R "3. Color"
+  R " Chips"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Inline color swatches for hex color codes"
-  R{color=1A1A2E font=Georgia} ":"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Red: "
+  R "Inline color swatches for hex color codes"
+  R ":"
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "Red: "
   R{color=CF222E font=Consolas} "#FF0000"
-  R{color=FF0000 font=Georgia} "■ "
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Green: "
+  R{color=FF0000} "■ "
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "Green: "
   R{color=CF222E font=Consolas} "#00FF00"
-  R{color=00FF00 font=Georgia} "■ "
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Blue: "
+  R{color=00FF00} "■ "
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "Blue: "
   R{color=CF222E font=Consolas} "#0000FF"
-  R{color=0000FF font=Georgia} "■ "
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Short form: "
+  R{color=0000FF} "■ "
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "Short form: "
   R{color=CF222E font=Consolas} "#F00"
-  R{font=Georgia} "■ "
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "With alpha: "
+  R "■ "
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "With alpha: "
   R{color=CF222E font=Consolas} "#FF000080"
-  R{font=Georgia} "■ "
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Coral: "
+  R "■ "
+P{level=0 list=1 spacing=0/0 line=320/atLeast}
+  R "Coral: "
   R{color=CF222E font=Consolas} "#FF7F50"
-  R{color=FF7F50 font=Georgia} "■ "
-P{indent=400 spacing=0/120 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "• "
-  R{color=1A1A2E font=Georgia} "Teal: "
+  R{color=FF7F50} "■ "
+P{level=0 list=1 spacing=0/120 line=320/atLeast}
+  R "Teal: "
   R{color=CF222E font=Consolas} "#008080"
-  R{color=008080 font=Georgia} "■ "
+  R{color=008080} "■ "
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Regular inline code is unaffected: "
+  R "Regular inline code is unaffected: "
   R{color=CF222E font=Consolas} "console.log(\"hello\")"
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "4. Description"
-  R{b font=Georgia sz=44} " Lists"
+P{bookmark=_4_description_lists pStyle=Heading2}
+  R "4. Description"
+  R " Lists"
 P{spacing=0/0 line=320/atLeast}
-  R{b color=1A1A2E font=Georgia} "HTTP"
-  R{b color=1A1A2E font=Georgia} " Methods"
+  R{b} "HTTP"
+  R{b} " Methods"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "GET - Retrieve a"
-  R{color=1A1A2E font=Georgia} " resource"
+  R "GET - Retrieve a"
+  R " resource"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "POST - Create a new"
-  R{color=1A1A2E font=Georgia} " resource"
+  R "POST - Create a new"
+  R " resource"
 P{indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "PUT - Update an existing"
-  R{color=1A1A2E font=Georgia} " resource"
+  R "PUT - Update an existing"
+  R " resource"
 P{spacing=0/0 line=320/atLeast}
-  R{b color=1A1A2E font=Georgia} "Status"
-  R{b color=1A1A2E font=Georgia} " Codes"
+  R{b} "Status"
+  R{b} " Codes"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "200 -"
-  R{color=1A1A2E font=Georgia} " OK"
+  R "200 -"
+  R " OK"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "404 - Not"
-  R{color=1A1A2E font=Georgia} " Found"
+  R "404 - Not"
+  R " Found"
 P{indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "500 - Internal Server"
-  R{color=1A1A2E font=Georgia} " Error"
+  R "500 - Internal Server"
+  R " Error"
 P{spacing=0/0 line=320/atLeast}
-  R{b color=1A1A2E font=Georgia} "Markdown"
+  R{b} "Markdown"
 P{indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "A lightweight markup language for creating formatted"
-  R{color=1A1A2E font=Georgia} " text"
+  R "A lightweight markup language for creating formatted"
+  R " text"
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "5. Math "
-  R{b font=Georgia sz=44} "(LaTeX)"
-P{spacing=280/160 line=400/atLeast}
-  R{b font=Georgia sz=34} "Inline"
-  R{b font=Georgia sz=34} " Math"
+P{bookmark=_5_math_latex pStyle=Heading2}
+  R "5. Math "
+  R "(LaTeX)"
+P{bookmark=_inline_math pStyle=Heading3}
+  R "Inline"
+  R " Math"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "The quadratic formula is "
-  R{color=7C3AED font=Georgia i} "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"
-  R{color=1A1A2E font=Georgia} " and Euler's identity is "
-  R{color=7C3AED font=Georgia i} "e^{i\\pi} + 1 = 0"
-  R{color=1A1A2E font=Georgia} "."
-P{spacing=280/160 line=400/atLeast}
-  R{b font=Georgia sz=34} "Block"
-  R{b font=Georgia sz=34} " Math"
+  R "The quadratic formula is "
+  R{color=7C3AED i} "x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}"
+  R " and Euler's identity is "
+  R{color=7C3AED i} "e^{i\\pi} + 1 = 0"
+  R "."
+P{bookmark=_block_math pStyle=Heading3}
+  R "Block"
+  R " Math"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i} "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
+  R{color=7C3AED font=Georgia i sz=22} "\\sum_{i=1}^{n} x_i = x_1 + x_2 + \\cdots + x_n"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i} "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
+  R{color=7C3AED font=Georgia i sz=22} "f(x) = \\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}"
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "6. Table of"
-  R{b font=Georgia sz=44} " Contents"
+P{bookmark=_6_table_of_contents pStyle=Heading2}
+  R "6. Table of"
+  R " Contents"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "The "
+  R "The "
   R{color=CF222E font=Consolas} "[[_TOC_]]"
-  R{color=1A1A2E font=Georgia} " marker above generates a table of contents from all headings in the document. This is a GitLab-specific feature commonly used in wiki pages and"
-  R{color=1A1A2E font=Georgia} " documentation."
+  R " marker above generates a table of contents from all headings in the document. This is a GitLab-specific feature commonly used in wiki pages and"
+  R " documentation."
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "7. Front"
-  R{b font=Georgia sz=44} " Matter"
+P{bookmark=_7_front_matter pStyle=Heading2}
+  R "7. Front"
+  R " Matter"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "The YAML front matter at the top of this document (between "
+  R "The YAML front matter at the top of this document (between "
   R{color=CF222E font=Consolas} "---"
-  R{color=1A1A2E font=Georgia} " delimiters) is parsed and rendered as a styled metadata block. It supports standard fields like "
+  R " delimiters) is parsed and rendered as a styled metadata block. It supports standard fields like "
   R{color=CF222E font=Consolas} "title"
-  R{color=1A1A2E font=Georgia} ", "
+  R ", "
   R{color=CF222E font=Consolas} "author"
-  R{color=1A1A2E font=Georgia} ", and "
+  R ", and "
   R{color=CF222E font=Consolas} "date"
-  R{color=1A1A2E font=Georgia} ", plus arbitrary custom"
-  R{color=1A1A2E font=Georgia} " fields."
+  R ", plus arbitrary custom"
+  R " fields."
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
-P{spacing=360/200 line=480/atLeast}
-  R{b font=Georgia sz=44} "Mixed Content"
-  R{b font=Georgia sz=44} " Test"
+P{bookmark=_mixed_content_test pStyle=Heading2}
+  R "Mixed Content"
+  R " Test"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "This section tests that all features work alongside standard Markdown"
-  R{color=1A1A2E font=Georgia} ":"
-P{spacing=280/160 line=400/atLeast}
-  R{b font=Georgia sz=34} "Tables Still"
-  R{b font=Georgia sz=34} " Work"
+  R "This section tests that all features work alongside standard Markdown"
+  R ":"
+P{bookmark=_tables_still_work pStyle=Heading3}
+  R "Tables Still"
+  R " Work"
 TABLE
   COL w=5930
   COL w=3139
@@ -310,124 +307,139 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "Feature"
+        R{b} "Feature"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "Status"
+        R{b} "Status"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Alerts"
+        R "Alerts"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Mermaid"
+        R "Mermaid"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Color"
-        R{color=1A1A2E font=Georgia} " Chips"
+        R "Color"
+        R " Chips"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Description"
-        R{color=1A1A2E font=Georgia} " Lists"
+        R "Description"
+        R " Lists"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Math"
+        R "Math"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "TOC"
+        R "TOC"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F8F8F8 w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5930}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Front"
-        R{color=1A1A2E font=Georgia} " Matter"
+        R "Front"
+        R " Matter"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3139}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Supported"
+        R "Supported"
 P{spacing=/ line=160/exact}
-P{spacing=280/160 line=400/atLeast}
-  R{b font=Georgia sz=34} "Lists Still"
-  R{b font=Georgia sz=34} " Work"
+P{bookmark=_lists_still_work pStyle=Heading3}
+  R "Lists Still"
+  R " Work"
+P{level=0 list=2 spacing=0/0 line=320/atLeast}
+  R "First"
+  R " item"
+P{level=0 list=2 spacing=0/0 line=320/atLeast}
+  R "Second"
+  R " item"
+P{level=1 list=1 spacing=0/0 line=320/atLeast}
+  R "Nested"
+  R " bullet"
+P{level=1 list=1 spacing=0/0 line=320/atLeast}
+  R "Another nested"
+  R " bullet"
+P{level=0 list=2 spacing=0/120 line=320/atLeast}
+  R "Third"
+  R " item"
+P{bookmark=_task_lists_still_work pStyle=Heading3}
+  R "Task Lists Still"
+  R " Work"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "1. "
-  R{color=1A1A2E font=Georgia} "First"
-  R{color=1A1A2E font=Georgia} " item"
+  R "☑ "
+  R "Implement"
+  R " alerts"
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "2. "
-  R{color=1A1A2E font=Georgia} "Second"
-  R{color=1A1A2E font=Georgia} " item"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "◦ "
-  R{color=1A1A2E font=Georgia} "Nested"
-  R{color=1A1A2E font=Georgia} " bullet"
-P{indent=800 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "◦ "
-  R{color=1A1A2E font=Georgia} "Another nested"
-  R{color=1A1A2E font=Georgia} " bullet"
+  R "☑ "
+  R "Implement"
+  R " mermaid"
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R "☑ "
+  R "Implement color"
+  R " chips"
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R "☑ "
+  R "Implement description"
+  R " lists"
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R "☑ "
+  R "Implement"
+  R " math"
+P{indent=400 spacing=0/0 line=320/atLeast}
+  R "☑ "
+  R "Implement"
+  R " TOC"
 P{indent=400 spacing=0/120 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "3. "
-  R{color=1A1A2E font=Georgia} "Third"
-  R{color=1A1A2E font=Georgia} " item"
-P{spacing=280/160 line=400/atLeast}
-  R{b font=Georgia sz=34} "Task Lists Still"
-  R{b font=Georgia sz=34} " Work"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement"
-  R{color=1A1A2E font=Georgia} " alerts"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement"
-  R{color=1A1A2E font=Georgia} " mermaid"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement color"
-  R{color=1A1A2E font=Georgia} " chips"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement description"
-  R{color=1A1A2E font=Georgia} " lists"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement"
-  R{color=1A1A2E font=Georgia} " math"
-P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement"
-  R{color=1A1A2E font=Georgia} " TOC"
-P{indent=400 spacing=0/120 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Implement front"
-  R{color=1A1A2E font=Georgia} " matter"
+  R "☑ "
+  R "Implement front"
+  R " matter"
 P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia i} "This document was generated to test GitLab Flavored Markdown support in Markout."
+  R{i} "This document was generated to test GitLab Flavored Markdown support in Markout."
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}
+LIST DEFINITION 0
+  LEVEL 0 bullet "•" indent=760/360
+  LEVEL 1 bullet "◦" indent=1160/360
+  LEVEL 2 bullet "▪" indent=1560/360
+LIST DEFINITION 1
+  LEVEL 0 decimal "%1." indent=760/360
+  LEVEL 1 lowerLetter "%2." indent=1160/360
+  LEVEL 2 decimal "%3)" indent=1560/360
+LIST 1 definition=0
+LIST 2 definition=1 restarts

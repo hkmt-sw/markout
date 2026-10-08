@@ -407,6 +407,11 @@ formats are:
   lines and pages break is their decision, and line heights are a minimum
   (taller content gets its room).
 
+  The look of body text and of headings goes into the document's *Normal*
+  and *Heading 1* to *Heading 6* styles, not onto each piece of text, so the
+  document can be restyled in Word afterwards. List bullets and numbers are
+  drawn by the word processor, a little further from the text than in PDF.
+
 ### What a theme does not control
 
 - Bullets, numbering style and the wording of labels such as

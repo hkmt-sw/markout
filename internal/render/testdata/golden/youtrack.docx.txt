@@ -1,16 +1,16 @@
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "YouTrack"
+P{bookmark=_youtrack pStyle=Heading1}
+  R "YouTrack"
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "Checklists, "
-  R{color=8888A0 font=Georgia strike} "strikethrough"
-  R{color=1A1A2E font=Georgia} " and tables follow CommonMark with"
-  R{color=1A1A2E font=Georgia} " extensions."
+  R "Checklists, "
+  R{color=8888A0 strike} "strikethrough"
+  R " and tables follow CommonMark with"
+  R " extensions."
 P{indent=400 spacing=0/0 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☑ "
-  R{color=1A1A2E font=Georgia} "Reproduced"
+  R "☑ "
+  R "Reproduced"
 P{indent=400 spacing=0/120 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "☐ "
-  R{color=1A1A2E font=Georgia} "Fixed"
+  R "☐ "
+  R "Fixed"
 TABLE
   COL w=5581
   COL w=3488
@@ -19,25 +19,25 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=5581}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "Field"
+        R{b} "Field"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=F1F3F9 w=3488}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{b color=1A1A2E font=Georgia} "Value"
+        R{b} "Value"
   ROW
     cantSplit
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=5581}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Priority"
+        R "Priority"
     CELL{border-bottom=single/4/D1D5DE border-left=single/4/D1D5DE border-right=single/4/D1D5DE border-top=single/4/D1D5DE fill=FFFFFF w=3488}
       P{indent=80/80 spacing=80/80 line=260/atLeast}
-        R{color=1A1A2E font=Georgia} "Major"
+        R "Major"
 P{spacing=/ line=160/exact}
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=4A4A68 font=Georgia i} "🖼 Screenshot"
+  R{color=4A4A68 font=Georgia i sz=22} "🖼 Screenshot"
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "shot.png"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i} "\\frac{a}{b} = c"
+  R{color=7C3AED font=Georgia i sz=22} "\\frac{a}{b} = c"
 TABLE
   COL w=9070
   ROW
@@ -45,7 +45,7 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
       P{indent=160/160 spacing=160/0 line=240/atLeast}
-        R{b color=065F46 font=Georgia} "Mermaid Diagram"
+        R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"
       P{indent=160/160 spacing=0/160 line=240/atLeast}
         R{color=065F46 font=Consolas sz=19} "graph LR; Open-->Fixed;"
 P{spacing=/ line=160/exact}
@@ -61,14 +61,33 @@ TABLE
         R{color=24292F font=Consolas sz=19} "\tat com.example.Main.main(Main.java:5)"
 P{spacing=/ line=160/exact}
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "No alerts"
-  R{color=1A1A2E font=Georgia} " here:"
+  R "No alerts"
+  R " here:"
 P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}
-  R{color=1A1A2E font=Georgia i} "["
-  R{color=1A1A2E font=Georgia i} "!NOTE"
-  R{color=1A1A2E font=Georgia i} "] "
-  R{color=1A1A2E font=Georgia i} "Just a quote in"
-  R{color=1A1A2E font=Georgia i} " YouTrack."
+  R{i} "["
+  R{i} "!NOTE"
+  R{i} "] "
+  R{i} "Just a quote in"
+  R{i} " YouTrack."
 P{spacing=0/160 line=320/atLeast}
-  R{color=1A1A2E font=Georgia} "No math either: $x$ stays text, and :smile: stays"
-  R{color=1A1A2E font=Georgia} " text."
+  R "No math either: $x$ stays text, and :smile: stays"
+  R " text."
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}
+LIST DEFINITION 0
+  LEVEL 0 bullet "•" indent=760/360
+  LEVEL 1 bullet "◦" indent=1160/360
+  LEVEL 2 bullet "▪" indent=1560/360
+LIST DEFINITION 1
+  LEVEL 0 decimal "%1." indent=760/360
+  LEVEL 1 lowerLetter "%2." indent=1160/360
+  LEVEL 2 decimal "%3)" indent=1560/360
+LIST 1 definition=0

@@ -45,11 +45,11 @@ func TestDOCXFollowsTheThemesSpacing(t *testing.T) {
 
 	outline := docxOutlineWith(t, &set)
 	wants := map[string]string{
-		"heading":            `P{spacing=160/320 line=720/atLeast}`,
+		"heading":            `outline=0 spacing=160/320 line=720/atLeast`, // in the Heading 1 style
 		"paragraph":          `P{spacing=0/200 line=340/atLeast}`,
-		"list item":          `P{indent=400 spacing=0/0 line=340/atLeast}`,
-		"nested list item":   `P{indent=800 spacing=0/0 line=340/atLeast}`,
-		"last list item":     `P{indent=400 spacing=0/160 line=340/atLeast}`,
+		"list item":          `P{level=0 list=1 spacing=0/0 line=340/atLeast}`,
+		"nested list item":   `P{level=1 list=1 spacing=0/0 line=340/atLeast}`,
+		"last list item":     `P{level=0 list=1 spacing=0/160 line=340/atLeast}`,
 		"quote":              `P{border-left=single/16/4F46E5 indent=400 spacing=0/80 line=340/atLeast}`,
 		"rule":               `P{border-bottom=single/8/E5E7EB spacing=240/240 line=20/exact}`,
 		"table cell":         `P{indent=120/120 spacing=120/120 line=280/atLeast}`,
@@ -75,8 +75,8 @@ func TestDOCXFollowsTheThemesSpacing(t *testing.T) {
 			t.Errorf("the styled layout still draws %q", drawn)
 		}
 	}
-	// List text starts right after its bullet.
-	if !strings.Contains(outline, `"• "`) || !strings.Contains(outline, `"one"`) {
+	// The bullet belongs to the list, not to the text of the item.
+	if !strings.Contains(outline, `LEVEL 0 bullet "•"`) || !strings.Contains(outline, `R "one"`) {
 		t.Errorf("list bullets are not as expected:\n%s", outline)
 	}
 }
@@ -86,9 +86,9 @@ func TestDOCXFollowsTheThemesSpacing(t *testing.T) {
 func TestDefaultDOCXIsLaidOut(t *testing.T) {
 	outline := docxOutlineWith(t, nil)
 	for what, want := range map[string]string{
-		"heading":    `P{spacing=400/240 line=560/atLeast}`,
+		"heading":    `outline=0 spacing=400/240 line=560/atLeast`, // in the Heading 1 style
 		"paragraph":  `P{spacing=0/160 line=320/atLeast}`,
-		"list item":  `P{indent=400 spacing=0/0 line=320/atLeast}`,
+		"list item":  `P{level=0 list=1 spacing=0/0 line=320/atLeast}`,
 		"quote":      `P{border-left=single/24/3B82F6 indent=400 spacing=0/80 line=320/atLeast}`,
 		"rule":       `P{border-bottom=single/8/B4B4B4 spacing=240/240 line=20/exact}`,
 		"table cell": `P{indent=80/80 spacing=80/80 line=260/atLeast}`,
@@ -121,9 +121,9 @@ func TestDOCXFormattingOutsideParagraphs(t *testing.T) {
 	}
 	outline := docxOutline(t, out)
 	for _, want := range []string{
-		`R{b color=CF222E font=Consolas sz=44} "code"`, // code in a heading keeps the heading's size and weight
-		`R{b font=Georgia i sz=44} "it"`,
-		`R{b color=1A1A2E font=Georgia} "bold"`,
+		`R{color=CF222E font=Consolas} "code"`, // code in a heading keeps the size and weight of the heading style
+		`R{i} "it"`,
+		`R{b} "bold"`,
 		`link=https://example.com`,
 		`R{color=4A4A68 font=Georgia i sz=18} "it"`,
 	} {

@@ -29,7 +29,7 @@ Grab the binary for your platform from the
 `curl` (example for macOS Apple Silicon):
 
 ```sh
-# Look up the latest release tag (or set VERSION=v1.3.4 to pin one).
+# Look up the latest release tag (or set VERSION=v1.4.0 to pin one).
 VERSION=$(curl -fsSL https://api.github.com/repos/hkmt-sw/markout/releases/latest \
   | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p')
 curl -fsSL -o markout \
@@ -268,6 +268,21 @@ Things that only make sense on the original platform have no document
 equivalent and stay as text: `@mentions`, issue references such as `#123` or
 `ABC-123`, and links to other wiki pages.
 
+## What a DOCX is made of
+
+A DOCX from markout is a Word document to go on working in, not a picture of
+one:
+
+- **Headings** are in Word's *Heading 1* to *Heading 6* styles, so they show
+  in the navigation pane, and changing a style changes every heading. Body
+  text is in *Normal*. The styles look the way the theme says.
+- **Lists** are Word lists: add an item to a numbered list and the rest is
+  renumbered.
+- **A table of contents** is a field Word can update, and its entries are
+  links to the headings.
+- **Links to a heading** (`[text](#heading)`) jump to it. The heading can be
+  named the way GitHub or GitLab names it.
+
 ## Limits
 
 markout lays the document out itself, with no browser or TeX behind it. Some
@@ -286,11 +301,11 @@ things are beyond it for now:
   processor.
 - **Right-to-left text** (Hebrew, Arabic) is not laid out in PDF: its letters
   come out in reverse order. The conversion warns about this too.
-- **Links to a heading** of the same document (`[text](#heading)`) do not
-  jump there in PDF, and a PDF has no bookmarks.
-- **DOCX is formatted directly.** Headings and lists look right but are not
-  Word's heading styles or automatic lists, and a table of contents is plain
-  text, so the navigation pane and "update table" have nothing to work with.
+- **Links to a heading** of the same document (`[text](#heading)`) jump
+  there in DOCX but not in PDF, and a PDF has no bookmarks.
+- **A table of contents in DOCX** lists the headings without page numbers
+  until Word is asked to update it (right-click it, *Update Field*); where
+  the pages break is Word's decision, so markout cannot know the numbers.
 
 ## Project layout
 

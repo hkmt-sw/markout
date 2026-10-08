@@ -14,16 +14,16 @@ TABLE
         R{b color=52606D font=Arial sz=21} "Date: "
         R{color=1F2933 font=Arial sz=21} "2026-10-06"
 P{spacing=/ line=160/exact}
-P{spacing=240/280 line=620/atLeast}
-  R{b color=1E3A8A font=Arial sz=52} "markout"
-  R{b color=1E3A8A font=Arial sz=52} " showcase"
+P{bookmark=_markout_showcase pStyle=Heading1}
+  R "markout"
+  R " showcase"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "This document contains every kind of element markout can render, each with"
-  R{color=1F2933 font=Arial sz=21} " a "
-  R{color=1F2933 font=Arial sz=21} "short note saying what you should see. Convert it to PDF and to DOCX and"
-  R{color=1F2933 font=Arial sz=21} " read "
-  R{color=1F2933 font=Arial sz=21} "through the result: if every note is true, the output is"
-  R{color=1F2933 font=Arial sz=21} " fine."
+  R "This document contains every kind of element markout can render, each with"
+  R " a "
+  R "short note saying what you should see. Convert it to PDF and to DOCX and"
+  R " read "
+  R "through the result: if every note is true, the output is"
+  R " fine."
 TABLE
   COL w=9070
   ROW
@@ -36,207 +36,197 @@ TABLE
         R{color=1F2933 font=Courier New sz=18} "markout fixtures/showcase.md showcase.docx"
 P{spacing=/ line=160/exact}
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Above this heading there should be a panel listing the title, author and"
-  R{color=1F2933 font=Arial sz=21} " date."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "1."
-  R{b color=1E3A8A font=Arial sz=34} " Headings"
+  R "Above this heading there should be a panel listing the title, author and"
+  R " date."
+P{bookmark=_1_headings pStyle=Heading2}
+  R "1."
+  R " Headings"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "The six heading levels follow, each smaller than the one"
-  R{color=1F2933 font=Arial sz=21} " before."
-P{spacing=240/280 line=620/atLeast}
-  R{b color=1E3A8A font=Arial sz=52} "Heading level"
-  R{b color=1E3A8A font=Arial sz=52} " 1"
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "Heading level"
-  R{b color=1E3A8A font=Arial sz=34} " 2"
-P{spacing=280/120 line=360/atLeast}
-  R{b color=1E3A8A font=Arial sz=27} "Heading level"
-  R{b color=1E3A8A font=Arial sz=27} " 3"
-P{spacing=240/100 line=320/atLeast}
-  R{b color=1E3A8A font=Arial sz=23} "Heading level"
-  R{b color=1E3A8A font=Arial sz=23} " 4"
-P{spacing=200/120 line=310/atLeast}
-  R{b color=1E3A8A font=Arial sz=21} "Heading level"
-  R{b color=1E3A8A font=Arial sz=21} " 5"
-P{spacing=200/120 line=310/atLeast}
-  R{b color=52606D font=Arial sz=21} "Heading level"
-  R{b color=52606D font=Arial sz=21} " 6"
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "2. Text"
-  R{b color=1E3A8A font=Arial sz=34} " formatting"
+  R "The six heading levels follow, each smaller than the one"
+  R " before."
+P{bookmark=_heading_level_1 pStyle=Heading1}
+  R "Heading level"
+  R " 1"
+P{bookmark=_heading_level_2 pStyle=Heading2}
+  R "Heading level"
+  R " 2"
+P{bookmark=_heading_level_3 pStyle=Heading3}
+  R "Heading level"
+  R " 3"
+P{bookmark=_heading_level_4 pStyle=Heading4}
+  R "Heading level"
+  R " 4"
+P{bookmark=_heading_level_5 pStyle=Heading5}
+  R "Heading level"
+  R " 5"
+P{bookmark=_heading_level_6 pStyle=Heading6}
+  R "Heading level"
+  R " 6"
+P{bookmark=_2_text_formatting pStyle=Heading2}
+  R "2. Text"
+  R " formatting"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Each word in quotes should look the way it describes itself: \""
-  R{b color=1F2933 font=Arial sz=21} "bold"
-  R{color=1F2933 font=Arial sz=21} "\", "
-  R{color=1F2933 font=Arial sz=21} "\""
-  R{color=1F2933 font=Arial i sz=21} "italic"
-  R{color=1F2933 font=Arial sz=21} "\", \""
-  R{b color=1F2933 font=Arial i sz=21} "bold italic"
-  R{color=1F2933 font=Arial sz=21} "\", \""
-  R{color=9F1239 font=Courier New sz=21} "inline code"
-  R{color=1F2933 font=Arial sz=21} "\" (monospace,"
-  R{color=1F2933 font=Arial sz=21} " colored), "
-  R{color=1F2933 font=Arial sz=21} "\""
-  R{color=9AA5B1 font=Arial strike sz=21} "struck through"
-  R{color=1F2933 font=Arial sz=21} "\" (with a line through it), \""
-  R{color=1F2933 font=Arial sz=21 u=single} "underlined"
-  R{color=1F2933 font=Arial sz=21} "\", "
-  R{color=1F2933 font=Arial sz=21} "\""
-  R{color=1F2933 font=Arial highlight=yellow sz=21} "highlighted"
-  R{color=1F2933 font=Arial sz=21} "\" (on a colored"
-  R{color=1F2933 font=Arial sz=21} " background)."
+  R "Each word in quotes should look the way it describes itself: \""
+  R{b} "bold"
+  R "\", "
+  R "\""
+  R{i} "italic"
+  R "\", \""
+  R{b i} "bold italic"
+  R "\", \""
+  R{color=9F1239 font=Courier New} "inline code"
+  R "\" (monospace,"
+  R " colored), "
+  R "\""
+  R{color=9AA5B1 strike} "struck through"
+  R "\" (with a line through it), \""
+  R{u=single} "underlined"
+  R "\", "
+  R "\""
+  R{highlight=yellow} "highlighted"
+  R "\" (on a colored"
+  R " background)."
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Water is H"
-  R{color=1F2933 font=Arial sz=21} "₂"
-  R{color=1F2933 font=Arial sz=21} "O (the 2 sits below the line) and Einstein"
-  R{color=1F2933 font=Arial sz=21} " wrote "
-  R{color=1F2933 font=Arial sz=21} "E = mc"
-  R{color=1F2933 font=Arial sz=21} "²"
-  R{color=1F2933 font=Arial sz=21} " (the 2 sits above"
-  R{color=1F2933 font=Arial sz=21} " it)."
+  R "Water is H"
+  R "₂"
+  R "O (the 2 sits below the line) and Einstein"
+  R " wrote "
+  R "E = mc"
+  R "²"
+  R " (the 2 sits above"
+  R " it)."
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A paragraph long enough to wrap should fill the line and continue on the"
-  R{color=1F2933 font=Arial sz=21} " next "
-  R{color=1F2933 font=Arial sz=21} "one without any word being cut in half or running past the right margin,"
-  R{color=1F2933 font=Arial sz=21} " which "
-  R{color=1F2933 font=Arial sz=21} "this sentence is here to demonstrate by simply being"
-  R{color=1F2933 font=Arial sz=21} " long."
+  R "A paragraph long enough to wrap should fill the line and continue on the"
+  R " next "
+  R "one without any word being cut in half or running past the right margin,"
+  R " which "
+  R "this sentence is here to demonstrate by simply being"
+  R " long."
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Escaped characters appear without their backslash: *not italic*, # not"
-  R{color=1F2933 font=Arial sz=21} " a "
-  R{color=1F2933 font=Arial sz=21} "heading, [not a link]. A copyright sign from an entity:"
-  R{color=1F2933 font=Arial sz=21} " ©."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "3."
-  R{b color=1E3A8A font=Arial sz=34} " Links"
+  R "Escaped characters appear without their backslash: *not italic*, # not"
+  R " a "
+  R "heading, [not a link]. A copyright sign from an entity:"
+  R " ©."
+P{bookmark=_3_links pStyle=Heading2}
+  R "3."
+  R " Links"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A "
-  R{color=1D4ED8 font=Arial link=https://example.com rStyle=Hyperlink sz=21 u=single} "link with text"
-  R{color=1F2933 font=Arial sz=21} " and a bare"
-  R{color=1F2933 font=Arial sz=21} " address, "
-  R{color=1D4ED8 font=Arial link=https://example.com/bare rStyle=Hyperlink sz=21 u=single} "https://example.com/bare"
-  R{color=1F2933 font=Arial sz=21} ", should both be colored and"
-  R{color=1F2933 font=Arial sz=21} " clickable."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "4."
-  R{b color=1E3A8A font=Arial sz=34} " Lists"
+  R "A "
+  R{color=1D4ED8 link=https://example.com rStyle=Hyperlink u=single} "link with text"
+  R " and a bare"
+  R " address, "
+  R{color=1D4ED8 link=https://example.com/bare rStyle=Hyperlink u=single} "https://example.com/bare"
+  R ", should both be colored and"
+  R " clickable."
+P{bookmark=_4_lists pStyle=Heading2}
+  R "4."
+  R " Lists"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Three bullets, the second with two nested ones"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "Three bullets, the second with two nested ones"
+  R ":"
+P{level=0 list=1 spacing=0/0 line=310/atLeast}
+  R "First"
+  R " item"
+P{level=0 list=1 spacing=0/0 line=310/atLeast}
+  R "Second item, with "
+  R{b} "bold"
+  R " and "
+  R{color=9F1239 font=Courier New} "code"
+  R " inside"
+  R " it"
+P{level=1 list=1 spacing=0/0 line=310/atLeast}
+  R "Nested item"
+  R " one"
+P{level=1 list=1 spacing=0/0 line=310/atLeast}
+  R "Nested item"
+  R " two"
+P{level=0 list=1 spacing=0/120 line=310/atLeast}
+  R "Third item, long enough to wrap onto a second line so that you can check"
+  R " the "
+  R "continuation line starts under the first one and not at the page"
+  R " margin"
+P{spacing=0/160 line=310/atLeast}
+  R "Three numbered items"
+  R ":"
+P{level=0 list=2 spacing=0/0 line=310/atLeast}
+  R "First"
+P{level=0 list=2 spacing=0/0 line=310/atLeast}
+  R "Second"
+P{level=0 list=2 spacing=0/120 line=310/atLeast}
+  R "Third"
+P{spacing=0/160 line=310/atLeast}
+  R "A task list, the first box checked and the second empty"
+  R ":"
 P{indent=400 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "• "
-  R{color=1F2933 font=Arial sz=21} "First"
-  R{color=1F2933 font=Arial sz=21} " item"
-P{indent=400 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "• "
-  R{color=1F2933 font=Arial sz=21} "Second item, with "
-  R{b color=1F2933 font=Arial sz=21} "bold"
-  R{color=1F2933 font=Arial sz=21} " and "
-  R{color=9F1239 font=Courier New sz=21} "code"
-  R{color=1F2933 font=Arial sz=21} " inside"
-  R{color=1F2933 font=Arial sz=21} " it"
-P{indent=800 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "◦ "
-  R{color=1F2933 font=Arial sz=21} "Nested item"
-  R{color=1F2933 font=Arial sz=21} " one"
-P{indent=800 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "◦ "
-  R{color=1F2933 font=Arial sz=21} "Nested item"
-  R{color=1F2933 font=Arial sz=21} " two"
+  R "☑ "
+  R "Done"
 P{indent=400 spacing=0/120 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "• "
-  R{color=1F2933 font=Arial sz=21} "Third item, long enough to wrap onto a second line so that you can check"
-  R{color=1F2933 font=Arial sz=21} " the "
-  R{color=1F2933 font=Arial sz=21} "continuation line starts under the first one and not at the page"
-  R{color=1F2933 font=Arial sz=21} " margin"
+  R "☐ "
+  R "Still to"
+  R " do"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Three numbered items"
-  R{color=1F2933 font=Arial sz=21} ":"
-P{indent=400 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "1. "
-  R{color=1F2933 font=Arial sz=21} "First"
-P{indent=400 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "2. "
-  R{color=1F2933 font=Arial sz=21} "Second"
-P{indent=400 spacing=0/120 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "3. "
-  R{color=1F2933 font=Arial sz=21} "Third"
-P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A task list, the first box checked and the second empty"
-  R{color=1F2933 font=Arial sz=21} ":"
-P{indent=400 spacing=0/0 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "☑ "
-  R{color=1F2933 font=Arial sz=21} "Done"
-P{indent=400 spacing=0/120 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "☐ "
-  R{color=1F2933 font=Arial sz=21} "Still to"
-  R{color=1F2933 font=Arial sz=21} " do"
-P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Two numbered steps that hold more than a line of text. Under the first, a"
-  R{color=1F2933 font=Arial sz=21} " code "
-  R{color=1F2933 font=Arial sz=21} "block and then a second paragraph; under the second, a small table and"
-  R{color=1F2933 font=Arial sz=21} " a "
-  R{color=1F2933 font=Arial sz=21} "quote. All of it is indented to the text of its step, and the second step"
-  R{color=1F2933 font=Arial sz=21} " is "
-  R{color=1F2933 font=Arial sz=21} "numbered 2"
-  R{color=1F2933 font=Arial sz=21} ":"
-P{indent=400 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "1. "
-  R{color=1F2933 font=Arial sz=21} "Run the command"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "Two numbered steps that hold more than a line of text. Under the first, a"
+  R " code "
+  R "block and then a second paragraph; under the second, a small table and"
+  R " a "
+  R "quote. All of it is indented to the text of its step, and the second step"
+  R " is "
+  R "numbered 2"
+  R ":"
+P{level=0 list=3 spacing=0/80 line=310/atLeast}
+  R "Run the command"
+  R ":"
 TABLE
-  INDENT 610
-  COL w=8460
+  INDENT 740
+  COL w=8330
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=8460}
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=8330}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=1F2933 font=Courier New sz=18} "markout notes.md notes.pdf"
 P{spacing=/ line=160/exact}
-P{indent=610 spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "The file is written next to the"
-  R{color=1F2933 font=Arial sz=21} " source."
-P{indent=400 spacing=0/120 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "2. "
-  R{color=1F2933 font=Arial sz=21} "Check the result"
-  R{color=1F2933 font=Arial sz=21} ":"
+P{indent=740 spacing=0/160 line=310/atLeast}
+  R "The file is written next to the"
+  R " source."
+P{level=0 list=3 spacing=0/120 line=310/atLeast}
+  R "Check the result"
+  R ":"
 TABLE
-  INDENT 610
-  COL w=3172
-  COL w=5287
+  INDENT 740
+  COL w=3123
+  COL w=5206
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=3172}
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=3123}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "Format"
-    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=5287}
+        R{b} "Format"
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=5206}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "Opens"
-        R{b color=1F2933 font=Arial sz=21} " in"
+        R{b} "Opens"
+        R{b} " in"
   ROW
     cantSplit
-    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=3172}
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=3123}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "PDF"
-    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=5287}
+        R "PDF"
+    CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=5206}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "any"
-        R{color=1F2933 font=Arial sz=21} " viewer"
+        R "any"
+        R " viewer"
 P{spacing=/ line=160/exact}
-P{border-left=single/24/1E3A8A indent=1010 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial i sz=21} "Quoted inside a"
-  R{color=1F2933 font=Arial i sz=21} " step."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "5."
-  R{b color=1E3A8A font=Arial sz=34} " Tables"
+P{border-left=single/24/1E3A8A indent=1140 spacing=0/80 line=310/atLeast}
+  R{i} "Quoted inside a"
+  R{i} " step."
+P{bookmark=_5_tables pStyle=Heading2}
+  R "5."
+  R " Tables"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A table with a shaded header row, borders, and the numbers in the third"
-  R{color=1F2933 font=Arial sz=21} " column "
-  R{color=1F2933 font=Arial sz=21} "right-aligned. The last row has formatting and a long cell that"
-  R{color=1F2933 font=Arial sz=21} " wraps."
+  R "A table with a shaded header row, borders, and the numbers in the third"
+  R " column "
+  R "right-aligned. The last row has formatting and a long cell that"
+  R " wraps."
 TABLE
   COL w=850
   COL w=7370
@@ -246,60 +236,60 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=850}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "Element"
+        R{b} "Element"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=7370}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "Example"
+        R{b} "Example"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=DBEAFE w=850}
       P{indent=100/100 jc=right spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "Count"
+        R{b} "Count"
   ROW
     cantSplit
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=850}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Plain"
+        R "Plain"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=7370}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "text"
+        R "text"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=850}
       P{indent=100/100 jc=right spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "1"
+        R "1"
   ROW
     cantSplit
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=850}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Formatted"
+        R "Formatted"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=7370}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{b color=1F2933 font=Arial sz=21} "bold"
-        R{color=1F2933 font=Arial sz=21} ", "
-        R{color=1F2933 font=Arial i sz=21} "italic"
-        R{color=1F2933 font=Arial sz=21} ", "
-        R{color=9F1239 font=Courier New sz=21} "code"
+        R{b} "bold"
+        R ", "
+        R{i} "italic"
+        R ", "
+        R{color=9F1239 font=Courier New} "code"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=F5F7FA w=850}
       P{indent=100/100 jc=right spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "22"
+        R "22"
   ROW
     cantSplit
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=850}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Long"
+        R "Long"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=7370}
       P{indent=100/100 spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "A cell with enough text that it has to wrap onto more than one line inside its"
-        R{color=1F2933 font=Arial sz=21} " column"
+        R "A cell with enough text that it has to wrap onto more than one line inside its"
+        R " column"
     CELL{border-bottom=single/4/CBD2D9 border-left=single/4/CBD2D9 border-right=single/4/CBD2D9 border-top=single/4/CBD2D9 fill=FFFFFF w=850}
       P{indent=100/100 jc=right spacing=100/100 line=260/atLeast}
-        R{color=1F2933 font=Arial sz=21} "333"
+        R "333"
 P{spacing=/ line=160/exact}
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "6."
-  R{b color=1E3A8A font=Arial sz=34} " Code"
+P{bookmark=_6_code pStyle=Heading2}
+  R "6."
+  R " Code"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A code block in a monospace font on a shaded panel, with its"
-  R{color=1F2933 font=Arial sz=21} " indentation "
-  R{color=1F2933 font=Arial sz=21} "preserved"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "A code block in a monospace font on a shaded panel, with its"
+  R " indentation "
+  R "preserved"
+  R ":"
 TABLE
   COL w=9070
   ROW
@@ -317,27 +307,27 @@ TABLE
         R "<br>"
         R{color=1F2933 font=Courier New sz=18} "}"
 P{spacing=/ line=160/exact}
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "7."
-  R{b color=1E3A8A font=Arial sz=34} " Quotes"
+P{bookmark=_7_quotes pStyle=Heading2}
+  R "7."
+  R " Quotes"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A quote, set off from the text by a bar on the left"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "A quote, set off from the text by a bar on the left"
+  R ":"
 P{border-left=single/24/1E3A8A indent=400 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial i sz=21} "The first paragraph of the quote, with "
-  R{color=1F2933 font=Arial i sz=21} "emphasis"
-  R{color=1F2933 font=Arial i sz=21} "."
+  R{i} "The first paragraph of the quote, with "
+  R{i} "emphasis"
+  R{i} "."
 P{border-left=single/24/1E3A8A indent=400 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial i sz=21} "The second paragraph of the"
-  R{color=1F2933 font=Arial i sz=21} " quote."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "8."
-  R{b color=1E3A8A font=Arial sz=34} " Callouts"
+  R{i} "The second paragraph of the"
+  R{i} " quote."
+P{bookmark=_8_callouts pStyle=Heading2}
+  R "8."
+  R " Callouts"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Five boxes with a colored bar and title: blue note, green tip,"
-  R{color=1F2933 font=Arial sz=21} " purple "
-  R{color=1F2933 font=Arial sz=21} "important, amber caution, red"
-  R{color=1F2933 font=Arial sz=21} " warning."
+  R "Five boxes with a colored bar and title: blue note, green tip,"
+  R " purple "
+  R "important, amber caution, red"
+  R " warning."
 TABLE
   COL w=9070
   ROW
@@ -347,8 +337,8 @@ TABLE
       P{indent=160/160 spacing=160/0 line=310/atLeast}
         R{b color=3B82F6 font=Arial sz=21} "NOTE"
       P{indent=160/160 spacing=0/160 line=310/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Something worth"
-        R{color=1F2933 font=Arial sz=21} " knowing."
+        R "Something worth"
+        R " knowing."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -359,11 +349,11 @@ TABLE
       P{indent=160/160 spacing=160/0 line=310/atLeast}
         R{b color=22C55E font=Arial sz=21} "TIP"
       P{indent=160/160 spacing=0/160 line=310/atLeast}
-        R{color=1F2933 font=Arial sz=21} "A helpful hint, with "
-        R{b color=1F2933 font=Arial sz=21} "bold"
-        R{color=1F2933 font=Arial sz=21} " and "
-        R{color=9F1239 font=Courier New sz=21} "code"
-        R{color=1F2933 font=Arial sz=21} "."
+        R "A helpful hint, with "
+        R{b} "bold"
+        R " and "
+        R{color=9F1239 font=Courier New} "code"
+        R "."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -374,8 +364,8 @@ TABLE
       P{indent=160/160 spacing=160/0 line=310/atLeast}
         R{b color=A855F7 font=Arial sz=21} "IMPORTANT"
       P{indent=160/160 spacing=0/160 line=310/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Something you must not"
-        R{color=1F2933 font=Arial sz=21} " miss."
+        R "Something you must not"
+        R " miss."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -386,8 +376,8 @@ TABLE
       P{indent=160/160 spacing=160/0 line=310/atLeast}
         R{b color=EAB308 font=Arial sz=21} "CAUTION"
       P{indent=160/160 spacing=0/160 line=310/atLeast}
-        R{color=1F2933 font=Arial sz=21} "Take care with"
-        R{color=1F2933 font=Arial sz=21} " this."
+        R "Take care with"
+        R " this."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -398,38 +388,38 @@ TABLE
       P{indent=160/160 spacing=160/0 line=310/atLeast}
         R{b color=EF4444 font=Arial sz=21} "WARNING"
       P{indent=160/160 spacing=0/160 line=310/atLeast}
-        R{color=1F2933 font=Arial sz=21} "This can go wrong. The text of this callout is long enough to wrap, and"
-        R{color=1F2933 font=Arial sz=21} " the "
-        R{color=1F2933 font=Arial sz=21} "box should grow to contain all of"
-        R{color=1F2933 font=Arial sz=21} " it."
+        R "This can go wrong. The text of this callout is long enough to wrap, and"
+        R " the "
+        R "box should grow to contain all of"
+        R " it."
 P{spacing=/ line=160/exact}
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "9."
-  R{b color=1E3A8A font=Arial sz=34} " Rule"
+P{bookmark=_9_rule pStyle=Heading2}
+  R "9."
+  R " Rule"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A horizontal line across the page"
-  R{color=1F2933 font=Arial sz=21} " follows."
+  R "A horizontal line across the page"
+  R " follows."
 P{border-bottom=single/8/CBD2D9 spacing=240/240 line=20/exact}
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "10."
-  R{b color=1E3A8A font=Arial sz=34} " Math"
+P{bookmark=_10_math pStyle=Heading2}
+  R "10."
+  R " Math"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Formulas are shown as their LaTeX source in a distinct color, not"
-  R{color=1F2933 font=Arial sz=21} " typeset. "
-  R{color=1F2933 font=Arial sz=21} "Inline: "
-  R{color=7C3AED font=Arial i sz=21} "E = mc^2"
-  R{color=1F2933 font=Arial sz=21} " and "
-  R{color=7C3AED font=Arial i sz=21} "a^2 + b^2 = c^2"
-  R{color=1F2933 font=Arial sz=21} ". On a line of its own, centered"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "Formulas are shown as their LaTeX source in a distinct color, not"
+  R " typeset. "
+  R "Inline: "
+  R{color=7C3AED i} "E = mc^2"
+  R " and "
+  R{color=7C3AED i} "a^2 + b^2 = c^2"
+  R ". On a line of its own, centered"
+  R ":"
 P{jc=center spacing=0/160 line=310/atLeast}
   R{color=7C3AED font=Arial i sz=21} "\\int_0^1 x^2 \\, dx = \\frac{1}{3}"
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "11."
-  R{b color=1E3A8A font=Arial sz=34} " Diagram"
+P{bookmark=_11_diagram pStyle=Heading2}
+  R "11."
+  R " Diagram"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Diagram source is shown in a labeled panel, not drawn"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "Diagram source is shown in a labeled panel, not drawn"
+  R ":"
 TABLE
   COL w=9070
   ROW
@@ -445,75 +435,75 @@ TABLE
         R "<br>"
         R{color=065F46 font=Courier New sz=18} "    Markdown --> DOCX"
 P{spacing=/ line=160/exact}
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "12. Definition"
-  R{b color=1E3A8A font=Arial sz=34} " list"
+P{bookmark=_12_definition_list pStyle=Heading2}
+  R "12. Definition"
+  R " list"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A bold term with its definition indented below it"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "A bold term with its definition indented below it"
+  R ":"
 P{spacing=0/0 line=310/atLeast}
-  R{b color=1F2933 font=Arial sz=21} "Markdown"
+  R{b} "Markdown"
 P{indent=400 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A plain-text format for writing structured"
-  R{color=1F2933 font=Arial sz=21} " documents."
+  R "A plain-text format for writing structured"
+  R " documents."
 P{spacing=0/0 line=310/atLeast}
-  R{b color=1F2933 font=Arial sz=21} "Flavor"
+  R{b} "Flavor"
 P{indent=400 spacing=0/80 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "A dialect of Markdown, such as the one GitHub"
-  R{color=1F2933 font=Arial sz=21} " uses."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "13."
-  R{b color=1E3A8A font=Arial sz=34} " Images"
+  R "A dialect of Markdown, such as the one GitHub"
+  R " uses."
+P{bookmark=_13_images pStyle=Heading2}
+  R "13."
+  R " Images"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "An image that does not exist shows a placeholder with its description"
-  R{color=1F2933 font=Arial sz=21} " and "
-  R{color=1F2933 font=Arial sz=21} "path instead of a picture"
-  R{color=1F2933 font=Arial sz=21} ":"
+  R "An image that does not exist shows a placeholder with its description"
+  R " and "
+  R "path instead of a picture"
+  R ":"
 P{jc=center spacing=0/160 line=310/atLeast}
   R{color=52606D font=Arial i sz=21} "🖼 A missing picture"
   R "<br>"
   R{color=1D4ED8 font=Arial sz=18 u=single} "does-not-exist.png"
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "14. Inline diff and color"
-  R{b color=1E3A8A font=Arial sz=34} " chips"
+P{bookmark=_14_inline_diff_and_color_chips pStyle=Heading2}
+  R "14. Inline diff and color"
+  R " chips"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "An addition is "
-  R{color=16A34A font=Arial sz=21 u=single} "green and underlined"
-  R{color=1F2933 font=Arial sz=21} ", a removal is {- red and"
-  R{color=1F2933 font=Arial sz=21} " struck "
-  R{color=1F2933 font=Arial sz=21} "through -}. A color code such as "
-  R{color=9F1239 font=Courier New sz=21} "#2563EB"
-  R{color=2563EB font=Arial sz=21} "■ "
-  R{color=1F2933 font=Arial sz=21} " is preceded by a small square"
-  R{color=1F2933 font=Arial sz=21} " of "
-  R{color=1F2933 font=Arial sz=21} "that"
-  R{color=1F2933 font=Arial sz=21} " color."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "15."
-  R{b color=1E3A8A font=Arial sz=34} " Emoji"
+  R "An addition is "
+  R{color=16A34A u=single} "green and underlined"
+  R ", a removal is {- red and"
+  R " struck "
+  R "through -}. A color code such as "
+  R{color=9F1239 font=Courier New} "#2563EB"
+  R{color=2563EB} "■ "
+  R " is preceded by a small square"
+  R " of "
+  R "that"
+  R " color."
+P{bookmark=_15_emoji pStyle=Heading2}
+  R "15."
+  R " Emoji"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "Emoji shortcodes become emoji in DOCX: "
-  R{color=1F2933 font=Arial sz=21} "🚀"
-  R{color=1F2933 font=Arial sz=21} " "
-  R{color=1F2933 font=Arial sz=21} "🎉"
-  R{color=1F2933 font=Arial sz=21} ". In PDF they are"
-  R{color=1F2933 font=Arial sz=21} " left "
-  R{color=1F2933 font=Arial sz=21} "out, because the built-in fonts have no"
-  R{color=1F2933 font=Arial sz=21} " emoji."
-P{spacing=400/160 line=440/atLeast}
-  R{b color=1E3A8A font=Arial sz=34} "16."
-  R{b color=1E3A8A font=Arial sz=34} " Footnotes"
+  R "Emoji shortcodes become emoji in DOCX: "
+  R "🚀"
+  R " "
+  R "🎉"
+  R ". In PDF they are"
+  R " left "
+  R "out, because the built-in fonts have no"
+  R " emoji."
+P{bookmark=_16_footnotes pStyle=Heading2}
+  R "16."
+  R " Footnotes"
 P{spacing=0/160 line=310/atLeast}
-  R{color=1F2933 font=Arial sz=21} "This sentence has a footnote"
-  R{color=1D4ED8 font=Arial sz=18} "[1]"
-  R{color=1F2933 font=Arial sz=21} ", and this one has another"
-  R{color=1D4ED8 font=Arial sz=18} "[2]"
-  R{color=1F2933 font=Arial sz=21} "."
-  R{color=1F2933 font=Arial sz=21} " The "
-  R{color=1F2933 font=Arial sz=21} "numbers should be colored, and both notes should appear at the end of"
-  R{color=1F2933 font=Arial sz=21} " the "
-  R{color=1F2933 font=Arial sz=21} "document under a short"
-  R{color=1F2933 font=Arial sz=21} " line."
+  R "This sentence has a footnote"
+  R{color=1D4ED8 sz=18} "[1]"
+  R ", and this one has another"
+  R{color=1D4ED8 sz=18} "[2]"
+  R "."
+  R " The "
+  R "numbers should be colored, and both notes should appear at the end of"
+  R " the "
+  R "document under a short"
+  R " line."
 P{border-top=single/4/CBD2D9 indent=/6349 spacing=400/ line=200/exact}
 P{spacing=0/80 line=280/atLeast}
   R{color=52606D font=Arial sz=18} "1. "
@@ -524,3 +514,24 @@ P{spacing=0/80 line=280/atLeast}
   R{color=52606D font=Arial sz=18} "2. "
   R{color=52606D font=Arial sz=18} "The second"
   R{color=52606D font=Arial sz=18} " footnote."
+STYLE Heading1{b color=1E3A8A font=Arial keepLines keepNext outline=0 spacing=240/280 line=620/atLeast sz=52}
+STYLE Heading2{b color=1E3A8A font=Arial keepLines keepNext outline=1 spacing=400/160 line=440/atLeast sz=34}
+STYLE Heading3{b color=1E3A8A font=Arial keepLines keepNext outline=2 spacing=280/120 line=360/atLeast sz=27}
+STYLE Heading4{b color=1E3A8A font=Arial keepLines keepNext outline=3 spacing=240/100 line=320/atLeast sz=23}
+STYLE Heading5{b color=1E3A8A font=Arial keepLines keepNext outline=4 spacing=200/120 line=310/atLeast sz=21}
+STYLE Heading6{b color=52606D font=Arial keepLines keepNext outline=5 spacing=200/120 line=310/atLeast sz=21}
+STYLE Hyperlink{color=1D4ED8}
+STYLE Normal{color=1F2933 font=Arial sz=21}
+STYLE TOC1{indent=0 spacing=0/0 line=310/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=310/atLeast}
+LIST DEFINITION 0
+  LEVEL 0 bullet "•" indent=740/340
+  LEVEL 1 bullet "◦" indent=1140/340
+  LEVEL 2 bullet "▪" indent=1540/340
+LIST DEFINITION 1
+  LEVEL 0 decimal "%1." indent=740/340
+  LEVEL 1 lowerLetter "%2." indent=1140/340
+  LEVEL 2 decimal "%3)" indent=1540/340
+LIST 1 definition=0
+LIST 2 definition=1 restarts
+LIST 3 definition=1 restarts

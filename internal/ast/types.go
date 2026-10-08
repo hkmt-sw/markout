@@ -14,6 +14,7 @@ type Element interface {
 type Heading struct {
 	Level int // 1-6
 	Runs  []InlineRun
+	ID    string // what a link to the heading names after "#"; may be empty
 }
 
 func (Heading) elementMarker() {}

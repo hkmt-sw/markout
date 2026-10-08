@@ -5,11 +5,11 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
       P{indent=160/160 spacing=160/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia} "Title: "
-        R{color=1A1A2E font=Georgia} "Docusaurus"
+        R{b color=4A4A68 font=Georgia sz=22} "Title: "
+        R{color=1A1A2E font=Georgia sz=22} "Docusaurus"
 P{spacing=/ line=160/exact}
-P{spacing=400/240 line=560/atLeast}
-  R{b font=Georgia sz=56} "Docusaurus"
+P{bookmark=_custom_id pStyle=Heading1}
+  R "Docusaurus"
 TABLE
   COL w=9070
   ROW
@@ -17,10 +17,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=3B82F6 font=Georgia} "NOTE"
+        R{b color=3B82F6 font=Georgia sz=22} "NOTE"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "Plain"
-        R{color=1A1A2E font=Georgia} " admonition."
+        R "Plain"
+        R " admonition."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -29,10 +29,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=22C55E font=Georgia} "Pro tip"
+        R{b color=22C55E font=Georgia sz=22} "Pro tip"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "With a bracketed"
-        R{color=1A1A2E font=Georgia} " title."
+        R "With a bracketed"
+        R " title."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -41,10 +41,10 @@ TABLE
     tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=EF4444 font=Georgia} "Take care"
+        R{b color=EF4444 font=Georgia sz=22} "Take care"
       P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{color=1A1A2E font=Georgia} "With a plain"
-        R{color=1A1A2E font=Georgia} " title."
+        R "With a plain"
+        R " title."
 P{spacing=/ line=160/exact}
 TABLE
   COL w=9070
@@ -55,3 +55,13 @@ TABLE
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "console.log(\"hi\");"
 P{spacing=/ line=160/exact}
+STYLE Heading1{b color=auto font=Georgia keepLines keepNext outline=0 spacing=400/240 line=560/atLeast sz=56}
+STYLE Heading2{b color=auto font=Georgia keepLines keepNext outline=1 spacing=360/200 line=480/atLeast sz=44}
+STYLE Heading3{b color=auto font=Georgia keepLines keepNext outline=2 spacing=280/160 line=400/atLeast sz=34}
+STYLE Heading4{b color=auto font=Georgia keepLines keepNext outline=3 spacing=240/120 line=360/atLeast sz=28}
+STYLE Heading5{b color=auto font=Georgia keepLines keepNext outline=4 spacing=200/120 line=320/atLeast sz=24}
+STYLE Heading6{b color=auto font=Georgia keepLines keepNext outline=5 spacing=200/120 line=280/atLeast sz=22}
+STYLE Hyperlink{color=2563EB}
+STYLE Normal{color=1A1A2E font=Georgia sz=22}
+STYLE TOC1{indent=0 spacing=0/0 line=320/atLeast}
+STYLE TOC2{indent=400 spacing=0/0 line=320/atLeast}
