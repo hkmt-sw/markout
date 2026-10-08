@@ -37,7 +37,10 @@ P{jc=center spacing=0/160 line=320/atLeast}
   R "<br>"
   R{color=2563EB font=Georgia sz=18 u=single} "shot.png"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i sz=22} "\\frac{a}{b} = c"
+  R "a"
+  R "b"
+  R "="
+  R "c"
 TABLE
   COL w=9070
   ROW

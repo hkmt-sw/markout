@@ -58,7 +58,8 @@ P{spacing=0/160 line=320/atLeast}
   R "Inline note"
   R{color=2563EB sz=18} "[1]"
   R " and math "
-  R{color=7C3AED i} "x^2"
+  R "x"
+  R "2"
   R "."
 P{indent=400 spacing=0/120 line=320/atLeast}
   R "☑ "

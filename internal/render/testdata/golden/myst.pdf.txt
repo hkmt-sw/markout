@@ -36,18 +36,26 @@ p1 text  x=64.7 y=488.7 Courier/9 "print" #953800
 p1 text  x=91.7 y=488.7 Courier/9 "(" #000000
 p1 text  x=97.1 y=488.7 Courier/9 "\"hello\"" #0A3069
 p1 text  x=134.9 y=488.7 Courier/9 ")" #000000
-p1 text  x=259.4 y=516.7 Arial-Italic/11 "a^2 + b^2 = c^2" #7C3AED
-p1 text  x=56.7 y=540.7 Arial-Italic/11 "[IMG] A plot" #4A4A68
-p1 text  x=56.7 y=556.7 Arial/9 "plot.png" #2563EB
-p1 text  x=56.7 y=580.7 Arial/11 "The" #1A1A2E
-p1 text  x=78.7 y=580.7 Arial/11 "caption." #1A1A2E
-p1 anchor y=622.7 roles
+p1 text  x=263.7 y=521.2 Math/11 "𝑎" #1A1A2E
+p1 text  x=271.4 y=519.0 Math/7.92 "2" #1A1A2E
+p1 text  x=279.2 y=521.2 Math/11 "+" #1A1A2E
+p1 text  x=290.3 y=521.2 Math/11 "𝑏" #1A1A2E
+p1 text  x=298.4 y=519.0 Math/7.92 "2" #1A1A2E
+p1 text  x=306.8 y=521.2 Math/11 "=" #1A1A2E
+p1 text  x=318.5 y=521.2 Math/11 "𝑐" #1A1A2E
+p1 text  x=326.2 y=519.0 Math/7.92 "2" #1A1A2E
+p1 text  x=56.7 y=541.1 Arial-Italic/11 "[IMG] A plot" #4A4A68
+p1 text  x=56.7 y=557.1 Arial/9 "plot.png" #2563EB
+p1 text  x=56.7 y=581.1 Arial/11 "The" #1A1A2E
+p1 text  x=78.7 y=581.1 Arial/11 "caption." #1A1A2E
+p1 anchor y=623.1 roles
 p1 bookmark level=2 "Roles"
-p1 text  x=56.7 y=622.7 Arial-Bold/20 "Roles" #000000
-p1 text  x=56.7 y=656.7 Arial/11 "Inline" #1A1A2E
-p1 text  x=86.0 y=656.7 Arial-Italic/11 "x_i" #7C3AED
-p1 text  x=100.1 y=656.7 Arial/11 ", H" #1A1A2E
-p1 text  x=114.1 y=661.7 Arial/8 "2" #1A1A2E
-p1 text  x=118.6 y=656.7 Arial/11 "O, a link title and" #1A1A2E
-p1 text  x=203.4 y=658.3 Courier/10 "Ctrl" #CF222E
-p1 text  x=227.4 y=656.7 Arial/11 "." #1A1A2E
+p1 text  x=56.7 y=623.1 Arial-Bold/20 "Roles" #000000
+p1 text  x=56.7 y=657.1 Arial/11 "Inline" #1A1A2E
+p1 text  x=86.0 y=656.4 Math/11 "𝑥" #1A1A2E
+p1 text  x=94.2 y=660.7 Math/7.92 "𝑖" #1A1A2E
+p1 text  x=97.6 y=657.1 Arial/11 ", H" #1A1A2E
+p1 text  x=111.6 y=662.1 Arial/8 "2" #1A1A2E
+p1 text  x=116.0 y=657.1 Arial/11 "O, a link title and" #1A1A2E
+p1 text  x=200.9 y=658.7 Courier/10 "Ctrl" #CF222E
+p1 text  x=224.9 y=657.1 Arial/11 "." #1A1A2E

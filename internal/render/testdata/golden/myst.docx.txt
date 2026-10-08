@@ -77,7 +77,14 @@ TABLE
         R{color=24292F font=Consolas sz=19} ")"
 P{spacing=/ line=160/exact}
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i sz=22} "a^2 + b^2 = c^2"
+  R "a"
+  R "2"
+  R "+"
+  R "b"
+  R "2"
+  R "="
+  R "c"
+  R "2"
 P{jc=center spacing=0/160 line=320/atLeast}
   R{color=4A4A68 font=Georgia i sz=22} "🖼 A plot"
   R "<br>"
@@ -89,7 +96,8 @@ P{bookmark=_roles pStyle=Heading2}
   R "Roles"
 P{spacing=0/160 line=320/atLeast}
   R "Inline "
-  R{color=7C3AED i} "x_i"
+  R "x"
+  R "i"
   R ", H"
   R "₂"
   R "O, a link title and "

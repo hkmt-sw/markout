@@ -41,7 +41,8 @@ type fragment struct {
 	size     float64
 	yShift   float64 // superscripts and subscripts leave the line
 	color    theme.Color
-	chip     bool // a color swatch is drawn before the text
+	chip     bool     // a color swatch is drawn before the text
+	math     *mathBox // a typeset formula, drawn in place of text
 }
 
 type textLine struct {
@@ -133,6 +134,29 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 			f.color = r.t.Link.Color
 		case run.Strikethrough:
 			f.color = r.t.Text.Faint
+		}
+
+		// A formula is typeset and takes its place in the line like a word.
+		// One that cannot be typeset, or is wider than the line, is shown
+		// as its source
+		if run.Math {
+			if box, ok := r.typeset(run.Text, false, base.size, base.color); ok && box.w <= narrowest {
+				gap := needSpace && x > 0
+				if need := box.w + baseSpace; x+need > width && x > 0 {
+					breakLine()
+					gap = false
+				}
+				if gap {
+					x += baseSpace
+				}
+				piece := f
+				piece.color, piece.style = base.color, ""
+				piece.x, piece.width, piece.math = x, box.w, &box
+				line.frags = append(line.frags, piece)
+				x += box.w
+				needSpace = false
+				continue
+			}
 		}
 
 		r.setFont(f.font, f.style, f.size)
@@ -237,6 +261,15 @@ func (r *PdfRenderer) drawLines(lines []textLine, firstX, restX, lineHeight floa
 func (r *PdfRenderer) drawLine(line textLine, x0, y0, lineHeight float64) {
 	for _, f := range line.frags {
 		x, y := x0+f.x, y0+f.yShift
+		if f.math != nil {
+			// On the baseline of the text around it
+			if f.math.draw != nil {
+				f.math.draw(x, y0+r.family(f.font).baseline*f.size)
+			}
+			r.strokeColor(theme.Black)
+			r.lineWidth(0.5)
+			continue
+		}
 		r.setFont(f.font, f.style, f.size)
 		r.textColor(f.color)
 

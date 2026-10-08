@@ -47,11 +47,20 @@ P{bookmark=_math pStyle=Heading2}
   R "Math"
 P{spacing=0/160 line=320/atLeast}
   R "Inline "
-  R{color=7C3AED i} "a + b = c"
+  R "a"
+  R "+"
+  R "b"
+  R "="
+  R "c"
   R " and a block"
   R ":"
 P{jc=center spacing=0/160 line=320/atLeast}
-  R{color=7C3AED font=Georgia i sz=22} "\\int_0^1 x\\,dx"
+  R "0"
+  R "1"
+  R "x"
+  R "\u2009"
+  R "d"
+  R "x"
 P{bookmark=_sized_image pStyle=Heading2}
   R "Sized"
   R " image"

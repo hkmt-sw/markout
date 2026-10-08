@@ -35,7 +35,8 @@ P{jc=center spacing=0/160 line=320/atLeast}
   R{color=2563EB font=Georgia sz=18 u=single} "logo.png"
 P{spacing=0/160 line=320/atLeast}
   R "Inline math "
-  R{color=7C3AED i} "a^2"
+  R "a"
+  R "2"
   R " and "
   R "“"
   R "typographic"

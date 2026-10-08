@@ -160,12 +160,24 @@ A horizontal line across the page follows.
 
 ## 10. Math
 
-Formulas are shown as their LaTeX source in a distinct color, not typeset.
-Inline: $E = mc^2$ and \(a^2 + b^2 = c^2\). On a line of its own, centered:
+Formulas are typeset: letters in italics, the exponents small and raised.
+Inline, on the baseline of the text around them: $E = mc^2$ and
+\(a^2 + b^2 = c^2\). On a line of its own, centered, with a tall integral
+sign and a fraction with a bar:
 
 $$
 \int_0^1 x^2 \, dx = \frac{1}{3}
 $$
+
+A sum with its limits under and over it, a square root, and brackets as tall
+as the fraction between them:
+
+$$
+\sum_{i=1}^{n} \sqrt{x_i} \le \left( \frac{a + b}{2} \right)^2
+$$
+
+A formula markout cannot typeset is shown as its source, in a distinct color:
+$\notacommand{x}$.
 
 ## 11. Diagram
 
