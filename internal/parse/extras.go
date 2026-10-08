@@ -128,6 +128,9 @@ func (w *astWalker) flattenBlock(node gmast.Node) []ast.Element {
 		rows := append([]ast.TableRow{table.Header}, table.Rows...)
 		var out []ast.Element
 		for i, row := range rows {
+			if len(row.Cells) == 0 {
+				continue // a table without a header
+			}
 			var runs []ast.InlineRun
 			for j, cell := range row.Cells {
 				if j > 0 {
@@ -221,6 +224,9 @@ func flattenElement(elem ast.Element) []ast.Element {
 	case ast.Table:
 		var out []ast.Element
 		for i, row := range append([]ast.TableRow{e.Header}, e.Rows...) {
+			if len(row.Cells) == 0 {
+				continue // a table without a header
+			}
 			var runs []ast.InlineRun
 			for j, cell := range row.Cells {
 				if j > 0 {

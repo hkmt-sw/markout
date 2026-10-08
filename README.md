@@ -364,7 +364,8 @@ things are beyond it for now:
 - **Mermaid:** only flowcharts (`graph` and `flowchart`) are drawn, laid out
   by markout itself, more plainly than Mermaid does: the same boxes and
   connections, not the same positions. Colors and styles set in the chart
-  are not used; the theme's are. Sequence, class, state, Gantt and the other
+  are not used; the theme's are. In DOCX a chart is a picture, which Word
+  cannot edit. Sequence, class, state, Gantt and the other
   kinds of diagram, and a flowchart markout cannot read, are shown as their
   source in a labeled box, and the conversion says so.
 - **Characters the PDF fonts lack.** The built-in fonts cover Latin, Greek and
@@ -381,8 +382,11 @@ things are beyond it for now:
   code block titles, MyST tables, version notes, and the pages a `toctree`
   names, as a list. Some of what those sites build has no place in a single
   document:
-  - MkDocs snippets (`--8<--`), keys (`++ctrl++`) and icons
-    (`:material-…:`) stay as written.
+  - MkDocs Material: a snippet (`--8<-- "file.md"`) is put in if the file
+    is in the document's directory or below it, and named in a warning if
+    it cannot be read; keys (`++ctrl+c++`) are shown as `Ctrl`+`C`; icons
+    (`:material-…:`) are pictures from a font and are left out, with a
+    warning.
   - A MyST `eval-rst` block is shown as its source, since reStructuredText
     is not read.
   - `raw` blocks for a format other than HTML, `bibliography` and `index`,

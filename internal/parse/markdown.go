@@ -828,6 +828,20 @@ func (w *astWalker) convertTable(n *extTable) ast.Table {
 		}
 	}
 
+	// A header with nothing in it is no header: Markdown has no other way
+	// to write a table without one
+	blank := true
+	for _, cell := range header.Cells {
+		for _, run := range cell.Runs {
+			if strings.TrimSpace(run.Text) != "" {
+				blank = false
+			}
+		}
+	}
+	if blank && len(rows) > 0 {
+		header = ast.TableRow{}
+	}
+
 	return ast.NewTable(header, rows, alignments)
 }
 

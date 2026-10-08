@@ -20,10 +20,33 @@ Mermaid flowcharts are drawn.
   read. Those are shown as their source in a panel, as all diagrams used to
   be.
 
+- MkDocs Material: `--8<-- "file.md"` snippets are put in, under the rules
+  of `::include` (the file has to be in the document's directory or below
+  it); a snippet that cannot be read is named in a warning. Keys
+  (`++ctrl+alt+del++`) are shown as `Ctrl`+`Alt`+`Del`. Icons
+  (`:material-check:`) are left out, with a warning. Markdown inside HTML
+  that has the `markdown` attribute (grid cards) is read.
+- A table whose header row is empty has no header row: the way Markdown
+  writes a table without one. A MyST `{csv-table}` without a header no
+  longer gets an empty one.
+
 ### Changed
 
 - The `[diagram]` colors of a theme are the colors of a chart's boxes, as
   well as of the panel that holds the source of a diagram that is not drawn.
+
+### Fixed
+
+- Text copied from a formula in a PDF, or searched for, was wrong:
+  `E = mc²` came out as other characters, because the italic letters of
+  formulas were written into the file in a way readers misread. Formulas
+  are now found by search and read correctly by screen readers, with their
+  italic and bold letters as the plain letters they stand for.
+- Docusaurus: text indented inside `<Tabs>` and other components, or
+  anywhere outside a list, became a code block, with its backticks showing.
+  In MDX indentation does not make code, and it no longer does here.
+- A flowchart that cannot be read is reported with the line the problem is
+  on.
 
 ## [1.7.2] - 2026-10-08
 

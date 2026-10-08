@@ -599,7 +599,12 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 	if numCols == 0 && len(t.Rows) > 0 {
 		numCols = len(t.Rows[0].Cells)
 	}
-	numRows := len(t.Rows) + 1
+	// A table can be without a header row
+	headerRows := 0
+	if len(t.Header.Cells) > 0 {
+		headerRows = 1
+	}
+	numRows := len(t.Rows) + headerRows
 
 	if numCols == 0 {
 		return nil
@@ -677,7 +682,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 
 	// Render data rows
 	for i, astRow := range t.Rows {
-		rowIdx := i + 1
+		rowIdx := i + headerRows
 		row, err := table.Row(rowIdx)
 		if err != nil {
 			return err
