@@ -107,6 +107,10 @@ type Flavor struct {
 // DefaultID is the flavor used when nothing is configured.
 const DefaultID = "markout"
 
+// tocMarkerGitLab is the table of contents line of GitLab, which Azure
+// DevOps uses too.
+const tocMarkerGitLab = "[[_TOC_]]"
+
 // gfm is the feature set of GitHub Flavored Markdown as specified; the
 // platform flavors that build on it start from here.
 var gfm = Features{
@@ -136,7 +140,7 @@ var all = []Flavor{
 			f.Alerts, f.AlertTitles, f.Callouts = true, true, true
 			f.ColonAdmonitions, f.BangAdmonitions, f.Directives, f.ContentTabs = true, true, true, true
 			f.Material = true
-			f.TOCMarkers = []string{"[[_TOC_]]", "[TOC]", "{{TOC}}", "[[toc]]", "{:toc}"}
+			f.TOCMarkers = []string{tocMarkerGitLab, "[TOC]", "{{TOC}}", "[[toc]]", "{:toc}"}
 			f.Highlight, f.InlineDiff, f.CriticMarkup, f.BracketedSpans = true, true, true, true
 			f.Comments, f.ColorChips = true, true
 			f.ImageAttributes, f.ImageSizeEquals, f.ImageEmbeds = true, true, true
@@ -172,7 +176,7 @@ var all = []Flavor{
 			f.MathDollar, f.MathFence, f.MathBacktick = true, true, true
 			f.MermaidFence = true
 			f.Alerts, f.AlertTitles = true, true
-			f.TOCMarkers = []string{"[[_TOC_]]", "[TOC]"}
+			f.TOCMarkers = []string{tocMarkerGitLab, "[TOC]"}
 			f.InlineDiff, f.ColorChips = true, true
 			f.WikiLinks = WikiLinksLabelTarget
 			f.ImageAttributes = true
@@ -197,7 +201,7 @@ var all = []Flavor{
 			f.Emoji, f.FrontMatter = true, true
 			f.MathDollar = true
 			f.MermaidColon = true
-			f.TOCMarkers = []string{"[[_TOC_]]"}
+			f.TOCMarkers = []string{tocMarkerGitLab}
 			f.ImageSizeEquals = true
 		}),
 	},

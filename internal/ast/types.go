@@ -21,7 +21,7 @@ type Heading struct {
 	ID    string // what a link to the heading names after "#"; may be empty
 }
 
-func (Heading) elementMarker() {}
+func (Heading) elementMarker() { /* marks Heading as an Element */ }
 
 // Paragraph represents a paragraph of text
 type Paragraph struct {
@@ -29,7 +29,7 @@ type Paragraph struct {
 	Align Alignment
 }
 
-func (Paragraph) elementMarker() {}
+func (Paragraph) elementMarker() { /* marks Paragraph as an Element */ }
 
 // Alignment represents text alignment
 type Alignment int
@@ -70,7 +70,7 @@ type Image struct {
 	Width int    // Optional display width hint in pixels (0 = unset), e.g. ![alt|640](url)
 }
 
-func (Image) elementMarker() {}
+func (Image) elementMarker() { /* marks Image as an Element */ }
 
 // FootnoteRef represents a footnote reference in text [^1]
 type FootnoteRef struct {
@@ -85,7 +85,7 @@ type FootnoteDefinition struct {
 	Elements []Element // Content of the footnote
 }
 
-func (FootnoteDefinition) elementMarker() {}
+func (FootnoteDefinition) elementMarker() { /* marks FootnoteDefinition as an Element */ }
 
 // List represents an ordered or unordered list
 type List struct {
@@ -93,7 +93,7 @@ type List struct {
 	Items   []ListItem
 }
 
-func (List) elementMarker() {}
+func (List) elementMarker() { /* marks List as an Element */ }
 
 // ListItem represents a single item in a list
 type ListItem struct {
@@ -117,7 +117,7 @@ type CodeBlock struct {
 	Code     string
 }
 
-func (CodeBlock) elementMarker() {}
+func (CodeBlock) elementMarker() { /* marks CodeBlock as an Element */ }
 
 // Table represents a table
 type Table struct {
@@ -126,7 +126,7 @@ type Table struct {
 	Alignments []Alignment // column alignments
 }
 
-func (Table) elementMarker() {}
+func (Table) elementMarker() { /* marks Table as an Element */ }
 
 // TableRow represents a row in a table
 type TableRow struct {
@@ -144,12 +144,12 @@ type Blockquote struct {
 	Elements []Element
 }
 
-func (Blockquote) elementMarker() {}
+func (Blockquote) elementMarker() { /* marks Blockquote as an Element */ }
 
 // HorizontalRule represents a horizontal rule (thematic break)
 type HorizontalRule struct{}
 
-func (HorizontalRule) elementMarker() {}
+func (HorizontalRule) elementMarker() { /* marks HorizontalRule as an Element */ }
 
 // AlertType represents the type of alert/callout
 type AlertType int
@@ -187,28 +187,28 @@ type Alert struct {
 	Elements []Element
 }
 
-func (Alert) elementMarker() {}
+func (Alert) elementMarker() { /* marks Alert as an Element */ }
 
 // MermaidDiagram represents a mermaid diagram block
 type MermaidDiagram struct {
 	Source string
 }
 
-func (MermaidDiagram) elementMarker() {}
+func (MermaidDiagram) elementMarker() { /* marks MermaidDiagram as an Element */ }
 
 // MathBlock represents a block-level math expression ($$...$$)
 type MathBlock struct {
 	Expression string
 }
 
-func (MathBlock) elementMarker() {}
+func (MathBlock) elementMarker() { /* marks MathBlock as an Element */ }
 
 // DescriptionList represents a definition/description list
 type DescriptionList struct {
 	Items []DescriptionItem
 }
 
-func (DescriptionList) elementMarker() {}
+func (DescriptionList) elementMarker() { /* marks DescriptionList as an Element */ }
 
 // DescriptionItem represents a single term with its definitions
 type DescriptionItem struct {
@@ -221,7 +221,7 @@ type TableOfContents struct {
 	Items []TOCItem
 }
 
-func (TableOfContents) elementMarker() {}
+func (TableOfContents) elementMarker() { /* marks TableOfContents as an Element */ }
 
 // TOCItem represents an entry in the table of contents
 type TOCItem struct {
@@ -238,7 +238,7 @@ type FrontMatter struct {
 	Raw    map[string]any
 }
 
-func (FrontMatter) elementMarker() {}
+func (FrontMatter) elementMarker() { /* marks FrontMatter as an Element */ }
 
 // NewDocument creates a new empty document
 func NewDocument() *Document {

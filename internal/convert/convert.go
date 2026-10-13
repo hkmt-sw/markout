@@ -40,6 +40,9 @@ func (f OutputFormat) String() string {
 // MaxFileSize is the maximum allowed input file size (10MB)
 const MaxFileSize = 10 * 1024 * 1024
 
+// opValidateInput names the step that checks the input file, in errors.
+const opValidateInput = "validate input"
+
 // Error types for conversion
 var (
 	ErrFileNotFound  = errors.New("input file not found")
@@ -154,15 +157,15 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 	info, err := os.Stat(input)
 	if err != nil {
 		if os.IsNotExist(err) {
-			return nil, &ConversionError{Op: "validate input", Err: ErrFileNotFound}
+			return nil, &ConversionError{Op: opValidateInput, Err: ErrFileNotFound}
 		}
-		return nil, &ConversionError{Op: "validate input", Err: err}
+		return nil, &ConversionError{Op: opValidateInput, Err: err}
 	}
 
 	// Validate file size
 	if info.Size() > MaxFileSize {
 		return nil, &ConversionError{
-			Op:  "validate input",
+			Op:  opValidateInput,
 			Err: fmt.Errorf("%w: file is %d bytes", ErrFileTooLarge, info.Size()),
 		}
 	}
