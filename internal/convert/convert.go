@@ -11,6 +11,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/parse"
 	"github.com/hkmt-sw/markout/internal/render"
 	"github.com/hkmt-sw/markout/internal/theme"
@@ -92,6 +93,9 @@ type Options struct {
 	RemoteImages bool
 	// Theme is how the output looks; nil means the default theme.
 	Theme *theme.Set
+	// Lang is the language of documents that do not name one themselves,
+	// as a language tag ("hu", "en-GB"). Empty means none.
+	Lang string
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it (characters no font can draw, for example).
 	// The conversion still succeeds.
@@ -132,7 +136,13 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		}
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Warn: opts.Warn}
+	// What the document says of its language goes before what it is told
+	language := doc.Lang
+	if language == "" {
+		language, _ = lang.Normalize(opts.Lang)
+	}
+
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Lang: language, Warn: opts.Warn}
 
 	// Render to output format
 	switch format {

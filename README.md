@@ -101,7 +101,7 @@ Run with no arguments to launch the full-screen UI:
 ```
 
 It's a single Midnight-Commander-style window: a file list on top, a docked
-**Convert** box below (flavor / theme / format / output / status), and a function-key
+**Convert** box below (flavor / theme / language / format / output / status), and a function-key
 bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 
 | Key            | Action                                         |
@@ -110,7 +110,7 @@ bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 | `→` / `Enter`  | Enter a directory                              |
 | `←`            | Go up a directory                              |
 | `Enter`        | Convert the highlighted `.md` file             |
-| `F2`           | Settings: Markdown flavor, theme, update check |
+| `F2`           | Settings: flavor, theme, language, update check |
 | `F3`           | Toggle output format (DOCX ⇄ PDF)              |
 | `F4`           | Edit the output path by hand                   |
 | `o`            | Open the last converted file                   |
@@ -129,6 +129,7 @@ The output format is inferred from the file extension:
 ./markout input.md output.pdf
 ./markout --flavor gitlab input.md output.pdf   # interpret as a specific flavor
 ./markout --list-flavors                        # show the supported flavors
+./markout --lang hu input.md output.docx        # the language, if the document names none
 ./markout --remote-images allow input.md out.pdf # download images referenced by URL
 ```
 
@@ -183,6 +184,29 @@ The [theme guide](docs/themes.md) walks through making one, with every
 setting, your own fonts, and headers and footers. To check a theme, convert
 [`fixtures/showcase.md`](fixtures/showcase.md): it contains every element
 with a note on what it should look like.
+
+## Language
+
+A document says what language it is written in with `lang` in its front
+matter:
+
+```markdown
+---
+title: Mentési eljárásrend
+lang: hu
+---
+```
+
+The language is a tag such as `hu`, `en-US` or `en-GB`; `en` alone is taken
+as American English. It is written into the output: in a DOCX it is the
+language Word checks the spelling in and hyphenates by, in a PDF it is what a
+screen reader reads the text as. It is not shown among the fields of the
+front matter.
+
+For documents that do not name their language, give one with `--lang`, or
+choose one on the **Language** tab of the settings (`F2`), which is saved.
+What a document says goes before both. With no language anywhere the output
+names none, as before.
 
 ## Update notifications
 
@@ -425,7 +449,8 @@ things are beyond it for now:
 | `internal/render`  | AST → DOCX / PDF renderers                       |
 | `internal/convert` | Conversion orchestration                        |
 | `internal/theme`   | Themes: the built-in ones and theme files       |
-| `internal/settings`| Saved preferences (the selected flavor)         |
+| `internal/lang`    | Language tags                                   |
+| `internal/settings`| Saved preferences (flavor, theme, language)     |
 | `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor, `corpus/` has real documents from public projects |
 | `examples`         | [Example documents](examples/README.md): a policy, a runbook, a report, minutes and more, to convert and to copy from |
 | `docs`             | The [theme guide](docs/themes.md) and pictures  |

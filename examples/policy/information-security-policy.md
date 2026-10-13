@@ -6,6 +6,7 @@ version: "2.1"
 classification: Internal
 approved-by: Managing Director
 next-review: 2027-09-15
+lang: en-GB
 ---
 
 # Information Security Policy

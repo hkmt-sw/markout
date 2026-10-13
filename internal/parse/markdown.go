@@ -24,6 +24,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/lang"
 )
 
 // color chip pattern: hex color code like #FF0000, #abc, #12345678
@@ -94,10 +95,16 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 	doc.Warnings = pre.left.warnings()
 
 	// Extract and prepend front matter
-	if pre.frontMatter != nil {
-		doc.AppendElement(*pre.frontMatter)
-	} else if fmData := frontmatter.Get(ctx); fmData != nil {
-		if fm := extractFrontMatter(fmData); fm != nil {
+	fm := pre.frontMatter
+	if fm == nil {
+		if fmData := frontmatter.Get(ctx); fmData != nil {
+			fm = extractFrontMatter(fmData)
+		}
+	}
+	if fm != nil {
+		setLanguage(doc, fm.Lang)
+		// Front matter that only names the language has nothing to show
+		if len(fm.Raw) > 0 {
 			doc.AppendElement(*fm)
 		}
 	}
@@ -147,6 +154,15 @@ func frontMatterFromMap(raw map[string]any) *ast.FrontMatter {
 		return nil
 	}
 	fm := &ast.FrontMatter{Raw: raw}
+	// The language is for the conversion, not a field of the document
+	for _, key := range []string{"lang", "language"} {
+		if tag, ok := raw[key].(string); ok {
+			if fm.Lang == "" {
+				fm.Lang = tag
+			}
+			delete(raw, key)
+		}
+	}
 	if title, ok := raw["title"].(string); ok {
 		fm.Title = title
 	}
@@ -168,6 +184,20 @@ func frontMatterFromMap(raw map[string]any) *ast.FrontMatter {
 		fm.Date = fmt.Sprintf("%v", date)
 	}
 	return fm
+}
+
+// setLanguage gives the document the language its front matter names, or
+// says that what is written there is not one.
+func setLanguage(doc *ast.Document, written string) {
+	if strings.TrimSpace(written) == "" {
+		return
+	}
+	tag, ok := lang.Normalize(written)
+	if !ok {
+		doc.Warnings = append(doc.Warnings, fmt.Sprintf("the language %q in the front matter is not a language tag such as hu or en-GB, and was ignored", written))
+		return
+	}
+	doc.Lang = tag
 }
 
 // flattenTOCItems converts the toc tree into a flat list with levels

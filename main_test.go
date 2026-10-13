@@ -288,3 +288,56 @@ func docxDocument(t *testing.T, path string) string {
 	}
 	return parts["word/document.xml"] + parts["word/styles.xml"]
 }
+
+// The language of a document that does not name one comes from --lang, else
+// from the saved settings; what the document says goes before both.
+func TestCLILanguage(t *testing.T) {
+	dir := t.TempDir()
+	writeDoc(t, dir, "plain.md", "# Title\n\ntext\n")
+	writeDoc(t, dir, "magyar.md", "---\nlang: hu\n---\n\n# Cím\n\nszöveg\n")
+
+	language := func(args ...string) string {
+		t.Helper()
+		r := markout(t, dir, append(args, "out.pdf")...)
+		if r.code != 0 {
+			t.Fatalf("%v: %+v", args, r)
+		}
+		data, err := os.ReadFile(filepath.Join(dir, "out.pdf"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		_, rest, found := bytes.Cut(data, []byte("/Lang ("))
+		if !found {
+			return ""
+		}
+		tag, _, _ := bytes.Cut(rest, []byte(")"))
+		return string(tag)
+	}
+	if got := language("plain.md"); got != "" {
+		t.Errorf("no language anywhere: the PDF has %q", got)
+	}
+	if got := language("--lang", "en_gb", "plain.md"); got != "en-GB" {
+		t.Errorf("--lang en_gb: the PDF has %q", got)
+	}
+	if got := language("plain.md", "--lang=hu"); got != "hu" {
+		t.Errorf("--lang=hu: the PDF has %q", got)
+	}
+	if got := language("--lang", "en-GB", "magyar.md"); got != "hu" {
+		t.Errorf("a Hungarian document with --lang en-GB: the PDF has %q", got)
+	}
+
+	writeDoc(t, dir, "config.json", `{"flavor": "markout", "lang": "en-US"}`)
+	if got := language("plain.md"); got != "en-US" {
+		t.Errorf("saved language: the PDF has %q", got)
+	}
+	if got := language("--lang", "hu", "plain.md"); got != "hu" {
+		t.Errorf("--lang over the saved language: the PDF has %q", got)
+	}
+
+	if r := markout(t, dir, "--lang", "magyar", "plain.md", "out.pdf"); r.code == 0 || !strings.Contains(r.stderr, "language tag") {
+		t.Errorf("--lang magyar: %+v", r)
+	}
+	if r := markout(t, dir, "plain.md", "out.pdf", "--lang"); r.code == 0 || !strings.Contains(r.stderr, "--lang needs") {
+		t.Errorf("--lang with nothing after it: %+v", r)
+	}
+}

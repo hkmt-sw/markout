@@ -100,7 +100,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -1816,7 +1816,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1856,6 +1856,7 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 		}
 		if file.Name == "word/styles.xml" {
 			content = replaceStyles(content, styles)
+			content = setDocxLanguage(content, language)
 		}
 		// The library marks every field as needing an update, which makes
 		// Word ask "This document contains fields that may refer to other
