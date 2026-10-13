@@ -35,11 +35,7 @@ var (
 // ToUnicode maps as UTF-16 pairs. A file it does not recognize as gopdf's is
 // returned as it is.
 func fixToUnicode(pdf []byte) []byte {
-	type edit struct {
-		at, length int // the bytes replaced
-		with       []byte
-	}
-	var edits []edit
+	var edits []pdfEdit
 	for _, m := range toUnicodeMap.FindAllSubmatchIndex(pdf, -1) {
 		body := pdf[m[4]:m[5]]
 		fixed := glyphChar.ReplaceAllFunc(body, func(entry []byte) []byte {
@@ -63,9 +59,37 @@ func fixToUnicode(pdf []byte) []byte {
 			continue
 		}
 		edits = append(edits,
-			edit{m[2], m[3] - m[2], []byte(strconv.Itoa(len(fixed)))}, // the stream's length
-			edit{m[4], len(body), fixed})
+			pdfEdit{m[2], m[3] - m[2], []byte(strconv.Itoa(len(fixed)))}, // the stream's length
+			pdfEdit{m[4], len(body), fixed})
 	}
+	return editPDF(pdf, edits)
+}
+
+// catalogType is where the catalog of a PDF from gopdf begins.
+var catalogType = regexp.MustCompile(`<<\n  /Type /Catalog\n`)
+
+// setPDFLanguage names the language of the document in the catalog of the
+// PDF, where screen readers and search look for it. tag is a normalized
+// language tag; without one, or in a file that is not recognized as
+// gopdf's, nothing is changed.
+func setPDFLanguage(pdf []byte, tag string) []byte {
+	m := catalogType.FindIndex(pdf)
+	if tag == "" || m == nil {
+		return pdf
+	}
+	return editPDF(pdf, []pdfEdit{{at: m[1], with: []byte("  /Lang (" + tag + ")\n")}})
+}
+
+// pdfEdit replaces a stretch of a PDF file.
+type pdfEdit struct {
+	at, length int // the bytes replaced
+	with       []byte
+}
+
+// editPDF makes the edits, which are in the order of their places and do
+// not overlap, and corrects the table of objects for what moved. A file it
+// does not recognize as gopdf's is returned as it is.
+func editPDF(pdf []byte, edits []pdfEdit) []byte {
 	if len(edits) == 0 {
 		return pdf
 	}

@@ -4,6 +4,25 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.9.0] - Unreleased
+
+Typography: text that is justified and hyphenated. In progress.
+
+### Added
+
+- The language of a document. `lang: hu` in the front matter says what
+  language a document is written in (`language` is read too); for documents
+  that do not say, there is `--lang` on the command line and a **Language**
+  tab in the settings of the TUI. The language is written into the DOCX,
+  where Word checks the spelling and hyphenates by it, and into the PDF,
+  where a screen reader reads by it. With no language given the output is
+  what it was.
+
+### Changed
+
+- `lang` and `language` are no longer shown among the fields of the front
+  matter, and front matter that holds nothing else shows no box.
+
 ## [1.8.3] - 2026-10-13
 
 Maintenance. Nothing a document shows has changed.

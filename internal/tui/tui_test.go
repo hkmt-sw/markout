@@ -838,3 +838,83 @@ func TestConversionWarningIsShown(t *testing.T) {
 		}
 	}
 }
+
+func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
+	m, saved := themeModel(t)
+	if !strings.Contains(m.View(), "Language: none") {
+		t.Fatal("the Convert box should say that there is no language")
+	}
+
+	// The third tab, and round to the first again
+	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	for range 2 {
+		next, _ = next.(Model).Update(tea.KeyMsg{Type: tea.KeyTab})
+	}
+	m = next.(Model)
+	if m.settingsTab != tabLanguage {
+		t.Fatalf("tab %d after two Tabs, want the Language tab", m.settingsTab)
+	}
+	view := m.View()
+	for _, want := range []string{"None", "Hungarian (hu)", "English (United Kingdom) (en-GB)"} {
+		if !strings.Contains(view, want) {
+			t.Errorf("the Language tab does not show %q", want)
+		}
+	}
+	if next, _ = m.Update(tea.KeyMsg{Type: tea.KeyTab}); next.(Model).settingsTab != tabFlavor {
+		t.Error("Tab on the last tab does not go to the first")
+	}
+	if next, _ = m.Update(tea.KeyMsg{Type: tea.KeyShiftTab}); next.(Model).settingsTab != tabTheme {
+		t.Error("Shift+Tab does not go to the tab before")
+	}
+
+	next, _ = m.Update(key("down"))
+	next, _ = next.(Model).Update(key("enter"))
+	m = next.(Model)
+	if m.pickFlavor || m.lang != "hu" {
+		t.Fatalf("after Enter: open=%v language=%q", m.pickFlavor, m.lang)
+	}
+	if len(*saved) != 1 || (*saved)[0].Lang != "hu" || (*saved)[0].Flavor != flavor.DefaultID {
+		t.Fatalf("saved %+v, want the language without losing the flavor", *saved)
+	}
+	if !strings.Contains(m.View(), "Language: Hungarian") {
+		t.Error("the Convert box does not show the chosen language")
+	}
+
+	// The conversion uses it, and the dialog opens on it the next time
+	out := filepath.Join(m.cwd, "doc.docx")
+	_, cmd := m.Update(key("enter"))
+	done, ok := findConvertDone(cmd())
+	if !ok || done.err != nil {
+		t.Fatalf("conversion did not succeed: %+v", done)
+	}
+	zr, err := zip.OpenReader(out)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer zr.Close()
+	styles := ""
+	for _, f := range zr.File {
+		if f.Name == "word/styles.xml" {
+			rc, _ := f.Open()
+			data, _ := io.ReadAll(rc)
+			rc.Close()
+			styles = string(data)
+		}
+	}
+	if !strings.Contains(styles, `<w:lang w:val="hu-HU"/>`) {
+		t.Error("the language is not in the output")
+	}
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	if next.(Model).langCursor != 1 {
+		t.Error("the dialog does not open on the language in use")
+	}
+
+	// None takes it away again
+	m = next.(Model)
+	m.settingsTab = tabLanguage
+	next, _ = m.Update(key("up"))
+	next, _ = next.(Model).Update(key("enter"))
+	if m = next.(Model); m.lang != "" || (*saved)[len(*saved)-1].Lang != "" {
+		t.Errorf("after None: language %q, saved %q", m.lang, (*saved)[len(*saved)-1].Lang)
+	}
+}

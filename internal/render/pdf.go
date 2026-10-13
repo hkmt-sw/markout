@@ -127,6 +127,7 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 		data = fixOutlineRoot(data, top, last)
 	}
 	data = fixToUnicode(data)
+	data = setPDFLanguage(data, r.opts.Lang)
 	if err := os.WriteFile(filename, data, 0o666); err != nil {
 		return err
 	}

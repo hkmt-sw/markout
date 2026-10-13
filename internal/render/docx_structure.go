@@ -9,6 +9,7 @@ import (
 	"unicode"
 
 	"github.com/hkmt-sw/markout/internal/ast"
+	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
 
@@ -191,6 +192,19 @@ func (r *DocxRenderer) styleDefinitions() map[string]string {
 	styles["Hyperlink"] = `<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:basedOn w:val="DefaultParagraphFont"/><w:uiPriority w:val="99"/>` +
 		`<w:rPr><w:color w:val="` + r.t.Link.Color.Hex() + `"/></w:rPr></w:style>`
 	return styles
+}
+
+// setDocxLanguage names the language of the document in word/styles.xml, as
+// the default of all its text: it is what a word processor checks the
+// spelling in and hyphenates by. Without a language the file is left as it
+// is, and the word processor uses its own.
+func setDocxLanguage(content []byte, tag string) []byte {
+	const open = "<w:docDefaults>"
+	if tag == "" || !bytes.Contains(content, []byte(open)) {
+		return content
+	}
+	def := open + `<w:rPrDefault><w:rPr><w:lang w:val="` + xmlEscape(lang.Regional(tag)) + `"/></w:rPr></w:rPrDefault>`
+	return bytes.Replace(content, []byte(open), []byte(def), 1)
 }
 
 // replaceStyles puts the definitions into word/styles.xml in place of the

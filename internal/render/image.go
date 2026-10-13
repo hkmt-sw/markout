@@ -32,6 +32,10 @@ type Options struct {
 	RemoteImages bool
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
+	// Lang is the language of the document as a normalized language tag
+	// ("hu", "en-GB"), or empty if it is not known. It is written into the
+	// output for the programs that read it.
+	Lang string
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it, such as characters no font can draw.
 	Warn func(message string)

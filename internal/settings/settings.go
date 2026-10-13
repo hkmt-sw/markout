@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
 
@@ -22,6 +23,10 @@ type Settings struct {
 
 	// Theme is the name or file path of the theme that styles the output.
 	Theme string `json:"theme,omitempty"`
+
+	// Lang is the language of documents that do not name one themselves, as
+	// a language tag ("hu", "en-GB"). Empty means none.
+	Lang string `json:"lang,omitempty"`
 
 	// NoUpdateCheck turns off the automatic check for a newer release.
 	NoUpdateCheck bool `json:"no_update_check,omitempty"`
@@ -63,6 +68,8 @@ func Load() Settings {
 	if _, ok := flavor.ByID(stored.Flavor); !ok {
 		stored.Flavor = flavor.DefaultID
 	}
+	// A language written by hand may be in another form, or not one at all
+	stored.Lang, _ = lang.Normalize(stored.Lang)
 	return stored
 }
 

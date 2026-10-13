@@ -3,6 +3,9 @@ package ast
 // Document represents a complete markdown document
 type Document struct {
 	Elements []Element
+	// Lang is the language the document says it is written in, as a
+	// normalized language tag ("hu", "en-GB"), or empty.
+	Lang string
 	// Warnings say what in the source has no place in a document and was
 	// left out, such as a block that only means something to the platform
 	// the Markdown was written for.
@@ -235,7 +238,10 @@ type FrontMatter struct {
 	Title  string
 	Author string
 	Date   string
-	Raw    map[string]any
+	// Lang is the language the document names, as written. It is for the
+	// conversion, and is not among the fields shown.
+	Lang string
+	Raw  map[string]any
 }
 
 func (FrontMatter) elementMarker() { /* marks FrontMatter as an Element */ }

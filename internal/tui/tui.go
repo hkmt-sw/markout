@@ -27,6 +27,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/convert"
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/settings"
 	"github.com/hkmt-sw/markout/internal/theme"
 	"github.com/hkmt-sw/markout/internal/update"
@@ -65,6 +66,14 @@ func (f format) convertFormat() convert.OutputFormat {
 const (
 	keyShiftTab = "shift+tab"
 	keyCtrlG    = "ctrl+g"
+)
+
+// The tabs of the settings dialog, in order.
+const (
+	tabFlavor = iota
+	tabTheme
+	tabLanguage
+	tabCount
 )
 
 // outputLabel starts the line that shows where the result is saved.
@@ -177,9 +186,12 @@ type Model struct {
 
 	themes      theme.Loader // finds themes by name
 	themeRef    string       // name or file of the theme used for conversions
-	settingsTab int          // tab of the settings dialog: 0 = Flavor, 1 = Theme
+	settingsTab int          // tab of the settings dialog: tabFlavor, tabTheme or tabLanguage
 	themeList   []theme.Info // themes shown on the Theme tab, read when the dialog opens
 	themeCursor int          // highlighted row on the Theme tab
+
+	lang       string // language of documents that do not name one; "" is none
+	langCursor int    // highlighted row on the Language tab: 0 is none, then lang.Offered
 
 	confirmRemote bool                 // asking whether to download the document's remote images
 	remoteHosts   []convert.RemoteHost // the servers those images are on
@@ -204,6 +216,7 @@ type Model struct {
 type Config struct {
 	Flavor   flavor.Flavor     // Markdown flavor to start with
 	Theme    string            // name or file of the theme to start with
+	Lang     string            // language of documents that do not name one, or ""
 	Settings settings.Settings // saved preferences
 	Version  string            // version of this build, for the update check
 }
@@ -219,6 +232,7 @@ func New(cfg Config) Model {
 	m.flavor = cfg.Flavor
 	m.themes = settings.Themes()
 	m.themeRef = cfg.Theme
+	m.lang = cfg.Lang
 	m.settings = cfg.Settings
 	m.saveSettings = settings.Save
 	m.version = cfg.Version
@@ -493,7 +507,7 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	case "f2", "s":
 		m.pickFlavor = true
-		m.settingsTab = 0
+		m.settingsTab = tabFlavor
 		m.flavorCursor = 0
 		for i, f := range flavor.All() {
 			if f.ID == m.flavor.ID {
@@ -506,6 +520,12 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		for i, t := range m.themeList {
 			if t.Name == m.themeName() {
 				m.themeCursor = i
+			}
+		}
+		m.langCursor = 0
+		for i, l := range lang.Offered {
+			if l.Tag == m.lang {
+				m.langCursor = i + 1
 			}
 		}
 
@@ -681,7 +701,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 		m.statusKind = statusError
 		return m, nil
 	}
-	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look}
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look, Lang: m.lang}
 	m.converting = true
 	m.status = "converting…"
 	m.statusKind = statusInfo
@@ -729,8 +749,11 @@ func (m Model) cancelOverwrite() Model {
 func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	flavors := flavor.All()
 	cursor, count := &m.flavorCursor, len(flavors)
-	if m.settingsTab == 1 {
+	switch m.settingsTab {
+	case tabTheme:
 		cursor, count = &m.themeCursor, len(m.themeList)
+	case tabLanguage:
+		cursor, count = &m.langCursor, len(lang.Offered)+1
 	}
 
 	switch msg.String() {
@@ -746,8 +769,10 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		*cursor = 0
 	case "end", "G":
 		*cursor = count - 1
-	case "tab", keyShiftTab, "left", "right", "h", "l":
-		m.settingsTab = 1 - m.settingsTab
+	case "tab", "right", "l":
+		m.settingsTab = (m.settingsTab + 1) % tabCount
+	case keyShiftTab, "left", "h":
+		m.settingsTab = (m.settingsTab + tabCount - 1) % tabCount
 	case "esc", "f2", "q", keyCtrlG:
 		m.pickFlavor = false
 	case "u", "U":
@@ -764,11 +789,19 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 	case "enter":
 		what := ""
-		if m.settingsTab == 0 {
+		switch m.settingsTab {
+		case tabFlavor:
 			m.flavor = flavors[m.flavorCursor]
 			m.settings.Flavor = m.flavor.ID
 			what = "flavor: " + m.flavor.Name
-		} else {
+		case tabLanguage:
+			m.lang = ""
+			if m.langCursor > 0 {
+				m.lang = lang.Offered[m.langCursor-1].Tag
+			}
+			m.settings.Lang = m.lang
+			what = "language: " + m.languageName()
+		default:
 			if len(m.themeList) == 0 {
 				return m, nil
 			}
@@ -794,6 +827,20 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 	}
 	return m, nil
+}
+
+// languageName is the language of documents that do not name one, as shown
+// to the user.
+func (m Model) languageName() string {
+	for _, l := range lang.Offered {
+		if l.Tag == m.lang {
+			return l.Name
+		}
+	}
+	if m.lang == "" {
+		return "none"
+	}
+	return m.lang // given with --lang, and not one of those offered
 }
 
 // themeName is the theme used for conversions, as shown to the user.
@@ -906,10 +953,10 @@ func (m Model) matchFrom(q string, start, dir int) (int, bool) {
 
 // listHeight is the number of file rows that fit on screen.
 func (m Model) listHeight() int {
-	// Chrome: top border(1) + cwd(1) + convert box [sep+flavor+theme+format+
-	// output+status](6) + fkey sep(1) + fkey(1) + bottom border(1) = 11 lines
-	// around the list.
-	h := m.height - 11
+	// Chrome: top border(1) + cwd(1) + convert box [sep+flavor+theme+language+
+	// format+output+status](7) + fkey sep(1) + fkey(1) + bottom border(1) =
+	// 12 lines around the list.
+	h := m.height - 12
 	if h < 1 {
 		h = 1
 	}
@@ -947,6 +994,7 @@ func (m Model) View() string {
 	lines = append(lines, m.borderSep("Convert"))
 	lines = append(lines, m.row(m.flavorLine()))
 	lines = append(lines, m.row(m.themeLine()))
+	lines = append(lines, m.row(m.languageLine()))
 	lines = append(lines, m.row(m.formatLine()))
 	lines = append(lines, m.row(m.outputLine()))
 	lines = append(lines, m.row(m.statusLine()))
@@ -1064,14 +1112,22 @@ func (m Model) flavorDialog() string {
 	}
 	var items []item
 	cursor := m.flavorCursor
-	if m.settingsTab == 0 {
+	switch m.settingsTab {
+	case tabFlavor:
 		for _, f := range flavor.All() {
 			items = append(items, item{f.Name, f.Description, f.ID == m.flavor.ID})
 		}
-	} else {
+	case tabTheme:
 		cursor = m.themeCursor
 		for _, t := range m.themeList {
 			items = append(items, item{t.Name, t.Description, t.Name == m.themeName()})
+		}
+	case tabLanguage:
+		cursor = m.langCursor
+		const forOthers = "For documents that do not name their language in their front matter (lang: hu)."
+		items = append(items, item{"None", "A document that does not name its language has none.", m.lang == ""})
+		for _, l := range lang.Offered {
+			items = append(items, item{l.Name + " (" + l.Tag + ")", forOthers, l.Tag == m.lang})
 		}
 	}
 
@@ -1108,7 +1164,7 @@ func (m Model) flavorDialog() string {
 		}
 		return formatInactive.Render(label)
 	}
-	rows := []string{titleStyle.Render("Settings") + "   " + tab("Flavor", 0) + " " + tab("Theme", 1), ""}
+	rows := []string{titleStyle.Render("Settings") + "   " + tab("Flavor", tabFlavor) + " " + tab("Theme", tabTheme) + " " + tab("Language", tabLanguage), ""}
 
 	description := ""
 	for i := first; i < first+visible && i < len(items); i++ {
@@ -1130,7 +1186,7 @@ func (m Model) flavorDialog() string {
 		}
 		rows = append(rows, line)
 	}
-	if m.settingsTab == 1 {
+	if m.settingsTab == tabTheme {
 		// Say where a theme of one's own goes
 		hint := ""
 		if dir := m.themes.UserDir; dir != "" {
@@ -1318,6 +1374,10 @@ func (m Model) flavorLine() string {
 
 func (m Model) themeLine() string {
 	return labelStyle.Render("Theme:   ") + pathStyle.Render(printable(m.themeName()))
+}
+
+func (m Model) languageLine() string {
+	return labelStyle.Render("Language:") + " " + pathStyle.Render(printable(m.languageName()))
 }
 
 func (m Model) formatLine() string {

@@ -24,6 +24,7 @@ import (
 
 	"github.com/hkmt-sw/markout/internal/convert"
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/settings"
 	"github.com/hkmt-sw/markout/internal/theme"
 	"github.com/hkmt-sw/markout/internal/tui"
@@ -40,6 +41,7 @@ func main() {
 	flavorID := ""
 	remote := "" // --remote-images: ask, allow or deny
 	themeRef := ""
+	language := "" // --lang: the language of documents that do not name one
 
 	args := os.Args[1:]
 	for i := 0; i < len(args); i++ {
@@ -83,6 +85,14 @@ func main() {
 			flavorID = args[i]
 		case strings.HasPrefix(arg, "--flavor="):
 			flavorID = strings.TrimPrefix(arg, "--flavor=")
+		case arg == "--lang":
+			if i+1 >= len(args) {
+				fail("--lang needs a language tag such as hu or en-GB")
+			}
+			i++
+			language = args[i]
+		case strings.HasPrefix(arg, "--lang="):
+			language = strings.TrimPrefix(arg, "--lang=")
 		case arg == "--remote-images":
 			if i+1 >= len(args) {
 				fail("--remote-images needs ask, allow or deny")
@@ -116,10 +126,19 @@ func main() {
 		fail("%v", err)
 	}
 
+	// And the language of documents that do not name theirs.
+	if language == "" {
+		language = saved.Lang
+	} else if tag, ok := lang.Normalize(language); ok {
+		language = tag
+	} else {
+		fail("--lang must be a language tag such as hu or en-GB, not %q", language)
+	}
+
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
-		opts := convert.Options{Flavor: fl, Theme: &look}
+		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language}
 		opts.RemoteImages = allowRemoteImages(input, opts, remote)
 		opts.Warn = func(message string) {
 			fmt.Fprintln(os.Stderr, "Warning: "+message)
@@ -132,7 +151,7 @@ func main() {
 	}
 
 	// Interactive mode.
-	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Settings: saved, Version: buildVersion()}); err != nil {
+	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Lang: language, Settings: saved, Version: buildVersion()}); err != nil {
 		fail("%v", err)
 	}
 }
@@ -288,6 +307,10 @@ Options:
       --list-themes               List the available themes
       --export-theme [name]       Print a theme as a file to start your own from
       --check-update              Ask GitHub whether a newer release exists
+      --lang <tag>                Language of a document that does not name one
+                                  in its front matter (lang: hu), such as hu,
+                                  en-US or en-GB (default: the one saved in
+                                  the TUI settings, or none)
       --remote-images <mode>      Images referenced by URL: ask (default in a
                                   terminal), allow, or deny (default otherwise)
 `)

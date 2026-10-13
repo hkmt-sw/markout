@@ -43,12 +43,27 @@ func TestLoadIgnoresBadFiles(t *testing.T) {
 func TestAllFieldsRoundTrip(t *testing.T) {
 	t.Setenv(EnvPath, filepath.Join(t.TempDir(), "config.json"))
 	when := time.Date(2026, 10, 6, 12, 0, 0, 0, time.UTC)
-	want := Settings{Flavor: "obsidian", NoUpdateCheck: true, UpdateCheckedAt: when, LatestVersion: "v1.2.0"}
+	want := Settings{Flavor: "obsidian", Lang: "en-GB", NoUpdateCheck: true, UpdateCheckedAt: when, LatestVersion: "v1.2.0"}
 	if err := Save(want); err != nil {
 		t.Fatal(err)
 	}
 	got := Load()
-	if got.Flavor != want.Flavor || !got.NoUpdateCheck || !got.UpdateCheckedAt.Equal(when) || got.LatestVersion != "v1.2.0" {
+	if got.Flavor != want.Flavor || got.Lang != "en-GB" || !got.NoUpdateCheck || !got.UpdateCheckedAt.Equal(when) || got.LatestVersion != "v1.2.0" {
 		t.Fatalf("Load() = %+v, want %+v", got, want)
+	}
+}
+
+// A language written into the file by hand is read in its usual form, and
+// one that is not a language is not read at all.
+func TestLoadNormalizesTheLanguage(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "config.json")
+	t.Setenv(EnvPath, path)
+	for written, want := range map[string]string{"hu_HU": "hu-HU", "EN-gb": "en-GB", "magyar": "", "": ""} {
+		if err := os.WriteFile(path, []byte(`{"flavor": "markout", "lang": "`+written+`"}`), 0o644); err != nil {
+			t.Fatal(err)
+		}
+		if got := Load().Lang; got != want {
+			t.Errorf("lang %q is read as %q, want %q", written, got, want)
+		}
 	}
 }

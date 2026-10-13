@@ -5,6 +5,7 @@ date: 2026-09-20
 version: "1.2"
 classification: Belső használatra
 approved-by: Ügyvezető
+lang: hu
 ---
 
 # Mentési és visszaállítási eljárásrend
