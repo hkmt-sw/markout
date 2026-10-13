@@ -422,6 +422,12 @@ func (g *Graph) connectGroups() {
 		}
 		return false
 	}
+	// A subgraph inside it cannot stand for a subgraph: it has no place
+	// either, and is itself replaced by a node
+	isBox := func(node int) bool {
+		_, isGroup := byID[g.Nodes[node].ID]
+		return !isGroup
+	}
 	stand := map[int]int{} // node that is really a subgraph -> a node inside it
 	for i, n := range g.Nodes {
 		group, isGroup := byID[n.ID]
@@ -429,7 +435,7 @@ func (g *Graph) connectGroups() {
 			continue
 		}
 		for j := range g.Nodes {
-			if j != i && inGroup(j, group) {
+			if isBox(j) && inGroup(j, group) {
 				stand[i] = j
 				break
 			}

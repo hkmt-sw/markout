@@ -63,6 +63,8 @@ func TestParse(t *testing.T) {
 		{"subgraphs", "graph TD\nsubgraph one [First]\nA --> B\nsubgraph inner\nC\nend\nend\nsubgraph Second Group\nD\nend\nB --> D\n",
 			"A rect \"A\" in one\nB rect \"B\" in one\nC rect \"C\" in inner\nD rect \"D\" in Second Group\nA -> B\nB -> D\n"},
 		{"a connection to a subgraph goes to a node in it", "graph TD\nX --> one\nsubgraph one\nA --> B\nend\n", "X rect \"X\"\nA rect \"A\" in one\nB rect \"B\" in one\nX -> A\nA -> B\n"},
+		{"a connection to a subgraph goes to a node, not to a subgraph in it", "graph TD\nsubgraph outer\nsubgraph inner\ninner --> B\nend\nend\nouter --> A\n",
+			"B rect \"B\" in inner\nA rect \"A\"\nB -> B\nB -> A\n"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

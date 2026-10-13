@@ -188,7 +188,8 @@ func TestLayoutOddCharts(t *testing.T) {
 		"long span": "graph TD\nA ------> B\nA --> C --> D --> B\n", "empty subgraph": "graph TD\nsubgraph S\nend\nA\n",
 		"nested":      "graph LR\nsubgraph a\nsubgraph b\nsubgraph c\nX --> Y\nend\nend\nend\nY --> Z\n",
 		"unconnected": "graph TD\nA\nB\nC\nD --> E\n", "many": big.String(),
-		"empty text": "graph TD\nA[\"\"] --> B[ ]\n",
+		"subgraph for a subgraph": "graph TD\nsubgraph outer\nsubgraph inner\ninner --> B\nend\nend\nouter --> A\n",
+		"empty text":              "graph TD\nA[\"\"] --> B[ ]\n",
 	} {
 		g, err := Parse(src)
 		if err != nil {
