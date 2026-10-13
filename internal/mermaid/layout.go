@@ -437,27 +437,47 @@ func (l *layout) copyRanks() [][]int {
 // towards its neighbors while keeping the order and the gaps, along the flow
 // by stacking the ranks.
 func (l *layout) place() {
-	gap := func(a, b *Node) float64 {
-		space := nodeGap
-		switch {
-		case a.dummy && b.dummy:
-			space = bendGap
-		case a.dummy || b.dummy:
-			space = bendGap + 4
+	pos := l.packRanks()
+	up, down := l.neighbors()
+	for round := 0; round < 16; round++ {
+		for r := 1; r < len(l.ranks); r++ {
+			l.pull(pos, l.ranks[r], up)
 		}
-		if !a.dummy && !b.dummy && a.Group != b.Group {
-			space += 2 * framePad // room for the frames between them
+		for r := len(l.ranks) - 2; r >= 0; r-- {
+			l.pull(pos, l.ranks[r], down)
 		}
-		return (l.across(a)+l.across(b))/2 + space
 	}
 
-	// Start with every rank packed, and centered on the widest
+	center := l.rankCenters()
+	for i, n := range l.nodes {
+		n.X, n.Y = pos[i], center[n.rank]
+	}
+}
+
+// gap is the distance between the centers of two neighbors in a rank.
+func (l *layout) gap(a, b *Node) float64 {
+	space := nodeGap
+	switch {
+	case a.dummy && b.dummy:
+		space = bendGap
+	case a.dummy || b.dummy:
+		space = bendGap + 4
+	}
+	if !a.dummy && !b.dummy && a.Group != b.Group {
+		space += 2 * framePad // room for the frames between them
+	}
+	return (l.across(a)+l.across(b))/2 + space
+}
+
+// packRanks is where the nodes are across the flow to start with: every
+// rank packed, and centered on the widest.
+func (l *layout) packRanks() []float64 {
 	pos := make([]float64, len(l.nodes))
 	widest := 0.0
 	for _, rank := range l.ranks {
 		for i, v := range rank {
 			if i > 0 {
-				pos[v] = pos[rank[i-1]] + gap(l.nodes[rank[i-1]], l.nodes[v])
+				pos[v] = pos[rank[i-1]] + l.gap(l.nodes[rank[i-1]], l.nodes[v])
 			}
 		}
 		if len(rank) > 0 {
@@ -473,64 +493,59 @@ func (l *layout) place() {
 			pos[v] += shift
 		}
 	}
+	return pos
+}
 
-	up := make([][]int, len(l.nodes))
-	down := make([][]int, len(l.nodes))
-	for _, e := range l.edges {
-		for i := 0; i+1 < len(e.chain); i++ {
-			a, b := e.chain[i], e.chain[i+1]
-			down[a] = append(down[a], b)
-			up[b] = append(up[b], a)
-		}
+// pull moves the nodes of a rank towards the nodes they are connected to
+// in a neighboring rank, keeping their order and the gaps between them.
+func (l *layout) pull(pos []float64, rank []int, toward [][]int) {
+	if len(rank) == 0 {
+		return
 	}
-	pull := func(rank []int, toward [][]int) {
-		if len(rank) == 0 {
-			return
-		}
-		want := make([]float64, len(rank))
-		for i, v := range rank {
-			want[i] = pos[v]
-			sum, weight := 0.0, 0.0
-			for _, w := range toward[v] {
-				// The bends of a connection pull hardest, to keep it straight
-				k := 1.0
-				if l.nodes[v].dummy && l.nodes[w].dummy {
-					k = 4
-				} else if l.nodes[v].dummy || l.nodes[w].dummy {
-					k = 2
-				}
-				sum += k * pos[w]
-				weight += k
-			}
-			if weight > 0 {
-				want[i] = sum / weight
-			}
-		}
-		// As far left as the gaps allow, as far right as they allow, and
-		// halfway between, which keeps the gaps too
-		left := append([]float64(nil), want...)
-		for i := 1; i < len(rank); i++ {
-			left[i] = math.Max(left[i], left[i-1]+gap(l.nodes[rank[i-1]], l.nodes[rank[i]]))
-		}
-		right := append([]float64(nil), want...)
-		for i := len(rank) - 2; i >= 0; i-- {
-			right[i] = math.Min(right[i], right[i+1]-gap(l.nodes[rank[i]], l.nodes[rank[i+1]]))
-		}
-		for i, v := range rank {
-			pos[v] = (left[i] + right[i]) / 2
-		}
+	want := make([]float64, len(rank))
+	for i, v := range rank {
+		want[i] = l.pulledTo(pos, v, toward[v])
 	}
-	for round := 0; round < 16; round++ {
-		for r := 1; r < len(l.ranks); r++ {
-			pull(l.ranks[r], up)
-		}
-		for r := len(l.ranks) - 2; r >= 0; r-- {
-			pull(l.ranks[r], down)
-		}
+	// As far left as the gaps allow, as far right as they allow, and
+	// halfway between, which keeps the gaps too
+	left := append([]float64(nil), want...)
+	for i := 1; i < len(rank); i++ {
+		left[i] = math.Max(left[i], left[i-1]+l.gap(l.nodes[rank[i-1]], l.nodes[rank[i]]))
 	}
+	right := append([]float64(nil), want...)
+	for i := len(rank) - 2; i >= 0; i-- {
+		right[i] = math.Min(right[i], right[i+1]-l.gap(l.nodes[rank[i]], l.nodes[rank[i+1]]))
+	}
+	for i, v := range rank {
+		pos[v] = (left[i] + right[i]) / 2
+	}
+}
 
-	// Along the flow: nodes are on the even ranks, a rank gap apart; the
-	// odd ranks between take the room the text on them needs
+// pulledTo is where the nodes a node is connected to would have it: their
+// weighted average, or where it is if there are none.
+func (l *layout) pulledTo(pos []float64, v int, toward []int) float64 {
+	sum, weight := 0.0, 0.0
+	for _, w := range toward {
+		// The bends of a connection pull hardest, to keep it straight
+		k := 1.0
+		if l.nodes[v].dummy && l.nodes[w].dummy {
+			k = 4
+		} else if l.nodes[v].dummy || l.nodes[w].dummy {
+			k = 2
+		}
+		sum += k * pos[w]
+		weight += k
+	}
+	if weight > 0 {
+		return sum / weight
+	}
+	return pos[v]
+}
+
+// rankCenters is where the ranks are along the flow: nodes are on the even
+// ranks, a rank gap apart; the odd ranks between take the room the text on
+// them needs.
+func (l *layout) rankCenters() []float64 {
 	depth := make([]float64, len(l.ranks))
 	for r, rank := range l.ranks {
 		for _, v := range rank {
@@ -549,10 +564,7 @@ func (l *layout) place() {
 		}
 		center[r] = at
 	}
-
-	for i, n := range l.nodes {
-		n.X, n.Y = pos[i], center[n.rank]
-	}
+	return center
 }
 
 // turn maps a point of the top-down layout to where it is in the chart's
