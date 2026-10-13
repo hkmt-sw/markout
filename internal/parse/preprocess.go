@@ -895,18 +895,79 @@ func (p *preprocessor) colonBlock(head string, body []string) ([]string, bool) {
 
 // directive converts a MyST directive (```{name} args or :::{name} args).
 func (p *preprocessor) directive(name, args string, body []string) []string {
+	opts, body := directiveOptions(body)
+	d := directiveBlock{name: strings.ToLower(name), args: args, opts: opts, body: trimBlankLines(body)}
+	if out, ok := p.knownDirective(d); ok {
+		return out
+	}
+
+	if _, ok := alertTypeFor(d.name); ok {
+		// The argument of a plain admonition is the start of its content.
+		return p.alert(d.name, "", p.blocks(d.withArgs()))
+	}
+
+	// A directive markout does not know keeps what it holds, argument
+	// included, and the conversion says that it was not understood
+	if d.name != directiveListTable && d.name != directiveCSVTable {
+		p.left.addUnknown("{" + d.name + "}")
+	}
+	return unwrap(p.blocks(d.withArgs()))
+}
+
+// directiveBlock is a directive taken apart: its name in lower case, what
+// follows the name, its options, and what it holds.
+type directiveBlock struct {
+	name, args string
+	opts       map[string]string
+	body       []string
+}
+
+// withArgs is the content with the argument as its first paragraph.
+func (d directiveBlock) withArgs() []string {
+	if d.args == "" {
+		return d.body
+	}
+	return append([]string{d.args, ""}, d.body...)
+}
+
+// titled is the start of what a directive with a caption becomes: a blank
+// line, and the caption in bold if there is one.
+func titled(caption string) []string {
+	out := []string{""}
+	if caption != "" {
+		out = append(out, "**"+caption+"**", "")
+	}
+	return out
+}
+
+// directiveOptions reads the options a directive begins with, as a YAML
+// block between "---" lines or as ":key: value" lines, and returns them
+// with the lines that follow.
+func directiveOptions(body []string) (map[string]string, []string) {
 	opts := map[string]string{}
-	if len(body) > 0 && strings.TrimSpace(body[0]) == "---" {
-		for i := 1; i < len(body); i++ {
-			if strings.TrimSpace(body[i]) == "---" {
-				body = body[i+1:]
-				break
-			}
-			if k, v, ok := strings.Cut(body[i], ":"); ok {
-				opts[strings.TrimSpace(k)] = strings.TrimSpace(v)
-			}
+	body = yamlOptions(opts, body)
+	body = colonOptions(opts, body)
+	return opts, body
+}
+
+// yamlOptions reads options written as a block between "---" lines.
+func yamlOptions(opts map[string]string, body []string) []string {
+	if len(body) == 0 || strings.TrimSpace(body[0]) != "---" {
+		return body
+	}
+	for i := 1; i < len(body); i++ {
+		if strings.TrimSpace(body[i]) == "---" {
+			return body[i+1:]
+		}
+		if k, v, ok := strings.Cut(body[i], ":"); ok {
+			opts[strings.TrimSpace(k)] = strings.TrimSpace(v)
 		}
 	}
+	return body
+}
+
+// colonOptions reads options written as ":key: value" lines.
+func colonOptions(opts map[string]string, body []string) []string {
 	for len(body) > 0 {
 		m := optionLine.FindStringSubmatch(body[0])
 		if m == nil {
@@ -926,209 +987,215 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 			opts[m[1]] = strings.Join(value, " ")
 		}
 	}
-	body = trimBlankLines(body)
+	return body
+}
 
-	name = strings.ToLower(name)
-	switch name {
+// knownDirective converts the directives markout knows. It reports false
+// for the others, and for a table that is not in the form expected.
+func (p *preprocessor) knownDirective(d directiveBlock) ([]string, bool) {
+	switch d.name {
 	case "math":
-		// Formulas separated by a blank line are formulas of their own
-		if args != "" {
-			body = append([]string{args}, body...)
-		}
-		var out []string
-		var formula []string
-		flush := func() {
-			if len(formula) > 0 {
-				out = append(out, "", "```"+internalMathLang)
-				out = append(out, formula...)
-				out = append(out, "```", "")
-				formula = nil
-			}
-		}
-		for _, line := range body {
-			if strings.TrimSpace(line) == "" {
-				flush()
-				continue
-			}
-			formula = append(formula, line)
-		}
-		flush()
-		return out
-
+		return mathDirective(d), true
 	case "mermaid":
 		out := []string{"", "```" + internalMermaidLang}
-		out = append(out, body...)
-		return append(out, "```", "")
-
+		out = append(out, d.body...)
+		return append(out, "```", ""), true
 	case "code-block", "code", "sourcecode", "code-cell", "literalinclude":
-		lang := ""
-		if fs := strings.Fields(args); len(fs) > 0 && name != "literalinclude" {
-			lang = fs[0]
-		}
-		out := []string{""}
-		// The caption of a block (:caption: main.py) goes above it, like
-		// the title of a fenced block
-		if caption := opts["caption"]; caption != "" {
-			out = append(out, "**"+caption+"**", "")
-		}
-		out = append(out, "```"+lang)
-		out = append(out, body...)
-		return append(out, "```", "")
-
+		return codeDirective(d), true
 	case "contents", "toc", "tableofcontents":
-		return []string{"", tocSentinel, ""}
-
+		return []string{"", tocSentinel, ""}, true
 	case "figure", "image":
-		alt := opts["alt"]
-		if w := widthHint(opts["width"]); w != "" {
-			alt += widthSep + w
-		}
-		out := []string{"", "![" + alt + "](<" + args + ">)", ""}
-		out = append(out, p.blocks(body)...) // figure caption
-		return append(out, "")
-
+		return p.figureDirective(d), true
 	case "eval-rst":
 		// reStructuredText is not read, but what is written in it is not
 		// dropped either: it is shown as it is
 		out := []string{"", "```rst"}
-		out = append(out, body...)
-		return append(out, "```", "")
-
+		out = append(out, d.body...)
+		return append(out, "```", ""), true
 	case "toctree":
-		// The pages of the project that belong under this one. They are not
-		// part of this document, but which they are is: they are listed
-		var out []string
-		for _, line := range body {
-			entry := strings.TrimSpace(line)
-			if m := roleTarget.FindStringSubmatch(entry); m != nil && m[1] != "" {
-				entry = m[1] // "Title <page>"
-			}
-			if entry != "" && entry != "self" {
-				out = append(out, "- "+entry)
-			}
-		}
-		if len(out) == 0 {
-			return nil
-		}
-		if caption := opts["caption"]; caption != "" {
-			out = append([]string{"**" + caption + "**", ""}, out...)
-		}
-		return append(append([]string{""}, out...), "")
-
+		return toctreeDirective(d), true
 	case "raw":
-		// Markup for one output format. HTML is read like any HTML in the
-		// document; markup for another format has no place here
-		if format := strings.Fields(strings.ToLower(args)); len(format) > 0 && format[0] == "html" {
-			return append(append([]string{""}, body...), "")
-		}
-		p.left.add("{raw} " + args)
-		return nil
-
+		return p.rawDirective(d), true
 	case "bibliography", "index":
 		// Lists Sphinx gathers from the whole project
-		p.left.add("{" + name + "}")
-		return nil
-
+		p.left.add("{" + d.name + "}")
+		return nil, true
 	case "admonition":
-		kind := "note"
-		for _, c := range strings.Fields(opts["class"]) {
-			if _, ok := alertTypeFor(c); ok {
-				kind = c
-			}
-		}
-		return p.alert(kind, args, p.blocks(body))
-
+		return p.admonitionDirective(d), true
 	case "versionadded", "versionchanged", "deprecated", "versionremoved":
-		// "Added in version 1.2: what was added"
-		label := map[string]string{
-			"versionadded": "Added in version", "versionchanged": "Changed in version",
-			"deprecated": "Deprecated since version", "versionremoved": "Removed in version",
-		}[name]
-		version, rest, _ := strings.Cut(args, " ")
-		head := "*" + label + " " + version + "*"
-		if rest = strings.TrimSpace(rest); rest != "" {
-			head += ": " + rest
-		}
-		inner := unwrap(p.blocks(body))
-		if text := strings.TrimSpace(strings.Join(inner, "\n")); text != "" {
-			head += ":"
-		}
-		return append(append([]string{"", head, ""}, inner...), "")
-
+		return p.versionDirective(d), true
 	case "tab-set", "tabs", "grid", "table":
 		// Containers: what they hold is shown, under their caption if any
 		out := []string{""}
-		if args != "" && name == "table" {
-			out = append(out, "**"+args+"**", "")
+		if d.name == "table" {
+			out = titled(d.args)
 		}
-		return append(append(out, p.blocks(body)...), "")
-
+		return append(append(out, p.blocks(d.body)...), ""), true
 	case "line-block":
-		// Every line is a line
-		var out []string
-		for _, line := range body {
-			if strings.TrimSpace(line) != "" {
-				out = append(out, p.inline(strings.TrimSpace(line))+"\\")
-			}
-		}
-		if len(out) == 0 {
-			return nil
-		}
-		out[len(out)-1] = strings.TrimSuffix(out[len(out)-1], "\\")
-		return append(append([]string{""}, out...), "")
-
+		return p.lineBlockDirective(d), true
 	case "only":
 		// Content for one output format or another; a document shows it
-		return unwrap(p.blocks(body))
-
+		return unwrap(p.blocks(d.body)), true
 	case directiveListTable, directiveCSVTable:
-		var rows [][]string
-		header := 0
-		if name == directiveListTable {
-			rows = listTableRows(body)
-			header, _ = strconv.Atoi(opts["header-rows"])
-		} else {
-			rows = csvRows(strings.Join(body, "\n"))
-			if head := csvRows(opts["header"]); len(head) == 1 {
-				rows, header = append(head, rows...), 1
-			}
-		}
-		if table := pipeTable(rows, header > 0); table != nil {
-			out := []string{""}
-			if args != "" {
-				out = append(out, "**"+args+"**", "")
-			}
-			out = append(out, table...)
-			return append(out, "")
-		}
-		// Not in the form expected: the content is kept as it is
-
+		return tableDirective(d)
 	case "dropdown", "card", "tab-item", "topic", "sidebar", "margin":
-		out := []string{""}
-		if args != "" {
-			out = append(out, "**"+args+"**", "")
-		}
-		out = append(out, p.blocks(body)...)
-		return append(out, "")
+		return append(append(titled(d.args), p.blocks(d.body)...), ""), true
 	}
+	return nil, false
+}
 
-	if _, ok := alertTypeFor(name); ok {
-		// The argument of a plain admonition is the start of its content.
-		if args != "" {
-			body = append([]string{args, ""}, body...)
+// mathDirective makes each formula of a {math} directive a formula of its
+// own: they are separated by a blank line.
+func mathDirective(d directiveBlock) []string {
+	body := d.body
+	if d.args != "" {
+		body = append([]string{d.args}, body...)
+	}
+	var out []string
+	var formula []string
+	flush := func() {
+		if len(formula) > 0 {
+			out = append(out, "", "```"+internalMathLang)
+			out = append(out, formula...)
+			out = append(out, "```", "")
+			formula = nil
 		}
-		return p.alert(name, "", p.blocks(body))
 	}
+	for _, line := range body {
+		if strings.TrimSpace(line) == "" {
+			flush()
+			continue
+		}
+		formula = append(formula, line)
+	}
+	flush()
+	return out
+}
 
-	// A directive markout does not know keeps what it holds, argument
-	// included, and the conversion says that it was not understood
-	if name != directiveListTable && name != directiveCSVTable {
-		p.left.addUnknown("{" + name + "}")
+// codeDirective makes a fenced code block of a directive that holds code.
+func codeDirective(d directiveBlock) []string {
+	lang := ""
+	if fs := strings.Fields(d.args); len(fs) > 0 && d.name != "literalinclude" {
+		lang = fs[0]
 	}
-	if args != "" {
-		body = append([]string{args, ""}, body...)
+	// The caption of a block (:caption: main.py) goes above it, like
+	// the title of a fenced block
+	out := titled(d.opts["caption"])
+	out = append(out, "```"+lang)
+	out = append(out, d.body...)
+	return append(out, "```", "")
+}
+
+// figureDirective makes an image of a figure, with its caption under it.
+func (p *preprocessor) figureDirective(d directiveBlock) []string {
+	alt := d.opts["alt"]
+	if w := widthHint(d.opts["width"]); w != "" {
+		alt += widthSep + w
 	}
-	return unwrap(p.blocks(body))
+	out := []string{"", "![" + alt + "](<" + d.args + ">)", ""}
+	out = append(out, p.blocks(d.body)...) // figure caption
+	return append(out, "")
+}
+
+// toctreeDirective lists the pages of the project that belong under this
+// one. They are not part of this document, but which they are is.
+func toctreeDirective(d directiveBlock) []string {
+	var out []string
+	for _, line := range d.body {
+		entry := strings.TrimSpace(line)
+		if m := roleTarget.FindStringSubmatch(entry); m != nil && m[1] != "" {
+			entry = m[1] // "Title <page>"
+		}
+		if entry != "" && entry != "self" {
+			out = append(out, "- "+entry)
+		}
+	}
+	if len(out) == 0 {
+		return nil
+	}
+	if caption := d.opts["caption"]; caption != "" {
+		out = append([]string{"**" + caption + "**", ""}, out...)
+	}
+	return append(append([]string{""}, out...), "")
+}
+
+// rawDirective keeps markup for one output format if that is HTML, which
+// is read like any HTML in the document; markup for another format has no
+// place here.
+func (p *preprocessor) rawDirective(d directiveBlock) []string {
+	if format := strings.Fields(strings.ToLower(d.args)); len(format) > 0 && format[0] == "html" {
+		return append(append([]string{""}, d.body...), "")
+	}
+	p.left.add("{raw} " + d.args)
+	return nil
+}
+
+// admonitionDirective makes a callout with a title of its own; its class
+// says of what kind.
+func (p *preprocessor) admonitionDirective(d directiveBlock) []string {
+	kind := "note"
+	for _, c := range strings.Fields(d.opts["class"]) {
+		if _, ok := alertTypeFor(c); ok {
+			kind = c
+		}
+	}
+	return p.alert(kind, d.args, p.blocks(d.body))
+}
+
+// versionDirective writes out a note on a version, such as "Added in
+// version 1.2: what was added".
+func (p *preprocessor) versionDirective(d directiveBlock) []string {
+	label := map[string]string{
+		"versionadded": "Added in version", "versionchanged": "Changed in version",
+		"deprecated": "Deprecated since version", "versionremoved": "Removed in version",
+	}[d.name]
+	version, rest, _ := strings.Cut(d.args, " ")
+	head := "*" + label + " " + version + "*"
+	if rest = strings.TrimSpace(rest); rest != "" {
+		head += ": " + rest
+	}
+	inner := unwrap(p.blocks(d.body))
+	if text := strings.TrimSpace(strings.Join(inner, "\n")); text != "" {
+		head += ":"
+	}
+	return append(append([]string{"", head, ""}, inner...), "")
+}
+
+// lineBlockDirective keeps every line of a {line-block} a line.
+func (p *preprocessor) lineBlockDirective(d directiveBlock) []string {
+	var out []string
+	for _, line := range d.body {
+		if strings.TrimSpace(line) != "" {
+			out = append(out, p.inline(strings.TrimSpace(line))+"\\")
+		}
+	}
+	if len(out) == 0 {
+		return nil
+	}
+	out[len(out)-1] = strings.TrimSuffix(out[len(out)-1], "\\")
+	return append(append([]string{""}, out...), "")
+}
+
+// tableDirective makes a table of a {list-table} or a {csv-table}. It
+// reports false for one that is not in the form expected, whose content is
+// kept as it is.
+func tableDirective(d directiveBlock) ([]string, bool) {
+	var rows [][]string
+	header := 0
+	if d.name == directiveListTable {
+		rows = listTableRows(d.body)
+		header, _ = strconv.Atoi(d.opts["header-rows"])
+	} else {
+		rows = csvRows(strings.Join(d.body, "\n"))
+		if head := csvRows(d.opts["header"]); len(head) == 1 {
+			rows, header = append(head, rows...), 1
+		}
+	}
+	table := pipeTable(rows, header > 0)
+	if table == nil {
+		return nil, false
+	}
+	return append(append(titled(d.args), table...), ""), true
 }
 
 var (
