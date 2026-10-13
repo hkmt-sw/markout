@@ -100,7 +100,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated()); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -549,6 +549,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 		return err
 	}
 	r.pad([]domain.Paragraph{para}, r.t.Code.Padding, r.t.Code.BlockLineHeight)
+	r.whole(para)
 
 	// Code in a language the block names is colored by what it means
 	for i, line := range highlight(cb, r.t) {
@@ -672,6 +673,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 			}
 
 			r.pad([]domain.Paragraph{para}, r.t.Table.CellPadding, r.t.Table.LineHeight)
+			r.aside(para)
 
 			header := r.bodyBase()
 			header.bold = true
@@ -725,6 +727,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 			}
 
 			r.pad([]domain.Paragraph{para}, r.t.Table.CellPadding, r.t.Table.LineHeight)
+			r.aside(para)
 
 			for _, astRun := range astCell.Runs {
 				if err := r.addRunToParagraph(para, astRun); err != nil {
@@ -1061,6 +1064,7 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 			return err
 		}
 		r.space(para, r.t.Footnote.LineHeight, 0, 4)
+		r.aside(para)
 
 		// Footnote number
 		numRun, err := para.AddRun()
@@ -1306,6 +1310,7 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 			return err
 		}
 		r.space(termPara, r.t.Text.LineHeight, 0, 0)
+		r.aside(termPara)
 		for _, run := range item.Term {
 			if err := r.addRun(termPara, run, term); err != nil {
 				return err
@@ -1324,6 +1329,7 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 			}
 			r.indent(defPara, r.t.List.Indent, 0)
 			r.space(defPara, r.t.Text.LineHeight, 0, after)
+			r.aside(defPara)
 
 			for _, run := range def {
 				if err := r.addRunToParagraph(defPara, run); err != nil {
@@ -1618,6 +1624,26 @@ func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float
 
 // indent sets a paragraph's left and right indent, counted from the list
 // item it is in, if any.
+// wholeStyle is the paragraph style of text whose words are not hyphenated.
+const wholeStyle = "Unhyphenated"
+
+// whole keeps a word processor from hyphenating a paragraph (code, for one)
+// in a document it is told to hyphenate.
+func (r *DocxRenderer) whole(p domain.Paragraph) {
+	if r.t.Text.Hyphenated() {
+		_ = p.SetStyle(wholeStyle) // only an empty name is refused
+	}
+}
+
+// aside is whole for body text in narrow or short blocks (table cells,
+// definitions, footnotes), which only a theme that hyphenates everything
+// hyphenates.
+func (r *DocxRenderer) aside(p domain.Paragraph) {
+	if r.t.Text.Hyphenate != theme.HyphenateAlways {
+		r.whole(p)
+	}
+}
+
 // justify sets a paragraph of running text flush on both sides where the
 // theme says so.
 func (r *DocxRenderer) justify(p domain.Paragraph) {
@@ -1829,7 +1855,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1870,6 +1896,9 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 		if file.Name == "word/styles.xml" {
 			content = replaceStyles(content, styles)
 			content = setDocxLanguage(content, language)
+		}
+		if file.Name == "word/settings.xml" && hyphenate {
+			content = hyphenateDocx(content)
 		}
 		// The library marks every field as needing an update, which makes
 		// Word ask "This document contains fields that may refer to other

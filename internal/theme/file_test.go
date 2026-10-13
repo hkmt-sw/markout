@@ -176,6 +176,8 @@ func TestErrorsNameTheProblem(t *testing.T) {
 		"[page]\nmargin = \"200mm\"\n":         "no room for text",
 		"[text]\nsize = 0\n":                   "text.size is 0 points",
 		"[text]\nalign = \"center\"\n":         "neither left nor justify",
+		"[text]\nhyphenate = \"yes\"\n":        "not one of auto, always, never",
+		"[text]\nhyphenate = true\n":           "must be text in quotes",
 		"[fonts]\nbody = \"Georgia\"\n":        "not a font PDF can use",
 		"[fonts.family.x]\nbold = \"b.ttf\"\n": "needs a regular font file",
 		"[fonts]\nbody=\"x\"\n[fonts.family.x]\nregular = \"missing.ttf\"\n": "cannot be read",

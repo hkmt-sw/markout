@@ -164,6 +164,15 @@ func (r *DocxRenderer) styleDefinitions() map[string]string {
 		return fmt.Sprintf(`<w:sz w:val="%d"/><w:szCs w:val="%d"/>`, halfPoints(pt), halfPoints(pt))
 	}
 
+	// In a document that is hyphenated, headings, the table of contents and
+	// what is in the style for it are not
+	whole := ""
+	if r.t.Text.Hyphenated() {
+		whole = `<w:suppressAutoHyphens/>`
+		styles[wholeStyle] = `<w:style w:type="paragraph" w:customStyle="1" w:styleId="` + wholeStyle + `"><w:name w:val="Unhyphenated"/><w:basedOn w:val="Normal"/><w:uiPriority w:val="99"/>` +
+			`<w:pPr>` + whole + `</w:pPr></w:style>`
+	}
+
 	text := r.t.Text
 	styles["Normal"] = `<w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/><w:uiPriority w:val="0"/><w:qFormat/>` +
 		`<w:rPr>` + fonts(r.t.Fonts.Body) + `<w:color w:val="` + text.Color.Hex() + `"/>` + size(text.Size) + `</w:rPr></w:style>`
@@ -176,17 +185,17 @@ func (r *DocxRenderer) styleDefinitions() map[string]string {
 		}
 		styles[fmt.Sprintf("Heading%d", i+1)] = fmt.Sprintf(
 			`<w:style w:type="paragraph" w:styleId="Heading%d"><w:name w:val="heading %d"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="9"/><w:qFormat/>`+
-				`<w:pPr><w:keepNext/><w:keepLines/><w:spacing w:before="%d" w:after="%d" w:line="%d" w:lineRule="atLeast"/><w:outlineLvl w:val="%d"/></w:pPr>`+
+				`<w:pPr><w:keepNext/><w:keepLines/>%s<w:spacing w:before="%d" w:after="%d" w:line="%d" w:lineRule="atLeast"/><w:outlineLvl w:val="%d"/></w:pPr>`+
 				`<w:rPr>%s<w:b/><w:bCs/><w:color w:val="%s"/>%s</w:rPr></w:style>`,
-			i+1, i+1, twips(hd.SpaceBefore), twips(hd.SpaceAfter), twips(hd.LineHeight), i,
+			i+1, i+1, whole, twips(hd.SpaceBefore), twips(hd.SpaceAfter), twips(hd.LineHeight), i,
 			fonts(r.t.Fonts.Heading), color, size(hd.Size))
 	}
 
 	for n := 1; n <= 9; n++ {
 		styles[fmt.Sprintf("TOC%d", n)] = fmt.Sprintf(
 			`<w:style w:type="paragraph" w:styleId="TOC%d"><w:name w:val="toc %d"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="39"/>`+
-				`<w:pPr><w:spacing w:before="0" w:after="0" w:line="%d" w:lineRule="atLeast"/><w:ind w:left="%d"/></w:pPr></w:style>`,
-			n, n, twips(text.LineHeight), twips(float64(n-1)*r.t.List.Indent))
+				`<w:pPr>%s<w:spacing w:before="0" w:after="0" w:line="%d" w:lineRule="atLeast"/><w:ind w:left="%d"/></w:pPr></w:style>`,
+			n, n, whole, twips(text.LineHeight), twips(float64(n-1)*r.t.List.Indent))
 	}
 
 	styles["Hyperlink"] = `<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:basedOn w:val="DefaultParagraphFont"/><w:uiPriority w:val="99"/>` +
@@ -205,6 +214,19 @@ func setDocxLanguage(content []byte, tag string) []byte {
 	}
 	def := open + `<w:rPrDefault><w:rPr><w:lang w:val="` + xmlEscape(lang.Regional(tag)) + `"/></w:rPr></w:rPrDefault>`
 	return bytes.Replace(content, []byte(open), []byte(def), 1)
+}
+
+// hyphenateDocx turns on hyphenation in word/settings.xml, with the same
+// limit on lines in a row that end in a hyphen as PDF has. The word
+// processor hyphenates by the language of the text.
+func hyphenateDocx(content []byte) []byte {
+	// The settings have an order; these two come right after the tab stop
+	at := regexp.MustCompile(`<w:defaultTabStop [^>]*/>`).FindIndex(content)
+	if at == nil {
+		return content
+	}
+	on := fmt.Sprintf(`<w:autoHyphenation/><w:consecutiveHyphenLimit w:val="%d"/>`, maxBrokenLines)
+	return append(content[:at[1]:at[1]], append([]byte(on), content[at[1]:]...)...)
 }
 
 // replaceStyles puts the definitions into word/styles.xml in place of the

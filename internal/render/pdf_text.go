@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
+	"github.com/hkmt-sw/markout/internal/hyphen"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
 
@@ -23,15 +24,41 @@ type textStyle struct {
 	italic     bool
 	color      theme.Color
 	lineHeight float64
-	justify    bool // lines are set flush on both sides
+	justify    bool               // lines are set flush on both sides
+	hyphen     *hyphen.Hyphenator // breaks words at the ends of lines; nil leaves them whole
 }
 
-// proseStyle is the style of running text: bodyStyle, flush on both sides
-// where the theme says so.
+// proseStyle is the style of running text (paragraphs, list items, quotes,
+// callouts): bodyStyle, flush on both sides and hyphenated where the theme
+// says so.
 func (r *PdfRenderer) proseStyle() textStyle {
 	style := r.bodyStyle()
 	style.justify = r.t.Text.Justified()
+	if r.t.Text.Hyphenated() {
+		style.hyphen = r.hyphenator()
+	}
 	return style
+}
+
+// asideStyle is the style of body text in narrow or short blocks (table
+// cells, definitions, footnotes). It is never justified, and hyphenated only
+// by a theme that hyphenates everything.
+func (r *PdfRenderer) asideStyle() textStyle {
+	style := r.bodyStyle()
+	if r.t.Text.Hyphenate == theme.HyphenateAlways {
+		style.hyphen = r.hyphenator()
+	}
+	return style
+}
+
+// hyphenator is what hyphenates the language of the document. Where there is
+// nothing to do it with, the text stays whole and the user is told.
+func (r *PdfRenderer) hyphenator() *hyphen.Hyphenator {
+	h := hyphen.For(r.opts.Lang)
+	if h == nil {
+		r.unhyphenated = true
+	}
+	return h
 }
 
 // bodyStyle is the style of ordinary text.
@@ -84,6 +111,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	baseSpace, _ := r.pdf.MeasureTextWidth(" ")
 
 	b := lineBreaker{width: firstWidth, restWidth: restWidth, narrowest: math.Min(firstWidth, restWidth), baseSpace: baseSpace, justify: base.justify}
+	b.hyphen, b.soft = base.hyphen, r.t.Text.Hyphenate != theme.HyphenateNever
 	for _, run := range runs {
 		text := run.Text
 		if run.FootnoteIndex > 0 {
@@ -175,9 +203,19 @@ type lineBreaker struct {
 	baseSpace float64 // a space of the surrounding text
 	needSpace bool    // the previous run ended in whitespace
 	justify   bool    // every word is a fragment of its own, to be moved apart
+
+	hyphen *hyphen.Hyphenator // breaks words that do not fit; nil leaves them whole
+	soft   bool               // a word is broken at the soft hyphens written into it
+	broken bool               // the line being filled ends in a part of a word
+	run    int                // how many lines before this one ended so, in a row
 }
 
 func (b *lineBreaker) breakLine() {
+	b.run++
+	if !b.broken {
+		b.run = 0
+	}
+	b.broken = false
 	b.lines = append(b.lines, b.line)
 	b.line = textLine{}
 	b.x = 0
@@ -278,8 +316,13 @@ func (r *PdfRenderer) layoutMath(b *lineBreaker, f fragment, base textStyle) boo
 // ("x" + superscript "2", bold text followed by a comma) stay together.
 func (r *PdfRenderer) layoutText(b *lineBreaker, f fragment, text string) {
 	r.setFont(f.font, f.style, f.size)
+	// Soft hyphens are places to break a word at, not characters to draw
+	text, soft := softHyphens(text)
 	// Characters the font cannot draw are left out
-	if text = r.usable(text); text == "" {
+	if clean := r.usable(text); clean != text {
+		text, soft = clean, nil // the places no longer hold
+	}
+	if text == "" {
 		return
 	}
 	spaceWidth, _ := r.pdf.MeasureTextWidth(" ")
@@ -292,13 +335,54 @@ func (r *PdfRenderer) layoutText(b *lineBreaker, f fragment, text string) {
 		if i == 0 {
 			gapWidth = b.baseSpace
 		}
-		for pi, part := range r.wordParts(word, b.narrowest) {
+		gap := (i > 0 || leadingSpace || b.needSpace) && b.x > 0
+		parts := r.wordParts(word, b.narrowest)
+		if len(parts) == 1 {
+			r.placeWord(&p, word, soft[i], gap, gapWidth)
+			continue
+		}
+		for pi, part := range parts {
 			partWidth, _ := r.pdf.MeasureTextWidth(part)
-			gap := pi == 0 && (i > 0 || leadingSpace || b.needSpace) && b.x > 0
-			p.place(part, partWidth, gap, gapWidth)
+			p.place(part, partWidth, gap && pi == 0, gapWidth)
 		}
 	}
 	b.needSpace = strings.TrimRight(text, " \t\n") != text
+}
+
+// placeWord puts a word into the line. One that does not fit at the end of
+// the line is broken there if it may be, and goes to the next line whole if
+// not.
+func (r *PdfRenderer) placeWord(p *runPlacer, word string, soft []int, gap bool, gapWidth float64) {
+	b := p.b
+	width, _ := r.pdf.MeasureTextWidth(word)
+	if room := p.room(gap, gapWidth); width > room && b.x > 0 && b.run < maxBrokenLines {
+		if head, tail, ok := r.fitting(word, b.breaksOf(word, soft), room); ok {
+			headWidth, _ := r.pdf.MeasureTextWidth(head)
+			p.place(head, headWidth, gap, gapWidth)
+			b.broken = true
+			b.breakLine()
+			p.open, gap = false, false
+			word = tail
+			width, _ = r.pdf.MeasureTextWidth(word)
+		}
+	}
+	p.place(word, width, gap, gapWidth)
+}
+
+// fitting breaks a word at the last of the places where what stays on the
+// line takes no more than room.
+func (r *PdfRenderer) fitting(word string, breaks []wordBreak, room float64) (head, tail string, ok bool) {
+	letters := []rune(word)
+	for i := len(breaks) - 1; i >= 0; i-- {
+		head = string(letters[:breaks[i].at])
+		if breaks[i].hyphen {
+			head += "-"
+		}
+		if w, _ := r.pdf.MeasureTextWidth(head); w <= room {
+			return head, string(letters[breaks[i].at:]), true
+		}
+	}
+	return "", "", false
 }
 
 // wordParts is a word as the pieces that are laid out. A word wider than a
@@ -319,6 +403,18 @@ type runPlacer struct {
 	spaceWidth float64  // a space in the font of the run
 	chip       bool     // a color swatch is still to be drawn before the text
 	open       bool     // a fragment of this run is open at the end of the line
+}
+
+// room is what is left of the line for a word.
+func (p *runPlacer) room(gap bool, gapWidth float64) float64 {
+	room := p.b.width - p.b.x
+	if gap {
+		room -= gapWidth
+	}
+	if p.chip {
+		room -= chipWidth
+	}
+	return room
 }
 
 // place puts a word, or a part of one, at the end of the line or on a new

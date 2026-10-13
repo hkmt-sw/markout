@@ -260,6 +260,7 @@ See [Fonts](#fonts) for `[fonts.family.NAME]`.
 | `line-height` | Distance from one line to the next |
 | `paragraph-spacing` | Space after a paragraph |
 | `align` | `"left"` (the default), or `"justify"` for text flush on both sides; see below |
+| `hyphenate` | `"auto"` (the default), `"always"` or `"never"`; see below |
 | `color` | Color of body text, lists, quotes and tables |
 | `muted` | Captions and labels |
 | `faint` | Struck-through text |
@@ -272,6 +273,40 @@ justified line end up far apart.
 In PDF a line whose word spaces would have to grow to more than three times
 their width is left ragged. That happens where a long word did not fit at
 the end of the line before, most often in a narrow list item.
+
+`hyphenate` says whether a word that does not fit at the end of a line is
+broken there:
+
+| Value | Words are broken in |
+| --- | --- |
+| `"auto"` | justified text, so nowhere unless `align` is `"justify"` |
+| `"always"` | paragraphs, list items, quotes and callouts however they are aligned, and table cells, definitions and footnotes too |
+| `"never"` | nothing |
+
+Headings, captions and code are never hyphenated. Neither are words of fewer
+than five letters or with a digit in them, and no more than three lines in a
+row end in a hyphen.
+
+Words are hyphenated by the rules of the [language of the
+document](../README.md#language). In PDF markout does it, and has the rules
+of Hungarian (`hu`), American English (`en-US`) and British English
+(`en-GB`); for a document in another language, or one that names none, the
+words stay whole and markout says so. In DOCX the word processor does it,
+with the rules it has.
+
+A justified theme that is hyphenated where it can be:
+
+```toml
+extends = "default"
+
+[text]
+align = "justify"
+```
+
+A soft hyphen in the Markdown (`&shy;`, as in `rendszer&shy;üzemeltetés`)
+marks where a word may be broken. In PDF the word is then broken there and
+nowhere else, in any text and in any language, unless `hyphenate` is
+`"never"`.
 
 ### `[heading]` and `[heading.h1]` to `[heading.h6]`
 

@@ -208,6 +208,10 @@ choose one on the **Language** tab of the settings (`F2`), which is saved.
 What a document says goes before both. With no language anywhere the output
 names none, as before.
 
+The language is also what words are hyphenated by, in a theme that sets text
+[justified or hyphenated](docs/themes.md#text). In PDF markout hyphenates
+Hungarian, American English and British English.
+
 ## Update notifications
 
 When a newer release exists, the TUI says so in its top border:
@@ -450,6 +454,7 @@ things are beyond it for now:
 | `internal/convert` | Conversion orchestration                        |
 | `internal/theme`   | Themes: the built-in ones and theme files       |
 | `internal/lang`    | Language tags                                   |
+| `internal/hyphen`  | Hyphenation, with the patterns of each language |
 | `internal/settings`| Saved preferences (flavor, theme, language)     |
 | `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor, `corpus/` has real documents from public projects |
 | `examples`         | [Example documents](examples/README.md): a policy, a runbook, a report, minutes and more, to convert and to copy from |
@@ -488,3 +493,7 @@ It builds on these projects:
   [SIL Open Font License](internal/render/fonts/LICENSE), and
   [DejaVu Math TeX Gyre](https://dejavu-fonts.github.io/), embedded for
   formulas under the [DejaVu fonts license](internal/render/fonts/LICENSE-DejaVu)
+- The hyphenation patterns of the TeX community
+  ([hyph-utf8](https://github.com/hyphenation/tex-hyphen)) for Hungarian
+  (LGPL 2.1), American English and British English (MIT), embedded with
+  [their notices](internal/hyphen/patterns/README.md)

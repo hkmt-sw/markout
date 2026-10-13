@@ -59,7 +59,10 @@ type PdfRenderer struct {
 	glyphMissed bool
 	missing     []rune // characters left out, in order of appearance
 	missingSeen map[rune]bool
-	rightToLeft bool
+	// unhyphenated: words were to be hyphenated, and there is nothing to
+	// hyphenate the language of the document with
+	unhyphenated bool
+	rightToLeft  bool
 
 	// Bookmarks and links within the document; see pdf_outline.go.
 	anchors  anchors         // what links may call the headings
@@ -550,7 +553,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 	// layoutRow lays out every cell of a row and returns the row height
 	// needed for the tallest one.
 	layoutRow := func(cells []ast.TableCell, bold bool) (float64, [][]textLine) {
-		style := r.bodyStyle()
+		style := r.asideStyle()
 		style.bold, style.lineHeight = bold, lineHeight
 		maxLines := 1
 		laidOut := make([][]textLine, numCols)
@@ -1037,7 +1040,7 @@ func (r *PdfRenderer) drawFormula(tex string) bool {
 }
 
 func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
-	def := r.bodyStyle()
+	def := r.asideStyle()
 	lineHeight := def.lineHeight
 	indent := r.t.List.Indent
 
@@ -1286,7 +1289,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 		// Render footnote content: the first line follows the number, the
 		// rest are indented.
-		style := r.bodyStyle()
+		style := r.asideStyle()
 		style.size, style.lineHeight = note.Size, lineHeight
 		for _, elem := range fn.Elements {
 			p, ok := elem.(ast.Paragraph)
