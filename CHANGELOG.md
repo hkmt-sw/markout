@@ -4,6 +4,21 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.3] - 2026-10-13
+
+Maintenance. Nothing a document shows has changed.
+
+### Changed
+
+- The seven most intricate functions were taken apart into smaller ones:
+  the reading of blocks and of MyST directives, the breaking of text into
+  lines in PDF, and the reading, ordering, placing and drawing of a Mermaid
+  flowchart. Each was compared with what it replaced on generated input
+  (60,000 charts, 61,000 documents, over a million laid-out paragraphs)
+  before the old code was removed.
+- The small findings of a SonarQube analysis of 1.8.0 were dealt with:
+  repeated texts are named, and a function with eight parameters has four.
+
 ## [1.8.2] - 2026-10-13
 
 A flowchart no longer stops a conversion.
