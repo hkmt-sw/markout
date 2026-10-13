@@ -23,6 +23,15 @@ type textStyle struct {
 	italic     bool
 	color      theme.Color
 	lineHeight float64
+	justify    bool // lines are set flush on both sides
+}
+
+// proseStyle is the style of running text: bodyStyle, flush on both sides
+// where the theme says so.
+func (r *PdfRenderer) proseStyle() textStyle {
+	style := r.bodyStyle()
+	style.justify = r.t.Text.Justified()
+	return style
 }
 
 // bodyStyle is the style of ordinary text.
@@ -43,6 +52,8 @@ type fragment struct {
 	color    theme.Color
 	chip     bool     // a color swatch is drawn before the text
 	math     *mathBox // a typeset formula, drawn in place of text
+	spaced   bool     // a word space comes before it
+	joined   bool     // it goes on from the fragment before it, in the same run
 }
 
 type textLine struct {
@@ -72,7 +83,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	r.setFont(base.font, baseStyle, base.size)
 	baseSpace, _ := r.pdf.MeasureTextWidth(" ")
 
-	b := lineBreaker{width: firstWidth, restWidth: restWidth, narrowest: math.Min(firstWidth, restWidth), baseSpace: baseSpace}
+	b := lineBreaker{width: firstWidth, restWidth: restWidth, narrowest: math.Min(firstWidth, restWidth), baseSpace: baseSpace, justify: base.justify}
 	for _, run := range runs {
 		text := run.Text
 		if run.FootnoteIndex > 0 {
@@ -87,7 +98,70 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		}
 		r.layoutText(&b, f, text)
 	}
-	return b.finish()
+	lines := b.finish()
+	if base.justify {
+		justify(lines, firstWidth, restWidth, baseSpace)
+	}
+	return lines
+}
+
+// maxStretch is how many times its width a word space may grow to in a
+// justified line. A line that would need more is left ragged: a few words
+// far apart are harder to read than a short line.
+const maxStretch = 3.0
+
+// justify sets lines flush on both sides by widening their word spaces. The
+// last line stays as it is. firstWidth and restWidth are what the first line
+// and the others may take up.
+func justify(lines []textLine, firstWidth, restWidth, space float64) {
+	for i := range lines {
+		width := restWidth
+		if i == 0 {
+			width = firstWidth
+		}
+		extra := 0.0
+		if i < len(lines)-1 {
+			extra = stretchOf(lines[i], width, space)
+		}
+		spread(lines[i].frags, extra)
+	}
+}
+
+// stretchOf is how much each word space of a line grows by to make the line
+// as wide as width, or 0 where the line is left ragged.
+func stretchOf(line textLine, width, space float64) float64 {
+	spaces := 0
+	for _, f := range line.frags {
+		if f.spaced {
+			spaces++
+		}
+	}
+	room := width - line.width()
+	if spaces == 0 || room <= 0 {
+		return 0
+	}
+	extra := room / float64(spaces)
+	if space+extra > maxStretch*space {
+		return 0
+	}
+	return extra
+}
+
+// spread moves the fragments of a line apart by extra at every word space. A
+// fragment that goes on in the next one is widened up to it, so that what is
+// drawn along a run (an underline, a highlight, the area of a link) has no
+// holes at the spaces.
+func spread(frags []fragment, extra float64) {
+	shift := 0.0
+	for i := range frags {
+		if frags[i].spaced {
+			shift += extra
+		}
+		frags[i].x += shift
+		if i > 0 && frags[i].joined {
+			frags[i-1].width = frags[i].x - frags[i-1].x
+		}
+	}
 }
 
 // lineBreaker collects fragments into lines.
@@ -100,6 +174,7 @@ type lineBreaker struct {
 	narrowest float64
 	baseSpace float64 // a space of the surrounding text
 	needSpace bool    // the previous run ended in whitespace
+	justify   bool    // every word is a fragment of its own, to be moved apart
 }
 
 func (b *lineBreaker) breakLine() {
@@ -191,7 +266,7 @@ func (r *PdfRenderer) layoutMath(b *lineBreaker, f fragment, base textStyle) boo
 		b.x += b.baseSpace
 	}
 	f.color, f.style = base.color, ""
-	f.x, f.width, f.math = b.x, box.w, &box
+	f.x, f.width, f.math, f.spaced = b.x, box.w, &box, gap
 	b.add(f)
 	b.needSpace = false
 	return true
@@ -262,7 +337,8 @@ func (p *runPlacer) place(part string, partWidth float64, gap bool, gapWidth flo
 		gap, p.open = false, false
 	}
 
-	if p.open && gap && !p.chip {
+	joined := p.open && gap && !p.chip
+	if joined && !b.justify {
 		last := &b.line.frags[len(b.line.frags)-1]
 		last.text += " " + part
 		last.width += p.spaceWidth + partWidth
@@ -275,6 +351,7 @@ func (p *runPlacer) place(part string, partWidth float64, gap bool, gapWidth flo
 	}
 	piece := p.f
 	piece.text, piece.x, piece.width, piece.chip = part, b.x, partWidth, p.chip
+	piece.spaced, piece.joined = gap, joined
 	if p.chip {
 		piece.x += chipWidth
 		b.x += chipWidth

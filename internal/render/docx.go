@@ -241,6 +241,8 @@ func (r *DocxRenderer) renderParagraph(p ast.Paragraph) error {
 		para.SetAlignment(domain.AlignmentRight)
 	case ast.AlignJustify:
 		para.SetAlignment(domain.AlignmentJustify)
+	default:
+		r.justify(para)
 	}
 	r.space(para, r.t.Text.LineHeight, 0, r.t.Text.ParagraphSpacing)
 	r.inside(para)
@@ -433,6 +435,7 @@ func (r *DocxRenderer) renderListItems(items []ast.ListItem, num, level int) err
 			return err
 		}
 		r.space(para, r.t.Text.LineHeight, 0, 0)
+		r.justify(para)
 		r.lastListItem = para
 
 		if item.IsTask {
@@ -834,6 +837,7 @@ func (r *DocxRenderer) renderBlockquote(bq ast.Blockquote) error {
 			para.SetBorders(domain.ParagraphBorders{Left: ruleBorder(quote.BarWidth, quote.Bar)})
 			r.indent(para, quote.Indent, 0)
 			r.space(para, r.t.Text.LineHeight, 0, quote.SpaceAfter)
+			r.justify(para)
 			base := r.bodyBase()
 			base.italic = quote.Italic
 
@@ -1162,6 +1166,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 				return err
 			}
 			inCell = append(inCell, contentPara)
+			r.justify(contentPara)
 			for _, astRun := range p.Runs {
 				if err := r.addRunToParagraph(contentPara, astRun); err != nil {
 					return err
@@ -1613,6 +1618,14 @@ func (r *DocxRenderer) space(p domain.Paragraph, lineHeight, before, after float
 
 // indent sets a paragraph's left and right indent, counted from the list
 // item it is in, if any.
+// justify sets a paragraph of running text flush on both sides where the
+// theme says so.
+func (r *DocxRenderer) justify(p domain.Paragraph) {
+	if r.t.Text.Justified() {
+		p.SetAlignment(domain.AlignmentJustify)
+	}
+}
+
 func (r *DocxRenderer) indent(p domain.Paragraph, left, right float64) {
 	p.SetIndentLeft(twips(left + r.inset))
 	p.SetIndentRight(twips(right))
