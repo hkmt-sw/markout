@@ -4,6 +4,20 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.1] - 2026-10-13
+
+An e-mail address in the text opens the mail program.
+
+### Fixed
+
+- An e-mail address written in the text (`info@example.com` or
+  `<info@example.com>`) became a link to the bare address, which no program
+  opens. The link is now `mailto:info@example.com`, in PDF and DOCX. A link
+  written out as `[text](mailto:...)` was right before.
+- An address written as `www.example.com` was shown as
+  `http://www.example.com`. It is shown as written; only the link has the
+  scheme.
+
 ## [1.8.0] - 2026-10-08
 
 Mermaid flowcharts are drawn.
