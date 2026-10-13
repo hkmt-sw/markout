@@ -125,9 +125,21 @@ type Text struct {
 	Size             float64 `key:"size"`
 	LineHeight       float64 `key:"line-height"`
 	ParagraphSpacing float64 `key:"paragraph-spacing" doc:"space after a paragraph"`
+	Align            string  `key:"align" doc:"left, or justify for text flush on both sides"`
 	Color            Color   `key:"color"`
 	Muted            Color   `key:"muted" doc:"captions and labels"`
 	Faint            Color   `key:"faint" doc:"struck-through text"`
+}
+
+// Values of Text.Align.
+const (
+	AlignLeft    = "left"
+	AlignJustify = "justify"
+)
+
+// Justified reports whether body text is set flush on both sides.
+func (t Text) Justified() bool {
+	return t.Align == AlignJustify
 }
 
 // Heading is one heading level.

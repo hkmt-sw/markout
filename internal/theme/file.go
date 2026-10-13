@@ -607,6 +607,10 @@ func validate(th Theme, pdf bool) error {
 		return fmt.Errorf("page: the margins leave no room for text on a %.0f x %.0f point page", p.Width, p.Height)
 	}
 
+	if a := th.Text.Align; a != AlignLeft && a != AlignJustify {
+		return fmt.Errorf("text.align: %q is neither left nor justify", a)
+	}
+
 	sizes := map[string]float64{
 		"text.size": th.Text.Size, "text.line-height": th.Text.LineHeight,
 		"code.block-size": th.Code.BlockSize, "code.block-line-height": th.Code.BlockLineHeight,

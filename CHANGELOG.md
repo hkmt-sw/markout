@@ -17,6 +17,11 @@ Typography: text that is justified and hyphenated. In progress.
   where Word checks the spelling and hyphenates by it, and into the PDF,
   where a screen reader reads by it. With no language given the output is
   what it was.
+- Justified text. `align = "justify"` under `[text]` in a theme of your own
+  sets paragraphs, list items, quotes and callouts flush on both sides, in
+  PDF and DOCX. Headings, table cells, captions and code stay flush left,
+  and so does a line of a PDF whose word spaces would have to grow to more
+  than three times their width. No built-in theme is justified.
 
 ### Changed
 

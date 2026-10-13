@@ -259,9 +259,19 @@ See [Fonts](#fonts) for `[fonts.family.NAME]`.
 | `size` | Size of body text |
 | `line-height` | Distance from one line to the next |
 | `paragraph-spacing` | Space after a paragraph |
+| `align` | `"left"` (the default), or `"justify"` for text flush on both sides; see below |
 | `color` | Color of body text, lists, quotes and tables |
 | `muted` | Captions and labels |
 | `faint` | Struck-through text |
+
+With `align = "justify"` paragraphs, list items, quotes and callouts are set
+flush on both sides; the last line of each stays as it is. Headings, table
+cells, captions and code stay flush left: in a narrow column the words of a
+justified line end up far apart.
+
+In PDF a line whose word spaces would have to grow to more than three times
+their width is left ragged. That happens where a long word did not fit at
+the end of the line before, most often in a narrow list item.
 
 ### `[heading]` and `[heading.h1]` to `[heading.h6]`
 

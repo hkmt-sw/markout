@@ -410,7 +410,7 @@ func (r *PdfRenderer) flushHeadings(need float64) {
 }
 
 func (r *PdfRenderer) renderParagraph(p ast.Paragraph) {
-	style := r.bodyStyle()
+	style := r.proseStyle()
 	r.checkPageBreak(style.lineHeight)
 
 	r.renderRuns(p.Runs, style, r.marginLeft, r.contentWidth)
@@ -426,7 +426,7 @@ func (r *PdfRenderer) renderList(l ast.List) {
 
 func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level int) {
 	indent := float64(level+1) * r.t.List.Indent
-	style := r.bodyStyle()
+	style := r.proseStyle()
 	lineHeight := style.lineHeight
 
 	for _, item := range items {
@@ -656,7 +656,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 func (r *PdfRenderer) renderBlockquote(bq ast.Blockquote) {
 	quote := r.t.Quote
 	indent := quote.Indent
-	style := r.bodyStyle()
+	style := r.proseStyle()
 	style.italic = quote.Italic
 	lineHeight := style.lineHeight
 
@@ -894,7 +894,7 @@ func (r *PdfRenderer) renderImagePlaceholder(img ast.Image) {
 func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 	colors := alertColors(r.t.Alert, alert.Type)
 	bgColor, borderColor := colors.Background, colors.Border
-	style := r.bodyStyle()
+	style := r.proseStyle()
 	lineHeight := style.lineHeight
 	padding := r.t.Alert.Padding
 
