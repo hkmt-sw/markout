@@ -63,13 +63,6 @@ const chipWidth = 12.0
 // layout breaks runs into lines. The first line may be narrower or wider than
 // the rest (a list item's first line starts after its bullet).
 func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, restWidth float64) []textLine {
-	var lines []textLine
-	var line textLine
-	x := 0.0
-	needSpace := false // the previous run ended in whitespace
-	width := firstWidth
-	narrowest := math.Min(firstWidth, restWidth)
-
 	// The gap between two runs is a space of the surrounding text, not of the
 	// run that follows: a monospace space before inline code is too wide.
 	baseStyle := ""
@@ -79,13 +72,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	r.setFont(base.font, baseStyle, base.size)
 	baseSpace, _ := r.pdf.MeasureTextWidth(" ")
 
-	breakLine := func() {
-		lines = append(lines, line)
-		line = textLine{}
-		x = 0
-		width = restWidth
-	}
-
+	b := lineBreaker{width: firstWidth, restWidth: restWidth, narrowest: math.Min(firstWidth, restWidth), baseSpace: baseSpace}
 	for _, run := range runs {
 		text := run.Text
 		if run.FootnoteIndex > 0 {
@@ -94,141 +81,207 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 		if text == "" {
 			continue
 		}
-
-		f := fragment{run: run, font: base.font, size: base.size, color: base.color}
-		bold, italic := run.Bold || base.bold, run.Italic || run.Math || base.italic
-		switch {
-		case bold && italic:
-			f.style = "BI"
-		case bold:
-			f.style = "B"
-		case italic:
-			f.style = "I"
-		}
-		// Superscripts and subscripts are set smaller and shifted off the line.
-		if run.Superscript || run.Subscript {
-			f.size = math.Round(base.size * 0.73)
-			f.yShift = -1
-			if run.Subscript {
-				f.yShift = base.size - f.size + 2
-			}
-		}
-		if run.Code {
-			f.font, f.style, f.size = r.codeFont(), "", base.size-1
-			// Text is placed by the top of its box, and the monospace font
-			// has a lower ascent: move it down onto the shared baseline.
-			f.yShift = r.family(base.font).ascent*base.size - r.family(f.font).ascent*f.size
-		}
-		switch {
-		case run.Math:
-			f.color = r.t.Colors.Math
-		case run.Link != "":
-			f.color = r.t.Link.Color
-		case run.Inserted:
-			f.color = r.t.Colors.Inserted
-		case run.Deleted:
-			f.color = r.t.Colors.Deleted
-		case run.Code:
-			f.color = r.t.Code.Color
-		case run.FootnoteIndex > 0:
-			f.color = r.t.Link.Color
-		case run.Strikethrough:
-			f.color = r.t.Text.Faint
-		}
-
-		// A formula is typeset and takes its place in the line like a word.
-		// One that cannot be typeset, or is wider than the line, is shown
-		// as its source
-		if run.Math {
-			if box, ok := r.typeset(run.Text, false, base.size, base.color); ok && box.w <= narrowest {
-				gap := needSpace && x > 0
-				if need := box.w + baseSpace; x+need > width && x > 0 {
-					breakLine()
-					gap = false
-				}
-				if gap {
-					x += baseSpace
-				}
-				piece := f
-				piece.color, piece.style = base.color, ""
-				piece.x, piece.width, piece.math = x, box.w, &box
-				line.frags = append(line.frags, piece)
-				x += box.w
-				needSpace = false
-				continue
-			}
-		}
-
-		r.setFont(f.font, f.style, f.size)
-		// Characters the font cannot draw are left out
-		if text = r.usable(text); text == "" {
+		f := r.fragmentOf(run, base)
+		if run.Math && r.layoutMath(&b, f, base) {
 			continue
 		}
-		spaceWidth, _ := r.pdf.MeasureTextWidth(" ")
-		chip := run.ColorChip != ""
+		r.layoutText(&b, f, text)
+	}
+	return b.finish()
+}
 
-		// A space is only laid out where the source has whitespace, so adjacent
-		// runs ("x" + superscript "2", bold text followed by a comma) stay
-		// together. Words of one run on one line are merged into one fragment.
-		leadingSpace := strings.TrimLeft(text, " \t\n") != text
-		open := false // a fragment of this run is open at the end of the line
-		for i, word := range strings.Fields(text) {
-			// A word wider than a line (a URL, a path) is broken into parts
-			// that fit, which follow each other without a space.
-			parts := []string{word}
-			if w, _ := r.pdf.MeasureTextWidth(word); w > narrowest && narrowest > 0 {
-				parts = r.wrapChars(word, narrowest)
-			}
-			for pi, part := range parts {
-				partWidth, _ := r.pdf.MeasureTextWidth(part)
-				gap := pi == 0 && (i > 0 || leadingSpace || needSpace) && x > 0
-				gapWidth := spaceWidth
-				if i == 0 {
-					gapWidth = baseSpace
-				}
-				need := partWidth
-				if gap {
-					need += gapWidth
-				}
-				if chip {
-					need += chipWidth
-				}
+// lineBreaker collects fragments into lines.
+type lineBreaker struct {
+	lines     []textLine
+	line      textLine // the line being filled
+	x         float64  // where its text ends
+	width     float64  // how wide it may be
+	restWidth float64  // how wide the lines after it may be
+	narrowest float64
+	baseSpace float64 // a space of the surrounding text
+	needSpace bool    // the previous run ended in whitespace
+}
 
-				if x+need > width && x > 0 {
-					breakLine()
-					gap, open = false, false
-				}
+func (b *lineBreaker) breakLine() {
+	b.lines = append(b.lines, b.line)
+	b.line = textLine{}
+	b.x = 0
+	b.width = b.restWidth
+}
 
-				if open && gap && !chip {
-					last := &line.frags[len(line.frags)-1]
-					last.text += " " + part
-					last.width += spaceWidth + partWidth
-					x += spaceWidth + partWidth
-					continue
-				}
+func (b *lineBreaker) add(f fragment) {
+	b.line.frags = append(b.line.frags, f)
+	b.x += f.width
+}
 
-				if gap {
-					x += gapWidth
-				}
-				piece := f
-				piece.text, piece.x, piece.width, piece.chip = part, x, partWidth, chip
-				if chip {
-					piece.x += chipWidth
-					x += chipWidth
-					chip = false
-				}
-				line.frags = append(line.frags, piece)
-				x += partWidth
-				open = true
-			}
+func (b *lineBreaker) finish() []textLine {
+	if len(b.line.frags) > 0 {
+		b.lines = append(b.lines, b.line)
+	}
+	return b.lines
+}
+
+// fragmentOf is a fragment with the look of a run, with no text or place yet.
+func (r *PdfRenderer) fragmentOf(run ast.InlineRun, base textStyle) fragment {
+	f := fragment{run: run, font: base.font, size: base.size, color: base.color}
+	bold, italic := run.Bold || base.bold, run.Italic || run.Math || base.italic
+	switch {
+	case bold && italic:
+		f.style = "BI"
+	case bold:
+		f.style = "B"
+	case italic:
+		f.style = "I"
+	}
+	// Superscripts and subscripts are set smaller and shifted off the line.
+	if run.Superscript || run.Subscript {
+		f.size = math.Round(base.size * 0.73)
+		f.yShift = -1
+		if run.Subscript {
+			f.yShift = base.size - f.size + 2
 		}
-		needSpace = strings.TrimRight(text, " \t\n") != text
+	}
+	if run.Code {
+		f.font, f.style, f.size = r.codeFont(), "", base.size-1
+		// Text is placed by the top of its box, and the monospace font
+		// has a lower ascent: move it down onto the shared baseline.
+		f.yShift = r.family(base.font).ascent*base.size - r.family(f.font).ascent*f.size
+	}
+	if c, ok := r.runColor(run); ok {
+		f.color = c
+	}
+	return f
+}
+
+// runColor is the color of a run that has one of its own.
+func (r *PdfRenderer) runColor(run ast.InlineRun) (theme.Color, bool) {
+	switch {
+	case run.Math:
+		return r.t.Colors.Math, true
+	case run.Link != "":
+		return r.t.Link.Color, true
+	case run.Inserted:
+		return r.t.Colors.Inserted, true
+	case run.Deleted:
+		return r.t.Colors.Deleted, true
+	case run.Code:
+		return r.t.Code.Color, true
+	case run.FootnoteIndex > 0:
+		return r.t.Link.Color, true
+	case run.Strikethrough:
+		return r.t.Text.Faint, true
+	}
+	return theme.Color{}, false
+}
+
+// layoutMath typesets a formula, which takes its place in the line like a
+// word. It reports false for one that cannot be typeset or is wider than
+// the line, which is shown as its source.
+func (r *PdfRenderer) layoutMath(b *lineBreaker, f fragment, base textStyle) bool {
+	box, ok := r.typeset(f.run.Text, false, base.size, base.color)
+	if !ok || box.w > b.narrowest {
+		return false
+	}
+	gap := b.needSpace && b.x > 0
+	if need := box.w + b.baseSpace; b.x+need > b.width && b.x > 0 {
+		b.breakLine()
+		gap = false
+	}
+	if gap {
+		b.x += b.baseSpace
+	}
+	f.color, f.style = base.color, ""
+	f.x, f.width, f.math = b.x, box.w, &box
+	b.add(f)
+	b.needSpace = false
+	return true
+}
+
+// layoutText puts the words of a run into lines.
+//
+// A space is only laid out where the source has whitespace, so adjacent runs
+// ("x" + superscript "2", bold text followed by a comma) stay together.
+func (r *PdfRenderer) layoutText(b *lineBreaker, f fragment, text string) {
+	r.setFont(f.font, f.style, f.size)
+	// Characters the font cannot draw are left out
+	if text = r.usable(text); text == "" {
+		return
+	}
+	spaceWidth, _ := r.pdf.MeasureTextWidth(" ")
+	p := runPlacer{b: b, f: f, spaceWidth: spaceWidth, chip: f.run.ColorChip != ""}
+
+	leadingSpace := strings.TrimLeft(text, " \t\n") != text
+	for i, word := range strings.Fields(text) {
+		// The gap before a run is a space of the text around it
+		gapWidth := spaceWidth
+		if i == 0 {
+			gapWidth = b.baseSpace
+		}
+		for pi, part := range r.wordParts(word, b.narrowest) {
+			partWidth, _ := r.pdf.MeasureTextWidth(part)
+			gap := pi == 0 && (i > 0 || leadingSpace || b.needSpace) && b.x > 0
+			p.place(part, partWidth, gap, gapWidth)
+		}
+	}
+	b.needSpace = strings.TrimRight(text, " \t\n") != text
+}
+
+// wordParts is a word as the pieces that are laid out. A word wider than a
+// line (a URL, a path) is broken into parts that fit, which follow each
+// other without a space.
+func (r *PdfRenderer) wordParts(word string, narrowest float64) []string {
+	if w, _ := r.pdf.MeasureTextWidth(word); w > narrowest && narrowest > 0 {
+		return r.wrapChars(word, narrowest)
+	}
+	return []string{word}
+}
+
+// runPlacer puts the words of one run into lines. Words of the run that
+// follow each other on a line are merged into one fragment.
+type runPlacer struct {
+	b          *lineBreaker
+	f          fragment // the look of the run
+	spaceWidth float64  // a space in the font of the run
+	chip       bool     // a color swatch is still to be drawn before the text
+	open       bool     // a fragment of this run is open at the end of the line
+}
+
+// place puts a word, or a part of one, at the end of the line or on a new
+// line. gap says whether a space of gapWidth comes before it.
+func (p *runPlacer) place(part string, partWidth float64, gap bool, gapWidth float64) {
+	b := p.b
+	need := partWidth
+	if gap {
+		need += gapWidth
+	}
+	if p.chip {
+		need += chipWidth
+	}
+	if b.x+need > b.width && b.x > 0 {
+		b.breakLine()
+		gap, p.open = false, false
 	}
 
-	if len(line.frags) > 0 {
-		lines = append(lines, line)
+	if p.open && gap && !p.chip {
+		last := &b.line.frags[len(b.line.frags)-1]
+		last.text += " " + part
+		last.width += p.spaceWidth + partWidth
+		b.x += p.spaceWidth + partWidth
+		return
 	}
-	return lines
+
+	if gap {
+		b.x += gapWidth
+	}
+	piece := p.f
+	piece.text, piece.x, piece.width, piece.chip = part, b.x, partWidth, p.chip
+	if p.chip {
+		piece.x += chipWidth
+		b.x += chipWidth
+		p.chip = false
+	}
+	b.add(piece)
+	p.open = true
 }
 
 // drawLinesAt draws laid-out lines with their first baseline box at (x, y),
