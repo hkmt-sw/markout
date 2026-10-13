@@ -558,119 +558,190 @@ func (p *scanner) bracketed(open, close string) (string, bool) {
 // its text as "-- text -->" or "-->|text|".
 func (p *scanner) link() (Edge, bool) {
 	e := Edge{Length: 1}
-	s := p.rest()
-	i := 0
+	r := linkReader{s: p.rest()}
+	e.Start, r.i = linkStart(r.s)
 
-	// How it starts
-	switch {
-	case strings.HasPrefix(s, "<"):
-		e.Start, i = Arrow, 1
-	case len(s) > 2 && (s[0] == 'o' || s[0] == 'x') && (s[1] == '-' || s[1] == '='):
-		e.Start, i = Dot, 1
-		if s[0] == 'x' {
-			e.Start = Cross
-		}
-	}
-
-	var stroke, mid, closer byte
-	switch {
-	case strings.HasPrefix(s[i:], "--"):
-		e.Line, stroke = Solid, '-'
-	case strings.HasPrefix(s[i:], "=="):
-		e.Line, stroke = Thick, '='
-	case strings.HasPrefix(s[i:], "-."):
-		e.Line, stroke, mid, closer = Dotted, '-', '.', '-'
-	case strings.HasPrefix(s[i:], "~~~"):
-		e.Line, stroke = Invisible, '~'
-	default:
+	var ok bool
+	if r.linkStroke, ok = strokeAt(r.s[r.i:]); !ok {
 		return e, false
 	}
+	e.Line = r.line
 
 	// The line itself, and for "-- text -->" the text and the line again
-	strokes := func() int {
-		n := 0
-		if mid != 0 {
-			if i < len(s) && s[i] == stroke {
-				i++
-			}
-			for i < len(s) && s[i] == mid {
-				i++
-				n++
-			}
-			if i < len(s) && s[i] == closer {
-				i++
-			}
-			return n // a dotted line is as long as it has dots
+	textStart := r.i + 2
+	n := r.text(textStart, r.strokes(), &e)
+
+	e.End = r.tip()
+	if e.End == NoTip && !r.dotted() {
+		n-- // "---" is as long as "-->"
+	}
+	e.Length = r.length(n)
+
+	if !r.pipeText(&e) {
+		return e, false
+	}
+	p.at += r.i
+	return e, true
+}
+
+// linkStart reads what a connection starts with ("<", "o" or "x") and
+// returns how many characters that took.
+func linkStart(s string) (Tip, int) {
+	switch {
+	case strings.HasPrefix(s, "<"):
+		return Arrow, 1
+	case len(s) > 2 && (s[0] == 'o' || s[0] == 'x') && (s[1] == '-' || s[1] == '='):
+		if s[0] == 'x' {
+			return Cross, 1
 		}
-		for i < len(s) && s[i] == stroke {
-			i++
-			n++
-		}
+		return Dot, 1
+	}
+	return NoTip, 0
+}
+
+// linkStroke is how a kind of line is written: a row of one character, or
+// for a dotted line dots between two hyphens.
+type linkStroke struct {
+	line   Line
+	stroke byte
+	mid    byte // the dot of a dotted line; 0 for the others
+	closer byte // what follows the dots
+}
+
+// strokeAt tells the kind of line from how it begins.
+func strokeAt(s string) (linkStroke, bool) {
+	switch {
+	case strings.HasPrefix(s, "--"):
+		return linkStroke{line: Solid, stroke: '-'}, true
+	case strings.HasPrefix(s, "=="):
+		return linkStroke{line: Thick, stroke: '='}, true
+	case strings.HasPrefix(s, "-."):
+		return linkStroke{line: Dotted, stroke: '-', mid: '.', closer: '-'}, true
+	case strings.HasPrefix(s, "~~~"):
+		return linkStroke{line: Invisible, stroke: '~'}, true
+	}
+	return linkStroke{}, false
+}
+
+func (k linkStroke) dotted() bool { return k.mid != 0 }
+
+// closing is the line that follows the text of "-- text -->".
+func (k linkStroke) closing() string {
+	switch {
+	case k.dotted():
+		return ".-"
+	case k.stroke == '-':
+		return "--"
+	case k.stroke == '=':
+		return "=="
+	}
+	return ""
+}
+
+// length is how many ranks a line written with n strokes spans.
+func (k linkStroke) length(n int) int {
+	switch {
+	case !k.dotted() && n > 2:
+		return n - 1
+	case k.dotted() && n > 1:
 		return n
 	}
-	textStart := i + 2
-	n := strokes()
-	if n == 2 || mid != 0 && n == 1 {
-		// Text may follow: "-- text -->", "-. text .->", "== text ==>"
-		if after := s[textStart:]; mid == 0 && strings.HasPrefix(after, " ") || mid != 0 && i == textStart && strings.HasPrefix(after, " ") {
-			closing := map[byte]string{'-': "--", '=': "=="}[stroke]
-			if mid != 0 {
-				closing = ".-"
-			}
-			if end := strings.Index(after, " "+closing); end >= 0 {
-				e.Label = labelLines(after[:end])
-				i = textStart + end + 1
-				if mid != 0 {
-					i++ // the dot
-					for i < len(s) && s[i] == mid {
-						i++
-					}
-					if i < len(s) && s[i] == closer {
-						i++
-					}
-					n = 1
-				} else {
-					n = strokes()
-				}
-			}
-		}
-	}
+	return 1
+}
 
-	// How it ends
+// linkReader reads a connection of one kind of line from left to right.
+type linkReader struct {
+	linkStroke
+	s string
+	i int
+}
+
+func (r *linkReader) at(c byte) bool { return r.i < len(r.s) && r.s[r.i] == c }
+
+// skip passes a row of one character and returns how long it was.
+func (r *linkReader) skip(c byte) int {
+	n := 0
+	for r.at(c) {
+		r.i++
+		n++
+	}
+	return n
+}
+
+func (r *linkReader) skipOne(c byte) {
+	if r.at(c) {
+		r.i++
+	}
+}
+
+// strokes passes the line and returns its length.
+func (r *linkReader) strokes() int {
+	if !r.dotted() {
+		return r.skip(r.stroke)
+	}
+	r.skipOne(r.stroke)
+	n := r.skip(r.mid) // a dotted line is as long as it has dots
+	r.skipOne(r.closer)
+	return n
+}
+
+// text reads the text that may follow a short line of n strokes, as in
+// "-- text -->", "-. text .->" and "== text ==>", and the line after it.
+// It returns the length of that line, or n if there is no text.
+func (r *linkReader) text(textStart, n int, e *Edge) int {
+	if n != 2 && !(r.dotted() && n == 1) {
+		return n
+	}
+	after := r.s[textStart:]
+	if !strings.HasPrefix(after, " ") || r.dotted() && r.i != textStart {
+		return n
+	}
+	end := strings.Index(after, " "+r.closing())
+	if end < 0 {
+		return n
+	}
+	e.Label = labelLines(after[:end])
+	r.i = textStart + end + 1
+	if !r.dotted() {
+		return r.strokes()
+	}
+	r.i++ // the dot
+	r.skip(r.mid)
+	r.skipOne(r.closer)
+	return 1
+}
+
+// tip reads what the connection ends in: ">", or an "o" or "x" that is not
+// the start of a word.
+func (r *linkReader) tip() Tip {
 	switch {
-	case i < len(s) && s[i] == '>':
-		e.End = Arrow
-		i++
-	case i < len(s) && (s[i] == 'o' || s[i] == 'x') && (i+1 == len(s) || s[i+1] == ' ' || s[i+1] == '|'):
-		e.End = Dot
-		if s[i] == 'x' {
-			e.End = Cross
-		}
-		i++
-	default:
-		if mid == 0 {
-			n-- // "---" is as long as "-->"
+	case r.at('>'):
+		r.i++
+		return Arrow
+	case r.at('o') || r.at('x'):
+		if next := r.i + 1; next == len(r.s) || r.s[next] == ' ' || r.s[next] == '|' {
+			r.i++
+			if r.s[r.i-1] == 'x' {
+				return Cross
+			}
+			return Dot
 		}
 	}
-	if mid == 0 && n > 2 {
-		e.Length = n - 1
-	} else if mid != 0 && n > 1 {
-		e.Length = n
-	}
-	if e.Length < 1 {
-		e.Length = 1
-	}
+	return NoTip
+}
 
-	// "-->|text|"
-	rest := strings.TrimLeft(s[i:], " \t")
-	if strings.HasPrefix(rest, "|") {
-		end := strings.Index(rest[1:], "|")
-		if end < 0 {
-			return e, false
-		}
-		e.Label = labelLines(rest[1 : end+1])
-		i = len(s) - len(rest) + end + 2
+// pipeText reads the text of "-->|text|", if there is one. It reports false
+// when the text is not closed.
+func (r *linkReader) pipeText(e *Edge) bool {
+	rest := strings.TrimLeft(r.s[r.i:], " \t")
+	if !strings.HasPrefix(rest, "|") {
+		return true
 	}
-	p.at += i
-	return e, true
+	end := strings.Index(rest[1:], "|")
+	if end < 0 {
+		return false
+	}
+	e.Label = labelLines(rest[1 : end+1])
+	r.i = len(r.s) - len(rest) + end + 2
+	return true
 }

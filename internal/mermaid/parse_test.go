@@ -121,3 +121,53 @@ func TestKind(t *testing.T) {
 		}
 	}
 }
+
+// Every way of writing a connection: the line, what it starts and ends in,
+// how many ranks it spans, its text, and where reading stops.
+func TestLink(t *testing.T) {
+	lines := map[Line]string{Solid: "solid", Dotted: "dotted", Thick: "thick", Invisible: "invisible"}
+	tips := map[Tip]string{NoTip: "-", Arrow: "arrow", Dot: "dot", Cross: "cross"}
+	tests := []struct{ src, want string }{
+		{"--> B", `- solid 1 arrow "" " B"`},
+		{"--- B", `- solid 1 - "" " B"`},
+		{"----> B", `- solid 3 arrow "" " B"`},
+		{"----- B", `- solid 3 - "" " B"`},
+		{"==> B", `- thick 1 arrow "" " B"`},
+		{"====> B", `- thick 3 arrow "" " B"`},
+		{"-.-> B", `- dotted 1 arrow "" " B"`},
+		{"-...-> B", `- dotted 3 arrow "" " B"`},
+		{"-.- B", `- dotted 1 - "" " B"`},
+		{"~~~ B", `- invisible 1 - "" " B"`},
+		{"<--> B", `arrow solid 1 arrow "" " B"`},
+		{"o--o B", `dot solid 1 dot "" " B"`},
+		{"x--x B", `cross solid 1 cross "" " B"`},
+		{"x==x B", `cross thick 1 cross "" " B"`},
+		{"--o B", `- solid 1 dot "" " B"`},
+		{"--x", `- solid 1 cross "" ""`},
+		{"--order", `- solid 1 - "" "order"`},
+		{"-- yes --> B", `- solid 1 arrow "yes" " B"`},
+		{"-- two words ---> B", `- solid 2 arrow "two words" " B"`},
+		{"== yes ==> B", `- thick 1 arrow "yes" " B"`},
+		{"-. yes .-> B", `- dotted 1 arrow "yes" " B"`},
+		{"-. yes .- B", `- dotted 1 - "yes" " B"`},
+		{"-- open", `- solid 1 - "" " open"`},
+		{"-->|yes| B", `- solid 1 arrow "yes" " B"`},
+		{"--> |yes| B", `- solid 1 arrow "yes" " B"`},
+		{"--x|no| B", `- solid 1 cross "no" " B"`},
+		{"-->|open B", `!`},
+		{"-> B", `!`},
+		{"~~ B", `!`},
+		{"B", `!`},
+	}
+	for _, tt := range tests {
+		p := scanner{s: tt.src}
+		e, ok := p.link()
+		got := "!"
+		if ok {
+			got = fmt.Sprintf("%s %s %d %s %q %q", tips[e.Start], lines[e.Line], e.Length, tips[e.End], strings.Join(e.Label, "/"), p.rest())
+		}
+		if got != tt.want {
+			t.Errorf("%q: got %s, want %s", tt.src, got, tt.want)
+		}
+	}
+}
