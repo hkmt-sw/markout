@@ -86,11 +86,11 @@ func (r *PdfRenderer) drawChart(source string) error {
 			r.pdf.SetCustomLineType([]float64{2.5 * scale, 3 * scale}, 0)
 		}
 		for _, seg := range link.Curve {
-			x0, y0 := at(seg[0])
-			x1, y1 := at(seg[1])
-			x2, y2 := at(seg[2])
-			x3, y3 := at(seg[3])
-			r.curve(x0, y0, x1, y1, x2, y2, x3, y3)
+			var pts [4]point
+			for i := range pts {
+				pts[i].x, pts[i].y = at(seg[i])
+			}
+			r.curve(pts[0], pts[1], pts[2], pts[3])
 		}
 		r.pdf.SetLineType("solid")
 

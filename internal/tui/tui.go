@@ -61,6 +61,15 @@ func (f format) convertFormat() convert.OutputFormat {
 	return convert.FormatDOCX
 }
 
+// Keys that several screens handle, as bubbletea names them.
+const (
+	keyShiftTab = "shift+tab"
+	keyCtrlG    = "ctrl+g"
+)
+
+// outputLabel starts the line that shows where the result is saved.
+const outputLabel = "Output:  "
+
 // statusKind controls how the status line is colored.
 type statusKind int
 
@@ -623,7 +632,7 @@ func (m Model) checkRemoteImages(in, out string) (tea.Model, tea.Cmd) {
 func (m Model) updateRemote(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	in, out := m.pendingIn, m.pendingOut
 	switch msg.String() {
-	case "left", "shift+tab", "h":
+	case "left", keyShiftTab, "h":
 		m.remoteChoice = (m.remoteChoice + 2) % 3
 	case "right", "tab":
 		m.remoteChoice = (m.remoteChoice + 1) % 3
@@ -639,7 +648,7 @@ func (m Model) updateRemote(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m.runConvert(in, out, true)
 	case "s", "S":
 		return m.runConvert(in, out, false)
-	case "c", "C", "n", "N", "esc", "ctrl+g":
+	case "c", "C", "n", "N", "esc", keyCtrlG:
 		return m.cancelRemote(), nil
 	}
 	return m, nil
@@ -691,7 +700,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 // buttons, Enter activates the focused one, and y/n are direct shortcuts.
 func (m Model) updateConfirm(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.String() {
-	case "left", "right", "tab", "shift+tab", "h", "l":
+	case "left", "right", "tab", keyShiftTab, "h", "l":
 		m.confirmChoice = 1 - m.confirmChoice
 		return m, nil
 	case "enter":
@@ -701,7 +710,7 @@ func (m Model) updateConfirm(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		return m.cancelOverwrite(), nil
 	case "y", "Y":
 		return m.checkRemoteImages(m.inputPath(), m.pendingOut)
-	case "n", "N", "esc", "ctrl+g":
+	case "n", "N", "esc", keyCtrlG:
 		return m.cancelOverwrite(), nil
 	}
 	return m, nil
@@ -737,9 +746,9 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		*cursor = 0
 	case "end", "G":
 		*cursor = count - 1
-	case "tab", "shift+tab", "left", "right", "h", "l":
+	case "tab", keyShiftTab, "left", "right", "h", "l":
 		m.settingsTab = 1 - m.settingsTab
-	case "esc", "f2", "q", "ctrl+g":
+	case "esc", "f2", "q", keyCtrlG:
 		m.pickFlavor = false
 	case "u", "U":
 		// Takes effect at once; the dialog stays open.
@@ -804,7 +813,7 @@ func (m Model) updateSearch(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	case "up":
 		m.jumpPrev()
 		return m, nil
-	case "esc", "ctrl+g":
+	case "esc", keyCtrlG:
 		m.endSearch()
 		return m, nil
 	case "enter":
@@ -1323,13 +1332,13 @@ func (m Model) formatLine() string {
 
 func (m Model) outputLine() string {
 	if m.editingOutput {
-		return labelStyle.Render("Output:  ") + m.outputInput.View()
+		return labelStyle.Render(outputLabel) + m.outputInput.View()
 	}
 	out := m.outputPath()
 	if out == "" {
-		return labelStyle.Render("Output:  ") + dimStyle.Render("(highlight a .md file)")
+		return labelStyle.Render(outputLabel) + dimStyle.Render("(highlight a .md file)")
 	}
-	return labelStyle.Render("Output:  ") + pathStyle.Render(printable(filepath.Base(out)))
+	return labelStyle.Render(outputLabel) + pathStyle.Render(printable(filepath.Base(out)))
 }
 
 func (m Model) statusLine() string {

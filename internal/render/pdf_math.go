@@ -769,12 +769,12 @@ func (r *PdfRenderer) mathBrace(b mathBox, above bool, st mathStyle) mathBox {
 		mid, bend := x+b.w/2, math.Min(height, b.w/4)
 		half := (edge + tip) / 2
 		r.mathStroke(color, rule)
-		r.curve(x, edge, x, half, x+bend, half, x+bend, half)
+		r.curve(point{x, edge}, point{x, half}, point{x + bend, half}, point{x + bend, half})
 		r.line(x+bend, half, mid-bend, half)
-		r.curve(mid-bend, half, mid, half, mid, tip, mid, tip)
-		r.curve(mid, tip, mid, half, mid+bend, half, mid+bend, half)
+		r.curve(point{mid - bend, half}, point{mid, half}, point{mid, tip}, point{mid, tip})
+		r.curve(point{mid, tip}, point{mid, half}, point{mid + bend, half}, point{mid + bend, half})
 		r.line(mid+bend, half, x+b.w-bend, half)
-		r.curve(x+b.w-bend, half, x+b.w, half, x+b.w, edge, x+b.w, edge)
+		r.curve(point{x + b.w - bend, half}, point{x + b.w, half}, point{x + b.w, edge}, point{x + b.w, edge})
 	}
 	return box
 }
@@ -809,9 +809,9 @@ func (r *PdfRenderer) mathFence(n *mathml.Node, h, d float64, class mathClass, s
 		r.mathStroke(color, rule)
 		switch char {
 		case "(":
-			r.curve(rt, t, l-0.35*width, t+0.3*total, l-0.35*width, b-0.3*total, rt, b)
+			r.curve(point{rt, t}, point{l - 0.35*width, t + 0.3*total}, point{l - 0.35*width, b - 0.3*total}, point{rt, b})
 		case ")":
-			r.curve(l, t, rt+0.35*width, t+0.3*total, rt+0.35*width, b-0.3*total, l, b)
+			r.curve(point{l, t}, point{rt + 0.35*width, t + 0.3*total}, point{rt + 0.35*width, b - 0.3*total}, point{l, b})
 		case "[":
 			r.line(rt, t, l, t)
 			r.line(l, t-rule/2, l, b+rule/2)
@@ -850,12 +850,12 @@ func (r *PdfRenderer) mathFence(n *mathml.Node, h, d float64, class mathClass, s
 				tip, ends = rt, l
 			}
 			mid, bend := (t+b)/2, math.Min(width/2, total/6)
-			r.curve(ends, t, spine, t, spine, t+bend, spine, t+bend)
+			r.curve(point{ends, t}, point{spine, t}, point{spine, t + bend}, point{spine, t + bend})
 			r.line(spine, t+bend, spine, mid-bend)
-			r.curve(spine, mid-bend, spine, mid, tip, mid, tip, mid)
-			r.curve(tip, mid, spine, mid, spine, mid+bend, spine, mid+bend)
+			r.curve(point{spine, mid - bend}, point{spine, mid}, point{tip, mid}, point{tip, mid})
+			r.curve(point{tip, mid}, point{spine, mid}, point{spine, mid + bend}, point{spine, mid + bend})
 			r.line(spine, mid+bend, spine, b-bend)
-			r.curve(spine, b-bend, spine, b, ends, b, ends, b)
+			r.curve(point{spine, b - bend}, point{spine, b}, point{ends, b}, point{ends, b})
 		}
 	}
 	return box
@@ -999,11 +999,14 @@ func (r *PdfRenderer) mathStroke(c theme.Color, width float64) {
 	r.lineWidth(math.Max(width, 0.3))
 }
 
-// curve draws a Bézier curve from the first point to the last, pulled
-// towards the two between.
-func (r *PdfRenderer) curve(x0, y0, x1, y1, x2, y2, x3, y3 float64) {
-	r.logf("curve x=%.1f y=%.1f to x=%.1f y=%.1f %s/%.1f", x0, y0, x3, y3, r.stroke, r.strokeWidth)
-	r.pdf.Curve(x0, y0, x1, y1, x2, y2, x3, y3, "D")
+// point is a place on the page.
+type point struct{ x, y float64 }
+
+// curve draws a Bézier curve from one point to another, pulled towards the
+// two between.
+func (r *PdfRenderer) curve(from, pull1, pull2, to point) {
+	r.logf("curve x=%.1f y=%.1f to x=%.1f y=%.1f %s/%.1f", from.x, from.y, to.x, to.y, r.stroke, r.strokeWidth)
+	r.pdf.Curve(from.x, from.y, pull1.x, pull1.y, pull2.x, pull2.y, to.x, to.y, "D")
 }
 
 // mathColors are the color names formulas use with \color.

@@ -33,6 +33,9 @@ const (
 	// widthSep separates an image's alt text from a width hint ("alt¦300",
 	// "alt¦50%"). Unlike Obsidian's "|" it is safe inside table cells.
 	widthSep = "¦"
+	// MyST directives that hold a table.
+	directiveListTable = "list-table"
+	directiveCSVTable  = "csv-table"
 	// maxIncludeDepth bounds nested ::include directives.
 	maxIncludeDepth = 3
 	// maxIncludeBytes caps the size of an included file.
@@ -959,10 +962,10 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 		// Content for one output format or another; a document shows it
 		return unwrap(p.blocks(body))
 
-	case "list-table", "csv-table":
+	case directiveListTable, directiveCSVTable:
 		var rows [][]string
 		header := 0
-		if name == "list-table" {
+		if name == directiveListTable {
 			rows = listTableRows(body)
 			header, _ = strconv.Atoi(opts["header-rows"])
 		} else {
@@ -1000,7 +1003,7 @@ func (p *preprocessor) directive(name, args string, body []string) []string {
 
 	// A directive markout does not know keeps what it holds, argument
 	// included, and the conversion says that it was not understood
-	if name != "list-table" && name != "csv-table" {
+	if name != directiveListTable && name != directiveCSVTable {
 		p.left.addUnknown("{" + name + "}")
 	}
 	if args != "" {
