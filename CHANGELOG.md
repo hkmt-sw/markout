@@ -22,11 +22,28 @@ Typography: text that is justified and hyphenated. In progress.
   PDF and DOCX. Headings, table cells, captions and code stay flush left,
   and so does a line of a PDF whose word spaces would have to grow to more
   than three times their width. No built-in theme is justified.
+- Hyphenation. Words that do not fit at the end of a line are broken there,
+  by the rules of the document's language: in PDF by markout, which has the
+  rules of Hungarian, American English and British English; in DOCX by the
+  word processor, which the document now tells to. `hyphenate` under
+  `[text]` in a theme says where: `"auto"` (the default) in justified text,
+  `"always"` in all body text, table cells included, `"never"` nowhere.
+  Headings, captions, code, short words and words with digits stay whole,
+  and no more than three lines in a row end in a hyphen. When a PDF cannot
+  be hyphenated because its language is not named or is another one, markout
+  says so. A theme that is not justified gives the output it gave before.
+- A soft hyphen (`&shy;`) marks where a word may be broken in PDF, in any
+  text and in any language.
 
 ### Changed
 
 - `lang` and `language` are no longer shown among the fields of the front
   matter, and front matter that holds nothing else shows no box.
+
+### Fixed
+
+- A soft hyphen (`&shy;`) in a word was drawn in PDF as a hyphen in the
+  middle of the line. It is no longer drawn.
 
 ## [1.8.3] - 2026-10-13
 

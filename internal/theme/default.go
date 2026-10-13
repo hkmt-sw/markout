@@ -36,7 +36,7 @@ func Default() Set {
 		},
 		Fonts: Fonts{Body: "sans", Heading: "sans", Code: "mono"},
 		Text: Text{
-			Size: 11, LineHeight: 16, ParagraphSpacing: 8, Align: AlignLeft,
+			Size: 11, LineHeight: 16, ParagraphSpacing: 8, Align: AlignLeft, Hyphenate: HyphenateAuto,
 			Color: Hex("1A1A2E"), Muted: Hex("4A4A68"), Faint: Hex("8888A0"),
 		},
 		Heading: [6]Heading{

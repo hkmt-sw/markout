@@ -126,6 +126,7 @@ type Text struct {
 	LineHeight       float64 `key:"line-height"`
 	ParagraphSpacing float64 `key:"paragraph-spacing" doc:"space after a paragraph"`
 	Align            string  `key:"align" doc:"left, or justify for text flush on both sides"`
+	Hyphenate        string  `key:"hyphenate" doc:"auto (where text is justified), always or never"`
 	Color            Color   `key:"color"`
 	Muted            Color   `key:"muted" doc:"captions and labels"`
 	Faint            Color   `key:"faint" doc:"struck-through text"`
@@ -136,6 +137,19 @@ const (
 	AlignLeft    = "left"
 	AlignJustify = "justify"
 )
+
+// Values of Text.Hyphenate.
+const (
+	HyphenateAuto   = "auto"
+	HyphenateAlways = "always"
+	HyphenateNever  = "never"
+)
+
+// Hyphenated reports whether the words of running text (paragraphs, list
+// items, quotes, callouts) are broken at the ends of lines.
+func (t Text) Hyphenated() bool {
+	return t.Hyphenate == HyphenateAlways || t.Hyphenate == HyphenateAuto && t.Justified()
+}
 
 // Justified reports whether body text is set flush on both sides.
 func (t Text) Justified() bool {

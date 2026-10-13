@@ -611,6 +611,10 @@ func validate(th Theme, pdf bool) error {
 		return fmt.Errorf("text.align: %q is neither left nor justify", a)
 	}
 
+	if h := th.Text.Hyphenate; h != HyphenateAuto && h != HyphenateAlways && h != HyphenateNever {
+		return fmt.Errorf("text.hyphenate: %q is not one of auto, always, never", h)
+	}
+
 	sizes := map[string]float64{
 		"text.size": th.Text.Size, "text.line-height": th.Text.LineHeight,
 		"code.block-size": th.Code.BlockSize, "code.block-line-height": th.Code.BlockLineHeight,
