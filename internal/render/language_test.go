@@ -65,23 +65,29 @@ func TestPdfLanguage(t *testing.T) {
 		if tag == "" && strings.Contains(pdf, "/Lang") {
 			t.Error("no language: the PDF names one")
 		}
+		checkObjectTable(t, tag, pdf)
+	}
+}
 
-		m := pdfStartXref.FindStringSubmatch(pdf)
-		if m == nil {
-			t.Fatalf("%s: no startxref", tag)
-		}
-		start, _ := strconv.Atoi(m[1])
-		head := pdfXrefHead.FindStringSubmatch(pdf[start:])
-		if head == nil {
-			t.Fatalf("%s: startxref does not point at the table of objects", tag)
-		}
-		count, _ := strconv.Atoi(head[1])
-		entries := pdf[start+len(head[0]):]
-		for i := 1; i < count; i++ {
-			offset, _ := strconv.Atoi(entries[20*i : 20*i+10])
-			if want := strconv.Itoa(i) + " 0 obj"; !strings.HasPrefix(pdf[offset:], want) {
-				t.Fatalf("%s: object %d is not where the table says", tag, i)
-			}
+// checkObjectTable fails the test unless every object of a PDF is where its
+// table of objects says.
+func checkObjectTable(t *testing.T, name, pdf string) {
+	t.Helper()
+	m := pdfStartXref.FindStringSubmatch(pdf)
+	if m == nil {
+		t.Fatalf("%s: no startxref", name)
+	}
+	start, _ := strconv.Atoi(m[1])
+	head := pdfXrefHead.FindStringSubmatch(pdf[start:])
+	if head == nil {
+		t.Fatalf("%s: startxref does not point at the table of objects", name)
+	}
+	count, _ := strconv.Atoi(head[1])
+	entries := pdf[start+len(head[0]):]
+	for i := 1; i < count; i++ {
+		offset, _ := strconv.Atoi(entries[20*i : 20*i+10])
+		if want := strconv.Itoa(i) + " 0 obj"; !strings.HasPrefix(pdf[offset:], want) {
+			t.Fatalf("%s: object %d is not where the table says", name, i)
 		}
 	}
 }

@@ -37,22 +37,31 @@ func TestFrontMatterLanguage(t *testing.T) {
 		if doc.Lang != tt.lang {
 			t.Errorf("%s: language %q, want %q", tt.name, doc.Lang, tt.lang)
 		}
-		shown := false
-		for _, e := range doc.Elements {
-			if fm, ok := e.(ast.FrontMatter); ok {
-				shown = true
-				for _, key := range []string{"lang", "language"} {
-					if _, ok := fm.Raw[key].(string); ok {
-						t.Errorf("%s: %s is among the fields shown", tt.name, key)
-					}
-				}
-			}
-		}
-		if shown != tt.shown {
+		if shown := showsFrontMatter(t, tt.name, doc); shown != tt.shown {
 			t.Errorf("%s: front matter shown: %v, want %v", tt.name, shown, tt.shown)
 		}
 		if warned := strings.Contains(strings.Join(doc.Warnings, "\n"), "is not a language tag"); warned != tt.warned {
 			t.Errorf("%s: warned: %v, want %v (%q)", tt.name, warned, tt.warned, doc.Warnings)
 		}
 	}
+}
+
+// showsFrontMatter reports whether a document has a front matter element,
+// and fails the test if the language is among its fields.
+func showsFrontMatter(t *testing.T, name string, doc *ast.Document) bool {
+	t.Helper()
+	shown := false
+	for _, e := range doc.Elements {
+		fm, ok := e.(ast.FrontMatter)
+		if !ok {
+			continue
+		}
+		shown = true
+		for _, key := range []string{"lang", "language"} {
+			if _, ok := fm.Raw[key].(string); ok {
+				t.Errorf("%s: %s is among the fields shown", name, key)
+			}
+		}
+	}
+	return shown
 }

@@ -839,13 +839,30 @@ func TestConversionWarningIsShown(t *testing.T) {
 	}
 }
 
-func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
-	m, saved := themeModel(t)
+func TestLanguageTabShowsTheLanguages(t *testing.T) {
+	m, _ := themeModel(t)
 	if !strings.Contains(m.View(), "Language: none") {
 		t.Fatal("the Convert box should say that there is no language")
 	}
+	m = onLanguageTab(t, m)
+	view := m.View()
+	for _, want := range []string{"None", "Hungarian (hu)", "English (United Kingdom) (en-GB)"} {
+		if !strings.Contains(view, want) {
+			t.Errorf("the Language tab does not show %q", want)
+		}
+	}
+	// Round to the first tab again, and back
+	if next, _ := m.Update(tea.KeyMsg{Type: tea.KeyTab}); next.(Model).settingsTab != tabFlavor {
+		t.Error("Tab on the last tab does not go to the first")
+	}
+	if next, _ := m.Update(tea.KeyMsg{Type: tea.KeyShiftTab}); next.(Model).settingsTab != tabTheme {
+		t.Error("Shift+Tab does not go to the tab before")
+	}
+}
 
-	// The third tab, and round to the first again
+// onLanguageTab opens the settings and goes to their third tab.
+func onLanguageTab(t *testing.T, m Model) Model {
+	t.Helper()
 	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyF2})
 	for range 2 {
 		next, _ = next.(Model).Update(tea.KeyMsg{Type: tea.KeyTab})
@@ -854,20 +871,14 @@ func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
 	if m.settingsTab != tabLanguage {
 		t.Fatalf("tab %d after two Tabs, want the Language tab", m.settingsTab)
 	}
-	view := m.View()
-	for _, want := range []string{"None", "Hungarian (hu)", "English (United Kingdom) (en-GB)"} {
-		if !strings.Contains(view, want) {
-			t.Errorf("the Language tab does not show %q", want)
-		}
-	}
-	if next, _ = m.Update(tea.KeyMsg{Type: tea.KeyTab}); next.(Model).settingsTab != tabFlavor {
-		t.Error("Tab on the last tab does not go to the first")
-	}
-	if next, _ = m.Update(tea.KeyMsg{Type: tea.KeyShiftTab}); next.(Model).settingsTab != tabTheme {
-		t.Error("Shift+Tab does not go to the tab before")
-	}
+	return m
+}
 
-	next, _ = m.Update(key("down"))
+func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
+	m, saved := themeModel(t)
+	m = onLanguageTab(t, m)
+
+	next, _ := m.Update(key("down"))
 	next, _ = next.(Model).Update(key("enter"))
 	m = next.(Model)
 	if m.pickFlavor || m.lang != "hu" {
@@ -887,21 +898,7 @@ func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
 	if !ok || done.err != nil {
 		t.Fatalf("conversion did not succeed: %+v", done)
 	}
-	zr, err := zip.OpenReader(out)
-	if err != nil {
-		t.Fatal(err)
-	}
-	defer zr.Close()
-	styles := ""
-	for _, f := range zr.File {
-		if f.Name == "word/styles.xml" {
-			rc, _ := f.Open()
-			data, _ := io.ReadAll(rc)
-			rc.Close()
-			styles = string(data)
-		}
-	}
-	if !strings.Contains(styles, `<w:lang w:val="hu-HU"/>`) {
+	if !strings.Contains(docxStyles(t, out), `<w:lang w:val="hu-HU"/>`) {
 		t.Error("the language is not in the output")
 	}
 	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF2})
@@ -917,4 +914,30 @@ func TestLanguageTabSelectsSavesAndNamesTheLanguage(t *testing.T) {
 	if m = next.(Model); m.lang != "" || (*saved)[len(*saved)-1].Lang != "" {
 		t.Errorf("after None: language %q, saved %q", m.lang, (*saved)[len(*saved)-1].Lang)
 	}
+}
+
+// docxStyles is word/styles.xml of a DOCX file.
+func docxStyles(t *testing.T, path string) string {
+	t.Helper()
+	zr, err := zip.OpenReader(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer zr.Close()
+	for _, f := range zr.File {
+		if f.Name != "word/styles.xml" {
+			continue
+		}
+		rc, err := f.Open()
+		if err != nil {
+			t.Fatal(err)
+		}
+		defer rc.Close()
+		data, err := io.ReadAll(rc)
+		if err != nil {
+			t.Fatal(err)
+		}
+		return string(data)
+	}
+	return ""
 }

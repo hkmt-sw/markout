@@ -136,20 +136,8 @@ func (h *Hyphenator) Breaks(word string) []int {
 		return h.allowed(at, len(letters))
 	}
 
-	// The word between two dots, which stand for its ends in the patterns
-	w := make([]rune, 0, len(letters)+2)
-	w = append(append(append(w, '.'), letters...), '.')
-	votes := make([]uint8, len(w)+1)
-	for i := range w {
-		for j := i + 1; j <= len(w) && j-i <= h.longest; j++ {
-			for k, vote := range h.patterns[string(w[i:j])] {
-				if vote > votes[i+k] {
-					votes[i+k] = vote
-				}
-			}
-		}
-	}
 	// An odd vote allows a break; votes[p+1] is for the place after p letters
+	votes := h.votes(letters)
 	var at []int
 	for p := 1; p < len(letters); p++ {
 		if votes[p+1]%2 == 1 {
@@ -157,6 +145,23 @@ func (h *Hyphenator) Breaks(word string) []int {
 		}
 	}
 	return h.allowed(at, len(letters))
+}
+
+// votes is the highest vote of the patterns on every place of a word: before
+// each letter of it between two dots, which stand for its ends in the
+// patterns.
+func (h *Hyphenator) votes(letters []rune) []uint8 {
+	w := make([]rune, 0, len(letters)+2)
+	w = append(append(append(w, '.'), letters...), '.')
+	votes := make([]uint8, len(w)+1)
+	for i := range w {
+		for j := i + 1; j <= len(w) && j-i <= h.longest; j++ {
+			for k, vote := range h.patterns[string(w[i:j])] {
+				votes[i+k] = max(votes[i+k], vote)
+			}
+		}
+	}
+	return votes
 }
 
 // allowed keeps the breaks that leave enough letters on both sides.

@@ -146,54 +146,52 @@ func TestJustifiedRunHasNoHolesAtItsSpaces(t *testing.T) {
 
 // Paragraphs, list items, quotes and callouts are justified; headings and
 // table cells are not.
-func TestWhatIsJustified(t *testing.T) {
+func TestWhatIsJustifiedInPDF(t *testing.T) {
 	set := justifiedTheme()
+	// Flush left, the words of a line are drawn as one piece; justified,
+	// each is placed on its own.
+	tests := []struct {
+		name, md string
+		pieces   int // on a full line, at most
+	}{
+		{"heading", "# " + justifyText + "\n", 2}, // the parser hands over its last word as a run of its own
+		{"table", "| a | b |\n|---|---|\n| " + justifyText + " | " + justifyText + " |\n", 2},
+		{"paragraph", justifyText + "\n", 0},
+		{"list item", "- " + justifyText + "\n", 0},
+		{"quote", "> " + justifyText + "\n", 0},
+		{"callout", "> [!NOTE]\n> " + justifyText + "\n", 0},
+	}
+	for _, tt := range tests {
+		most := 0
+		for _, line := range tracedLines(pdfTraceWith(t, tt.md, set)) {
+			most = max(most, line.words)
+		}
+		if tt.pieces > 0 && most > tt.pieces {
+			t.Errorf("%s: a line is drawn in %d pieces; it is not to be justified", tt.name, most)
+		}
+		if tt.pieces == 0 && most < 8 {
+			t.Errorf("%s: no line is drawn in more than %d pieces; it is not justified", tt.name, most)
+		}
+	}
+}
 
-	t.Run("PDF", func(t *testing.T) {
-		// Flush left, the words of a line are drawn as one piece; justified,
-		// each is placed on its own.
-		tests := []struct {
-			name, md string
-			pieces   int // on a full line, at most
-		}{
-			{"heading", "# " + justifyText + "\n", 2}, // the parser hands over its last word as a run of its own
-			{"table", "| a | b |\n|---|---|\n| " + justifyText + " | " + justifyText + " |\n", 2},
-			{"paragraph", justifyText + "\n", 0},
-			{"list item", "- " + justifyText + "\n", 0},
-			{"quote", "> " + justifyText + "\n", 0},
-			{"callout", "> [!NOTE]\n> " + justifyText + "\n", 0},
+func TestWhatIsJustifiedInDOCX(t *testing.T) {
+	set := justifiedTheme()
+	doc, err := parse.ParseFlavor([]byte(justifyDoc), flavor.Default(), "")
+	if err != nil {
+		t.Fatal(err)
+	}
+	out := filepath.Join(t.TempDir(), "out.docx")
+	if err := RenderDocx(doc, out, Options{Theme: &set}); err != nil {
+		t.Fatal(err)
+	}
+	justified := 0
+	for _, line := range strings.Split(docxOutline(t, out), "\n") {
+		if strings.Contains(line, "jc=both") {
+			justified++
 		}
-		for _, tt := range tests {
-			most := 0
-			for _, line := range tracedLines(pdfTraceWith(t, tt.md, set)) {
-				most = max(most, line.words)
-			}
-			if tt.pieces > 0 && most > tt.pieces {
-				t.Errorf("%s: a line is drawn in %d pieces; it is not to be justified", tt.name, most)
-			}
-			if tt.pieces == 0 && most < 8 {
-				t.Errorf("%s: no line is drawn in more than %d pieces; it is not justified", tt.name, most)
-			}
-		}
-	})
-
-	t.Run("DOCX", func(t *testing.T) {
-		doc, err := parse.ParseFlavor([]byte(justifyDoc), flavor.Default(), "")
-		if err != nil {
-			t.Fatal(err)
-		}
-		out := filepath.Join(t.TempDir(), "out.docx")
-		if err := RenderDocx(doc, out, Options{Theme: &set}); err != nil {
-			t.Fatal(err)
-		}
-		justified := 0
-		for _, line := range strings.Split(docxOutline(t, out), "\n") {
-			if strings.Contains(line, "jc=both") {
-				justified++
-			}
-		}
-		if justified != 4 {
-			t.Errorf("%d paragraphs are justified, not the four of running text:\n%s", justified, docxOutline(t, out))
-		}
-	})
+	}
+	if justified != 4 {
+		t.Errorf("%d paragraphs are justified, not the four of running text:\n%s", justified, docxOutline(t, out))
+	}
 }
