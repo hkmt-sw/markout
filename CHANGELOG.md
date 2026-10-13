@@ -4,6 +4,29 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.8.2] - 2026-10-13
+
+A flowchart no longer stops a conversion.
+
+### Fixed
+
+- A Mermaid flowchart with a connection to a subgraph whose first member is
+  itself a subgraph named in a connection stopped the whole conversion with
+  an error, and no file was written:
+
+  ```
+  subgraph outer
+    subgraph inner
+      inner --> B
+    end
+  end
+  outer --> A
+  ```
+
+  The connection now goes to a box inside, as other connections to a
+  subgraph do. Found by laying out 60,000 generated charts; three of them
+  failed, all for this reason.
+
 ## [1.8.1] - 2026-10-13
 
 An e-mail address in the text opens the mail program.
