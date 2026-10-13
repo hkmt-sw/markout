@@ -494,3 +494,17 @@ func TestAutoLinkTargets(t *testing.T) {
 		}
 	}
 }
+
+// What opens a block and is not closed, or is not a block the flavor knows,
+// stays as the text it is.
+func TestUnfinishedBlocksStayText(t *testing.T) {
+	for _, tt := range []struct{ flavor, src, want string }{
+		{"myst", "\\begin{align}\na = b\n\ntext\n", "P: \\begin{align} a = b\nP: text\n"},
+		{"mkdocs", "--8<--\ninclude-part.md\n\ntext\n", "P: --8<-- include-part.md\nP: text\n"},
+		{"azure", "::: whatever\nbody\n:::\n", "P: ::: whatever body :::\n"},
+	} {
+		if got := parseAs(t, tt.flavor, tt.src); got != tt.want {
+			t.Errorf("%s %q:\ngot:\n%swant:\n%s", tt.flavor, tt.src, got, tt.want)
+		}
+	}
+}

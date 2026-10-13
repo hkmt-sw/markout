@@ -275,282 +275,401 @@ func (p *preprocessor) blocks(lines []string) []string {
 	p.nesting++
 	defer func() { p.nesting-- }()
 
+	s := &blockScan{lines: lines}
+	if p.f.MermaidColon || p.f.ColonAdmonitions || p.f.Directives {
+		s.colonClose = matchColonFences(lines)
+	}
+	for s.i = 0; s.i < len(lines); s.i++ {
+		s.line = lines[s.i]
+		if p.block(s) {
+			continue
+		}
+		s.out = append(s.out, p.inline(p.rewriteLine(s.line)))
+	}
+	return s.out
+}
+
+// blockScan is where a pass over the lines of a document is: the line being
+// read, and what has been written.
+type blockScan struct {
+	lines   []string
+	i       int    // index of the line being read; a block moves it to its last line
+	line    string // the line, as rewritten so far
+	trimmed string // the line without the space around it, before it is rewritten
+	out     []string
+
+	inComment  bool        // inside a %% comment %% that runs over lines
+	wrappers   []string    // HTML tags with the markdown attribute that are open
+	colonClose map[int]int // the line that closes each ":::" fence
+}
+
+func (s *blockScan) add(lines ...string) { s.out = append(s.out, lines...) }
+
+// block handles the line being read if it is, or begins, something other
+// than a line of text, and reports whether it did. A line of text may be
+// rewritten on the way.
+func (p *preprocessor) block(s *blockScan) bool {
+	if p.f.Comments {
+		s.line = stripPercentComments(s.line, &s.inComment)
+		if s.inComment && strings.TrimSpace(s.line) == "" {
+			return true
+		}
+	}
+	if p.fencedBlock(s) {
+		return true
+	}
+
+	if n := len(s.line) - len(strings.TrimLeft(s.line, " \t")); n > maxIndent {
+		s.line = s.line[n-maxIndent:]
+	}
+	s.trimmed = strings.TrimSpace(s.line)
+
+	if p.kramdownComment(s) || p.multilineQuote(s) || p.colonFenced(s) || p.indentedBlock(s) || p.hiddenLine(s) || p.displayMath(s) {
+		return true
+	}
+	p.leadingMath(s)
+	if p.f.ImageAttributes {
+		// Before attribute lists are stripped, which would take these along.
+		s.line = mapOutsideCode(s.line, imageAttributes)
+	}
+	return p.attributeLine(s) || p.contentsLine(s) || p.includeLine(s) || p.materialLine(s) || p.mdxLine(s)
+}
+
+// rewriteLine makes the changes to a line of text that depend on the whole
+// line.
+func (p *preprocessor) rewriteLine(line string) string {
+	if p.f.InapplicableTasks {
+		if m := taskNA.FindStringSubmatch(line); m != nil {
+			line = m[1] + "[ ] ~~" + m[2] + "~~"
+		}
+	}
+	if p.f.BlockIDs {
+		line = blockIDSuffix.ReplaceAllString(line, "")
+	}
+	return line
+}
+
+// fencedBlock handles a fenced code block, whose content is not rewritten.
+func (p *preprocessor) fencedBlock(s *blockScan) bool {
+	m := fenceOpen.FindStringSubmatch(s.line)
+	if m == nil {
+		return false
+	}
+	end := fenceEnd(s.lines, s.i+1, m[1])
+	repl, verbatim := p.fenced(s.line, m[1], strings.TrimSpace(m[2]), s.lines[s.i+1:end])
+	s.add(repl...)
+	if verbatim && end < len(s.lines) {
+		s.add(s.lines[end])
+	}
+	s.i = end
+	return true
+}
+
+// kramdownComment leaves out what is between {::comment} and {:/comment}.
+func (p *preprocessor) kramdownComment(s *blockScan) bool {
+	if !p.f.BlockAttributes || s.trimmed != "{::comment}" {
+		return false
+	}
+	for s.i+1 < len(s.lines) && strings.TrimSpace(s.lines[s.i]) != "{:/comment}" {
+		s.i++
+	}
+	return true
+}
+
+// multilineQuote makes the lines between two ">>>" a quote.
+func (p *preprocessor) multilineQuote(s *blockScan) bool {
+	if !p.f.MultilineBlockquote || s.trimmed != ">>>" {
+		return false
+	}
+	end := s.i + 1
+	for end < len(s.lines) && strings.TrimSpace(s.lines[end]) != ">>>" {
+		end++
+	}
+	s.add("")
+	s.add(prefixLines("> ", p.blocks(s.lines[s.i+1:end]))...)
+	s.add("")
+	s.i = end
+	return true
+}
+
+// colonFenced handles a block between ":::" fences. A fence without a
+// closing ":::" is not a block; it stays as text.
+func (p *preprocessor) colonFenced(s *blockScan) bool {
+	end, closed := s.colonClose[s.i]
+	if !closed {
+		return false
+	}
+	m := colonFence.FindStringSubmatch(s.line)
+	if m == nil || m[2] == "" {
+		return false
+	}
+	repl, ok := p.colonBlock(strings.TrimSpace(m[2]), s.lines[s.i+1:end])
+	if !ok {
+		return false
+	}
+	s.add(repl...)
+	s.i = end
+	return true
+}
+
+// indentedBlock handles the blocks whose content is the indented lines
+// under them: "!!! note" admonitions and "=== Tab" content tabs.
+func (p *preprocessor) indentedBlock(s *blockScan) bool {
+	if p.f.BangAdmonitions {
+		if m := bangAdmon.FindStringSubmatch(s.line); m != nil {
+			body, next := indentedBody(s.lines, s.i+1)
+			s.add(p.alert(m[1], m[3], p.blocks(body))...)
+			s.i = next - 1
+			return true
+		}
+	}
+	if p.f.ContentTabs {
+		if m := contentTab.FindStringSubmatch(s.line); m != nil {
+			body, next := indentedBody(s.lines, s.i+1)
+			s.add("", "**"+m[1]+"**", "")
+			s.add(p.blocks(body)...)
+			s.add("")
+			s.i = next - 1
+			return true
+		}
+	}
+	return false
+}
+
+// hiddenLine reports a line that is not part of the document: the target
+// of a reference, or a comment.
+func (p *preprocessor) hiddenLine(s *blockScan) bool {
+	if p.f.Directives && mystTarget.MatchString(s.line) {
+		return true
+	}
+	return p.f.LineComments && (s.line == "%" || strings.HasPrefix(s.line, "% "))
+}
+
+// displayMath handles the ways of writing a formula on lines of its own that
+// the math extension does not read.
+func (p *preprocessor) displayMath(s *blockScan) bool {
 	f := p.f
-	var out []string
-	inComment := false
-	var wrappers []string // HTML tags with the markdown attribute that are open
-
-	var colonClose map[int]int
-	if f.MermaidColon || f.ColonAdmonitions || f.Directives {
-		colonClose = matchColonFences(lines)
+	// MyST closes a display formula with its label: "$$ (label)". The
+	// label is where references point, and not part of the document
+	if f.Directives && f.MathDollar && mathLabelEnd.MatchString(s.trimmed) {
+		s.add("$$")
+		return true
 	}
-
-	for i := 0; i < len(lines); i++ {
-		line := lines[i]
-
-		if f.Comments {
-			line = stripPercentComments(line, &inComment)
-			if inComment && strings.TrimSpace(line) == "" {
-				continue
-			}
-		}
-
-		if m := fenceOpen.FindStringSubmatch(line); m != nil {
-			end := fenceEnd(lines, i+1, m[1])
-			repl, verbatim := p.fenced(line, m[1], strings.TrimSpace(m[2]), lines[i+1:end])
-			out = append(out, repl...)
-			if verbatim && end < len(lines) {
-				out = append(out, lines[end])
-			}
-			i = end
-			continue
-		}
-
-		if n := len(line) - len(strings.TrimLeft(line, " \t")); n > maxIndent {
-			line = line[n-maxIndent:]
-		}
-
-		trimmed := strings.TrimSpace(line)
-
-		if f.BlockAttributes && trimmed == "{::comment}" {
-			for i+1 < len(lines) && strings.TrimSpace(lines[i]) != "{:/comment}" {
-				i++
-			}
-			continue
-		}
-
-		if f.MultilineBlockquote && trimmed == ">>>" {
-			end := i + 1
-			for end < len(lines) && strings.TrimSpace(lines[end]) != ">>>" {
-				end++
-			}
-			out = append(out, "")
-			out = append(out, prefixLines("> ", p.blocks(lines[i+1:end]))...)
-			out = append(out, "")
-			i = end
-			continue
-		}
-
-		// A fence without a closing ":::" is not a block; it stays as text.
-		if end, closed := colonClose[i]; closed {
-			if m := colonFence.FindStringSubmatch(line); m != nil && m[2] != "" {
-				if repl, ok := p.colonBlock(strings.TrimSpace(m[2]), lines[i+1:end]); ok {
-					out = append(out, repl...)
-					i = end
-					continue
-				}
-			}
-		}
-
-		if f.BangAdmonitions {
-			if m := bangAdmon.FindStringSubmatch(line); m != nil {
-				body, next := indentedBody(lines, i+1)
-				out = append(out, p.alert(m[1], m[3], p.blocks(body))...)
-				i = next - 1
-				continue
-			}
-		}
-
-		if f.ContentTabs {
-			if m := contentTab.FindStringSubmatch(line); m != nil {
-				body, next := indentedBody(lines, i+1)
-				out = append(out, "", "**"+m[1]+"**", "")
-				out = append(out, p.blocks(body)...)
-				out = append(out, "")
-				i = next - 1
-				continue
-			}
-		}
-
-		if f.Directives && mystTarget.MatchString(line) {
-			continue
-		}
-		if f.LineComments && (line == "%" || strings.HasPrefix(line, "% ")) {
-			continue
-		}
-
-		// MyST closes a display formula with its label: "$$ (label)". The
-		// label is where references point, and not part of the document
-		if f.Directives && f.MathDollar && mathLabelEnd.MatchString(trimmed) {
-			out = append(out, "$$")
-			continue
-		}
-
-		// LaTeX environments that are formulas by themselves, at the top
-		// level as MyST and many LaTeX-minded writers have them:
-		//	\begin{align} ... \end{align}
-		if (f.Directives || f.MathParens) && leadingSpaces(line) < 4 {
-			if m := mathEnvBegin.FindStringSubmatch(trimmed); m != nil {
-				if end := mathEnvEnd(lines, i, m[1]); end >= 0 {
-					out = append(out, "", "```"+internalMathLang)
-					out = append(out, lines[i:end+1]...)
-					out = append(out, "```", "")
-					i = end
-					continue
-				}
-			}
-		}
-
-		// LaTeX display math with the delimiters on their own lines:
-		//	\[
-		//	a = b
-		//	\]
-		if f.MathParens && trimmed == `\[` && leadingSpaces(line) < 4 {
-			if end := mathBlockEnd(lines, i+1); end > 0 {
-				out = append(out, "", "$$")
-				out = append(out, lines[i+1:end]...)
-				out = append(out, "$$", "")
-				i = end
-				continue
-			}
-		}
-		// The same on one line. Escaped brackets are also how plain "[text]"
-		// is written, so the content has to look like a formula.
-		if f.MathParens && len(trimmed) > 4 && strings.HasPrefix(trimmed, `\[`) && strings.HasSuffix(trimmed, `\]`) &&
-			leadingSpaces(line) < 4 {
-			if body := strings.TrimSpace(trimmed[2 : len(trimmed)-2]); looksLikeMath(body) && !strings.Contains(body, `\]`) {
-				out = append(out, "", "$$", body, "$$", "")
-				continue
-			}
-		}
-
-		// A whole display formula on one line: the math extension only closes
-		// a block whose delimiters sit on their own lines.
-		if f.MathDollar && len(trimmed) > 4 && strings.HasPrefix(trimmed, "$$") && strings.HasSuffix(trimmed, "$$") &&
-			!strings.Contains(trimmed[2:len(trimmed)-2], "$$") && leadingSpaces(line) < 4 {
-			out = append(out, "", "$$", strings.TrimSpace(trimmed[2:len(trimmed)-2]), "$$", "")
-			continue
-		}
-
-		// A formula that opens a line of text would be taken for the start of
-		// a display block: write it with the inline delimiters instead.
-		if f.MathDollar && strings.HasPrefix(line, "$$") && len(trimmed) > 4 {
-			if end := strings.Index(line[2:], "$$"); end > 0 && strings.TrimSpace(line[end+4:]) != "" {
-				line = "$" + line[2:end+2] + "$" + line[end+4:]
-			}
-		}
-
-		if f.ImageAttributes {
-			// Before attribute lists are stripped, which would take these along.
-			line = mapOutsideCode(line, imageAttributes)
-		}
-
-		if f.BlockAttributes {
-			if listItemLine.MatchString(line) && i+1 < len(lines) && isKramdownTOC(lines[i+1]) && p.hasTOC("{:toc}") {
-				out = append(out, "", tocSentinel, "")
-				i++
-				continue
-			}
-			if ialOnlyLine.MatchString(line) {
-				continue
-			}
-			line = ialTrailing.ReplaceAllString(line, "")
-		}
-
-		if f.Abbreviations && abbrDef.MatchString(line) {
-			continue
-		}
-
-		if p.hasTOC(trimmed) {
-			out = append(out, "", tocSentinel, "")
-			continue
-		}
-		if f.MermaidColon && trimmed == "[[_TOSP_]]" {
-			continue // table of subpages: nothing to list in a single document
-		}
-
-		if f.Includes {
-			if m := includeLine.FindStringSubmatch(trimmed); m != nil {
-				if inc, ok := p.include(strings.TrimSpace(m[1])); ok {
-					out = append(out, inc...)
-					continue
-				}
-			}
-		}
-
-		if f.Material {
-			// --8<-- "file.md" puts a file in, as ::include does and under
-			// the same rules; a file that cannot be read is named
-			if m := snippetLine.FindStringSubmatch(trimmed); m != nil {
-				out = append(out, p.snippet(m[1])...)
-				continue
-			}
-			if snippetFence.MatchString(trimmed) {
-				// Between two such lines, a file a line
-				end := i + 1
-				for end < len(lines) && !snippetFence.MatchString(strings.TrimSpace(lines[end])) {
-					end++
-				}
-				if end < len(lines) {
-					for _, file := range lines[i+1 : end] {
-						if file = strings.TrimSpace(file); file != "" && !strings.HasPrefix(file, ";") {
-							out = append(out, p.snippet(file)...)
-						}
-					}
-					i = end
-					continue
-				}
-			}
-			// <div class="grid" markdown> holds Markdown: the tag goes, what
-			// is in it stays
-			if m := markdownTag.FindStringSubmatch(trimmed); m != nil {
-				wrappers = append(wrappers, m[1])
-				out = append(out, "")
-				continue
-			}
-			if n := len(wrappers); n > 0 && trimmed == "</"+wrappers[n-1]+">" {
-				wrappers = wrappers[:n-1]
-				out = append(out, "")
-				continue
-			}
-		}
-
-		if f.MDX && (mdxImport.MatchString(line) || mdxExport.MatchString(line)) {
-			continue
-		}
-		if f.MDX {
-			// <Tabs> hold <TabItem label="...">s, shown one after the
-			// other, each under its label
-			tag := strings.TrimSpace(line)
-			if m := mdxTabItem.FindStringSubmatch(tag); m != nil {
-				label := mdxAttr(m[1], "label")
-				if label == "" {
-					label = mdxAttr(m[1], "value")
-				}
-				out = append(out, "")
-				if label != "" {
-					out = append(out, "**"+label+"**", "")
-				}
-				continue
-			}
-			if mdxTabsTag.MatchString(tag) {
-				out = append(out, "")
-				continue
-			}
-			// A component that stands by itself (<Chart data={x} />) draws
-			// something on the site that a document cannot have. It is
-			// left out, and the conversion says so
-			mapOutsideCode(line, func(s string) string {
-				for _, m := range mdxComponent.FindAllStringSubmatch(s, -1) {
-					p.left.add("<" + m[1] + " />")
-				}
-				return s
-			})
-		}
-
-		if f.InapplicableTasks {
-			if m := taskNA.FindStringSubmatch(line); m != nil {
-				line = m[1] + "[ ] ~~" + m[2] + "~~"
-			}
-		}
-
-		if f.BlockIDs {
-			line = blockIDSuffix.ReplaceAllString(line, "")
-		}
-
-		out = append(out, p.inline(line))
+	if leadingSpaces(s.line) >= 4 {
+		return false
 	}
-	return out
+	if p.mathEnvironment(s) || p.bracketMath(s) {
+		return true
+	}
+	// A whole display formula on one line: the math extension only closes
+	// a block whose delimiters sit on their own lines.
+	t := s.trimmed
+	if f.MathDollar && len(t) > 4 && strings.HasPrefix(t, "$$") && strings.HasSuffix(t, "$$") &&
+		!strings.Contains(t[2:len(t)-2], "$$") {
+		s.add("", "$$", strings.TrimSpace(t[2:len(t)-2]), "$$", "")
+		return true
+	}
+	return false
+}
+
+// mathEnvironment handles LaTeX environments that are formulas by
+// themselves, at the top level as MyST and many LaTeX-minded writers have
+// them:
+//
+//	\begin{align} ... \end{align}
+func (p *preprocessor) mathEnvironment(s *blockScan) bool {
+	if !p.f.Directives && !p.f.MathParens {
+		return false
+	}
+	m := mathEnvBegin.FindStringSubmatch(s.trimmed)
+	if m == nil {
+		return false
+	}
+	end := mathEnvEnd(s.lines, s.i, m[1])
+	if end < 0 {
+		return false
+	}
+	s.add("", "```"+internalMathLang)
+	s.add(s.lines[s.i : end+1]...)
+	s.add("```", "")
+	s.i = end
+	return true
+}
+
+// bracketMath handles LaTeX display math between \[ and \].
+func (p *preprocessor) bracketMath(s *blockScan) bool {
+	if !p.f.MathParens {
+		return false
+	}
+	// The delimiters on their own lines:
+	//	\[
+	//	a = b
+	//	\]
+	t := s.trimmed
+	if t == `\[` {
+		if end := mathBlockEnd(s.lines, s.i+1); end > 0 {
+			s.add("", "$$")
+			s.add(s.lines[s.i+1 : end]...)
+			s.add("$$", "")
+			s.i = end
+			return true
+		}
+	}
+	// The same on one line. Escaped brackets are also how plain "[text]"
+	// is written, so the content has to look like a formula.
+	if len(t) > 4 && strings.HasPrefix(t, `\[`) && strings.HasSuffix(t, `\]`) {
+		if body := strings.TrimSpace(t[2 : len(t)-2]); looksLikeMath(body) && !strings.Contains(body, `\]`) {
+			s.add("", "$$", body, "$$", "")
+			return true
+		}
+	}
+	return false
+}
+
+// leadingMath rewrites a formula that opens a line of text, which would be
+// taken for the start of a display block, with the inline delimiters.
+func (p *preprocessor) leadingMath(s *blockScan) {
+	if !p.f.MathDollar || !strings.HasPrefix(s.line, "$$") || len(s.trimmed) <= 4 {
+		return
+	}
+	if end := strings.Index(s.line[2:], "$$"); end > 0 && strings.TrimSpace(s.line[end+4:]) != "" {
+		s.line = "$" + s.line[2:end+2] + "$" + s.line[end+4:]
+	}
+}
+
+// attributeLine handles kramdown's attribute lists and abbreviations: lines
+// that only hold them are left out, and attributes are taken off the end of
+// the others.
+func (p *preprocessor) attributeLine(s *blockScan) bool {
+	if p.f.BlockAttributes {
+		if listItemLine.MatchString(s.line) && s.i+1 < len(s.lines) && isKramdownTOC(s.lines[s.i+1]) && p.hasTOC("{:toc}") {
+			s.add("", tocSentinel, "")
+			s.i++
+			return true
+		}
+		if ialOnlyLine.MatchString(s.line) {
+			return true
+		}
+		s.line = ialTrailing.ReplaceAllString(s.line, "")
+	}
+	return p.f.Abbreviations && abbrDef.MatchString(s.line)
+}
+
+// contentsLine handles a line that asks for a table of contents.
+func (p *preprocessor) contentsLine(s *blockScan) bool {
+	if p.hasTOC(s.trimmed) {
+		s.add("", tocSentinel, "")
+		return true
+	}
+	// A table of subpages: nothing to list in a single document
+	return p.f.MermaidColon && s.trimmed == "[[_TOSP_]]"
+}
+
+// includeLine puts in the file an ::include line names.
+func (p *preprocessor) includeLine(s *blockScan) bool {
+	if !p.f.Includes {
+		return false
+	}
+	m := includeLine.FindStringSubmatch(s.trimmed)
+	if m == nil {
+		return false
+	}
+	inc, ok := p.include(strings.TrimSpace(m[1]))
+	if !ok {
+		return false
+	}
+	s.add(inc...)
+	return true
+}
+
+// materialLine handles what MkDocs Material writes on lines of its own:
+// snippets, and HTML that holds Markdown.
+func (p *preprocessor) materialLine(s *blockScan) bool {
+	if !p.f.Material {
+		return false
+	}
+	if p.snippets(s) {
+		return true
+	}
+	// <div class="grid" markdown> holds Markdown: the tag goes, what
+	// is in it stays
+	if m := markdownTag.FindStringSubmatch(s.trimmed); m != nil {
+		s.wrappers = append(s.wrappers, m[1])
+		s.add("")
+		return true
+	}
+	if n := len(s.wrappers); n > 0 && s.trimmed == "</"+s.wrappers[n-1]+">" {
+		s.wrappers = s.wrappers[:n-1]
+		s.add("")
+		return true
+	}
+	return false
+}
+
+// snippets puts in the files named with --8<--, as ::include does and under
+// the same rules; a file that cannot be read is named.
+func (p *preprocessor) snippets(s *blockScan) bool {
+	if m := snippetLine.FindStringSubmatch(s.trimmed); m != nil {
+		s.add(p.snippet(m[1])...)
+		return true
+	}
+	if !snippetFence.MatchString(s.trimmed) {
+		return false
+	}
+	// Between two such lines, a file a line
+	end := s.i + 1
+	for end < len(s.lines) && !snippetFence.MatchString(strings.TrimSpace(s.lines[end])) {
+		end++
+	}
+	if end >= len(s.lines) {
+		return false
+	}
+	for _, file := range s.lines[s.i+1 : end] {
+		if file = strings.TrimSpace(file); file != "" && !strings.HasPrefix(file, ";") {
+			s.add(p.snippet(file)...)
+		}
+	}
+	s.i = end
+	return true
+}
+
+// mdxLine handles what MDX writes on lines of its own: imports and exports,
+// which are left out, and tabs. It notes the components in other lines.
+func (p *preprocessor) mdxLine(s *blockScan) bool {
+	if !p.f.MDX {
+		return false
+	}
+	if mdxImport.MatchString(s.line) || mdxExport.MatchString(s.line) {
+		return true
+	}
+	// <Tabs> hold <TabItem label="...">s, shown one after the
+	// other, each under its label
+	tag := strings.TrimSpace(s.line)
+	if m := mdxTabItem.FindStringSubmatch(tag); m != nil {
+		label := mdxAttr(m[1], "label")
+		if label == "" {
+			label = mdxAttr(m[1], "value")
+		}
+		s.add("")
+		if label != "" {
+			s.add("**"+label+"**", "")
+		}
+		return true
+	}
+	if mdxTabsTag.MatchString(tag) {
+		s.add("")
+		return true
+	}
+	// A component that stands by itself (<Chart data={x} />) draws
+	// something on the site that a document cannot have. It is
+	// left out, and the conversion says so
+	mapOutsideCode(s.line, func(text string) string {
+		for _, m := range mdxComponent.FindAllStringSubmatch(text, -1) {
+			p.left.add("<" + m[1] + " />")
+		}
+		return text
+	})
+	return false
 }
 
 func (p *preprocessor) hasTOC(marker string) bool {
