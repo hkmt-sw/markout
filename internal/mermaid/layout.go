@@ -590,64 +590,9 @@ func (l *layout) draw() *Drawing {
 
 	d := &Drawing{}
 	// Connections, worked out in the top-down layout and then turned
-	type path struct {
-		segments [][4]Point
-		edge     *Edge
-		label    *Node
-	}
-	var paths []path
+	var paths []linkPath
 	for _, e := range l.edges {
-		var pts []Point
-		var label *Node
-		first, last := l.nodes[e.chain[0]], l.nodes[e.chain[len(e.chain)-1]]
-		for i, v := range e.chain {
-			n := l.nodes[v]
-			switch {
-			case i == 0:
-				pts = append(pts, Point{n.X, n.Y + l.along(n)/2})
-			case i == len(e.chain)-1:
-				pts = append(pts, Point{n.X, n.Y - l.along(n)/2})
-			default:
-				pts = append(pts, Point{n.X, n.Y})
-				if n.labelW > 0 {
-					label = n
-				}
-			}
-		}
-		var segs [][4]Point
-		for i := 0; i+1 < len(pts); i++ {
-			a, b := pts[i], pts[i+1]
-			mid := (a.Y + b.Y) / 2
-			segs = append(segs, [4]Point{a, {a.X, mid}, {b.X, mid}, b})
-		}
-		if e.reversed {
-			// A connection that leads back leaves and arrives at the sides
-			// of its nodes: the faces along the flow belong to the
-			// connections that follow it
-			const reach = 22.0
-			side := func(n *Node, toward float64) (Point, float64) {
-				sign := 1.0
-				if toward < n.X {
-					sign = -1
-				}
-				return Point{n.X + sign*l.across(n)/2, n.Y}, sign
-			}
-			n := len(segs) - 1
-			if n == 0 {
-				a, _ := side(first, first.X+1)
-				b, _ := side(last, last.X+1)
-				out := math.Max(a.X, b.X) + reach
-				segs[0] = [4]Point{a, {out, a.Y}, {out, b.Y}, b}
-			} else {
-				a, _ := side(first, segs[0][3].X)
-				to := segs[0][3]
-				segs[0] = [4]Point{a, {to.X, a.Y}, {to.X, (a.Y + to.Y) / 2}, to}
-				b, _ := side(last, segs[n][0].X)
-				from := segs[n][0]
-				segs[n] = [4]Point{from, {from.X, (from.Y + b.Y) / 2}, {from.X, b.Y}, b}
-			}
-		}
-		paths = append(paths, path{segs, e, label})
+		paths = append(paths, l.pathOf(e))
 	}
 
 	// Turn the nodes; their sizes are already the chart's own
@@ -657,44 +602,10 @@ func (l *layout) draw() *Drawing {
 	}
 
 	for _, p := range paths {
-		link := Link{Line: p.edge.Line, Start: p.edge.Start, End: p.edge.End}
-		for _, seg := range p.segments {
-			link.Curve = append(link.Curve, [4]Point{
-				l.turn(seg[0], depth), l.turn(seg[1], depth), l.turn(seg[2], depth), l.turn(seg[3], depth),
-			})
-		}
-		if p.edge.reversed {
-			// Laid out backwards; drawn the way it was written
-			for i, j := 0, len(link.Curve)-1; i < j; i, j = i+1, j-1 {
-				link.Curve[i], link.Curve[j] = link.Curve[j], link.Curve[i]
-			}
-			for i, seg := range link.Curve {
-				link.Curve[i] = [4]Point{seg[3], seg[2], seg[1], seg[0]}
-			}
-		}
-		if p.label != nil {
-			link.Label = textLines(p.edge.Label, Point{p.label.X, p.label.Y}, l.m.LineHeight)
-			w, h := p.label.labelW+6, float64(len(p.edge.Label))*l.m.LineHeight+2
-			link.LabelBox = [4]float64{p.label.X - w/2, p.label.Y - h/2, w, h}
-		}
-		finishLink(&link)
-		d.Links = append(d.Links, link)
+		d.Links = append(d.Links, l.linkOf(p, depth))
 	}
 	for _, e := range l.loops {
-		// A connection from a node to itself: a loop at its side
-		n := l.nodes[e.From]
-		x, reach := n.X+n.W/2, 26.0
-		link := Link{Line: e.Line, Start: e.Start, End: e.End, Curve: [][4]Point{{
-			{x, n.Y - n.H/4}, {x + reach, n.Y - n.H/2 - 6}, {x + reach, n.Y + n.H/2 + 6}, {x, n.Y + n.H/4},
-		}}}
-		if len(e.Label) > 0 {
-			w, _ := l.textSize(e.Label)
-			at := Point{x + reach + w/2, n.Y}
-			link.Label = textLines(e.Label, at, l.m.LineHeight)
-			link.LabelBox = [4]float64{at.X - w/2 - 3, at.Y - float64(len(e.Label))*l.m.LineHeight/2 - 1, w + 6, float64(len(e.Label))*l.m.LineHeight + 2}
-		}
-		finishLink(&link)
-		d.Links = append(d.Links, link)
+		d.Links = append(d.Links, l.loopOf(e))
 	}
 
 	for _, n := range l.g.Nodes {
@@ -702,57 +613,7 @@ func (l *layout) draw() *Drawing {
 		box.Outline, box.Marks = outline(n)
 		d.Boxes = append(d.Boxes, box)
 	}
-
-	// Frames around the nodes of subgraphs, inner ones first so that an
-	// outer one goes around them
-	bounds := make([][4]float64, len(l.g.Groups)) // left, top, right, bottom
-	used := make([]bool, len(l.g.Groups))
-	grow := func(i int, left, top, right, bottom float64) {
-		if !used[i] {
-			bounds[i], used[i] = [4]float64{left, top, right, bottom}, true
-			return
-		}
-		b := &bounds[i]
-		b[0], b[1] = math.Min(b[0], left), math.Min(b[1], top)
-		b[2], b[3] = math.Max(b[2], right), math.Max(b[3], bottom)
-	}
-	for i := len(l.g.Groups) - 1; i >= 0; i-- {
-		for _, n := range l.g.Nodes {
-			if n.Group == i {
-				grow(i, n.X-n.W/2, n.Y-n.H/2, n.X+n.W/2, n.Y+n.H/2)
-			}
-		}
-		for j, inner := range l.g.Groups {
-			if inner.Parent == i && used[j] {
-				grow(i, bounds[j][0], bounds[j][1], bounds[j][2], bounds[j][3])
-			}
-		}
-		if !used[i] {
-			continue
-		}
-		title := l.g.Groups[i].Title
-		head := 0.0
-		if title != "" {
-			head = l.m.LineHeight
-		}
-		b := &bounds[i]
-		b[0], b[1], b[2], b[3] = b[0]-framePad, b[1]-framePad-head, b[2]+framePad, b[3]+framePad
-		// Wide enough for its title
-		if w := l.m.Width(title) + 2*framePad; w > b[2]-b[0] {
-			extra := (w - (b[2] - b[0])) / 2
-			b[0], b[2] = b[0]-extra, b[2]+extra
-		}
-	}
-	for i, group := range l.g.Groups {
-		if !used[i] {
-			continue
-		}
-		b := bounds[i]
-		d.Frames = append(d.Frames, Frame{
-			X: b[0], Y: b[1], W: b[2] - b[0], H: b[3] - b[1],
-			Title: group.Title, TitleAt: Point{(b[0] + b[2]) / 2, b[1] + framePad/2 + l.m.LineHeight/2},
-		})
-	}
+	d.Frames = l.frames()
 
 	// The nodes say where they are in the finished drawing
 	dx, dy := d.fit()
@@ -760,6 +621,190 @@ func (l *layout) draw() *Drawing {
 		n.X, n.Y = n.X+dx, n.Y+dy
 	}
 	return d
+}
+
+// linkPath is a connection in the top-down layout.
+type linkPath struct {
+	segments [][4]Point
+	edge     *Edge
+	label    *Node // the bend its text is on, or nil
+}
+
+// pathOf is the way a connection takes: from the face of its first node,
+// through its bends, to the face of its last.
+func (l *layout) pathOf(e *Edge) linkPath {
+	var pts []Point
+	var label *Node
+	for i, v := range e.chain {
+		n := l.nodes[v]
+		switch {
+		case i == 0:
+			pts = append(pts, Point{n.X, n.Y + l.along(n)/2})
+		case i == len(e.chain)-1:
+			pts = append(pts, Point{n.X, n.Y - l.along(n)/2})
+		default:
+			pts = append(pts, Point{n.X, n.Y})
+			if n.labelW > 0 {
+				label = n
+			}
+		}
+	}
+	var segs [][4]Point
+	for i := 0; i+1 < len(pts); i++ {
+		a, b := pts[i], pts[i+1]
+		mid := (a.Y + b.Y) / 2
+		segs = append(segs, [4]Point{a, {a.X, mid}, {b.X, mid}, b})
+	}
+	if e.reversed {
+		l.joinAtSides(segs, l.nodes[e.chain[0]], l.nodes[e.chain[len(e.chain)-1]])
+	}
+	return linkPath{segs, e, label}
+}
+
+// side is the middle of the side of a node that faces a place across the
+// flow.
+func (l *layout) side(n *Node, toward float64) Point {
+	sign := 1.0
+	if toward < n.X {
+		sign = -1
+	}
+	return Point{n.X + sign*l.across(n)/2, n.Y}
+}
+
+// joinAtSides makes a connection that leads back leave and arrive at the
+// sides of its nodes: the faces along the flow belong to the connections
+// that follow it.
+func (l *layout) joinAtSides(segs [][4]Point, first, last *Node) {
+	const reach = 22.0
+	n := len(segs) - 1
+	if n == 0 {
+		a := l.side(first, first.X+1)
+		b := l.side(last, last.X+1)
+		out := math.Max(a.X, b.X) + reach
+		segs[0] = [4]Point{a, {out, a.Y}, {out, b.Y}, b}
+		return
+	}
+	a := l.side(first, segs[0][3].X)
+	to := segs[0][3]
+	segs[0] = [4]Point{a, {to.X, a.Y}, {to.X, (a.Y + to.Y) / 2}, to}
+	b := l.side(last, segs[n][0].X)
+	from := segs[n][0]
+	segs[n] = [4]Point{from, {from.X, (from.Y + b.Y) / 2}, {from.X, b.Y}, b}
+}
+
+// linkOf is a connection in the chart's own direction, with its text.
+func (l *layout) linkOf(p linkPath, depth float64) Link {
+	link := Link{Line: p.edge.Line, Start: p.edge.Start, End: p.edge.End}
+	for _, seg := range p.segments {
+		link.Curve = append(link.Curve, [4]Point{
+			l.turn(seg[0], depth), l.turn(seg[1], depth), l.turn(seg[2], depth), l.turn(seg[3], depth),
+		})
+	}
+	if p.edge.reversed {
+		// Laid out backwards; drawn the way it was written
+		for i, j := 0, len(link.Curve)-1; i < j; i, j = i+1, j-1 {
+			link.Curve[i], link.Curve[j] = link.Curve[j], link.Curve[i]
+		}
+		for i, seg := range link.Curve {
+			link.Curve[i] = [4]Point{seg[3], seg[2], seg[1], seg[0]}
+		}
+	}
+	if p.label != nil {
+		link.Label = textLines(p.edge.Label, Point{p.label.X, p.label.Y}, l.m.LineHeight)
+		w, h := p.label.labelW+6, float64(len(p.edge.Label))*l.m.LineHeight+2
+		link.LabelBox = [4]float64{p.label.X - w/2, p.label.Y - h/2, w, h}
+	}
+	finishLink(&link)
+	return link
+}
+
+// loopOf is a connection from a node to itself: a loop at its side.
+func (l *layout) loopOf(e *Edge) Link {
+	n := l.nodes[e.From]
+	x, reach := n.X+n.W/2, 26.0
+	link := Link{Line: e.Line, Start: e.Start, End: e.End, Curve: [][4]Point{{
+		{x, n.Y - n.H/4}, {x + reach, n.Y - n.H/2 - 6}, {x + reach, n.Y + n.H/2 + 6}, {x, n.Y + n.H/4},
+	}}}
+	if len(e.Label) > 0 {
+		w, _ := l.textSize(e.Label)
+		at := Point{x + reach + w/2, n.Y}
+		link.Label = textLines(e.Label, at, l.m.LineHeight)
+		link.LabelBox = [4]float64{at.X - w/2 - 3, at.Y - float64(len(e.Label))*l.m.LineHeight/2 - 1, w + 6, float64(len(e.Label))*l.m.LineHeight + 2}
+	}
+	finishLink(&link)
+	return link
+}
+
+// groupBounds are the rectangles around the nodes of the subgraphs.
+type groupBounds struct {
+	bounds [][4]float64 // left, top, right, bottom
+	used   []bool       // the subgraph has something in it
+}
+
+// grow makes the rectangle of a subgraph hold another.
+func (g *groupBounds) grow(i int, left, top, right, bottom float64) {
+	if !g.used[i] {
+		g.bounds[i], g.used[i] = [4]float64{left, top, right, bottom}, true
+		return
+	}
+	b := &g.bounds[i]
+	b[0], b[1] = math.Min(b[0], left), math.Min(b[1], top)
+	b[2], b[3] = math.Max(b[2], right), math.Max(b[3], bottom)
+}
+
+// frames are the frames around the nodes of subgraphs.
+func (l *layout) frames() []Frame {
+	g := l.groupBounds()
+	var frames []Frame
+	for i, group := range l.g.Groups {
+		if !g.used[i] {
+			continue
+		}
+		b := g.bounds[i]
+		frames = append(frames, Frame{
+			X: b[0], Y: b[1], W: b[2] - b[0], H: b[3] - b[1],
+			Title: group.Title, TitleAt: Point{(b[0] + b[2]) / 2, b[1] + framePad/2 + l.m.LineHeight/2},
+		})
+	}
+	return frames
+}
+
+// groupBounds works out the rectangle of every subgraph: around its nodes
+// and the subgraphs in it, with room for the frame and its title.
+func (l *layout) groupBounds() groupBounds {
+	// Inner ones first, so that an outer one goes around them
+	g := groupBounds{bounds: make([][4]float64, len(l.g.Groups)), used: make([]bool, len(l.g.Groups))}
+	for i := len(l.g.Groups) - 1; i >= 0; i-- {
+		for _, n := range l.g.Nodes {
+			if n.Group == i {
+				g.grow(i, n.X-n.W/2, n.Y-n.H/2, n.X+n.W/2, n.Y+n.H/2)
+			}
+		}
+		for j, inner := range l.g.Groups {
+			if inner.Parent == i && g.used[j] {
+				g.grow(i, g.bounds[j][0], g.bounds[j][1], g.bounds[j][2], g.bounds[j][3])
+			}
+		}
+		if g.used[i] {
+			l.padFrame(&g.bounds[i], l.g.Groups[i].Title)
+		}
+	}
+	return g
+}
+
+// padFrame leaves room between a frame and what is in it, and for its
+// title above.
+func (l *layout) padFrame(b *[4]float64, title string) {
+	head := 0.0
+	if title != "" {
+		head = l.m.LineHeight
+	}
+	b[0], b[1], b[2], b[3] = b[0]-framePad, b[1]-framePad-head, b[2]+framePad, b[3]+framePad
+	// Wide enough for its title
+	if w := l.m.Width(title) + 2*framePad; w > b[2]-b[0] {
+		extra := (w - (b[2] - b[0])) / 2
+		b[0], b[2] = b[0]-extra, b[2]+extra
+	}
 }
 
 // textLines centers lines of text on a point, one under the other.
