@@ -297,8 +297,30 @@ func (l *layout) topGroup(n *Node) int {
 // nodes it is connected to in the rank before, down the chart and then up
 // it, a number of times. Nodes of a subgraph are kept side by side.
 func (l *layout) order() {
-	up := make([][]int, len(l.nodes)) // neighbors in the rank above
-	down := make([][]int, len(l.nodes))
+	up, down := l.neighbors()
+	l.number()
+
+	best, bestCount := l.copyRanks(), l.crossings(down)
+	for round := 0; round < 12 && bestCount > 0; round++ {
+		for r := 1; r < len(l.ranks); r++ {
+			l.sweep(l.ranks[r], up)
+		}
+		for r := len(l.ranks) - 2; r >= 0; r-- {
+			l.sweep(l.ranks[r], down)
+		}
+		if count := l.crossings(down); count < bestCount {
+			best, bestCount = l.copyRanks(), count
+		}
+	}
+	l.ranks = best
+	l.number()
+}
+
+// neighbors lists, for every node, the nodes it is connected to in the rank
+// above and in the rank below.
+func (l *layout) neighbors() (up, down [][]int) {
+	up = make([][]int, len(l.nodes))
+	down = make([][]int, len(l.nodes))
 	for _, e := range l.edges {
 		for i := 0; i+1 < len(e.chain); i++ {
 			a, b := e.chain[i], e.chain[i+1]
@@ -306,94 +328,101 @@ func (l *layout) order() {
 			up[b] = append(up[b], a)
 		}
 	}
-	number := func() {
-		for _, rank := range l.ranks {
-			for i, v := range rank {
-				l.nodes[v].order = i
-			}
-		}
-	}
-	number()
+	return up, down
+}
 
-	crossings := func() int {
-		total := 0
-		for _, rank := range l.ranks {
-			var pairs [][2]int
-			for _, v := range rank {
-				for _, w := range down[v] {
-					pairs = append(pairs, [2]int{l.nodes[v].order, l.nodes[w].order})
-				}
-			}
-			if len(pairs) > 600 {
-				continue // too many to count; the sweeps still help
-			}
-			for i := range pairs {
-				for j := i + 1; j < len(pairs); j++ {
-					if (pairs[i][0]-pairs[j][0])*(pairs[i][1]-pairs[j][1]) < 0 {
-						total++
-					}
-				}
-			}
-		}
-		return total
+// number tells every node its place in its rank.
+func (l *layout) number() {
+	for _, rank := range l.ranks {
+		numberRank(l.nodes, rank)
 	}
+}
 
-	sweep := func(rank []int, toward [][]int) {
-		want := make(map[int]float64, len(rank))
+func numberRank(nodes []*Node, rank []int) {
+	for i, v := range rank {
+		nodes[v].order = i
+	}
+}
+
+// crossings counts the connections that cross between neighboring ranks.
+func (l *layout) crossings(down [][]int) int {
+	total := 0
+	for _, rank := range l.ranks {
+		var pairs [][2]int
 		for _, v := range rank {
-			want[v] = float64(l.nodes[v].order)
-			if len(toward[v]) > 0 {
-				sum := 0.0
-				for _, w := range toward[v] {
-					sum += float64(l.nodes[w].order)
-				}
-				want[v] = sum / float64(len(toward[v]))
+			for _, w := range down[v] {
+				pairs = append(pairs, [2]int{l.nodes[v].order, l.nodes[w].order})
 			}
 		}
-		// A subgraph moves as one, to the average of its nodes
-		groupWant, groupSize := map[int]float64{}, map[int]float64{}
-		for _, v := range rank {
-			if group := l.topGroup(l.nodes[v]); group >= 0 {
-				groupWant[group] += want[v]
-				groupSize[group]++
-			}
+		if len(pairs) > 600 {
+			continue // too many to count; the sweeps still help
 		}
-		key := func(v int) (float64, int) {
-			if group := l.topGroup(l.nodes[v]); group >= 0 {
-				return groupWant[group] / groupSize[group], group
-			}
-			return want[v], -1 - v
-		}
-		sort.SliceStable(rank, func(i, j int) bool {
-			ki, gi := key(rank[i])
-			kj, gj := key(rank[j])
-			if gi == gj {
-				return want[rank[i]] < want[rank[j]]
-			}
-			if ki != kj {
-				return ki < kj
-			}
-			return gi < gj
-		})
-		for i, v := range rank {
-			l.nodes[v].order = i
-		}
+		total += crossingPairs(pairs)
 	}
+	return total
+}
 
-	best, bestCount := l.copyRanks(), crossings()
-	for round := 0; round < 12 && bestCount > 0; round++ {
-		for r := 1; r < len(l.ranks); r++ {
-			sweep(l.ranks[r], up)
-		}
-		for r := len(l.ranks) - 2; r >= 0; r-- {
-			sweep(l.ranks[r], down)
-		}
-		if count := crossings(); count < bestCount {
-			best, bestCount = l.copyRanks(), count
+// crossingPairs counts the pairs of connections that cross, each given by
+// the places of its two ends.
+func crossingPairs(pairs [][2]int) int {
+	total := 0
+	for i := range pairs {
+		for j := i + 1; j < len(pairs); j++ {
+			if (pairs[i][0]-pairs[j][0])*(pairs[i][1]-pairs[j][1]) < 0 {
+				total++
+			}
 		}
 	}
-	l.ranks = best
-	number()
+	return total
+}
+
+// sweep moves the nodes of a rank towards the nodes they are connected to
+// in a neighboring rank.
+func (l *layout) sweep(rank []int, toward [][]int) {
+	want := l.wanted(rank, toward)
+	// A subgraph moves as one, to the average of its nodes
+	groupWant, groupSize := map[int]float64{}, map[int]float64{}
+	for _, v := range rank {
+		if group := l.topGroup(l.nodes[v]); group >= 0 {
+			groupWant[group] += want[v]
+			groupSize[group]++
+		}
+	}
+	key := func(v int) (float64, int) {
+		if group := l.topGroup(l.nodes[v]); group >= 0 {
+			return groupWant[group] / groupSize[group], group
+		}
+		return want[v], -1 - v
+	}
+	sort.SliceStable(rank, func(i, j int) bool {
+		ki, gi := key(rank[i])
+		kj, gj := key(rank[j])
+		if gi == gj {
+			return want[rank[i]] < want[rank[j]]
+		}
+		if ki != kj {
+			return ki < kj
+		}
+		return gi < gj
+	})
+	numberRank(l.nodes, rank)
+}
+
+// wanted is where each node of a rank would like to be: the average place
+// of the nodes it is connected to, or where it is if it has none.
+func (l *layout) wanted(rank []int, toward [][]int) map[int]float64 {
+	want := make(map[int]float64, len(rank))
+	for _, v := range rank {
+		want[v] = float64(l.nodes[v].order)
+		if len(toward[v]) > 0 {
+			sum := 0.0
+			for _, w := range toward[v] {
+				sum += float64(l.nodes[w].order)
+			}
+			want[v] = sum / float64(len(toward[v]))
+		}
+	}
+	return want
 }
 
 func (l *layout) copyRanks() [][]int {
