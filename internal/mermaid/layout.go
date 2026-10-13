@@ -754,6 +754,24 @@ func (g *groupBounds) grow(i int, left, top, right, bottom float64) {
 
 // frames are the frames around the nodes of subgraphs.
 func (l *layout) frames() []Frame {
+	g := l.groupBounds()
+	var frames []Frame
+	for i, group := range l.g.Groups {
+		if !g.used[i] {
+			continue
+		}
+		b := g.bounds[i]
+		frames = append(frames, Frame{
+			X: b[0], Y: b[1], W: b[2] - b[0], H: b[3] - b[1],
+			Title: group.Title, TitleAt: Point{(b[0] + b[2]) / 2, b[1] + framePad/2 + l.m.LineHeight/2},
+		})
+	}
+	return frames
+}
+
+// groupBounds works out the rectangle of every subgraph: around its nodes
+// and the subgraphs in it, with room for the frame and its title.
+func (l *layout) groupBounds() groupBounds {
 	// Inner ones first, so that an outer one goes around them
 	g := groupBounds{bounds: make([][4]float64, len(l.g.Groups)), used: make([]bool, len(l.g.Groups))}
 	for i := len(l.g.Groups) - 1; i >= 0; i-- {
@@ -771,18 +789,7 @@ func (l *layout) frames() []Frame {
 			l.padFrame(&g.bounds[i], l.g.Groups[i].Title)
 		}
 	}
-	var frames []Frame
-	for i, group := range l.g.Groups {
-		if !g.used[i] {
-			continue
-		}
-		b := g.bounds[i]
-		frames = append(frames, Frame{
-			X: b[0], Y: b[1], W: b[2] - b[0], H: b[3] - b[1],
-			Title: group.Title, TitleAt: Point{(b[0] + b[2]) / 2, b[1] + framePad/2 + l.m.LineHeight/2},
-		})
-	}
-	return frames
+	return g
 }
 
 // padFrame leaves room between a frame and what is in it, and for its
