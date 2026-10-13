@@ -477,3 +477,20 @@ func TestFrontMatterDate(t *testing.T) {
 		}
 	}
 }
+
+// An e-mail address links to mailto:, and a link shows the address as it was
+// written rather than with the scheme its target needs.
+func TestAutoLinkTargets(t *testing.T) {
+	for src, want := range map[string]string{
+		"write to info@example.com now\n":        "{link=mailto:info@example.com}info@example.com{/}",
+		"write to <info@example.com> now\n":      "{link=mailto:info@example.com}info@example.com{/}",
+		"see www.example.com for more\n":         "{link=http://www.example.com}www.example.com{/}",
+		"see https://example.com for more\n":     "{link=https://example.com}https://example.com{/}",
+		"[mail](mailto:info@example.com) us\n":   "{link=mailto:info@example.com}mail{/}",
+		"<mailto:info@example.com> is written\n": "{link=mailto:info@example.com}mailto:info@example.com{/}",
+	} {
+		if got := parseAs(t, "github", src); !strings.Contains(got, want) {
+			t.Errorf("%q: got %s, want %s", src, got, want)
+		}
+	}
+}

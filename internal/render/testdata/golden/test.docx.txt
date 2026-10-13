@@ -165,7 +165,7 @@ P{spacing=0/160 line=320/atLeast}
   R{color=2563EB link=https://github.com rStyle=Hyperlink u=single} "https://github.com"
 P{spacing=0/160 line=320/atLeast}
   R "Email automatikus link: "
-  R{color=2563EB link=info@example.com rStyle=Hyperlink u=single} "info@example.com"
+  R{color=2563EB link=mailto:info@example.com rStyle=Hyperlink u=single} "info@example.com"
 P{bookmark=_referencia_stlus_linkek pStyle=Heading3}
   R "Referencia stílusú"
   R " linkek"

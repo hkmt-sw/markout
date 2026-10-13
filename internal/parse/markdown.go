@@ -1036,9 +1036,14 @@ func (w *astWalker) extractInlineRunsFromNode(node gmast.Node, bold, italic, cod
 		}
 
 	case *gmast.AutoLink:
+		// The text is what the author wrote; goldmark's URL has the scheme
+		// of a bare "www." address but not of an e-mail address.
 		url := string(n.URL(w.source))
+		if n.AutoLinkType == gmast.AutoLinkEmail && !strings.HasPrefix(strings.ToLower(url), "mailto:") {
+			url = "mailto:" + url
+		}
 		run := ast.InlineRun{
-			Text:          url,
+			Text:          string(n.Label(w.source)),
 			Strikethrough: strikethrough,
 			Link:          url,
 		}
