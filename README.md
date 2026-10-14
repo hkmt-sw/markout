@@ -302,6 +302,45 @@ A header or footer can show the version and the classification of the
 document with `{version}` and `{classification}`, next to `{title}`,
 `{author}`, `{date}`, `{page}` and `{pages}`.
 
+## Version history
+
+`history: git` in the front matter adds a version history table to the
+document, made from the git history of the Markdown file itself. Only the
+commits that touched the file and carry a `Changelog:` trailer are listed; the
+row says what the trailer says. Write the trailer in the commit message, as its
+last paragraph:
+
+```sh
+git commit -m "Tighten the retention rule" -m "Changelog: A mentések megőrzési ideje 90 nap."
+```
+
+```markdown
+---
+title: Mentési eljárásrend
+lang: hu
+history: git
+---
+```
+
+The table has the columns Date (the day of the commit, where it was made),
+Author and Change, newest commit first, and follows the file through renames.
+A `Version:` trailer on a commit (`git commit --trailer "Changelog: ..."
+--trailer "Version: 1.2"`) adds a Version column on the left, empty for the
+commits that have none. Several `Changelog:` trailers on one commit are joined
+with `; `. Commits without a `Changelog:` trailer are left out. The title and
+the labels are in the language of the document: Hungarian for `hu`, English
+otherwise.
+
+The table goes right after the control block, or at the top of the page after
+the cover page if the document has one. Its title is not a heading, so it is
+not in the outline or the table of contents.
+
+markout only runs `git` on the repository the file is in. Nothing leaves your
+machine, and no hooks of the repository run. Without `git`, with a file outside
+a git work tree, one that is not committed yet, or one with no commit that has
+a `Changelog:` trailer, markout warns and converts the document without the
+table. A `history` value other than `git` is ignored, with a warning.
+
 ## Update notifications
 
 When a newer release exists, the TUI says so in its top border:

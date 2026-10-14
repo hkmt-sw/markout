@@ -360,6 +360,8 @@ func (r *PdfRenderer) renderElement(elem ast.Element) {
 		r.renderTableOfContents(e)
 	case ast.FrontMatter:
 		r.renderFrontMatter(e)
+	case ast.VersionHistory:
+		r.renderVersionHistory(e)
 	}
 }
 
@@ -1097,19 +1099,25 @@ func (r *PdfRenderer) renderDescriptionList(dl ast.DescriptionList) {
 	r.currentY += 4
 }
 
-func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
+// renderListTitle draws the title of a table of contents or a version
+// history: a bold line in the size of a third-level heading, which is not a
+// heading. It stays on a page with at least room (points) of what follows.
+func (r *PdfRenderer) renderListTitle(title string, room float64) {
 	lineHeight := r.t.Text.LineHeight
-
-	// Title, in the size of a third-level heading
 	r.flushHeadings(8 + lineHeight)
 	r.currentY += 8
-	r.checkPageBreak(lineHeight)
+	r.checkPageBreak(lineHeight + room)
 	r.setFont(r.headingFont(), "B", r.t.Heading[2].Size)
 	r.textColor(r.t.Text.Color)
 	r.pdf.SetX(r.marginLeft)
 	r.pdf.SetY(r.currentY)
-	r.cell("Table of Contents")
+	r.cell(title)
 	r.currentY += lineHeight + 8
+}
+
+func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
+	lineHeight := r.t.Text.LineHeight
+	r.renderListTitle("Table of Contents", 0)
 
 	// Items: the title, a row of dots, and the page the heading is on. The
 	// room for the number is the same whether or not it is known yet, which

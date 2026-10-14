@@ -250,6 +250,33 @@ type FrontMatter struct {
 
 func (FrontMatter) elementMarker() { /* marks FrontMatter as an Element */ }
 
+// VersionHistory is the version history of the document, read from the git
+// repository it is in: the commits that touched the file and say in a
+// Changelog trailer what they changed, newest first.
+type VersionHistory struct {
+	Entries []VersionEntry
+}
+
+func (VersionHistory) elementMarker() { /* marks VersionHistory as an Element */ }
+
+// HasVersions reports whether any entry names a version.
+func (h VersionHistory) HasVersions() bool {
+	for _, e := range h.Entries {
+		if e.Version != "" {
+			return true
+		}
+	}
+	return false
+}
+
+// VersionEntry is one commit of a version history.
+type VersionEntry struct {
+	Version string // from the Version trailer; may be empty
+	Date    string // the day of the commit, as YYYY-MM-DD
+	Author  string
+	Change  string // from the Changelog trailer
+}
+
 // NewDocument creates a new empty document
 func NewDocument() *Document {
 	return &Document{

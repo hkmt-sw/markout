@@ -217,6 +217,8 @@ func (r *DocxRenderer) renderElement(elem ast.Element) error {
 		return r.renderTableOfContents(e)
 	case ast.FrontMatter:
 		return r.renderFrontMatter(e)
+	case ast.VersionHistory:
+		return r.renderVersionHistory(e)
 	}
 	return nil
 }
@@ -1377,23 +1379,31 @@ func (r *DocxRenderer) renderDescriptionList(dl ast.DescriptionList) error {
 	return nil
 }
 
+// renderListTitle sets the title of a table of contents or a version history:
+// a bold line in the size of a third-level heading, which is not a heading.
+func (r *DocxRenderer) renderListTitle(title string) error {
+	para, err := r.doc.AddParagraph()
+	if err != nil {
+		return err
+	}
+	r.space(para, 0, 8, 8)
+	run, err := para.AddRun()
+	if err != nil {
+		return err
+	}
+	run.SetText(title)
+	run.SetBold(true)
+	run.SetSize(runSize(r.t.Heading[2].Size))
+	run.SetFont(domain.Font{Name: r.t.Fonts.Body})
+	run.SetColor(docxColor(r.t.Text.Color))
+	return nil
+}
+
 // renderTableOfContents renders a generated table of contents
 func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
-	// Title
-	titlePara, err := r.doc.AddParagraph()
-	if err != nil {
+	if err := r.renderListTitle("Table of Contents"); err != nil {
 		return err
 	}
-	r.space(titlePara, 0, 8, 8)
-	titleRun, err := titlePara.AddRun()
-	if err != nil {
-		return err
-	}
-	titleRun.SetText("Table of Contents")
-	titleRun.SetBold(true)
-	titleRun.SetSize(runSize(r.t.Heading[2].Size))
-	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-	titleRun.SetColor(docxColor(r.t.Text.Color))
 
 	// The entries are in Word's TOC styles and link to the headings. Around
 	// them goes a TOC field (see wrapTOC), so that Word can rebuild the

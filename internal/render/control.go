@@ -40,7 +40,7 @@ var controlKeys = []controlKey{
 
 // steeringKeys are front matter keys that steer the conversion. They are
 // never rows of the control block, whatever their value.
-var steeringKeys = map[string]bool{"cover": true, "watermark": true}
+var steeringKeys = map[string]bool{"cover": true, "watermark": true, "history": true}
 
 // normKey is a front matter key as keys are compared: in lower case, with -
 // for _ (approved_by, Approved-By).

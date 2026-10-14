@@ -42,6 +42,17 @@ by hand today. In progress.
   top right, behind the text and shrunk if it would not fit. A theme sets the
   color and size under `[watermark]`. In DOCX it is Word's own text watermark.
   A watermark that is not text is ignored, and markout says so.
+- A version history table, in PDF and DOCX. `history: git` in the front
+  matter lists the commits that touched the file and carry a `Changelog:`
+  trailer, newest first and following the file through renames: the day of
+  the commit, its author and the text of the trailer. A `Version:` trailer on
+  any of them adds a Version column. The table is titled and labeled in the
+  language of the document (Hungarian or English) and comes right after the
+  control block, at the top of the page after the cover if there is one. It
+  reads the repository on this machine only. Without git, outside a
+  repository, for a file never committed or with no `Changelog:` trailer
+  markout says so and converts the document without the table. A `history`
+  value other than `git` is ignored, and markout says so.
 
 ### Changed
 
