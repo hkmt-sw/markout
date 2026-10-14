@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"net"
 	"os"
 	"path/filepath"
 	"slices"
@@ -319,29 +318,11 @@ func RemoteImageHosts(input string, opts Options) (hosts []RemoteHost, err error
 }
 
 // isLocalHost reports whether a URL host names this machine or an address
-// that is only reachable on the local network. It looks at the name alone and
-// never resolves it, so a public name that points at a private address is not
-// detected.
+// that is only reachable on the local network, by the name alone. The download
+// uses the same rule (render.IsLocalHost) to decide which servers may be at a
+// non-public address, so what the user is shown is what is allowed.
 func isLocalHost(hostport string) bool {
-	host := hostport
-	if h, _, err := net.SplitHostPort(hostport); err == nil {
-		host = h
-	}
-	host = strings.ToLower(strings.Trim(host, "[]"))
-
-	if ip := net.ParseIP(host); ip != nil {
-		return ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() ||
-			ip.IsLinkLocalMulticast() || ip.IsUnspecified()
-	}
-	if host == "localhost" || !strings.Contains(host, ".") {
-		return true // a bare name resolves on the local network only
-	}
-	for _, suffix := range []string{".localhost", ".local", ".internal", ".lan", ".home", ".home.arpa", ".intranet", ".corp"} {
-		if strings.HasSuffix(host, suffix) {
-			return true
-		}
-	}
-	return false
+	return render.IsLocalHost(hostport)
 }
 
 // ConvertFileAuto converts a Markdown file, auto-detecting format from output extension

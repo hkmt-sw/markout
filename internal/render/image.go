@@ -7,15 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/hkmt-sw/markout/internal/theme"
-	"io"
 	"math"
-	"net/http"
 	"net/url"
 	"regexp"
-	"slices"
 	"strconv"
 	"strings"
-	"time"
 
 	resvg "github.com/kanrichan/resvg-go"
 )
@@ -42,7 +38,10 @@ type Options struct {
 	// RemoteHostOf names them: the ones the user was shown and agreed to.
 	// An image on any other server is left as a placeholder, and so is one
 	// that a redirect sends to another server. With none, nothing is
-	// downloaded even if RemoteImages is set.
+	// downloaded even if RemoteImages is set. A server that IsLocalHost does
+	// not name as local must also be at a public address: the download
+	// refuses a name that resolves to a private, loopback, link-local or
+	// other reserved address.
 	RemoteHosts []string
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
@@ -93,54 +92,6 @@ func RemoteHostOf(rawURL string) string {
 		return strings.ToLower(u.Host)
 	}
 	return rawURL
-}
-
-// checkRemoteHost refuses a URL that is not an http(s) address on one of the
-// servers the user agreed to.
-func (o Options) checkRemoteHost(u *url.URL) error {
-	if u.Scheme != "http" && u.Scheme != "https" {
-		return fmt.Errorf("%w: %q is not an http(s) address", ErrRemoteHostNotAllowed, u.Scheme)
-	}
-	host := strings.ToLower(u.Host)
-	if host == "" || !slices.ContainsFunc(o.RemoteHosts, func(h string) bool { return strings.ToLower(h) == host }) {
-		return fmt.Errorf("%w: %s", ErrRemoteHostNotAllowed, u.Host)
-	}
-	return nil
-}
-
-// fetchRemoteImage downloads the image at rawURL, if the user agreed to
-// downloads from its server. A redirect is followed only to a server the user
-// agreed to as well: a server that was shown to the user must not be able to
-// send the download to an address on the local network that was not.
-func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
-	if !opts.RemoteImages {
-		return nil, ErrRemoteImageSkipped
-	}
-	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	if err := opts.checkRemoteHost(req.URL); err != nil {
-		return nil, err
-	}
-	client := &http.Client{
-		Timeout: 15 * time.Second,
-		CheckRedirect: func(next *http.Request, via []*http.Request) error {
-			if len(via) >= maxRedirects {
-				return fmt.Errorf("stopped after %d redirects", maxRedirects)
-			}
-			return opts.checkRemoteHost(next.URL)
-		},
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("fetch image: status %d", resp.StatusCode)
-	}
-	return io.ReadAll(io.LimitReader(resp.Body, MaxImageBytes))
 }
 
 // looksLikeSVG reports whether data appears to be an SVG document.
