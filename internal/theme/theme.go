@@ -85,6 +85,7 @@ type Theme struct {
 	Header   Running    `key:"header"`
 	Footer   Running    `key:"footer"`
 	Control  Control    `key:"control"`
+	TOC      TOC        `key:"toc"`
 	Cover    Cover      `key:"cover"`
 
 	Classification Classification `key:"classification"`
@@ -242,8 +243,9 @@ type Rule struct {
 
 // AlertColors are the colors of one kind of callout.
 type AlertColors struct {
-	Background Color `key:"background"`
-	Border     Color `key:"border" doc:"the bar on the left, and the title"`
+	Background Color  `key:"background"`
+	Border     Color  `key:"border" doc:"the bar on the left, and the title"`
+	Label      string `key:"label" doc:"the title of a callout without one; empty: in the language of the document"`
 }
 
 // Alert is a callout box (note, tip, warning, ...).
@@ -303,6 +305,11 @@ type Running struct {
 // shown in.
 type Control struct {
 	Labels ControlLabels `key:"labels"`
+}
+
+// TOC is the table of contents.
+type TOC struct {
+	Title string `key:"title" doc:"empty: in the language of the document"`
 }
 
 // ControlLabels name the fields of the control block. An empty label is

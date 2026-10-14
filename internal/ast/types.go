@@ -185,9 +185,13 @@ func (t AlertType) String() string {
 
 // Alert represents a callout/alert block (e.g. > [!NOTE])
 type Alert struct {
-	Type     AlertType
-	Title    string // Custom title or default from type
-	Elements []Element
+	Type  AlertType
+	Title string // Custom title or default from type
+	// DefaultTitle is true when Title is only the name of the type (NOTE), not
+	// words of the author. A renderer may then give it in the language of the
+	// document, or in the word the theme chooses.
+	DefaultTitle bool
+	Elements     []Element
 }
 
 func (Alert) elementMarker() { /* marks Alert as an Element */ }

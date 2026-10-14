@@ -1196,7 +1196,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	if err != nil {
 		return err
 	}
-	titleRun.SetText(alert.Title)
+	titleRun.SetText(alertTitle(alert, r.opts.Lang, colors))
 	titleRun.SetBold(true)
 	titleRun.SetSize(runSize(r.t.Text.Size))
 	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
@@ -1403,7 +1403,7 @@ func (r *DocxRenderer) renderListTitle(title string) error {
 
 // renderTableOfContents renders a generated table of contents
 func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
-	if err := r.renderListTitle("Table of Contents"); err != nil {
+	if err := r.renderListTitle(tocTitle(r.opts.Lang, r.t.TOC)); err != nil {
 		return err
 	}
 

@@ -977,7 +977,7 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 		r.textColor(borderColor)
 		r.pdf.SetX(x)
 		r.pdf.SetY(y)
-		r.cell(alert.Title)
+		r.cell(alertTitle(alert, r.opts.Lang, colors))
 	})
 	r.resetText()
 
@@ -1128,7 +1128,7 @@ func (r *PdfRenderer) renderListTitle(title string, room float64) {
 
 func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	lineHeight := r.t.Text.LineHeight
-	r.renderListTitle("Table of Contents", 0)
+	r.renderListTitle(tocTitle(r.opts.Lang, r.t.TOC), 0)
 
 	// Items: the title, a row of dots, and the page the heading is on. The
 	// room for the number is the same whether or not it is known yet, which

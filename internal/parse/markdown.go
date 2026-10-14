@@ -763,11 +763,12 @@ func (w *astWalker) tryConvertAlert(n *gmast.Blockquote) *ast.Alert {
 	}
 
 	title := defaultAlertTitle(name)
+	defaultTitle := isGitHubAlert(name)
 	var elements []ast.Element
 	var lead []ast.InlineRun
 	if rest != "" {
 		if titled {
-			title = rest
+			title, defaultTitle = rest, false
 		} else {
 			lead = append(lead, ast.InlineRun{Text: rest + " "})
 		}
@@ -795,9 +796,10 @@ func (w *astWalker) tryConvertAlert(n *gmast.Blockquote) *ast.Alert {
 	}
 
 	return &ast.Alert{
-		Type:     alertType,
-		Title:    title,
-		Elements: elements,
+		Type:         alertType,
+		Title:        title,
+		DefaultTitle: defaultTitle,
+		Elements:     elements,
 	}
 }
 

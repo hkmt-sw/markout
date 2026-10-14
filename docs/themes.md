@@ -549,7 +549,11 @@ type     = "#F9E2AF"
 
 ### `[alert]` and `[alert.note]`, `[alert.tip]`, `[alert.important]`, `[alert.caution]`, `[alert.warning]`
 
-Callouts such as `> [!NOTE]`.
+Callouts such as `> [!NOTE]`. A callout without a title of its own is
+titled by its kind, in the language of the document: `NOTE`, `TIP`,
+`IMPORTANT`, `CAUTION` and `WARNING` in English, `MEGJEGYZÉS`, `TIPP`,
+`FONTOS`, `VIGYÁZAT` and `FIGYELEM` in Hungarian. A title written by the
+author (`> [!NOTE] My title`) is shown as written.
 
 | Setting | Meaning |
 | --- | --- |
@@ -558,6 +562,7 @@ Callouts such as `> [!NOTE]`.
 | `space-after` | Space below the box (`[alert]`) |
 | `background` | Background of one kind of callout (`[alert.note]` etc.) |
 | `border` | Its bar and title color (`[alert.note]` etc.) |
+| `label` | The title of a callout of this kind that has none of its own, such as `label = "Megjegyzés"` (`[alert.note]` etc.). Empty: given in the language of the document |
 
 ### `[box]`
 
@@ -670,6 +675,14 @@ or English.
 
 `[control]` holds nothing else yet.
 
+### `[toc]`
+
+The generated table of contents.
+
+| Setting | Meaning |
+| --- | --- |
+| `title` | The title above the entries, such as `title = "Contents"`. Empty: given in the language of the document, `Table of Contents` in English and `Tartalomjegyzék` in Hungarian |
+
 ### PDF and DOCX
 
 A theme applies to both formats, with two differences that come from what the
@@ -689,8 +702,7 @@ formats are:
 
 ### What a theme does not control
 
-- Bullets, numbering style and the wording of labels such as
-  "Table of Contents".
+- Bullets and numbering style.
 
 ## When something goes wrong
 
