@@ -953,6 +953,17 @@ func (r *DocxRenderer) embedImage(img ast.Image) error {
 	return r.embedPicture(data, displayWidth, img.Alt)
 }
 
+// maxImageDisplayPx is the widest an image is taken to be shown before it is
+// scaled down to the text: wider than any page, and small enough that a size
+// times it fits 64 bits.
+const maxImageDisplayPx = 1 << 20
+
+// scaleDimension returns size * num / den, at least 1, computed in 64 bits so
+// that a large image cannot overflow it.
+func scaleDimension(size, num, den int) int {
+	return int(max(int64(size)*int64(num)/int64(den), 1))
+}
+
 // embedPicture puts a raster image into the document, displayWidth pixels
 // wide (its own width if 0) but no wider than the text, with a caption
 // under it if one is given.
@@ -986,14 +997,17 @@ func (r *DocxRenderer) embedPicture(data []byte, displayWidth int, caption strin
 
 	// Honor an explicit width hint, then scale down to the content width
 	// (96 DPI), preserving aspect ratio.
-	maxWidthPx := int((r.t.Page.ContentWidth() - r.inset) * 96.0 / 72.0)
+	maxWidthPx := max(int((r.t.Page.ContentWidth()-r.inset)*96.0/72.0), 1)
 	w, h := cfg.Width, cfg.Height
 	if displayWidth > 0 {
-		h = h * displayWidth / w
+		// The text is scaled down to below in any case; the cap only keeps the
+		// arithmetic far from overflowing.
+		displayWidth = min(displayWidth, maxImageDisplayPx)
+		h = scaleDimension(h, displayWidth, w)
 		w = displayWidth
 	}
 	if w > maxWidthPx {
-		h = h * maxWidthPx / w
+		h = scaleDimension(h, maxWidthPx, w)
 		w = maxWidthPx
 	}
 

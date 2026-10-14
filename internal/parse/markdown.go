@@ -545,6 +545,11 @@ var imageSizeHintPattern = regexp.MustCompile(`^(.*)[|¦](\d+)(%?)(?:x\d+)?$`)
 // percentWidthBasePx is the content width a percentage image width refers to.
 const percentWidthBasePx = 600
 
+// maxImageWidthPx caps a width hint. It is far wider than any page, which
+// scales an image down to fit anyway, and small enough that nothing computed
+// from it can overflow.
+const maxImageWidthPx = 10000
+
 func (w *astWalker) convertImage(n *gmast.Image) ast.Image {
 	alt := extractImageAlt(n, w.source)
 	url := string(n.Destination)
@@ -555,10 +560,10 @@ func (w *astWalker) convertImage(n *gmast.Image) ast.Image {
 		// strconv is intentionally avoided elsewhere in this package; parse manually.
 		n := 0
 		for _, c := range m[2] {
-			n = n*10 + int(c-'0')
+			n = min(n*10+int(c-'0'), maxImageWidthPx)
 		}
 		if m[3] == "%" {
-			n = n * percentWidthBasePx / 100
+			n = min(n*percentWidthBasePx/100, maxImageWidthPx)
 		}
 		width = n
 		alt = strings.TrimRight(m[1], " ")
