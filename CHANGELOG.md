@@ -53,6 +53,19 @@ by hand today. In progress.
   repository, for a file never committed or with no `Changelog:` trailer
   markout says so and converts the document without the table. A `history`
   value other than `git` is ignored, and markout says so.
+- PDF/A-2u output, for archiving. `--pdfa` on the command line, `pdfa: true`
+  in the front matter (`pdfa: false` turns it off) or the PDF/A setting in
+  the TUI (`F2`, then `a`; saved with the other settings) makes a PDF that
+  conforms to PDF/A-2u, checked with veraPDF: the file has an identifier, XMP
+  metadata made from the same title, author, language and date as its Info
+  dictionary, an sRGB output intent, and the other things the standard
+  asks of the fonts, streams and links. A plain PDF is made as before. A
+  `pdfa` value that is not `true` or `false` is ignored, and markout says so;
+  `--pdfa` with a `.docx` output warns that it applies to PDF only. The
+  cover page, the classification band and the watermark conform. The
+  tagged PDF/A-2a and PDF/UA are not made. CI converts the sample documents
+  with `--pdfa` and validates them with a pinned veraPDF. The color profile
+  is the CC0 sRGB profile of Compact ICC Profiles.
 
 ### Changed
 

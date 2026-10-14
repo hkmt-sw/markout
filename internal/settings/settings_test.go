@@ -3,6 +3,7 @@ package settings
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"testing"
 	"time"
 
@@ -43,12 +44,12 @@ func TestLoadIgnoresBadFiles(t *testing.T) {
 func TestAllFieldsRoundTrip(t *testing.T) {
 	t.Setenv(EnvPath, filepath.Join(t.TempDir(), "config.json"))
 	when := time.Date(2026, 10, 6, 12, 0, 0, 0, time.UTC)
-	want := Settings{Flavor: "obsidian", Lang: "en-GB", NoUpdateCheck: true, UpdateCheckedAt: when, LatestVersion: "v1.2.0"}
+	want := Settings{Flavor: "obsidian", Lang: "en-GB", PDFA: true, NoUpdateCheck: true, UpdateCheckedAt: when, LatestVersion: "v1.2.0"}
 	if err := Save(want); err != nil {
 		t.Fatal(err)
 	}
 	got := Load()
-	if got.Flavor != want.Flavor || got.Lang != "en-GB" || !got.NoUpdateCheck || !got.UpdateCheckedAt.Equal(when) || got.LatestVersion != "v1.2.0" {
+	if got.Flavor != want.Flavor || got.Lang != "en-GB" || !got.PDFA || !got.NoUpdateCheck || !got.UpdateCheckedAt.Equal(when) || got.LatestVersion != "v1.2.0" {
 		t.Fatalf("Load() = %+v, want %+v", got, want)
 	}
 }
@@ -65,5 +66,31 @@ func TestLoadNormalizesTheLanguage(t *testing.T) {
 		if got := Load().Lang; got != want {
 			t.Errorf("lang %q is read as %q, want %q", written, got, want)
 		}
+	}
+}
+
+// PDF/A is off unless it was saved on, and the file does not mention it
+// when it is off.
+func TestPDFASetting(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "config.json")
+	t.Setenv(EnvPath, path)
+
+	if Load().PDFA {
+		t.Error("PDF/A is on without a settings file")
+	}
+	if err := Save(Settings{Flavor: "gitlab"}); err != nil {
+		t.Fatal(err)
+	}
+	if data, _ := os.ReadFile(path); strings.Contains(string(data), "pdfa") {
+		t.Errorf("the file mentions pdfa while it is off: %s", data)
+	}
+	if err := Save(Settings{Flavor: "gitlab", PDFA: true}); err != nil {
+		t.Fatal(err)
+	}
+	if data, _ := os.ReadFile(path); !strings.Contains(string(data), `"pdfa": true`) {
+		t.Errorf("the file does not say pdfa: %s", data)
+	}
+	if got := Load(); !got.PDFA || got.Flavor != "gitlab" {
+		t.Errorf("Load() = %+v", got)
 	}
 }

@@ -701,7 +701,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 		m.statusKind = statusError
 		return m, nil
 	}
-	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look, Lang: m.lang}
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA}
 	m.converting = true
 	m.status = "converting…"
 	m.statusKind = statusInfo
@@ -783,6 +783,13 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		} else if update.Newer(m.settings.LatestVersion, m.version) {
 			m.updateTo = m.settings.LatestVersion
 		}
+		if err := m.save(); err != nil {
+			m.status = "setting changed, but not saved: " + err.Error()
+			m.statusKind = statusError
+		}
+	case "a", "A":
+		// Takes effect at once, like the update check.
+		m.settings.PDFA = !m.settings.PDFA
 		if err := m.save(); err != nil {
 			m.status = "setting changed, but not saved: " + err.Error()
 			m.statusKind = statusError
@@ -1141,7 +1148,7 @@ func (m Model) flavorDialog() string {
 	}
 
 	// Show as many entries as fit, scrolled to keep the cursor in view.
-	visible := m.height - 12
+	visible := m.height - 13
 	if visible > len(items) {
 		visible = len(items)
 	}
@@ -1153,9 +1160,12 @@ func (m Model) flavorDialog() string {
 		first = cursor - visible + 1
 	}
 
-	updates := "on"
+	updates, pdfa := "on", "off"
 	if m.settings.NoUpdateCheck {
 		updates = "off"
+	}
+	if m.settings.PDFA {
+		pdfa = "on"
 	}
 
 	tab := func(label string, idx int) string {
@@ -1202,8 +1212,9 @@ func (m Model) flavorDialog() string {
 		keyStyle.Render("↑↓")+" "+keyDescStyle.Render("Select")+"  "+
 			keyStyle.Render("Tab")+" "+keyDescStyle.Render("Switch")+"  "+
 			keyStyle.Render("↵")+" "+keyDescStyle.Render("Save")+"  "+
-			keyStyle.Render("u")+" "+keyDescStyle.Render("Updates: "+updates)+"  "+
 			keyStyle.Render("Esc")+" "+keyDescStyle.Render("Close"),
+		keyStyle.Render("u")+" "+keyDescStyle.Render("Updates: "+updates)+"  "+
+			keyStyle.Render("a")+" "+keyDescStyle.Render("PDF/A: "+pdfa),
 	)
 
 	return lipgloss.NewStyle().
@@ -1387,7 +1398,11 @@ func (m Model) formatLine() string {
 	} else {
 		pdf = formatActive.Render("PDF")
 	}
-	return labelStyle.Render("Format:  ") + docx + " " + pdf
+	line := labelStyle.Render("Format:  ") + docx + " " + pdf
+	if m.settings.PDFA && m.format == formatPDF {
+		line += "  " + dimStyle.Render("PDF/A")
+	}
+	return line
 }
 
 func (m Model) outputLine() string {
