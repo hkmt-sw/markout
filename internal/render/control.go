@@ -1,6 +1,8 @@
 package render
 
 import (
+	"fmt"
+	"slices"
 	"strconv"
 	"strings"
 	"time"
@@ -36,15 +38,50 @@ var controlKeys = []controlKey{
 	{"classification", "Classification", "Minősítés", func(l theme.ControlLabels) string { return l.Classification }},
 }
 
+// steeringKeys are front matter keys that steer the conversion. They are
+// never rows of the control block, whatever their value.
+var steeringKeys = map[string]bool{"cover": true}
+
+// normKey is a front matter key as keys are compared: in lower case, with -
+// for _ (approved_by, Approved-By).
+func normKey(key string) string {
+	return strings.ReplaceAll(strings.ToLower(key), "_", "-")
+}
+
+// findKey returns the key of the front matter that norm names, as written.
+// Of several that differ only in case, the first in alphabetical order wins.
+func findKey(fm ast.FrontMatter, norm string) (string, bool) {
+	found := ""
+	for key := range fm.Raw {
+		if normKey(key) == norm && (found == "" || key < found) {
+			found = key
+		}
+	}
+	return found, found != ""
+}
+
+// frontValue is the value of the front matter key that norm names, as the
+// control block shows it; empty if there is none.
+func frontValue(fm ast.FrontMatter, norm string) string {
+	if key, ok := findKey(fm, norm); ok {
+		return controlValue(fm, key)
+	}
+	return ""
+}
+
 // controlFields lists the rows of the control block made from the front
 // matter: the keys it knows first, in their order and under their labels,
 // then the other keys under their own names, as written. A known key is
 // matched whatever its case and with _ for - (approved_by, Approved-By).
 // Other keys show only text; lists, tables, numbers and flags are left out.
-func controlFields(fm ast.FrontMatter, language string, labels theme.ControlLabels) []controlField {
+// The keys that steer the conversion, and those named in omit (as normKey
+// writes them), are not shown.
+func controlFields(fm ast.FrontMatter, language string, labels theme.ControlLabels, omit ...string) []controlField {
+	skip := func(norm string) bool { return steeringKeys[norm] || slices.Contains(omit, norm) }
+
 	known := map[string]string{} // normalized key -> key as written
 	for key := range fm.Raw {
-		norm := strings.ReplaceAll(strings.ToLower(key), "_", "-")
+		norm := normKey(key)
 		for _, k := range controlKeys {
 			if k.key == norm {
 				if prev, seen := known[norm]; !seen || key < prev {
@@ -58,7 +95,7 @@ func controlFields(fm ast.FrontMatter, language string, labels theme.ControlLabe
 	var fields []controlField
 	for _, k := range controlKeys {
 		key, ok := known[k.key]
-		if !ok {
+		if !ok || skip(k.key) {
 			continue
 		}
 		value := controlValue(fm, key)
@@ -76,7 +113,8 @@ func controlFields(fm ast.FrontMatter, language string, labels theme.ControlLabe
 	}
 
 	for _, key := range sortedKeys(fm.Raw) {
-		if _, isKnown := known[strings.ReplaceAll(strings.ToLower(key), "_", "-")]; isKnown {
+		norm := normKey(key)
+		if _, isKnown := known[norm]; isKnown || skip(norm) {
 			continue
 		}
 		// Only text values are shown; lists and maps have no single line
@@ -109,4 +147,30 @@ func controlValue(fm ast.FrontMatter, key string) string {
 		return strconv.FormatFloat(v, 'f', -1, 64)
 	}
 	return ""
+}
+
+// coverFor says whether a document gets a cover page. The front matter's
+// cover key decides when it is true or false; without it, or with anything
+// else (which is ignored, and named in the warning), the theme does.
+func coverFor(fm ast.FrontMatter, themed bool) (cover bool, warning string) {
+	key, ok := findKey(fm, "cover")
+	if !ok {
+		return themed, ""
+	}
+	if asked, isBool := fm.Raw[key].(bool); isBool {
+		return asked, ""
+	}
+	return themed, fmt.Sprintf("cover in the front matter must be true or false, not %v; it was ignored.", fm.Raw[key])
+}
+
+// coverOf says whether a document gets a cover page: it is decided by the
+// front matter, when that is the first element of the document, and the
+// warning says what is wrong with its cover key.
+func coverOf(doc *ast.Document, themed bool) (cover bool, warning string) {
+	if len(doc.Elements) > 0 {
+		if fm, ok := doc.Elements[0].(ast.FrontMatter); ok {
+			return coverFor(fm, themed)
+		}
+	}
+	return false, ""
 }

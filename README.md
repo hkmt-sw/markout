@@ -240,6 +240,33 @@ document (here Hungarian; English for any other language): `title`,
 name. A theme can rename the labels under
 [`[control.labels]`](docs/themes.md#controllabels).
 
+## Cover page
+
+`cover: true` in the front matter gives a document a cover page: the title in
+large type, the `subtitle` under it, and under them the rest of the control
+block. The text starts on the next page. The cover page has no header or
+footer, though it counts as page 1; in DOCX the title and subtitle are in
+Word's Title and Subtitle styles.
+
+```markdown
+---
+title: Mentési eljárásrend
+subtitle: Informatikai üzemeltetés
+version: 1.2
+classification: Belső
+cover: true
+---
+```
+
+A theme can give every document with front matter a cover with `[cover]`
+(`enabled = true`), which also sets its sizes and colors; `cover: false`
+takes it off one document. See
+[Cover page](docs/themes.md#cover-page) for the settings.
+
+A header or footer can show the version and the classification of the
+document with `{version}` and `{classification}`, next to `{title}`,
+`{author}`, `{date}`, `{page}` and `{pages}`.
+
 ## Update notifications
 
 When a newer release exists, the TUI says so in its top border:

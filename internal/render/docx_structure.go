@@ -149,11 +149,10 @@ func (r *DocxRenderer) numberingXML() []byte {
 
 // styleDefinitions are the styles the document uses, written from the theme:
 // Normal for ordinary text, the heading styles, the styles of table of
-// contents entries, and the character style of links (their color; a link in
-// the text is underlined by itself, an entry of the table of contents is
-// not). Text in these styles
-// carries no formatting of its own, so changing a style in Word changes the
-// text.
+// contents entries, Title and Subtitle for the cover page, and the character
+// style of links (their color; a link in the text is underlined by itself,
+// an entry of the table of contents is not). Text in these styles carries no
+// formatting of its own, so changing a style in Word changes the text.
 func (r *DocxRenderer) styleDefinitions() map[string]string {
 	styles := map[string]string{}
 	fonts := func(name string) string {
@@ -196,6 +195,32 @@ func (r *DocxRenderer) styleDefinitions() map[string]string {
 			`<w:style w:type="paragraph" w:styleId="TOC%d"><w:name w:val="toc %d"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="39"/>`+
 				`<w:pPr>%s<w:spacing w:before="0" w:after="0" w:line="%d" w:lineRule="atLeast"/><w:ind w:left="%d"/></w:pPr></w:style>`,
 			n, n, whole, twips(text.LineHeight), twips(float64(n-1)*r.t.List.Indent))
+	}
+
+	// The title and the subtitle of a cover page; the lines of the cover keep
+	// the proportions of a first-level heading
+	if r.cover {
+		c := r.t.Cover
+		ratio := 1.2
+		if h1 := r.t.Heading[0]; h1.Size > 0 {
+			ratio = h1.LineHeight / h1.Size
+		}
+		for _, s := range []struct {
+			id       string
+			priority int
+			size     float64
+			color    theme.Color
+			bold     string
+		}{
+			{coverTitleStyle, 10, c.TitleSize, c.TitleColor, `<w:b/><w:bCs/>`},
+			{coverSubtitleStyle, 11, c.SubtitleSize, c.SubtitleColor, ``},
+		} {
+			styles[s.id] = fmt.Sprintf(
+				`<w:style w:type="paragraph" w:styleId="%s"><w:name w:val="%s"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:uiPriority w:val="%d"/><w:qFormat/>`+
+					`<w:pPr>%s<w:spacing w:before="0" w:after="0" w:line="%d" w:lineRule="atLeast"/></w:pPr>`+
+					`<w:rPr>%s%s<w:color w:val="%s"/>%s</w:rPr></w:style>`,
+				s.id, s.id, s.priority, whole, twips(s.size*ratio), fonts(r.t.Fonts.Heading), s.bold, s.color.Hex(), size(s.size))
+		}
 	}
 
 	styles["Hyperlink"] = `<w:style w:type="character" w:styleId="Hyperlink"><w:name w:val="Hyperlink"/><w:basedOn w:val="DefaultParagraphFont"/><w:uiPriority w:val="99"/>` +

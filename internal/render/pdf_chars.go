@@ -108,6 +108,9 @@ func (r *PdfRenderer) warnings() []string {
 	if r.unhyphenated {
 		out = append(out, unhyphenatedWarning(r.opts.Lang))
 	}
+	if r.coverProblem != "" {
+		out = append(out, r.coverProblem)
+	}
 	if r.rightToLeft {
 		out = append(out, "right-to-left text (Hebrew, Arabic) is not laid out in PDF: its letters come out in reverse order.")
 	}

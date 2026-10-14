@@ -620,7 +620,8 @@ func validate(th Theme, pdf bool) error {
 		"code.block-size": th.Code.BlockSize, "code.block-line-height": th.Code.BlockLineHeight,
 		"table.line-height": th.Table.LineHeight,
 		"footnote.size":     th.Footnote.Size, "footnote.line-height": th.Footnote.LineHeight,
-		"caption.size": th.Caption.Size,
+		"caption.size":     th.Caption.Size,
+		"cover.title-size": th.Cover.TitleSize, "cover.subtitle-size": th.Cover.SubtitleSize,
 	}
 	if !th.Header.Empty() {
 		sizes["header.size"] = th.Header.Size
@@ -634,6 +635,9 @@ func validate(th Theme, pdf bool) error {
 	}
 	if !th.Footer.Empty() && p.MarginBottom < th.Footer.Size+16 {
 		return fmt.Errorf("footer: the bottom margin (%.0f points) is too small to hold a footer; make page.margin-bottom at least %.0f", p.MarginBottom, th.Footer.Size+16)
+	}
+	if th.Cover.Top < 0 {
+		return fmt.Errorf("cover.top is %g points; it cannot be negative", th.Cover.Top)
 	}
 	for i, h := range th.Heading {
 		sizes[fmt.Sprintf("heading.h%d.size", i+1)] = h.Size

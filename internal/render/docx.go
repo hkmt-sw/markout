@@ -45,6 +45,13 @@ type DocxRenderer struct {
 	mathProblems mathProblems
 
 	diagramProblems diagramProblems
+
+	// See docx_cover.go: whether the document has a cover page, what its
+	// header and footer say, and what to tell the user of the front matter's
+	// cover key.
+	cover        bool
+	info         docInfo
+	coverProblem string
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -63,12 +70,20 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
 	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
 	r.equations, r.mathProblems, r.diagramProblems = nil, mathProblems{}, diagramProblems{}
+	r.info = infoOf(astDoc)
+	r.cover, r.coverProblem = coverOf(astDoc, r.t.Cover.Enabled)
 	r.setupDocument()
 	r.collectHeadings(astDoc.Elements)
 
-	for _, elem := range astDoc.Elements {
+	for i, elem := range astDoc.Elements {
 		if err := r.renderElement(elem); err != nil {
 			return err
+		}
+		// The text starts on the page after the cover
+		if i == 0 && r.cover && len(astDoc.Elements) > 1 {
+			if err := r.endCover(); err != nil {
+				return err
+			}
 		}
 	}
 
@@ -79,7 +94,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		}
 	}
 
-	if err := r.addRunning(infoOf(astDoc)); err != nil {
+	if err := r.addRunning(r.info); err != nil {
 		return err
 	}
 
@@ -100,13 +115,16 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated()); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning()); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
 
 	os.Remove(tempFile)
 	if r.opts.Warn != nil {
+		if r.coverProblem != "" {
+			r.opts.Warn(r.coverProblem)
+		}
 		if w := r.mathProblems.warning(); w != "" {
 			r.opts.Warn(w)
 		}
@@ -1414,11 +1432,18 @@ func tocMark(para domain.Paragraph, mark string) error {
 	return run.SetText(mark)
 }
 
-// renderFrontMatter sets the front matter as the document control block: a
-// table with a column of labels and a column of values, a thin line between
-// fields.
+// renderFrontMatter sets the front matter as a cover page, for a document
+// that has one, and otherwise as the document control block.
 func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
-	fields := controlFields(fm, r.opts.Lang, r.t.Control.Labels)
+	if r.cover {
+		return r.renderCover(fm)
+	}
+	return r.renderControlBlock(controlFields(fm, r.opts.Lang, r.t.Control.Labels))
+}
+
+// renderControlBlock sets fields as the document control block: a table with
+// a column of labels and a column of values, a thin line between fields.
+func (r *DocxRenderer) renderControlBlock(fields []controlField) error {
 	if len(fields) == 0 {
 		return nil
 	}
@@ -1498,6 +1523,11 @@ func (r *DocxRenderer) addRunning(info docInfo) error {
 		if err := r.fillRunning(header, h, info, true); err != nil {
 			return err
 		}
+		if r.coverHidesRunning() {
+			if err := r.emptyFirstPage(section, true); err != nil {
+				return err
+			}
+		}
 	}
 	if f := r.t.Footer; !f.Empty() {
 		footer, err := section.Footer(domain.FooterDefault)
@@ -1506,6 +1536,11 @@ func (r *DocxRenderer) addRunning(info docInfo) error {
 		}
 		if err := r.fillRunning(footer, f, info, false); err != nil {
 			return err
+		}
+		if r.coverHidesRunning() {
+			if err := r.emptyFirstPage(section, false); err != nil {
+				return err
+			}
 		}
 	}
 	return nil
@@ -1832,7 +1867,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1869,6 +1904,10 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 			content = indentTables(content, tableInsets)
 			content = wrapTOC(content)
 			content = insertMath(content, equations)
+			content = startNewPage(content)
+			if firstPageApart {
+				content = setTitlePage(content)
+			}
 		}
 		if file.Name == "word/styles.xml" {
 			content = replaceStyles(content, styles)
