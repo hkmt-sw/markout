@@ -37,7 +37,8 @@ func historyTable(h ast.VersionHistory, language string) (title string, table as
 		table.Alignments = append(table.Alignments, ast.AlignLeft)
 	}
 	for _, e := range h.Entries {
-		values := []string{e.Date, e.Author, e.Change}
+		// A name is kept on one line: its parts are joined by no-break spaces
+		values := []string{e.Date, strings.Join(strings.Fields(e.Author), "\u00a0"), e.Change}
 		if h.HasVersions() {
 			values = append([]string{e.Version}, values...)
 		}
