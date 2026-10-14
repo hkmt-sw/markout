@@ -319,3 +319,58 @@ approved-by = "Approver"
 		}
 	}
 }
+
+func TestCoverSettings(t *testing.T) {
+	// Every theme has the defaults: no cover unless asked for, and colors
+	// from the theme's own
+	for name, th := range map[string]Theme{"pdf": Default().PDF, "docx": Default().DOCX} {
+		want := Cover{TitleSize: 28, TitleColor: th.Heading[0].Color, SubtitleSize: 16, SubtitleColor: th.Text.Muted, Top: 160}
+		if th.Cover != want {
+			t.Errorf("default %s cover: %+v, want %+v", name, th.Cover, want)
+		}
+	}
+	for _, info := range (Loader{}).List() {
+		set, err := Loader{}.Load(info.Name)
+		if err != nil {
+			t.Fatal(err)
+		}
+		if set.PDF.Cover.Enabled || set.DOCX.Cover.Enabled || set.PDF.Cover.TitleSize != 28 {
+			t.Errorf("%s: cover %+v", info.Name, set.PDF.Cover)
+		}
+	}
+
+	set, err := Loader{}.Load(writeTheme(t, t.TempDir(), "cover.toml", `
+[cover]
+enabled = true
+title-size = 32
+title-color = "#112233"
+subtitle-color = "#445566"
+
+[pdf.cover]
+top = "1in"
+subtitle-size = 18
+`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := Cover{Enabled: true, TitleSize: 32, TitleColor: Color{0x11, 0x22, 0x33}, SubtitleSize: 18, SubtitleColor: Color{0x44, 0x55, 0x66}, Top: 72}
+	if got := set.PDF.Cover; got != want {
+		t.Errorf("pdf cover: %+v, want %+v", got, want)
+	}
+	if got := set.DOCX.Cover; got.TitleSize != 32 || !got.Enabled || got.Top != 160 || got.SubtitleSize != 16 {
+		t.Errorf("docx cover: %+v", got)
+	}
+
+	for text, want := range map[string]string{
+		"[cover]\nenabled = \"yes\"\n":  "cover.enabled must be true or false",
+		"[cover]\ntitle-size = 0\n":     "cover.title-size is 0 points",
+		"[cover]\ntop = -1\n":           "cover.top is -1 points",
+		"[cover]\ntitle-colour = 1\n":   "cover.title-colour is not a setting",
+		"[cover]\nsubtitle-color = 5\n": "cover.subtitle-color: a color is written in quotes",
+	} {
+		_, err := Loader{}.Load(writeTheme(t, t.TempDir(), "bad.toml", text))
+		if err == nil || !strings.Contains(err.Error(), want) {
+			t.Errorf("%q: %v, want %q", text, err, want)
+		}
+	}
+}

@@ -10,6 +10,7 @@ pages carry a header and a footer. The same theme styles both PDF and DOCX.
 - [How a theme file works](#how-a-theme-file-works)
 - [Fonts](#fonts)
 - [Headers and footers](#headers-and-footers)
+- [Cover page](#cover-page)
 - [Settings reference](#settings-reference)
 - [When something goes wrong](#when-something-goes-wrong)
 
@@ -217,6 +218,8 @@ The text may contain:
 | `{title}` | the title from the document's front matter, or its first top-level heading |
 | `{author}` | the author from the front matter |
 | `{date}` | the date from the front matter |
+| `{version}` | the version from the front matter, as the control block shows it (`1.0`) |
+| `{classification}` | the classification from the front matter |
 | `{page}` | the page number |
 | `{pages}` | the number of pages |
 
@@ -226,6 +229,42 @@ has it.
 
 The text sits in the middle of its margin, so the margin has to be large
 enough for it; markout says so if it is not.
+
+## Cover page
+
+A document with front matter can start with a cover page: the title in large
+type, the subtitle under it, and under them the control block with the rest of
+the front matter. The text starts on the next page.
+
+```markdown
+---
+title: Mentési eljárásrend
+subtitle: Informatikai üzemeltetés
+version: 1.2
+classification: Belső
+cover: true
+---
+```
+
+The `cover` key of the front matter asks for it (`true`) or refuses it
+(`false`). Without the key the theme decides: with `enabled = true` every
+document that has front matter gets a cover page.
+
+```toml
+[cover]
+enabled = true
+```
+
+`cover: false` turns the cover off for one document of a theme that gives
+them all one. Only `true` and `false` count; anything else (`cover: yes` in
+quotes, say) is ignored, and markout says so. A document without front matter
+has no cover page.
+
+The title is the `title` of the front matter, or the first top-level heading
+if there is none. `subtitle` is the key with that name; on a page without a
+cover it is an ordinary row of the control block. The cover page counts as
+page 1 in `{page}` and `{pages}`, but carries no header or footer. The `cover`
+key is never shown as a row of the control block.
 
 ## Settings reference
 
@@ -475,6 +514,19 @@ that is not drawn. The frames of a chart's subgraphs take the colors of
 | `size` | Font size |
 | `color` | Text color |
 | `rule` | `true` for a line between it and the page's text |
+
+### `[cover]`
+
+The [cover page](#cover-page).
+
+| Setting | Meaning |
+| --- | --- |
+| `enabled` | `true` gives every document with front matter a cover page; `cover: false` in the front matter of one takes it off. Default `false` |
+| `title-size` | Font size of the title. Default 28 |
+| `title-color` | Color of the title. Default: the color of first-level headings of the default theme |
+| `subtitle-size` | Font size of the subtitle. Default 16 |
+| `subtitle-color` | Color of the subtitle. Default: the `muted` color of `[text]` |
+| `top` | How far below the top margin the title starts. Default 160 |
 
 ### `[control.labels]`
 

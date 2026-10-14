@@ -78,6 +78,13 @@ type PdfRenderer struct {
 
 	waiting []waitingHeading // headings laid out and not yet drawn
 
+	// The cover page; see renderCover. cover is whether the document has one,
+	// info what it says, and coverProblem what to tell the user of the
+	// front matter's cover key.
+	cover        bool
+	info         docInfo
+	coverProblem string
+
 	// For the page numbers of a table of contents: the page each heading
 	// is on in this layout, and where they were in the layout before.
 	headingPages map[string]int
@@ -166,6 +173,8 @@ func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
 	r.math, r.formulas, r.mathProblems = nil, map[mathKeyFor]typesetResult{}, mathProblems{}
 	r.diagramProblems = diagramProblems{}
 	r.waiting = nil
+	r.info = infoOf(astDoc)
+	r.cover, r.coverProblem = coverOf(astDoc, r.t.Cover.Enabled)
 	r.headingPages = map[string]int{}
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
@@ -177,8 +186,13 @@ func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
 	r.addPage()
 	r.currentY = r.marginTop
 
-	for _, elem := range astDoc.Elements {
+	for i, elem := range astDoc.Elements {
 		r.renderElement(elem)
+		// The text starts on the page after the cover
+		if i == 0 && r.cover && len(astDoc.Elements) > 1 {
+			r.addPage()
+			r.currentY = r.marginTop
+		}
 	}
 
 	// A heading with nothing after it
@@ -190,7 +204,7 @@ func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
 	}
 
 	// Headers and footers go on last, when the page count is known
-	return r.drawRunning(infoOf(astDoc))
+	return r.drawRunning(r.info)
 }
 
 func (r *PdfRenderer) setupDocument() error {
@@ -1135,11 +1149,19 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	r.textColor(theme.Black)
 }
 
-// renderFrontMatter sets the front matter as the document control block: a
-// box with a column of labels and a column of values, a thin line between
-// fields.
+// renderFrontMatter sets the front matter as a cover page, for a document
+// that has one, and otherwise as the document control block.
 func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
-	fields := controlFields(fm, r.opts.Lang, r.t.Control.Labels)
+	if r.cover {
+		r.renderCover(fm)
+		return
+	}
+	r.renderControlBlock(controlFields(fm, r.opts.Lang, r.t.Control.Labels))
+}
+
+// renderControlBlock sets fields as the document control block: a box with a
+// column of labels and a column of values, a thin line between fields.
+func (r *PdfRenderer) renderControlBlock(fields []controlField) {
 	if len(fields) == 0 {
 		return
 	}

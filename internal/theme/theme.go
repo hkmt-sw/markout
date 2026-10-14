@@ -81,6 +81,7 @@ type Theme struct {
 	Header   Running    `key:"header"`
 	Footer   Running    `key:"footer"`
 	Control  Control    `key:"control"`
+	Cover    Cover      `key:"cover"`
 }
 
 // Page is the paper and its margins.
@@ -278,11 +279,12 @@ type Caption struct {
 
 // Running is a header or footer: a line of text repeated on every page, in
 // the top or bottom margin. Each of the three positions may hold text with
-// the placeholders {title}, {author} and {date} (from the document's front
-// matter; the title falls back to the first heading), {page} and {pages}.
-// With all three empty there is no header or footer.
+// the placeholders {title}, {author}, {date}, {version} and {classification}
+// (from the document's front matter; the title falls back to the first
+// heading), {page} and {pages}. With all three empty there is no header or
+// footer.
 type Running struct {
-	Left   string  `key:"left" doc:"text with {title} {author} {date} {page} {pages}"`
+	Left   string  `key:"left" doc:"text with {title} {author} {date} {version} {classification} {page} {pages}"`
 	Center string  `key:"center"`
 	Right  string  `key:"right"`
 	Size   float64 `key:"size"`
@@ -308,6 +310,17 @@ type ControlLabels struct {
 	Date           string `key:"date"`
 	ReviewDate     string `key:"review-date"`
 	Classification string `key:"classification"`
+}
+
+// Cover is the cover page: the title and subtitle of a document and its
+// control block on a page of their own, ahead of the text.
+type Cover struct {
+	Enabled       bool    `key:"enabled" doc:"every document with front matter gets a cover page"`
+	TitleSize     float64 `key:"title-size"`
+	TitleColor    Color   `key:"title-color"`
+	SubtitleSize  float64 `key:"subtitle-size"`
+	SubtitleColor Color   `key:"subtitle-color"`
+	Top           float64 `key:"top" doc:"how far below the top margin the title starts"`
 }
 
 // Empty reports whether there is nothing to show.

@@ -74,11 +74,16 @@ func Default() Set {
 		Caption:  Caption{Size: 9},
 		Header:   Running{Size: 9, Color: Hex("4A4A68")},
 		Footer:   Running{Size: 9, Color: Hex("4A4A68")},
+		Cover:    Cover{TitleSize: 28, SubtitleSize: 16, Top: 160},
 		Colors: Colors{
 			Math: Hex("7C3AED"), Highlight: Hex("FFF082"),
 			Inserted: Hex("16A34A"), Deleted: Hex("CF222E"),
 		},
 	}
+
+	// The cover takes its colors from the theme's own: the first heading's
+	// for the title, the muted text's for the subtitle
+	pdf.Cover.TitleColor, pdf.Cover.SubtitleColor = pdf.Heading[0].Color, pdf.Text.Muted
 
 	docx := pdf
 	docx.Page.Width, docx.Page.Height = 210*mm, 297*mm

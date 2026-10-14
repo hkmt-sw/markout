@@ -9,6 +9,22 @@ All notable changes to markout are listed here. The format follows
 Policy documents: the parts of a policy or procedure that are typed into Word
 by hand today. In progress.
 
+### Added
+
+- A cover page, in PDF and DOCX. `cover: true` in the front matter puts the
+  title in large type on a page of its own, with the `subtitle` under it and
+  the rest of the control block below; the text starts on the next page. A
+  theme can ask for one for every document that has front matter with
+  `enabled = true` under `[cover]`, and `cover: false` takes it off one
+  document. The theme sets the sizes and colors of the title and subtitle and
+  how far down the page the title starts. The title is the `title` of the
+  front matter, or the first top-level heading. The cover has no header or
+  footer, and counts as page 1. In DOCX the title and subtitle are in Word's
+  Title and Subtitle styles. A `cover` value that is not `true` or `false` is
+  ignored, and markout says so.
+- `{version}` and `{classification}` in headers and footers, filled in from
+  the front matter as the control block shows them.
+
 ### Changed
 
 - The front matter is shown as a document control block: a table with the

@@ -86,7 +86,7 @@ func TestGuideCoversEverySetting(t *testing.T) {
 	}
 	check(reflect.TypeOf(Theme{}), "")
 
-	for _, other := range []string{"`extends`", "`description`", "`size`", "`orientation`", "`margin`", "[fonts.family.", "[pdf", "[docx", "{title}", "{author}", "{date}", "{page}", "{pages}", "--export-theme", "--list-themes"} {
+	for _, other := range []string{"`extends`", "`description`", "`size`", "`orientation`", "`margin`", "[fonts.family.", "[pdf", "[docx", "{title}", "{author}", "{date}", "{version}", "{classification}", "{page}", "{pages}", "--export-theme", "--list-themes"} {
 		if !strings.Contains(guide, other) {
 			t.Errorf("the guide does not mention %s", other)
 		}

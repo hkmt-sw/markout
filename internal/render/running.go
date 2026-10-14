@@ -11,12 +11,13 @@ import (
 
 // docInfo is what a header or footer can say about the document.
 type docInfo struct {
-	title, author, date string
+	title, author, date     string
+	version, classification string
 }
 
-// infoOf collects the document's title, author and date from its front
-// matter. A document without a title there is called by its first top-level
-// heading.
+// infoOf collects the document's title, author, date, version and
+// classification from its front matter. A document without a title there is
+// called by its first top-level heading.
 func infoOf(doc *ast.Document) docInfo {
 	var info docInfo
 	heading := ""
@@ -24,6 +25,7 @@ func infoOf(doc *ast.Document) docInfo {
 		switch e := elem.(type) {
 		case ast.FrontMatter:
 			info.title, info.author, info.date = e.Title, e.Author, e.Date
+			info.version, info.classification = frontValue(e, "version"), frontValue(e, "classification")
 		case ast.Heading:
 			if heading == "" && e.Level == 1 {
 				var b strings.Builder
@@ -42,7 +44,10 @@ func infoOf(doc *ast.Document) docInfo {
 
 // static fills in the placeholders that are the same on every page.
 func (d docInfo) static(text string) string {
-	return strings.NewReplacer("{title}", d.title, "{author}", d.author, "{date}", d.date).Replace(text)
+	return strings.NewReplacer(
+		"{title}", d.title, "{author}", d.author, "{date}", d.date,
+		"{version}", d.version, "{classification}", d.classification,
+	).Replace(text)
 }
 
 // expand fills in every placeholder for one page.
@@ -79,6 +84,10 @@ func (r *PdfRenderer) drawRunning(info docInfo) error {
 	}
 	pages := r.page
 	for page := 1; page <= pages; page++ {
+		// A cover page has neither, though it counts as a page
+		if page == 1 && r.cover {
+			continue
+		}
 		if err := r.pdf.SetPage(page); err != nil {
 			return err
 		}
