@@ -113,7 +113,8 @@ extends.
 extends = "report"
 ```
 
-**`description`** is the line shown next to the theme in lists.
+**`description`** is the line shown next to the theme in lists. It is text in
+quotes.
 
 **Lengths** are numbers of points (1/72 inch), or text with a unit:
 

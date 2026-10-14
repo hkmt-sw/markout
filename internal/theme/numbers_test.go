@@ -2,6 +2,7 @@ package theme
 
 import (
 	"math"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"testing"
@@ -72,5 +73,30 @@ func TestParseLengthRefusesNaNAndInf(t *testing.T) {
 		if n, err := parseLength(bad); err == nil {
 			t.Errorf("parseLength(%v) = %g, accepted", bad, n)
 		}
+	}
+}
+
+// A description or a name that is not text is an error like any other key of
+// the wrong type, not something to drop.
+func TestDescriptionAndNameMustBeText(t *testing.T) {
+	dir := t.TempDir()
+	for i, tc := range []struct{ text, want string }{
+		{"description = 5\n", "description must be text in quotes"},
+		{"description = true\n", "description must be text in quotes"},
+		{"description = [\"a\"]\n", "description must be text in quotes"},
+		{"name = 5\n", "name must be text in quotes"},
+	} {
+		path := writeTheme(t, dir, "text"+strconv.Itoa(i)+".toml", tc.text)
+		_, err := Loader{UserDir: dir}.Load(path)
+		if err == nil {
+			t.Errorf("%q was accepted", tc.text)
+		} else if !strings.Contains(err.Error(), tc.want) || !strings.Contains(err.Error(), filepath.Base(path)) {
+			t.Errorf("%q: error %q does not mention %q and the file", tc.text, err, tc.want)
+		}
+	}
+
+	set, err := Loader{UserDir: dir}.Load(writeTheme(t, dir, "fine.toml", "name = \"x\"\ndescription = \"A fine theme\"\n"))
+	if err != nil || set.PDF.Description != "A fine theme" {
+		t.Errorf("description of text: %q, %v", set.PDF.Description, err)
 	}
 }

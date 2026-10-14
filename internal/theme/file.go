@@ -173,10 +173,14 @@ func (l Loader) load(ref, fromDir string, chain []string) (Set, error) {
 	for key, value := range raw {
 		switch key {
 		case "extends":
-		case "name":
-		case "description":
-			s, _ := value.(string)
-			set.PDF.Description, set.DOCX.Description = s, s
+		case "name", "description":
+			s, isString := value.(string)
+			if !isString {
+				return fail(fmt.Errorf("%s must be text in quotes", key))
+			}
+			if key == "description" {
+				set.PDF.Description, set.DOCX.Description = s, s
+			}
 		case "pdf", "docx":
 			m, ok := value.(map[string]any)
 			if !ok {
