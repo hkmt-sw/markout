@@ -3,6 +3,7 @@ package convert
 import (
 	"errors"
 	"fmt"
+	"io"
 	"net"
 	"os"
 	"path/filepath"
@@ -49,6 +50,7 @@ const opValidateInput = "validate input"
 var (
 	ErrFileNotFound  = errors.New("input file not found")
 	ErrFileTooLarge  = errors.New("input file exceeds maximum size (10MB)")
+	ErrNotRegular    = errors.New("input is not a regular file")
 	ErrInvalidFormat = errors.New("could not determine output format from extension")
 	ErrParseFailure  = errors.New("failed to parse markdown")
 	ErrRenderFailure = errors.New("failed to render document")
@@ -199,6 +201,12 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 		return nil, &ConversionError{Op: opValidateInput, Err: err}
 	}
 
+	// A device or a pipe reports a size of 0 and has no end (/dev/zero), or
+	// blocks until someone writes to it, so only regular files are read.
+	if !info.Mode().IsRegular() {
+		return nil, &ConversionError{Op: opValidateInput, Err: fmt.Errorf("%w: %s", ErrNotRegular, input)}
+	}
+
 	// Validate file size
 	if info.Size() > MaxFileSize {
 		return nil, &ConversionError{
@@ -207,10 +215,24 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 		}
 	}
 
-	// Read input file
-	content, err := os.ReadFile(input)
+	// Read input file. The limit is applied to what is read as well, because
+	// the size above can be out of date by now (a file that is still being
+	// written) or wrong for the file system; one byte more than the limit is
+	// read to tell a file of exactly the limit from a larger one.
+	file, err := os.Open(input)
 	if err != nil {
 		return nil, &ConversionError{Op: "read input", Err: err}
+	}
+	defer file.Close()
+	content, err := io.ReadAll(io.LimitReader(file, MaxFileSize+1))
+	if err != nil {
+		return nil, &ConversionError{Op: "read input", Err: err}
+	}
+	if len(content) > MaxFileSize {
+		return nil, &ConversionError{
+			Op:  opValidateInput,
+			Err: fmt.Errorf("%w: file is larger than %d bytes", ErrFileTooLarge, MaxFileSize),
+		}
 	}
 
 	// Parse markdown
