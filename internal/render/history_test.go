@@ -51,15 +51,15 @@ func TestHistoryTable(t *testing.T) {
 		firstRow []string
 	}{
 		{"English", noVersions, "", "Version history", []string{"Date", "Author", "Change"},
-			[]string{"2026-01-10", "Anna Kovács", "Első változat."}},
+			[]string{"2026-01-10", "Anna\u00a0Kovács", "Első változat."}},
 		{"another language", noVersions, "de", "Version history", []string{"Date", "Author", "Change"},
-			[]string{"2026-01-10", "Anna Kovács", "Első változat."}},
+			[]string{"2026-01-10", "Anna\u00a0Kovács", "Első változat."}},
 		{"Hungarian", noVersions, "hu", "Változástörténet", []string{"Dátum", "Szerző", "Változás"},
-			[]string{"2026-01-10", "Anna Kovács", "Első változat."}},
+			[]string{"2026-01-10", "Anna\u00a0Kovács", "Első változat."}},
 		{"Hungarian region", testHistory, "hu-HU", "Változástörténet", []string{"Verzió", "Dátum", "Szerző", "Változás"},
-			[]string{"1.1", "2026-03-15", "Béla Nagy", "A mentések megőrzési ideje 90 nap."}},
+			[]string{"1.1", "2026-03-15", "Béla\u00a0Nagy", "A mentések megőrzési ideje 90 nap."}},
 		{"with versions", testHistory, "en-GB", "Version history", []string{"Version", "Date", "Author", "Change"},
-			[]string{"1.1", "2026-03-15", "Béla Nagy", "A mentések megőrzési ideje 90 nap."}},
+			[]string{"1.1", "2026-03-15", "Béla\u00a0Nagy", "A mentések megőrzési ideje 90 nap."}},
 	} {
 		title, table := historyTable(tc.h, tc.lang)
 		if title != tc.title {
@@ -188,7 +188,7 @@ func TestDOCXVersionHistory(t *testing.T) {
 		if !(block < title && title < header && header < row && row < text) {
 			t.Errorf("out of order: block %d, title %d, header %d, row %d, text %d", block, title, header, row, text)
 		}
-		for _, want := range []string{">Dátum<", ">Szerző<", ">Változás<", ">2026-03-15<", ">Béla Nagy<", ">Első változat.<"} {
+		for _, want := range []string{">Dátum<", ">Szerző<", ">Változás<", ">2026-03-15<", ">Béla\u00a0Nagy<", ">Első változat.<"} {
 			indexIn(t, doc, want)
 		}
 		for _, not := range []string{">history<", ">git<"} {
@@ -233,5 +233,14 @@ func TestHistoryIsNoControlField(t *testing.T) {
 		if strings.EqualFold(f.label, "history") {
 			t.Errorf("history is a row: %+v", f)
 		}
+	}
+}
+
+// An author's name is not broken across lines, however narrow its column.
+func TestHistoryAuthorStaysWhole(t *testing.T) {
+	h := ast.VersionHistory{Entries: []ast.VersionEntry{{Date: "2026-01-12", Author: "Kovács  Anna", Change: "Első változat."}}}
+	_, table := historyTable(h, "hu")
+	if got := table.Rows[0].Cells[1].Runs[0].Text; got != "Kovács\u00a0Anna" {
+		t.Errorf("author cell %q, want the parts joined by a no-break space", got)
 	}
 }
