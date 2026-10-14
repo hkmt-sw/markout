@@ -7,6 +7,7 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"sort"
@@ -36,14 +37,20 @@ const fixturesDir = "../../fixtures"
 func goldenFixtures(t *testing.T) map[string]flavor.Flavor {
 	t.Helper()
 	out := map[string]flavor.Flavor{}
-	files, _ := filepath.Glob(filepath.Join(fixturesDir, "flavors", "*.md"))
+	files, err := filepath.Glob(filepath.Join(fixturesDir, "flavors", "*.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
 	for _, f := range files {
 		id := strings.TrimSuffix(filepath.Base(f), ".md")
 		if fl, ok := flavor.ByID(id); ok {
 			out[f] = fl
 		}
 	}
-	top, _ := filepath.Glob(filepath.Join(fixturesDir, "*.md"))
+	top, err := filepath.Glob(filepath.Join(fixturesDir, "*.md"))
+	if err != nil {
+		t.Fatal(err)
+	}
 	for _, f := range top {
 		out[f] = flavor.Default()
 	}
@@ -86,6 +93,18 @@ func TestGoldenOutput(t *testing.T) {
 	}
 }
 
+// goldenThemeNames lists the themes TestGoldenThemes records: the ones that
+// ship with markout, but the default, which TestGoldenOutput records.
+func goldenThemeNames() []string {
+	var names []string
+	for _, info := range (theme.Loader{}).List() {
+		if info.Name != theme.DefaultName {
+			names = append(names, info.Name)
+		}
+	}
+	return names
+}
+
 // The built-in themes are recorded too, on the showcase document, so a change
 // to a theme or to how the renderers apply one shows up.
 func TestGoldenThemes(t *testing.T) {
@@ -98,12 +117,9 @@ func TestGoldenThemes(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	for _, info := range (theme.Loader{}).List() {
-		if info.Name == theme.DefaultName {
-			continue // recorded by TestGoldenOutput
-		}
-		t.Run(info.Name, func(t *testing.T) {
-			set, err := theme.Loader{}.Load(info.Name)
+	for _, name := range goldenThemeNames() {
+		t.Run(name, func(t *testing.T) {
+			set, err := theme.Loader{}.Load(name)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -114,7 +130,7 @@ func TestGoldenThemes(t *testing.T) {
 			if err := RenderDocx(doc, docxPath, opts); err != nil {
 				t.Fatalf("render DOCX: %v", err)
 			}
-			checkGolden(t, "theme-"+info.Name+".docx.txt", docxOutline(t, docxPath))
+			checkGolden(t, "theme-"+name+".docx.txt", docxOutline(t, docxPath))
 
 			pdf := NewPdfRenderer()
 			pdf.opts = opts
@@ -122,8 +138,47 @@ func TestGoldenThemes(t *testing.T) {
 			if err := pdf.RenderToFile(doc, filepath.Join(dir, "out.pdf")); err != nil {
 				t.Fatalf("render PDF: %v", err)
 			}
-			checkGolden(t, "theme-"+info.Name+".pdf.txt", pdf.trace.String())
+			checkGolden(t, "theme-"+name+".pdf.txt", pdf.trace.String())
 		})
+	}
+}
+
+// A recording that no test makes any more is a leftover of a renamed or
+// removed fixture, and would stay there unnoticed. The tests above and in
+// corpus_test.go say which recordings they make; every other file under
+// testdata/golden is an orphan.
+func TestGoldenHasNoOrphans(t *testing.T) {
+	made := map[string]bool{}
+	for path := range goldenFixtures(t) {
+		name := strings.TrimSuffix(filepath.Base(path), ".md")
+		made[name+".docx.txt"], made[name+".pdf.txt"] = true, true
+	}
+	for _, name := range goldenThemeNames() {
+		made["theme-"+name+".docx.txt"], made["theme-"+name+".pdf.txt"] = true, true
+	}
+	for _, path := range corpusFiles(t) {
+		made[corpusGoldenName(path)] = true
+	}
+	for _, path := range exampleFiles(t) {
+		made[exampleGoldenName(path)] = true
+	}
+
+	root := filepath.Join("testdata", "golden")
+	err := filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
+		if err != nil || d.IsDir() {
+			return err
+		}
+		rel, err := filepath.Rel(root, path)
+		if err != nil {
+			return err
+		}
+		if rel = filepath.ToSlash(rel); !made[rel] {
+			t.Errorf("testdata/golden/%s is not made by any golden test; delete it", rel)
+		}
+		return nil
+	})
+	if err != nil {
+		t.Fatal(err)
 	}
 }
 

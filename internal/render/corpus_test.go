@@ -29,24 +29,65 @@ import (
 // documents are read as.
 var corpusFlavors = map[string]string{"github": "github", "mkdocs": "mkdocs", "myst": "myst", "docusaurus": "docusaurus"}
 
-func TestGoldenCorpus(t *testing.T) {
-	files, _ := filepath.Glob(filepath.Join(fixturesDir, "corpus", "*", "*.md*"))
+// corpusFiles lists the documents of the corpus.
+func corpusFiles(t *testing.T) []string {
+	t.Helper()
+	files, err := filepath.Glob(filepath.Join(fixturesDir, "corpus", "*", "*.md*"))
+	if err != nil {
+		t.Fatal(err)
+	}
 	slices.Sort(files)
 	if len(files) < 10 {
 		t.Fatalf("found only %d documents under %s/corpus", len(files), fixturesDir)
 	}
-	for _, path := range files {
+	return files
+}
+
+// goldenDocName names a document by its directory and its file: the part of
+// the name of its recording that tells which document it is.
+func goldenDocName(path string) string {
+	return filepath.Base(filepath.Dir(path)) + "-" + strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+}
+
+// corpusGoldenName is the recording of a document of the corpus, relative to
+// testdata/golden.
+func corpusGoldenName(path string) string {
+	return "corpus/" + goldenDocName(path) + ".txt"
+}
+
+func TestGoldenCorpus(t *testing.T) {
+	for _, path := range corpusFiles(t) {
 		dir := filepath.Base(filepath.Dir(path))
-		name := dir + "-" + strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+		name := goldenDocName(path)
 		t.Run(name, func(t *testing.T) {
 			fl, ok := flavor.ByID(corpusFlavors[dir])
 			if !ok {
 				t.Fatalf("no flavor for the directory %s", dir)
 			}
 			summary, _ := convertAndSummarize(t, path, fl)
-			checkGolden(t, filepath.Join("corpus", name+".txt"), summary)
+			checkGolden(t, corpusGoldenName(path), summary)
 		})
 	}
+}
+
+// exampleFiles lists the examples.
+func exampleFiles(t *testing.T) []string {
+	t.Helper()
+	files, err := filepath.Glob(filepath.Join("..", "..", "examples", "*", "*.md*"))
+	if err != nil {
+		t.Fatal(err)
+	}
+	slices.Sort(files)
+	if len(files) < 8 {
+		t.Fatalf("found only %d examples", len(files))
+	}
+	return files
+}
+
+// exampleGoldenName is the recording of an example, relative to
+// testdata/golden.
+func exampleGoldenName(path string) string {
+	return "examples/" + goldenDocName(path) + ".txt"
 }
 
 // The examples (the examples directory of the repository) are documents
@@ -55,14 +96,9 @@ func TestGoldenCorpus(t *testing.T) {
 // asked of them: that the conversion has nothing to warn about. An example
 // that needs a warning is a poor example, or shows something to fix.
 func TestGoldenExamples(t *testing.T) {
-	files, _ := filepath.Glob(filepath.Join("..", "..", "examples", "*", "*.md*"))
-	slices.Sort(files)
-	if len(files) < 8 {
-		t.Fatalf("found only %d examples", len(files))
-	}
-	for _, path := range files {
+	for _, path := range exampleFiles(t) {
 		dir := filepath.Base(filepath.Dir(path))
-		name := dir + "-" + strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+		name := goldenDocName(path)
 		t.Run(name, func(t *testing.T) {
 			// A directory named after a flavor holds documents in it
 			fl, ok := flavor.ByID(dir)
@@ -73,7 +109,7 @@ func TestGoldenExamples(t *testing.T) {
 			for _, w := range warnings {
 				t.Errorf("the conversion warns: %s", w)
 			}
-			checkGolden(t, filepath.Join("examples", name+".txt"), summary)
+			checkGolden(t, exampleGoldenName(path), summary)
 		})
 	}
 }
