@@ -1935,7 +1935,7 @@ func RenderDocxToFileWithBaseDir(doc *ast.Document, filename, baseDir string) er
 // RenderDocx renders to DOCX with the given options.
 func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 	renderer := NewDocxRenderer()
-	renderer.opts = opts
+	renderer.opts = opts.withFetchState()
 	return renderer.RenderToFile(doc, filename)
 }
 

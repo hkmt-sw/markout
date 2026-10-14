@@ -38,6 +38,7 @@ func imageServerAt(t *testing.T, names ...string) (port string, hits *atomic.Int
 	t.Cleanup(srv.Close)
 	_, port, _ = net.SplitHostPort(strings.TrimPrefix(srv.URL, "http://"))
 
+	noProxy(t)
 	old := dialTarget
 	t.Cleanup(func() { dialTarget = old })
 	dialTarget = func(addr string) string {
@@ -121,21 +122,6 @@ func TestFetchRefusesRedirectToNonPublicAddress(t *testing.T) {
 	opts.RemoteHosts = []string{local, "127.0.0.1:" + port}
 	if _, err := fetchRemoteImage("http://"+local+"/to-127.0.0.1:"+port, opts); err != nil {
 		t.Errorf("redirect to an agreed local address: %v", err)
-	}
-}
-
-// The download connects directly: an environment proxy would resolve the
-// server out of sight.
-func TestFetchIgnoresEnvironmentProxy(t *testing.T) {
-	port, hits := imageServerAt(t, "printer.local")
-	t.Setenv("HTTP_PROXY", "http://127.0.0.1:1")
-	t.Setenv("http_proxy", "http://127.0.0.1:1")
-	host := "printer.local:" + port
-	if _, err := fetchRemoteImage("http://"+host+"/img.png", Options{RemoteImages: true, RemoteHosts: []string{host}}); err != nil {
-		t.Fatal(err)
-	}
-	if hits.Load() != 1 {
-		t.Errorf("hits = %d, want 1", hits.Load())
 	}
 }
 

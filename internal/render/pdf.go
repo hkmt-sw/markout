@@ -1484,6 +1484,6 @@ func RenderPdfToFileWithBaseDir(doc *ast.Document, filename, baseDir string) err
 // RenderPdf renders to PDF with the given options.
 func RenderPdf(doc *ast.Document, filename string, opts Options) error {
 	renderer := NewPdfRenderer()
-	renderer.opts = opts
+	renderer.opts = opts.withFetchState()
 	return renderer.RenderToFile(doc, filename)
 }

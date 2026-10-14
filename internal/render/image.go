@@ -43,6 +43,8 @@ type Options struct {
 	// refuses a name that resolves to a private, loopback, link-local or
 	// other reserved address.
 	RemoteHosts []string
+	// fetch is what the downloads of one conversion share; see withFetchState.
+	fetch *fetchState
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
 	// Lang is the language of the document as a normalized language tag

@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"slices"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 )
@@ -51,7 +52,7 @@ func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
 	if err := opts.checkRemoteHost(req.URL); err != nil {
 		return nil, err
 	}
-	client := newImageClient()
+	client := newImageClient(opts)
 	defer client.CloseIdleConnections()
 	client.CheckRedirect = func(next *http.Request, via []*http.Request) error {
 		if len(via) >= maxRedirects {
@@ -75,34 +76,133 @@ func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
 // otherwise, so the system resolver decides.
 var dialTarget = func(addr string) string { return addr }
 
-// newImageClient makes the HTTP client an image download uses. Its dialer
-// looks at the address each connection is really made to, right before the
-// connect, so a name that resolves to a non-public address, or to a different
-// one on a later lookup, or a redirect that does, is refused whatever the
-// name looks like. A server the user was shown as local (IsLocalHost, which
-// is what the list of servers marks) is exempt: that is the case where the
-// user agreed to a download from this machine or the local network.
+// proxyFunc decides which proxy, if any, a request goes through: the one the
+// environment names (HTTP_PROXY, HTTPS_PROXY, NO_PROXY). The transport and the
+// check of a name before a proxied request both ask it, so they cannot
+// disagree. Tests replace it.
+var proxyFunc = http.ProxyFromEnvironment
+
+// lookupAddrs resolves a server name to its addresses. Tests replace it.
+var lookupAddrs = func(ctx context.Context, host string) ([]netip.Addr, error) {
+	return net.DefaultResolver.LookupNetIP(ctx, "ip", host)
+}
+
+// lookupTimeout is how long the name of a server behind a proxy is given to
+// resolve here.
+const lookupTimeout = 5 * time.Second
+
+// viaProxyKey marks the context of a request that goes through a proxy, which
+// is how the dialer knows the address it is given is the proxy's.
+type viaProxyKey struct{}
+
+// fetchState is what the downloads of one conversion share: the servers
+// already warned about.
+type fetchState struct {
+	mu     sync.Mutex
+	warned map[string]bool
+}
+
+// withFetchState gives opts the state its downloads share; the renderers call
+// it once for each conversion. Without it a warning is given for every image.
+func (o Options) withFetchState() Options {
+	if o.fetch == nil {
+		o.fetch = &fetchState{warned: map[string]bool{}}
+	}
+	return o
+}
+
+// warnUnchecked tells the user, once for each server, that the address of a
+// server behind a proxy could not be checked.
+func (o Options) warnUnchecked(host string) {
+	if o.Warn == nil {
+		return
+	}
+	if st := o.fetch; st != nil {
+		st.mu.Lock()
+		seen := st.warned[host]
+		st.warned[host] = true
+		st.mu.Unlock()
+		if seen {
+			return
+		}
+	}
+	o.Warn(fmt.Sprintf("the address of %s cannot be checked here; the proxy resolves it", host))
+}
+
+// newImageClient makes the HTTP client an image download uses. The name of a
+// server says little about where it is, so where the download goes is checked,
+// in one of two ways. A server the user was shown as local (IsLocalHost, which
+// is what the list of servers marks) is exempt from both: the user agreed to a
+// download from this machine or the local network.
 //
-// The environment proxy (HTTP_PROXY and the like) is not used. With one, the
-// connection goes to the proxy and the proxy resolves the server, so the
-// address could not be checked here, and the download would reach whatever
-// the proxy can reach. Image downloads connect directly instead.
-func newImageClient() *http.Client {
+// Direct, the dialer looks at the address each connection is really made to,
+// right before the connect, so a name that resolves to a non-public address,
+// or to a different one on a later lookup, or a redirect that does, is
+// refused whatever the name looks like.
+//
+// Through a proxy (the environment decides, as proxyFunc says) the connection
+// goes to the proxy, which resolves the server, so there is no address to look
+// at here. The name is resolved here before the request is sent, and refused
+// if any address it has is not public. That is a check of the name, not of the
+// connection: the proxy may resolve it differently, and where the name cannot
+// be resolved here at all, as on a network where only the proxy resolves
+// names, the request is sent anyway and a warning says it could not be
+// checked. This is a known limit; the proxy decides there. Every redirect is
+// a request of its own and is checked the same way.
+func newImageClient(opts Options) *http.Client {
 	checked := &net.Dialer{Timeout: 10 * time.Second, Control: refuseNonPublic}
-	local := &net.Dialer{Timeout: 10 * time.Second}
+	plain := &net.Dialer{Timeout: 10 * time.Second}
 	transport := &http.Transport{
-		Proxy: nil,
+		Proxy: proxyFunc,
 		DialContext: func(ctx context.Context, network, addr string) (net.Conn, error) {
 			d := checked
-			if IsLocalHost(addr) {
-				d = local
+			if ctx.Value(viaProxyKey{}) != nil || IsLocalHost(addr) {
+				d = plain // the proxy's address, or a server shown as local
 			}
 			return d.DialContext(ctx, network, dialTarget(addr))
 		},
 		TLSHandshakeTimeout: 10 * time.Second,
 		MaxIdleConns:        2,
 	}
-	return &http.Client{Timeout: 15 * time.Second, Transport: transport}
+	return &http.Client{Timeout: 15 * time.Second, Transport: &checkingTransport{base: transport, opts: opts}}
+}
+
+// checkingTransport checks the name of a server before a request through a
+// proxy is sent; see newImageClient.
+type checkingTransport struct {
+	base *http.Transport
+	opts Options
+}
+
+func (t *checkingTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	proxy, err := proxyFunc(req)
+	if err != nil || proxy == nil {
+		return t.base.RoundTrip(req) // direct: the dialer checks (or the transport reports the error)
+	}
+	if !IsLocalHost(req.URL.Host) {
+		if err := t.checkName(req.Context(), req.URL.Hostname()); err != nil {
+			return nil, err
+		}
+	}
+	return t.base.RoundTrip(req.WithContext(context.WithValue(req.Context(), viaProxyKey{}, true)))
+}
+
+// checkName resolves host here and refuses it if any of its addresses is not
+// public. A name that cannot be resolved is let through with a warning.
+func (t *checkingTransport) checkName(ctx context.Context, host string) error {
+	ctx, cancel := context.WithTimeout(ctx, lookupTimeout)
+	defer cancel()
+	addrs, err := lookupAddrs(ctx, host)
+	if err != nil || len(addrs) == 0 {
+		t.opts.warnUnchecked(host)
+		return nil
+	}
+	for _, a := range addrs {
+		if !isPublicAddr(a) {
+			return fmt.Errorf("%w: %s is at %s", ErrRemoteAddressNotAllowed, host, a)
+		}
+	}
+	return nil
 }
 
 // refuseNonPublic is a net.Dialer Control function: it sees the resolved
@@ -191,3 +291,7 @@ func IsLocalHost(hostport string) bool {
 	}
 	return false
 }
+
+// CloseIdleConnections lets http.Client.CloseIdleConnections reach the
+// transport underneath.
+func (t *checkingTransport) CloseIdleConnections() { t.base.CloseIdleConnections() }
