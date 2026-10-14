@@ -86,6 +86,19 @@ by hand today. In progress.
 
 - Front matter with nothing to show, such as only a list of `tags`, gave an
   empty box in DOCX. It gives none, as in PDF.
+- In DOCX the first row of every table was a header row that Word repeats on
+  each page a table runs on to, also in tables without a header and in the
+  tables markout draws code blocks, callouts and the control block with. Only
+  a table's real header row repeats now. (#94)
+- Callouts and the table of contents were titled in English in a document of
+  another language. In a Hungarian document they now read MEGJEGYZÉS, TIPP,
+  FONTOS, FIGYELEM, VIGYÁZAT and Tartalomjegyzék; a title the author wrote is
+  kept as written. A theme renames them with `label` under `[alert.note]` and
+  the other kinds, and with `title` under the new `[toc]`. Callouts of other
+  kinds, such as MkDocs `info` or `danger`, keep the title they had. (#95)
+- A no-break space (`&nbsp;`) did not keep words together in PDF: a line could
+  break at it, and a name such as "Kovács Anna" was broken in a narrow table
+  column. The narrow no-break space and the figure space did the same. (#96)
 
 ## [1.9.0] - 2026-10-14
 
