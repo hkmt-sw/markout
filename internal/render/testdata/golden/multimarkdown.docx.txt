@@ -3,7 +3,6 @@ TABLE
   COL w=7958
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
       P{indent=80/80 spacing=80/80 line=320/atLeast}
         R{b color=4A4A68 font=Georgia sz=22} "Title"

@@ -27,9 +27,11 @@ type DocxRenderer struct {
 
 	// inset is how far, in points, blocks are moved in from the left margin:
 	// the blocks of a list item sit under its text. tableInsets has it, in
-	// twips, for every table of the body.
-	inset       float64
-	tableInsets []int
+	// twips, for every table of the body; tableHeaders has whether the table
+	// has a header row, which is to repeat on the pages the table runs on to.
+	inset        float64
+	tableInsets  []int
+	tableHeaders []bool
 
 	// See docx_structure.go.
 	bookmarks     map[string]string // heading ID -> the name of its bookmark
@@ -75,7 +77,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.t = r.opts.theme().DOCX
 	r.doc = docx.NewDocument()
 	r.footnotes = nil // Reset footnotes
-	r.inset, r.tableInsets = 0, nil
+	r.inset, r.tableInsets, r.tableHeaders = 0, nil, nil
 	r.bookmarks, r.bookmarkNames, r.bookmarked = map[string]string{}, map[string]bool{}, map[string]bool{}
 	r.bookmarkSeq, r.orderedNums, r.listsUsed = 0, 0, false
 	r.equations, r.mathProblems, r.diagramProblems = nil, mathProblems{}, diagramProblems{}
@@ -127,7 +129,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.tableHeaders, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -548,7 +550,7 @@ func formatOrderedBullet(num int, level int) string {
 
 func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 	// Create a single-cell table for IDE-like appearance
-	table, err := r.addTable(1, 1)
+	table, err := r.addTable(1, 1, false)
 	if err != nil {
 		return err
 	}
@@ -652,7 +654,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 		return nil
 	}
 
-	table, err := r.addTable(numRows, numCols)
+	table, err := r.addTable(numRows, numCols, headerRows > 0)
 	if err != nil {
 		return err
 	}
@@ -1146,7 +1148,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	bgColor, borderColor := colors.Background.Hex(), colors.Border.Hex()
 
 	// Create a single-cell table (like code blocks)
-	table, err := r.addTable(1, 1)
+	table, err := r.addTable(1, 1, false)
 	if err != nil {
 		return err
 	}
@@ -1194,7 +1196,7 @@ func (r *DocxRenderer) renderAlert(alert ast.Alert) error {
 	if err != nil {
 		return err
 	}
-	titleRun.SetText(alert.Title)
+	titleRun.SetText(alertTitle(alert, r.opts.Lang, colors))
 	titleRun.SetBold(true)
 	titleRun.SetSize(runSize(r.t.Text.Size))
 	titleRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
@@ -1231,7 +1233,7 @@ func (r *DocxRenderer) renderMermaidDiagram(diagram ast.MermaidDiagram) error {
 	}
 
 	// Anything else is shown as its source, in a labeled panel
-	table, err := r.addTable(1, 1)
+	table, err := r.addTable(1, 1, false)
 	if err != nil {
 		return err
 	}
@@ -1401,7 +1403,7 @@ func (r *DocxRenderer) renderListTitle(title string) error {
 
 // renderTableOfContents renders a generated table of contents
 func (r *DocxRenderer) renderTableOfContents(toc ast.TableOfContents) error {
-	if err := r.renderListTitle("Table of Contents"); err != nil {
+	if err := r.renderListTitle(tocTitle(r.opts.Lang, r.t.TOC)); err != nil {
 		return err
 	}
 
@@ -1475,7 +1477,7 @@ func (r *DocxRenderer) renderControlBlock(fields []controlField) error {
 	if len(fields) == 0 {
 		return nil
 	}
-	table, err := r.addTable(len(fields), 2)
+	table, err := r.addTable(len(fields), 2, false)
 	if err != nil {
 		return err
 	}
@@ -1839,10 +1841,12 @@ func (r *DocxRenderer) contentTwips() int {
 	return twips(r.t.Page.ContentWidth() - r.inset)
 }
 
-// addTable adds a table to the body, noting how far it is to be moved in;
-// see indentTables.
-func (r *DocxRenderer) addTable(rows, cols int) (domain.Table, error) {
+// addTable adds a table to the body, noting how far it is to be moved in and
+// whether its first row is a header; see indentTables and
+// addTableRowProperties.
+func (r *DocxRenderer) addTable(rows, cols int, header bool) (domain.Table, error) {
 	r.tableInsets = append(r.tableInsets, twips(r.inset))
+	r.tableHeaders = append(r.tableHeaders, header)
 	return r.doc.AddTable(rows, cols)
 }
 
@@ -1903,7 +1907,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool, marks pageMarks) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, tableHeaders []bool, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool, marks pageMarks) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1938,7 +1942,7 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 
 		// Modify document.xml to add table row properties
 		if file.Name == "word/document.xml" {
-			content = addTableRowProperties(content)
+			content = addTableRowProperties(content, tableHeaders)
 			content = indentTables(content, tableInsets)
 			content = wrapTOC(content)
 			content = insertMath(content, equations)
@@ -2020,32 +2024,33 @@ func indentTables(content []byte, insets []int) []byte {
 	return []byte(out.String())
 }
 
-// addTableRowProperties adds cantSplit and tblHeader to table rows
-func addTableRowProperties(content []byte) []byte {
+// addTableRowProperties adds cantSplit to the table rows, and tblHeader to the
+// first row of the tables that have a header row, which headers tells in the
+// order of the tables. Word repeats such a row on every page the table runs on
+// to, so a table drawn for layout must not have one.
+func addTableRowProperties(content []byte, headers []bool) []byte {
 	str := string(content)
+	// With the tables not matching, no one can say which has a header
+	if strings.Count(str, "<w:tbl>") != len(headers) {
+		headers = nil
+	}
 
-	// Pattern: <w:tr> or <w:tr ...>
-	// We need to add <w:trPr><w:cantSplit/></w:trPr> after <w:tr...>
-	// For the first row of each table, also add <w:tblHeader/>
-
-	// Replace table rows to add cantSplit
-	// This is a simplified approach - add cantSplit to all rows
-
-	// Find all <w:tr> tags and add properties
 	var result strings.Builder
 	i := 0
+	table := -1 // the table we are in, counting from 0
 	tableRowCount := 0
 	inTable := false
 
 	for i < len(str) {
 		// Check for table start
-		if i+6 < len(str) && str[i:i+6] == "<w:tbl" {
+		if strings.HasPrefix(str[i:], "<w:tbl>") {
 			inTable = true
+			table++
 			tableRowCount = 0
 		}
 
 		// Check for table end
-		if i+8 < len(str) && str[i:i+8] == "</w:tbl>" {
+		if strings.HasPrefix(str[i:], "</w:tbl>") {
 			inTable = false
 		}
 
@@ -2065,12 +2070,9 @@ func addTableRowProperties(content []byte) []byte {
 				hasTrPr := len(nextContent) > 7 && nextContent[:7] == "<w:trPr"
 
 				if !hasTrPr {
-					// Add trPr with cantSplit (and tblHeader for first row)
-					if tableRowCount == 0 {
-						// First row - add tblHeader for repeat on each page
+					if tableRowCount == 0 && table < len(headers) && headers[table] {
 						result.WriteString("<w:trPr><w:cantSplit/><w:tblHeader/></w:trPr>")
 					} else {
-						// Other rows - just cantSplit
 						result.WriteString("<w:trPr><w:cantSplit/></w:trPr>")
 					}
 				}

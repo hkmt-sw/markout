@@ -3,7 +3,6 @@ TABLE
   COL w=7958
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
       P{indent=80/80 spacing=80/80 line=320/atLeast}
         R{b color=4A4A68 font=Georgia sz=22} "Title"
@@ -63,7 +62,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=EF4444 font=Georgia sz=22} "WARNING"

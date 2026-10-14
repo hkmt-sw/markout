@@ -45,7 +45,7 @@ func softHyphens(text string) (string, map[int][]int) {
 				places[word] = append(places[word], letters)
 			}
 			continue
-		case unicode.IsSpace(c):
+		case unicode.IsSpace(c) && !isNoBreakSpace(c):
 			inWord = false
 		case !inWord:
 			word, letters, inWord = word+1, 1, true
@@ -74,9 +74,23 @@ func (b *lineBreaker) breaksOf(word string, soft []int) []wordBreak {
 		return nil
 	}
 
-	// What is hyphenated is the word without the punctuation around it
+	// Words joined by a no-break space are hyphenated one by one
 	letters := []rune(word)
-	from, to := 0, len(letters)
+	var breaks []wordBreak
+	start := 0
+	for i := 0; i <= len(letters); i++ {
+		if i < len(letters) && letters[i] != ' ' {
+			continue
+		}
+		breaks = append(breaks, b.breaksIn(letters, start, i)...)
+		start = i + 1
+	}
+	return breaks
+}
+
+// breaksIn is where letters[from:to], one word, may be broken. What is
+// hyphenated is the word without the punctuation around it.
+func (b *lineBreaker) breaksIn(letters []rune, from, to int) []wordBreak {
 	for from < to && !inWord(letters[from]) {
 		from++
 	}

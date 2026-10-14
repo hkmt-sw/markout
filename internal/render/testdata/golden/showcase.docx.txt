@@ -3,7 +3,6 @@ TABLE
   COL w=7958
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
       P{indent=80/80 spacing=80/80 line=320/atLeast}
         R{b color=4A4A68 font=Georgia sz=22} "Title"
@@ -41,7 +40,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "markout fixtures/showcase.md showcase.pdf"
@@ -196,7 +194,6 @@ TABLE
   COL w=8310
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=8310}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "markout notes.md notes.pdf"
@@ -311,7 +308,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=CF222E font=Consolas sz=19} "func "
@@ -358,7 +354,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=3B82F6 font=Georgia sz=22} "NOTE"
@@ -370,7 +365,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=22C55E font=Georgia sz=22} "TIP"
@@ -385,7 +379,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/A855F7 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F3E8FF w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=A855F7 font=Georgia sz=22} "IMPORTANT"
@@ -397,7 +390,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EAB308 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEF9C3 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=EAB308 font=Georgia sz=22} "CAUTION"
@@ -409,7 +401,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/EF4444 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=FEE2E2 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=EF4444 font=Georgia sz=22} "WARNING"
@@ -509,7 +500,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
       P{indent=160/160 spacing=160/0 line=240/atLeast}
         R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"

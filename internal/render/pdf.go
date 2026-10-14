@@ -977,7 +977,7 @@ func (r *PdfRenderer) renderAlert(alert ast.Alert) {
 		r.textColor(borderColor)
 		r.pdf.SetX(x)
 		r.pdf.SetY(y)
-		r.cell(alert.Title)
+		r.cell(alertTitle(alert, r.opts.Lang, colors))
 	})
 	r.resetText()
 
@@ -1128,7 +1128,7 @@ func (r *PdfRenderer) renderListTitle(title string, room float64) {
 
 func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	lineHeight := r.t.Text.LineHeight
-	r.renderListTitle("Table of Contents", 0)
+	r.renderListTitle(tocTitle(r.opts.Lang, r.t.TOC), 0)
 
 	// Items: the title, a row of dots, and the page the heading is on. The
 	// room for the number is the same whether or not it is known yet, which
@@ -1473,7 +1473,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 func cellLongestWord(cell ast.TableCell) int {
 	longest := 0
 	for _, run := range cell.Runs {
-		for _, w := range strings.Fields(run.Text) {
+		for _, w := range words(run.Text) {
 			if l := len([]rune(w)); l > longest {
 				longest = l
 			}
