@@ -21,7 +21,7 @@ import (
 	"github.com/yuin/goldmark/util"
 	"go.abhg.dev/goldmark/frontmatter"
 	"go.abhg.dev/goldmark/toc"
-	"gopkg.in/yaml.v3"
+	"go.yaml.in/yaml/v3"
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
@@ -77,7 +77,7 @@ func newMarkdown(f flavor.Features, frontMatter bool) goldmark.Markdown {
 	add(f.DefinitionLists, extension.DefinitionList)
 	add(f.Typographer, extension.Typographer)
 	add(f.MathDollar, mathjax.MathJax)
-	add(f.FrontMatter || frontMatter, &frontmatter.Extender{})
+	add(f.FrontMatter || frontMatter, &frontmatter.Extender{Formats: frontMatterFormats})
 	add(f.Emoji, emoji.Emoji)
 
 	parserOpts := []parser.Option{parser.WithAutoHeadingID()}
@@ -162,6 +162,14 @@ func Parse(source []byte) (*ast.Document, error) {
 // ParseFlavor parses the source the way the given flavor reads it
 func ParseFlavor(source []byte, fl flavor.Flavor, baseDir string) (*ast.Document, error) {
 	return NewParserFor(fl, baseDir).Parse(source)
+}
+
+// frontMatterFormats are the front matter formats goldmark-frontmatter reads.
+// Its own YAML format decodes with gopkg.in/yaml.v3, whose nodes are not ours,
+// so the YAML one is set up with the same library as the rest of the code.
+var frontMatterFormats = []frontmatter.Format{
+	frontmatter.TOML,
+	{Name: "YAML", Delim: '-', Unmarshal: yaml.Unmarshal},
 }
 
 // extractFrontMatter decodes front matter data into our AST type
