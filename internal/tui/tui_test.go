@@ -981,3 +981,133 @@ func TestPDFAToggle(t *testing.T) {
 		t.Error("a did not turn PDF/A off again")
 	}
 }
+
+// A second conversion would write the same output file as the one running,
+// whichever way it is started.
+func TestNoSecondConversionWhileConverting(t *testing.T) {
+	dir := t.TempDir()
+	in := filepath.Join(dir, "doc.md")
+	os.WriteFile(in, []byte("# Hi\n"), 0o644)
+
+	m := newAt(dir)
+	m.format = formatDOCX
+	cursorOn(t, &m, "doc.md")
+
+	next, cmd := m.Update(key("enter"))
+	m = next.(Model)
+	if !m.converting || cmd == nil {
+		t.Fatal("the first Enter did not start a conversion")
+	}
+	status := m.status
+
+	next, cmd = m.Update(key("enter"))
+	m = next.(Model)
+	if cmd != nil {
+		t.Error("Enter started a second conversion")
+	}
+	if !m.converting || m.status != status {
+		t.Errorf("the running conversion was disturbed: converting=%v, status=%q", m.converting, m.status)
+	}
+
+	// With the output in place, Enter would open the overwrite dialog; that
+	// must not happen while converting either
+	out := filepath.Join(dir, "doc.docx")
+	os.WriteFile(out, []byte("OLD"), 0o644)
+	next, _ = m.Update(key("enter"))
+	if next.(Model).confirmOverwrite {
+		t.Error("the overwrite dialog opened during a conversion")
+	}
+
+	// The answers of the dialogs are no way around it
+	overwrite := m
+	overwrite.confirmOverwrite, overwrite.pendingOut = true, out
+	remote := m
+	remote.confirmRemote, remote.pendingIn, remote.pendingOut = true, in, out
+	for _, tc := range []struct {
+		dialog Model
+		key    string
+	}{{overwrite, "y"}, {remote, "l"}, {remote, "s"}} {
+		next, cmd := tc.dialog.Update(key(tc.key))
+		if cmd != nil {
+			t.Errorf("%q in a dialog started a second conversion", tc.key)
+		}
+		if got := next.(Model); got.confirmOverwrite || got.confirmRemote {
+			t.Errorf("%q left a dialog open", tc.key)
+		}
+	}
+}
+
+// A settings file that could not be loaded must survive the automatic save of
+// the update check; the user's first change moves it aside.
+func TestBrokenSettingsFileIsNotOverwritten(t *testing.T) {
+	m, _, saved := updateModel(t, "v1.0.0")
+	m.settingsErr = errors.New("cannot parse the settings file")
+	asides := 0
+	m.setAside = func() (string, error) {
+		asides++
+		return "/conf/config.json.bak", nil
+	}
+
+	// The update check does not save, but its result is announced
+	next, _ := m.Update(m.Init()())
+	m = next.(Model)
+	if len(*saved) != 0 || asides != 0 {
+		t.Fatalf("the update check wrote the settings: saved=%d, set aside=%d", len(*saved), asides)
+	}
+	if m.updateTo != "v9.0.0" {
+		t.Errorf("the newer release is not announced: %q", m.updateTo)
+	}
+
+	// An explicit change moves the file aside once, says so, and saves
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(key("a"))
+	m = next.(Model)
+	if asides != 1 || len(*saved) != 1 || !(*saved)[0].PDFA {
+		t.Fatalf("after the change: set aside=%d, saved=%+v", asides, *saved)
+	}
+	if !strings.Contains(m.status, "config.json.bak") || m.statusKind != statusWarning {
+		t.Errorf("status = %q (%d), want it to name the backup", m.status, m.statusKind)
+	}
+	next, _ = m.Update(key("a"))
+	if asides != 1 || len(*saved) != 2 {
+		t.Errorf("a second change: set aside=%d, saved=%d", asides, len(*saved))
+	}
+}
+
+// If the broken file cannot be kept, nothing is saved over it.
+func TestBrokenSettingsFileIsKeptOrNothingIsSaved(t *testing.T) {
+	m, _, saved := updateModel(t, "v1.0.0")
+	m.settingsErr = errors.New("cannot parse the settings file")
+	m.setAside = func() (string, error) { return "", errors.New("read-only") }
+
+	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(key("a"))
+	m = next.(Model)
+	if len(*saved) != 0 {
+		t.Fatal("the settings were saved over a file that could not be kept")
+	}
+	if !strings.Contains(m.status, "not saved") || m.statusKind != statusError || m.settingsErr == nil {
+		t.Errorf("status = %q (%d), settingsErr = %v", m.status, m.statusKind, m.settingsErr)
+	}
+}
+
+func TestSettingsProblemIsShownAtStart(t *testing.T) {
+	m := New(Config{SettingsErr: errors.New("cannot parse the settings file x")})
+	if !strings.Contains(m.status, "cannot parse the settings file x") || m.statusKind != statusWarning {
+		t.Errorf("status = %q (%d)", m.status, m.statusKind)
+	}
+	if m.settingsErr == nil {
+		t.Error("the model does not remember that the settings file is broken")
+	}
+}
+
+// A save that fails after the update check is told, not dropped.
+func TestUpdateCheckSaveFailureIsShown(t *testing.T) {
+	m, _, _ := updateModel(t, "v1.0.0")
+	m.saveSettings = func(settings.Settings) error { return errors.New("disk full") }
+	next, _ := m.Update(m.Init()())
+	m = next.(Model)
+	if !strings.Contains(m.status, "disk full") {
+		t.Errorf("status = %q, want the save error", m.status)
+	}
+}

@@ -13,6 +13,7 @@ import (
 	"github.com/mmonterroca/docxgo/v2/domain"
 
 	"github.com/hkmt-sw/markout/internal/ast"
+	"github.com/hkmt-sw/markout/internal/atomicfile"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
 
@@ -121,20 +122,29 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		part.SetNumberingPart(r.numberingXML(), "numbering.xml")
 	}
 
-	// Save to temp file first
-	tempFile := filename + ".tmp"
-	if err := r.doc.SaveAs(tempFile); err != nil {
+	// The library saves to a path, so the document goes to a temporary file
+	// first. It is in the system's temporary directory, not next to the
+	// output, so that a crash cannot leave it among the user's files, and it
+	// never clobbers a file of the user's.
+	tempFile, err := os.CreateTemp("", "markout-*.docx")
+	if err != nil {
+		return err
+	}
+	tempName := tempFile.Name()
+	defer os.Remove(tempName)
+	if err := tempFile.Close(); err != nil {
+		return err
+	}
+	if err := r.doc.SaveAs(tempName); err != nil {
 		return err
 	}
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.tableHeaders, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {
-		os.Remove(tempFile)
+	if err := postProcessDocx(tempName, filename, r.tableInsets, r.tableHeaders, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {
 		return err
 	}
 
-	os.Remove(tempFile)
 	if r.opts.Warn != nil {
 		if r.coverProblem != "" {
 			r.opts.Warn(r.coverProblem)
@@ -1915,15 +1925,16 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, tableHeade
 	}
 	defer zipReader.Close()
 
-	// Create output file
-	outFile, err := os.Create(outputFile)
-	if err != nil {
-		return fmt.Errorf("failed to create output: %w", err)
-	}
-	defer outFile.Close()
+	// The output replaces an earlier file only when it is complete
+	return atomicfile.Write(outputFile, 0o666, func(w io.Writer) error {
+		return rewriteDocx(&zipReader.Reader, w, tableInsets, tableHeaders, styles, equations, language, hyphenate, firstPageApart, marks)
+	})
+}
 
-	zipWriter := zip.NewWriter(outFile)
-	defer zipWriter.Close()
+// rewriteDocx copies the parts of the DOCX in zipReader to w, changing them
+// as postProcessDocx describes.
+func rewriteDocx(zipReader *zip.Reader, w io.Writer, tableInsets []int, tableHeaders []bool, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool, marks pageMarks) error {
+	zipWriter := zip.NewWriter(w)
 
 	// Process each file in the ZIP; headers is how many headers have the
 	// marks so far
@@ -1986,7 +1997,9 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, tableHeade
 		}
 	}
 
-	return nil
+	// Closing writes the central directory, without which the file is not a
+	// ZIP
+	return zipWriter.Close()
 }
 
 // indentTables moves tables in from the left margin: insets has the distance

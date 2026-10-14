@@ -18,6 +18,7 @@ import (
 	"github.com/signintech/gopdf"
 
 	"github.com/hkmt-sw/markout/internal/ast"
+	"github.com/hkmt-sw/markout/internal/atomicfile"
 	"github.com/hkmt-sw/markout/internal/theme"
 )
 
@@ -156,7 +157,7 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 			return fmt.Errorf("PDF/A: %w", err)
 		}
 	}
-	if err := os.WriteFile(filename, data, 0o666); err != nil {
+	if err := atomicfile.WriteFile(filename, data, 0o666); err != nil {
 		return err
 	}
 	if r.opts.Warn != nil {

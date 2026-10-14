@@ -176,6 +176,12 @@ type Model struct {
 	flavor       flavor.Flavor                 // Markdown dialect used for conversions
 	settings     settings.Settings             // saved preferences
 	saveSettings func(settings.Settings) error // persists the settings; nil in tests
+	setAside     func() (string, error)        // moves a broken settings file out of the way; nil in tests
+
+	// settingsErr is why the settings file could not be loaded, while that
+	// file is still in place. Until the user changes a setting, it is not
+	// written, as the defaults in memory would destroy what the user wrote.
+	settingsErr error
 
 	version  string                                // version of this build
 	latest   func(context.Context) (string, error) // asks for the newest release; nil in tests
@@ -219,6 +225,10 @@ type Config struct {
 	Lang     string            // language of documents that do not name one, or ""
 	Settings settings.Settings // saved preferences
 	Version  string            // version of this build, for the update check
+
+	// SettingsErr is set when the settings file exists but could not be
+	// loaded, so that Settings are the defaults.
+	SettingsErr error
 }
 
 // New builds the model rooted at the current working directory. Changes made
@@ -235,6 +245,12 @@ func New(cfg Config) Model {
 	m.lang = cfg.Lang
 	m.settings = cfg.Settings
 	m.saveSettings = settings.Save
+	m.setAside = settings.SetAside
+	if cfg.SettingsErr != nil {
+		m.settingsErr = cfg.SettingsErr
+		m.status = cfg.SettingsErr.Error() + " · using the defaults"
+		m.statusKind = statusWarning
+	}
 	m.version = cfg.Version
 	m.latest = func(ctx context.Context) (string, error) {
 		return update.Latest(ctx, update.LatestReleaseAPI, cfg.Version)
@@ -292,12 +308,39 @@ func (m Model) Init() tea.Cmd {
 	}
 }
 
-// save persists the settings and reports whether that worked.
-func (m *Model) save() error {
+// save persists the settings and reports whether that worked. If the settings
+// file could not be loaded, it is moved aside first, and aside is where it
+// went: it is the user's, and the defaults are about to replace it.
+func (m *Model) save() (aside string, err error) {
 	if m.saveSettings == nil {
-		return nil
+		return "", nil
 	}
-	return m.saveSettings(m.settings)
+	if m.settingsErr != nil {
+		if m.setAside == nil {
+			return "", fmt.Errorf("the broken settings file would be lost: %w", m.settingsErr)
+		}
+		aside, err = m.setAside()
+		if err != nil {
+			return "", fmt.Errorf("cannot keep the broken settings file: %w", err)
+		}
+		m.settingsErr = nil
+	}
+	return aside, m.saveSettings(m.settings)
+}
+
+// saveChange saves the settings after the user changed one, and tells in the
+// status line if that did not work or if a broken settings file was set
+// aside. what names the change.
+func (m *Model) saveChange(what string) {
+	aside, err := m.save()
+	switch {
+	case err != nil:
+		m.status = what + ", but not saved: " + err.Error()
+		m.statusKind = statusError
+	case aside != "":
+		m.status = what + " · the broken settings file is kept as " + filepath.Base(aside)
+		m.statusKind = statusWarning
+	}
 }
 
 // loadEntries reads m.cwd into m.entries, directories first then markdown files.
@@ -419,7 +462,14 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		m.settings.UpdateCheckedAt = time.Now()
 		m.settings.LatestVersion = msg.latest
-		_ = m.save()
+		// A settings file that could not be loaded stays as it is: nobody
+		// asked to replace it, and the check can be made again next time.
+		if m.settingsErr == nil {
+			if _, err := m.save(); err != nil {
+				m.status = "the update check could not be saved: " + err.Error()
+				m.statusKind = statusWarning
+			}
+		}
 		if !m.settings.NoUpdateCheck && update.Newer(msg.latest, m.version) {
 			m.updateTo = msg.latest
 		}
@@ -612,6 +662,12 @@ func (m Model) goUp() (tea.Model, tea.Cmd) {
 }
 
 func (m Model) startConversion() (tea.Model, tea.Cmd) {
+	// A second conversion would write the same output file as the first. The
+	// status line shows the spinner and "converting…" already, so there is
+	// nothing to add.
+	if m.converting {
+		return m, nil
+	}
 	in := m.inputPath()
 	if in == "" {
 		m.status = "highlight a .md file to convert"
@@ -693,6 +749,12 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 	m.remoteHosts = nil
 	m.pendingIn = ""
 	m.pendingOut = ""
+
+	// Every way to convert ends here, including the answers of the dialogs,
+	// so this is where a running conversion is never overlapped.
+	if m.converting {
+		return m, nil
+	}
 
 	// The theme is read for each conversion, so edits to a theme file take
 	// effect without restarting.
@@ -784,17 +846,11 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		} else if update.Newer(m.settings.LatestVersion, m.version) {
 			m.updateTo = m.settings.LatestVersion
 		}
-		if err := m.save(); err != nil {
-			m.status = "setting changed, but not saved: " + err.Error()
-			m.statusKind = statusError
-		}
+		m.saveChange("setting changed")
 	case "a", "A":
 		// Takes effect at once, like the update check.
 		m.settings.PDFA = !m.settings.PDFA
-		if err := m.save(); err != nil {
-			m.status = "setting changed, but not saved: " + err.Error()
-			m.statusKind = statusError
-		}
+		m.saveChange("setting changed")
 	case "enter":
 		what := ""
 		switch m.settingsTab {
@@ -829,10 +885,7 @@ func (m Model) updateFlavorPicker(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.pickFlavor = false
 		m.status = what
 		m.statusKind = statusInfo
-		if err := m.save(); err != nil {
-			m.status = what + ", but not saved: " + err.Error()
-			m.statusKind = statusError
-		}
+		m.saveChange(what)
 	}
 	return m, nil
 }

@@ -3,10 +3,14 @@ package settings
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"time"
 
+	"github.com/hkmt-sw/markout/internal/atomicfile"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/theme"
@@ -52,44 +56,70 @@ func Path() (string, error) {
 	return filepath.Join(dir, "markout", "config.json"), nil
 }
 
-// Load reads the settings file. A missing or unreadable file yields the
-// defaults.
-func Load() Settings {
+// Load reads the settings file. A missing file, or a location that cannot be
+// worked out, yields the defaults. So does a file that cannot be read or
+// parsed, but then with an error as well: the caller must not save the
+// defaults over a file the user may have only mistyped.
+func Load() (Settings, error) {
 	s := Settings{Flavor: flavor.DefaultID}
 	path, err := Path()
 	if err != nil {
-		return s
+		return s, nil
 	}
 	data, err := os.ReadFile(path)
+	if errors.Is(err, fs.ErrNotExist) {
+		return s, nil
+	}
 	if err != nil {
-		return s
+		return s, fmt.Errorf("cannot read the settings file %s: %w", path, err)
 	}
 	var stored Settings
-	if json.Unmarshal(data, &stored) != nil {
-		return s
+	if err := json.Unmarshal(data, &stored); err != nil {
+		return s, fmt.Errorf("cannot parse the settings file %s: %w", path, err)
 	}
 	if _, ok := flavor.ByID(stored.Flavor); !ok {
 		stored.Flavor = flavor.DefaultID
 	}
 	// A language written by hand may be in another form, or not one at all
 	stored.Lang, _ = lang.Normalize(stored.Lang)
-	return stored
+	return stored, nil
 }
 
-// Save writes the settings file, creating its directory if needed.
+// Save writes the settings file, creating its directory if needed. The file
+// is replaced as a whole, so a failure leaves the old one as it was, and only
+// the user can read it.
 func Save(s Settings) error {
 	path, err := Path()
 	if err != nil {
 		return err
 	}
-	if err := os.MkdirAll(filepath.Dir(path), 0o755); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), 0o700); err != nil {
 		return err
 	}
 	data, err := json.MarshalIndent(s, "", "  ")
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(path, append(data, '\n'), 0o644)
+	return atomicfile.WriteFile(path, append(data, '\n'), 0o600)
+}
+
+// SetAside moves a settings file that Load could not use out of the way, to
+// the same name with ".bak" added, and returns the new name. A file of that
+// name from before is replaced. Saving the settings afterwards does not
+// destroy what the user wrote. If the file is gone already, there is nothing
+// to set aside and the name is empty.
+func SetAside() (string, error) {
+	path, err := Path()
+	if err != nil {
+		return "", err
+	}
+	backup := path + ".bak"
+	if err := os.Rename(path, backup); errors.Is(err, fs.ErrNotExist) {
+		return "", nil
+	} else if err != nil {
+		return "", err
+	}
+	return backup, nil
 }
 
 // ThemesDir is where the user's own themes are kept, next to the settings

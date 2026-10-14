@@ -110,7 +110,7 @@ func main() {
 	}
 
 	// The flavor comes from the command line, else from the saved settings.
-	saved := settings.Load()
+	saved, settingsErr := settings.Load()
 	fl := saved.MarkdownFlavor()
 	if flavorID != "" {
 		chosen, ok := flavor.ByID(flavorID)
@@ -141,6 +141,7 @@ func main() {
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
+		warnSettings(settingsErr)
 		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language, PDFA: pdfa || saved.PDFA}
 		opts.RemoteHosts = allowRemoteImages(input, opts, remote)
 		opts.RemoteImages = len(opts.RemoteHosts) > 0
@@ -157,8 +158,9 @@ func main() {
 		return
 	}
 
-	// Interactive mode.
-	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Lang: language, Settings: saved, Version: buildVersion()}); err != nil {
+	// Interactive mode. The terminal belongs to the interface, which shows a
+	// settings problem itself.
+	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Lang: language, Settings: saved, SettingsErr: settingsErr, Version: buildVersion()}); err != nil {
 		fail("%v", err)
 	}
 }
@@ -239,7 +241,8 @@ func printable(s string) string {
 }
 
 func printThemes() {
-	current := settings.Load().Theme
+	saved := loadSettings()
+	current := saved.Theme
 	if current == "" {
 		current = theme.DefaultName
 	}
@@ -291,6 +294,21 @@ func checkUpdate() {
 	}
 }
 
+// loadSettings reads the saved settings, warning about a file that cannot be
+// used and carrying on with the defaults.
+func loadSettings() settings.Settings {
+	saved, err := settings.Load()
+	warnSettings(err)
+	return saved
+}
+
+// warnSettings tells that the settings file was not used, if err says so.
+func warnSettings(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: %v; using the default settings\n", err)
+	}
+}
+
 func fail(format string, a ...any) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", a...)
 	os.Exit(1)
@@ -328,7 +346,8 @@ Options:
 }
 
 func printFlavors() {
-	current := settings.Load().MarkdownFlavor().ID
+	saved := loadSettings()
+	current := saved.MarkdownFlavor().ID
 	for _, f := range flavor.All() {
 		mark := " "
 		if f.ID == current {
