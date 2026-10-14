@@ -3,6 +3,7 @@ package theme
 import (
 	"embed"
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -632,6 +633,10 @@ func parseLength(value any) (float64, error) {
 	case int64:
 		return float64(v), nil
 	case float64:
+		// TOML allows nan and inf, which no comparison in validate catches
+		if math.IsNaN(v) || math.IsInf(v, 0) {
+			return 0, fmt.Errorf("%v is not a length (use a number of points, or text such as \"25mm\")", v)
+		}
 		return v, nil
 	case string:
 		m := lengthPattern.FindStringSubmatch(strings.TrimSpace(strings.ToLower(v)))
@@ -639,7 +644,7 @@ func parseLength(value any) (float64, error) {
 			return 0, fmt.Errorf("%q is not a length (use a number of points, or a unit: 25mm, 2.5cm, 1in, 12pt)", v)
 		}
 		n, err := strconv.ParseFloat(m[1], 64)
-		if err != nil {
+		if err != nil || math.IsInf(n, 0) {
 			return 0, fmt.Errorf("%q is not a length", v)
 		}
 		switch m[2] {
@@ -702,17 +707,44 @@ func validateLevels(levels map[string]ClassificationLevel) error {
 	return nil
 }
 
+// The limits of a page, in points. A PDF page is at most 14400 points
+// (200 inches) on a side, the largest user space a viewer is required to take.
+const (
+	minPage    = 72
+	maxPage    = 14400
+	maxSpacing = 400 // spaces, paddings and indents
+)
+
 // validate rejects themes that could not produce a readable document.
 func validate(th Theme, pdf bool) error {
+	// The comparisons are written so that NaN fails them
 	p := th.Page
-	if p.Width < 72 || p.Height < 72 {
-		return fmt.Errorf("page: %.0f x %.0f points is too small to be a page", p.Width, p.Height)
+	if !(p.Width >= minPage && p.Height >= minPage) {
+		return fmt.Errorf("page: %g x %g points is too small to be a page", p.Width, p.Height)
 	}
-	if p.MarginTop < 0 || p.MarginRight < 0 || p.MarginBottom < 0 || p.MarginLeft < 0 {
-		return fmt.Errorf("page: a margin is negative")
+	if !(p.Width <= maxPage && p.Height <= maxPage) {
+		return fmt.Errorf("page: %g x %g points is too large to be a page; the sides are at most %d points", p.Width, p.Height, maxPage)
+	}
+	margins := []struct {
+		name  string
+		value float64
+		side  float64
+	}{
+		{"margin-top", p.MarginTop, p.Height}, {"margin-bottom", p.MarginBottom, p.Height},
+		{"margin-left", p.MarginLeft, p.Width}, {"margin-right", p.MarginRight, p.Width},
+	}
+	for _, m := range margins {
+		if !(m.value >= 0) {
+			return fmt.Errorf("page.%s is %g points; it cannot be negative", m.name, m.value)
+		}
 	}
 	if p.ContentWidth() < 100 || p.Height-p.MarginTop-p.MarginBottom < 100 {
 		return fmt.Errorf("page: the margins leave no room for text on a %.0f x %.0f point page", p.Width, p.Height)
+	}
+	for _, m := range margins {
+		if !(m.value < m.side/2) {
+			return fmt.Errorf("page.%s is %g points; it must be less than half of the %g point page", m.name, m.value, m.side)
+		}
 	}
 
 	if a := th.Text.Align; a != AlignLeft && a != AlignJustify {
@@ -749,21 +781,30 @@ func validate(th Theme, pdf bool) error {
 	if err := validateLevels(th.Classification.Levels); err != nil {
 		return err
 	}
-	if th.Cover.Top < 0 {
-		return fmt.Errorf("cover.top is %g points; it cannot be negative", th.Cover.Top)
+	spacings := map[string]float64{
+		"text.paragraph-spacing": th.Text.ParagraphSpacing,
+		"code.padding":           th.Code.Padding, "code.space-after": th.Code.SpaceAfter,
+		"list.indent": th.List.Indent, "list.space-after": th.List.SpaceAfter,
+		"table.cell-padding": th.Table.CellPadding, "table.space-after": th.Table.SpaceAfter,
+		"quote.indent": th.Quote.Indent, "quote.bar-width": th.Quote.BarWidth, "quote.space-after": th.Quote.SpaceAfter,
+		"rule.width": th.Rule.Width, "rule.space": th.Rule.Space,
+		"alert.padding": th.Alert.Padding, "alert.bar-width": th.Alert.BarWidth, "alert.space-after": th.Alert.SpaceAfter,
+		"cover.top": th.Cover.Top,
 	}
 	for i, h := range th.Heading {
 		sizes[fmt.Sprintf("heading.h%d.size", i+1)] = h.Size
 		sizes[fmt.Sprintf("heading.h%d.line-height", i+1)] = h.LineHeight
+		spacings[fmt.Sprintf("heading.h%d.space-before", i+1)] = h.SpaceBefore
+		spacings[fmt.Sprintf("heading.h%d.space-after", i+1)] = h.SpaceAfter
 	}
-	names := make([]string, 0, len(sizes))
-	for name := range sizes {
-		names = append(names, name)
-	}
-	sort.Strings(names)
-	for _, name := range names {
-		if v := sizes[name]; v < 1 || v > 400 {
+	for _, name := range sortedNames(sizes) {
+		if v := sizes[name]; !(v >= 1 && v <= 400) {
 			return fmt.Errorf("%s is %g points; it must be between 1 and 400", name, v)
+		}
+	}
+	for _, name := range sortedNames(spacings) {
+		if v := spacings[name]; !(v >= 0 && v <= maxSpacing) {
+			return fmt.Errorf("%s is %g points; it must be between 0 and %d", name, v, maxSpacing)
 		}
 	}
 

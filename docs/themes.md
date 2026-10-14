@@ -123,6 +123,11 @@ margin-top = 72          # 72 points
 margin-left = "25mm"     # also: "2.5cm", "1in", "12pt"
 ```
 
+A length is a finite number: `nan` and `inf` are refused. A page side is
+between 72 and 14400 points, a margin is not negative and less than half the
+page, and a space, padding or indent is between 0 and 400 points. A font size
+is between 1 and 400.
+
 **Colors** are `"#RRGGBB"` in quotes.
 
 **Both formats, or one.** Settings at the top level apply to PDF and DOCX
@@ -719,7 +724,8 @@ line-height, muted, paragraph-spacing, size
 | `… is not a setting; [x] has …` | A misspelled key. The message lists the valid ones. |
 | `there is no section [x]` | A misspelled section name. |
 | `… is not of the form #RRGGBB` | Write colors as `"#1A2B3C"`, in quotes. |
-| `… is not a length` | Use a number of points, or a unit: `"25mm"`, `"1in"`. |
+| `… is not a length` | Use a number of points, or a unit: `"25mm"`, `"1in"`. `nan` and `inf` are not lengths. |
+| `… points; it must be between …` | A size or a space outside the limits named in the message. |
 | `… is not a font PDF can use` | Use `sans`, `serif` or `mono`, define a family from `.ttf` files, or move a plain font name under `[docx.fonts]`. |
 | `font file … cannot be read` | Paths are relative to the theme file. |
 | `the margins leave no room for text` | The margins add up to more than the page. |
