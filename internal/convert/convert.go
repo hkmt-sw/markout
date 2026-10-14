@@ -3,7 +3,7 @@ package convert
 import (
 	"errors"
 	"fmt"
-	"net"
+	"io"
 	"os"
 	"path/filepath"
 	"slices"
@@ -49,6 +49,7 @@ const opValidateInput = "validate input"
 var (
 	ErrFileNotFound  = errors.New("input file not found")
 	ErrFileTooLarge  = errors.New("input file exceeds maximum size (10MB)")
+	ErrNotRegular    = errors.New("input is not a regular file")
 	ErrInvalidFormat = errors.New("could not determine output format from extension")
 	ErrParseFailure  = errors.New("failed to parse markdown")
 	ErrRenderFailure = errors.New("failed to render document")
@@ -164,11 +165,11 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) (e
 	switch format {
 	case FormatDOCX:
 		if err := render.RenderDocx(doc, output, renderOpts); err != nil {
-			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %w", ErrRenderFailure, err)}
 		}
 	case FormatPDF:
 		if err := render.RenderPdf(doc, output, renderOpts); err != nil {
-			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %w", ErrRenderFailure, err)}
 		}
 	default:
 		return &ConversionError{Op: "render", Err: ErrInvalidFormat}
@@ -199,6 +200,12 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 		return nil, &ConversionError{Op: opValidateInput, Err: err}
 	}
 
+	// A device or a pipe reports a size of 0 and has no end (/dev/zero), or
+	// blocks until someone writes to it, so only regular files are read.
+	if !info.Mode().IsRegular() {
+		return nil, &ConversionError{Op: opValidateInput, Err: fmt.Errorf("%w: %s", ErrNotRegular, input)}
+	}
+
 	// Validate file size
 	if info.Size() > MaxFileSize {
 		return nil, &ConversionError{
@@ -207,16 +214,30 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 		}
 	}
 
-	// Read input file
-	content, err := os.ReadFile(input)
+	// Read input file. The limit is applied to what is read as well, because
+	// the size above can be out of date by now (a file that is still being
+	// written) or wrong for the file system; one byte more than the limit is
+	// read to tell a file of exactly the limit from a larger one.
+	file, err := os.Open(input)
 	if err != nil {
 		return nil, &ConversionError{Op: "read input", Err: err}
+	}
+	defer file.Close()
+	content, err := io.ReadAll(io.LimitReader(file, MaxFileSize+1))
+	if err != nil {
+		return nil, &ConversionError{Op: "read input", Err: err}
+	}
+	if len(content) > MaxFileSize {
+		return nil, &ConversionError{
+			Op:  opValidateInput,
+			Err: fmt.Errorf("%w: file is larger than %d bytes", ErrFileTooLarge, MaxFileSize),
+		}
 	}
 
 	// Parse markdown
 	doc, err := parse.ParseFlavor(content, fl, filepath.Dir(input))
 	if err != nil {
-		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %v", ErrParseFailure, err)}
+		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %w", ErrParseFailure, err)}
 	}
 	return doc, nil
 }
@@ -297,29 +318,11 @@ func RemoteImageHosts(input string, opts Options) (hosts []RemoteHost, err error
 }
 
 // isLocalHost reports whether a URL host names this machine or an address
-// that is only reachable on the local network. It looks at the name alone and
-// never resolves it, so a public name that points at a private address is not
-// detected.
+// that is only reachable on the local network, by the name alone. The download
+// uses the same rule (render.IsLocalHost) to decide which servers may be at a
+// non-public address, so what the user is shown is what is allowed.
 func isLocalHost(hostport string) bool {
-	host := hostport
-	if h, _, err := net.SplitHostPort(hostport); err == nil {
-		host = h
-	}
-	host = strings.ToLower(strings.Trim(host, "[]"))
-
-	if ip := net.ParseIP(host); ip != nil {
-		return ip.IsLoopback() || ip.IsPrivate() || ip.IsLinkLocalUnicast() ||
-			ip.IsLinkLocalMulticast() || ip.IsUnspecified()
-	}
-	if host == "localhost" || !strings.Contains(host, ".") {
-		return true // a bare name resolves on the local network only
-	}
-	for _, suffix := range []string{".localhost", ".local", ".internal", ".lan", ".home", ".home.arpa", ".intranet", ".corp"} {
-		if strings.HasSuffix(host, suffix) {
-			return true
-		}
-	}
-	return false
+	return render.IsLocalHost(hostport)
 }
 
 // ConvertFileAuto converts a Markdown file, auto-detecting format from output extension

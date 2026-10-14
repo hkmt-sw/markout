@@ -3,6 +3,7 @@ package parse
 import (
 	"bytes"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"html"
 	"regexp"
@@ -350,6 +351,19 @@ func (h *htmlState) tag(raw string, htmlOn bool) (string, bool) {
 	return "", false
 }
 
+// htmlImageSize reads a whole-number size from an <img> attribute, capped at
+// maxImageWidthPx. Anything that is not a number, or is not positive, is 0.
+func htmlImageSize(s string) int {
+	n, err := strconv.Atoi(s)
+	if errors.Is(err, strconv.ErrRange) && n > 0 {
+		return maxImageWidthPx
+	}
+	if err != nil || n < 0 {
+		return 0
+	}
+	return min(n, maxImageWidthPx)
+}
+
 // htmlAttr returns the value of an attribute in a tag's attribute text.
 func htmlAttr(attrs, name string) string {
 	re := regexp.MustCompile(`(?i)(?:^|\s)` + name + `\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))`)
@@ -415,10 +429,10 @@ func (w *astWalker) convertHTMLBlock(n *gmast.HTMLBlock) []ast.Element {
 			img := ast.NewImage(htmlAttr(m, "alt"), src, htmlAttr(m, "title"))
 			if width := strings.TrimSuffix(htmlAttr(m, "width"), "px"); width != "" {
 				if strings.HasSuffix(width, "%") {
-					pct, _ := strconv.Atoi(strings.TrimSuffix(width, "%"))
-					img.Width = pct * percentWidthBasePx / 100
+					pct := htmlImageSize(strings.TrimSuffix(width, "%"))
+					img.Width = min(pct*percentWidthBasePx/100, maxImageWidthPx)
 				} else {
-					img.Width, _ = strconv.Atoi(width)
+					img.Width = htmlImageSize(width)
 				}
 			}
 			images = append(images, img)

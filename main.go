@@ -104,9 +104,19 @@ func main() {
 			remote = args[i]
 		case strings.HasPrefix(arg, "--remote-images="):
 			remote = strings.TrimPrefix(arg, "--remote-images=")
+		case strings.HasPrefix(arg, "-"):
+			// Everything that looks like an option and is not one of the above
+			// is a mistake: taken as a file name it would be reported as a
+			// missing input file. A lone "-" (standard input) is not supported.
+			fail("unknown option %s (see markout --help)", printable(arg))
 		default:
 			positional = append(positional, arg)
 		}
+	}
+
+	// Either no file names (the interface) or an input and an output.
+	if len(positional) != 0 && len(positional) != 2 {
+		fail("expected an input file and an output file (or none, for the interactive mode), but got %d file name(s) (see markout --help)", len(positional))
 	}
 
 	// The flavor comes from the command line, else from the saved settings.
@@ -139,7 +149,7 @@ func main() {
 	}
 
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
-	if len(positional) >= 2 {
+	if len(positional) == 2 {
 		input, output := positional[0], positional[1]
 		warnSettings(settingsErr)
 		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language, PDFA: pdfa || saved.PDFA}

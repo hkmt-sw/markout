@@ -7,14 +7,11 @@ import (
 	"errors"
 	"fmt"
 	"github.com/hkmt-sw/markout/internal/theme"
-	"io"
-	"net/http"
+	"math"
 	"net/url"
 	"regexp"
-	"slices"
 	"strconv"
 	"strings"
-	"time"
 
 	resvg "github.com/kanrichan/resvg-go"
 )
@@ -41,8 +38,13 @@ type Options struct {
 	// RemoteHostOf names them: the ones the user was shown and agreed to.
 	// An image on any other server is left as a placeholder, and so is one
 	// that a redirect sends to another server. With none, nothing is
-	// downloaded even if RemoteImages is set.
+	// downloaded even if RemoteImages is set. A server that IsLocalHost does
+	// not name as local must also be at a public address: the download
+	// refuses a name that resolves to a private, loopback, link-local or
+	// other reserved address.
 	RemoteHosts []string
+	// fetch is what the downloads of one conversion share; see withFetchState.
+	fetch *fetchState
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
 	// Lang is the language of the document as a normalized language tag
@@ -94,54 +96,6 @@ func RemoteHostOf(rawURL string) string {
 	return rawURL
 }
 
-// checkRemoteHost refuses a URL that is not an http(s) address on one of the
-// servers the user agreed to.
-func (o Options) checkRemoteHost(u *url.URL) error {
-	if u.Scheme != "http" && u.Scheme != "https" {
-		return fmt.Errorf("%w: %q is not an http(s) address", ErrRemoteHostNotAllowed, u.Scheme)
-	}
-	host := strings.ToLower(u.Host)
-	if host == "" || !slices.ContainsFunc(o.RemoteHosts, func(h string) bool { return strings.ToLower(h) == host }) {
-		return fmt.Errorf("%w: %s", ErrRemoteHostNotAllowed, u.Host)
-	}
-	return nil
-}
-
-// fetchRemoteImage downloads the image at rawURL, if the user agreed to
-// downloads from its server. A redirect is followed only to a server the user
-// agreed to as well: a server that was shown to the user must not be able to
-// send the download to an address on the local network that was not.
-func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
-	if !opts.RemoteImages {
-		return nil, ErrRemoteImageSkipped
-	}
-	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
-	if err != nil {
-		return nil, err
-	}
-	if err := opts.checkRemoteHost(req.URL); err != nil {
-		return nil, err
-	}
-	client := &http.Client{
-		Timeout: 15 * time.Second,
-		CheckRedirect: func(next *http.Request, via []*http.Request) error {
-			if len(via) >= maxRedirects {
-				return fmt.Errorf("stopped after %d redirects", maxRedirects)
-			}
-			return opts.checkRemoteHost(next.URL)
-		},
-	}
-	resp, err := client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-	defer resp.Body.Close()
-	if resp.StatusCode != http.StatusOK {
-		return nil, fmt.Errorf("fetch image: status %d", resp.StatusCode)
-	}
-	return io.ReadAll(io.LimitReader(resp.Body, MaxImageBytes))
-}
-
 // looksLikeSVG reports whether data appears to be an SVG document.
 func looksLikeSVG(data []byte) bool {
 	head := data
@@ -150,6 +104,22 @@ func looksLikeSVG(data []byte) bool {
 	}
 	return strings.Contains(strings.ToLower(string(head)), "<svg")
 }
+
+// ErrSVGTooLarge is returned for an SVG whose proportions would need a bitmap
+// bigger than maxSVGSide or maxSVGPixels.
+var ErrSVGTooLarge = errors.New("SVG image too large")
+
+// The rasterizer is given a bitmap of at most these sizes. The width is
+// already limited to maxSVGWidth, so only a very tall SVG goes past the
+// others. A bitmap of maxSVGPixels takes 64 MB as RGBA, and the PNG made of it
+// is embedded in the document. Beyond them resvg either allocates a great
+// deal or, for extreme proportions, panics inside WebAssembly and prints the
+// message on standard error.
+const (
+	maxSVGWidth  = 2400
+	maxSVGSide   = 8192
+	maxSVGPixels = 16 << 20
+)
 
 // loadRasterImage loads the image at url and returns raster bytes in a format
 // the downstream encoders understand (PNG/JPEG/GIF). SVG sources are rasterized
@@ -169,10 +139,13 @@ func loadRasterImage(url string, opts Options, widthHint int) (data []byte, disp
 	if looksLikeSVG(data) {
 		if displayWidth <= 0 {
 			if w, _ := svgIntrinsicSize(data); w > 0 {
-				displayWidth = int(w + 0.5)
+				displayWidth = int(min(w+0.5, maxSVGWidth))
 			}
 		}
 		data, err = rasterizeSVG(data, widthHint)
+		if errors.Is(err, ErrSVGTooLarge) && opts.Warn != nil {
+			opts.Warn("an SVG image has proportions too extreme to draw; a placeholder is shown instead")
+		}
 		if err != nil {
 			return nil, 0, err
 		}
@@ -213,21 +186,18 @@ func rasterizeSVG(data []byte, widthHint int) ([]byte, error) {
 
 	// resvg stretches the SVG to the requested width x height, so the target
 	// must keep the intrinsic aspect ratio to avoid distortion.
-	base := widthHint
+	base := min(widthHint, maxSVGWidth)
 	if base <= 0 {
-		base = int(iw)
+		base = int(min(iw, maxSVGWidth))
 	}
-	const maxWidth = 2400
-	w := base * 2 // supersample
-	if w > maxWidth {
-		w = maxWidth
-	}
+	w := min(base*2, maxSVGWidth) // supersample
 	if w < 1 {
-		w = int(iw)
+		w = int(min(iw, maxSVGWidth))
 	}
-	h := int(float64(w) * ih / iw)
-	if h < 1 {
-		h = 1
+	// Work in floats: the height of a very thin or tall SVG does not fit an int.
+	h := max(float64(w)*ih/iw, 1)
+	if !(h <= maxSVGSide && h*float64(w) <= maxSVGPixels) { // written so that NaN is refused too
+		return nil, fmt.Errorf("%w: %d x %.0f pixels", ErrSVGTooLarge, w, h)
 	}
 	return renderer.RenderWithSize(data, uint32(w), uint32(h))
 }
@@ -288,7 +258,7 @@ func svgIntrinsicSize(data []byte) (w, h float64) {
 			if len(f) == 4 {
 				vw, _ := strconv.ParseFloat(f[2], 64)
 				vh, _ := strconv.ParseFloat(f[3], 64)
-				if vw > 0 && vh > 0 {
+				if vw > 0 && vh > 0 && !math.IsInf(vw, 0) && !math.IsInf(vh, 0) {
 					return vw, vh
 				}
 			}
