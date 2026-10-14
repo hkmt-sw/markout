@@ -29,6 +29,17 @@ jobs:
           go-version: stable
           check-latest: true
 
+      # The same checks as CI, because a tag can be pushed on a commit whose
+      # CI run is not looked at: nothing is released that fails them.
+      - name: Verify modules
+        run: go mod verify
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Check for known vulnerabilities
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+
       - name: Run tests
         run: go test ./...
 
