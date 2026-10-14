@@ -149,6 +149,53 @@ func TestCLIErrors(t *testing.T) {
 	}
 }
 
+// An option markout does not know is reported as such instead of being taken
+// for a file name, and the file names are either none or two.
+func TestCLIRejectsUnknownOptionsAndWrongFileCounts(t *testing.T) {
+	dir := t.TempDir()
+	writeDoc(t, dir, "doc.md", "# Title\n")
+
+	tests := []struct {
+		args []string
+		want string
+	}{
+		{[]string{"--lan", "hu", "doc.md", "out.pdf"}, "unknown option --lan"},
+		{[]string{"doc.md", "out.pdf", "--bogus"}, "unknown option --bogus"},
+		{[]string{"--bogus=1", "doc.md", "out.pdf"}, "unknown option --bogus=1"},
+		{[]string{"-x", "doc.md", "out.pdf"}, "unknown option -x"},
+		{[]string{"-", "doc.md", "out.pdf"}, "unknown option -"},
+		{[]string{"--pdfa=true", "doc.md", "out.pdf"}, "unknown option --pdfa=true"},
+		{[]string{"doc.md"}, "but got 1 file name"},
+		{[]string{"--flavor", "gitlab", "doc.md"}, "but got 1 file name"},
+		{[]string{"doc.md", "out.pdf", "third.pdf"}, "but got 3 file name"},
+	}
+	for _, tt := range tests {
+		r := markout(t, dir, tt.args...)
+		if r.code != 1 || !strings.Contains(r.stderr, tt.want) || !strings.Contains(r.stderr, "markout --help") {
+			t.Errorf("%v: exit %d, stderr %q; want exit 1 mentioning %q and the help", tt.args, r.code, r.stderr, tt.want)
+		}
+		if r.stdout != "" {
+			t.Errorf("%v: an error should print nothing to stdout, got %q", tt.args, r.stdout)
+		}
+	}
+
+	// Nothing was converted along the way.
+	if _, err := os.Stat(filepath.Join(dir, "out.pdf")); err == nil {
+		t.Error("a rejected command line still made out.pdf")
+	}
+
+	// Every option still works in both spellings.
+	writeDoc(t, dir, "config.json", "{}")
+	for _, args := range [][]string{
+		{"--flavor=gitlab", "--lang=hu", "--theme=default", "--remote-images=deny", "--pdfa", "doc.md", "a.pdf"},
+		{"-f", "gitlab", "--lang", "hu", "-t", "default", "--remote-images", "deny", "doc.md", "b.pdf"},
+	} {
+		if r := markout(t, dir, args...); r.code != 0 {
+			t.Errorf("%v: %+v", args, r)
+		}
+	}
+}
+
 // Without a terminal nobody can be asked, so remote images are skipped and
 // named on stderr; the conversion itself still succeeds.
 func TestCLISkipsRemoteImagesWhenItCannotAsk(t *testing.T) {
