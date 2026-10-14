@@ -476,6 +476,18 @@ that is not drawn. The frames of a chart's subgraphs take the colors of
 | `color` | Text color |
 | `rule` | `true` for a line between it and the page's text |
 
+### `[control.labels]`
+
+The labels of the document control block, the table the front matter is
+shown in. An empty label is given in the language of the document, Hungarian
+or English.
+
+| Setting | Meaning |
+| --- | --- |
+| `title`, `version`, `status`, `author`, `owner`, `approved-by`, `date`, `review-date`, `classification` | The label of that field, such as `version = "Kiadás"` |
+
+`[control]` holds nothing else yet.
+
 ### PDF and DOCX
 
 A theme applies to both formats, with two differences that come from what the

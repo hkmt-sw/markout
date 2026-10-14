@@ -15,7 +15,8 @@ markout fixtures/showcase.md showcase.pdf
 markout fixtures/showcase.md showcase.docx
 ```
 
-Above this heading there should be a panel listing the title, author and date.
+Above this heading there should be a table of the title, author and date:
+the labels in a column on the left, a thin line between the rows.
 
 ## 1. Headings
 

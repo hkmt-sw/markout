@@ -1,18 +1,31 @@
 TABLE
-  COL w=9070
+  COL w=1112
+  COL w=7958
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Title: "
-        R{color=1A1A2E font=Georgia sz=22} "Pandoc Markdown"
-      P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Author: "
-        R{color=1A1A2E font=Georgia sz=22} "Jane Doe"
-      P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Date: "
-        R{color=1A1A2E font=Georgia sz=22} "2026-10-06"
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Title"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7958}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "Pandoc Markdown"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Author"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7958}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "Jane Doe"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1112}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Date"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7958}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "2026-10-06"
 P{spacing=/ line=160/exact}
 P{bookmark=_intro pStyle=Heading1}
   R "Pandoc"

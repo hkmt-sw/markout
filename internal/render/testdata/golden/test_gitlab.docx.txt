@@ -1,21 +1,39 @@
 TABLE
-  COL w=9070
+  COL w=1244
+  COL w=7826
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P{indent=160/160 spacing=160/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Title: "
-        R{color=1A1A2E font=Georgia sz=22} "GitLab Flavored Markdown Test"
-      P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Author: "
-        R{color=1A1A2E font=Georgia sz=22} "Markout Team"
-      P{indent=160/160 spacing=0/0 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Date: "
-        R{color=1A1A2E font=Georgia sz=22} "2026-02-22"
-      P{indent=160/160 spacing=0/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "version: "
-        R{color=1A1A2E font=Georgia sz=22} "1.0"
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1244}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Title"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7826}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "GitLab Flavored Markdown Test"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1244}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Version"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7826}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "1.0"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1244}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Author"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7826}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "Markout Team"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=1244}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Date"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=7826}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "2026-02-22"
 P{spacing=/ line=160/exact}
 P{bookmark=_gitlab_flavored_markdown_features pStyle=Heading1}
   R "GitLab Flavored Markdown"

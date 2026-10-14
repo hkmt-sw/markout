@@ -1135,70 +1135,90 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 	r.textColor(theme.Black)
 }
 
+// renderFrontMatter sets the front matter as the document control block: a
+// box with a column of labels and a column of values, a thin line between
+// fields.
 func (r *PdfRenderer) renderFrontMatter(fm ast.FrontMatter) {
+	fields := controlFields(fm, r.opts.Lang, r.t.Control.Labels)
+	if len(fields) == 0 {
+		return
+	}
 	lineHeight := r.t.Text.LineHeight
 	padding := r.t.Alert.Padding
 	x, width := r.marginLeft+padding, r.contentWidth-2*padding
 
-	// A row is one line of the box: a field's first line starts after its
-	// label, the lines of a long value follow under it.
+	// The labels get the room the longest one needs, but no more than a
+	// third of the box; a longer label runs on to a second line.
+	labelStyle := r.bodyStyle()
+	labelStyle.bold, labelStyle.color = true, r.t.Text.Muted
+	r.setFont(r.bodyFont(), "B", r.t.Text.Size)
+	labelWidth := 0.0
+	for _, f := range fields {
+		if w, _ := r.pdf.MeasureTextWidth(f.label); w > labelWidth {
+			labelWidth = w
+		}
+	}
+	labelWidth = min(labelWidth, width/3)
+	valueX, valueWidth := x+labelWidth+2*padding, width-labelWidth-2*padding
+
+	// A row is one line of the box. first marks the first line of a field,
+	// which has a line above it unless it is the first field.
 	type row struct {
-		label string
-		at    float64 // where the value starts on this line
-		line  textLine
+		label, value textLine
+		first        bool
 	}
 	var rows []row
-	addField := func(label, value string) {
-		if value == "" {
-			return
-		}
-		r.setFont(r.bodyFont(), "B", r.t.Text.Size)
-		labelWidth, _ := r.pdf.MeasureTextWidth(label + ": ")
-		lines := r.layout([]ast.InlineRun{{Text: value}}, r.bodyStyle(), width-labelWidth, width)
-		if len(lines) == 0 {
-			lines = []textLine{{}}
-		}
-		for i, line := range lines {
-			if i == 0 {
-				rows = append(rows, row{label: label + ": ", at: x + labelWidth, line: line})
-			} else {
-				rows = append(rows, row{at: x, line: line})
+	for _, f := range fields {
+		labels := r.layout([]ast.InlineRun{{Text: f.label}}, labelStyle, labelWidth, labelWidth)
+		values := r.layout([]ast.InlineRun{{Text: f.value}}, r.asideStyle(), valueWidth, valueWidth)
+		for i := 0; i < max(len(labels), len(values), 1); i++ {
+			rw := row{first: i == 0}
+			if i < len(labels) {
+				rw.label = labels[i]
 			}
+			if i < len(values) {
+				rw.value = values[i]
+			}
+			rows = append(rows, rw)
 		}
 	}
 
-	addField("Title", fm.Title)
-	addField("Author", fm.Author)
-	addField("Date", fm.Date)
-	for _, key := range sortedKeys(fm.Raw) {
-		if key == "title" || key == "author" || key == "date" {
-			continue
-		}
-		// Only text values are shown; lists and maps have no single line
-		if strVal, ok := fm.Raw[key].(string); ok {
-			addField(key, strVal)
+	// A field after the first starts a little lower, with a line in the
+	// space above it
+	gap := r.t.Table.CellPadding
+	heights := make([]float64, len(rows))
+	for i, rw := range rows {
+		heights[i] = lineHeight
+		if rw.first && i > 0 {
+			heights[i] += gap
 		}
 	}
-	if len(rows) == 0 {
-		return
-	}
-
-	r.panel(len(rows), lineHeight, padding, func(y, h float64) {
+	top := 0.0 // where the part of the box on this page starts
+	width0 := r.strokeWidth
+	r.panelLines(heights, padding, func(y, h float64) {
+		top = y
 		r.fillColor(r.t.Box.Background)
 		r.strokeColor(r.t.Box.Border)
+		r.lineWidth(width0)
 		r.rect(r.marginLeft, y, r.contentWidth, h, "FD")
 	}, func(i int, y float64) {
-		if label := rows[i].label; label != "" {
-			r.setFont(r.bodyFont(), "B", r.t.Text.Size)
-			r.textColor(r.t.Text.Muted)
-			r.pdf.SetX(x)
-			r.pdf.SetY(y)
-			r.cell(label)
+		if heights[i] > lineHeight {
+			if y > top+padding {
+				// Half way between the text of the last field and this one;
+				// the leading of a line is under its text
+				lineY := y + (gap-(lineHeight-r.t.Text.Size)/2)/2
+				r.strokeColor(r.t.Box.Border)
+				r.lineWidth(0.5)
+				r.line(r.marginLeft, lineY, r.marginLeft+r.contentWidth, lineY)
+			}
+			y += gap
 		}
-		r.drawLine(rows[i].line, rows[i].at, y, lineHeight)
+		r.drawLine(rows[i].label, x, y, lineHeight)
+		r.drawLine(rows[i].value, valueX, y, lineHeight)
 	})
 
 	r.currentY += 8
+	r.lineWidth(width0)
 	r.strokeColor(theme.Black)
 	r.textColor(theme.Black)
 	r.setFont(r.bodyFont(), "", r.t.Text.Size)

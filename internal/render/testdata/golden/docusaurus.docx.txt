@@ -1,12 +1,15 @@
 TABLE
-  COL w=9070
+  COL w=980
+  COL w=8090
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P{indent=160/160 spacing=160/160 line=320/atLeast}
-        R{b color=4A4A68 font=Georgia sz=22} "Title: "
-        R{color=1A1A2E font=Georgia sz=22} "Docusaurus"
+    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=980}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R{b color=4A4A68 font=Georgia sz=22} "Title"
+    CELL{border-bottom=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=8090}
+      P{indent=80/80 spacing=80/80 line=320/atLeast}
+        R "Docusaurus"
 P{spacing=/ line=160/exact}
 P{bookmark=_custom_id pStyle=Heading1}
   R "Docusaurus"

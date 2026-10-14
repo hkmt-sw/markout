@@ -1,287 +1,292 @@
-p1 rect  x=42.5 y=42.5 w=510.2 h=49.0 fill=#F8F9FC stroke=#E2E4EB/1.0
-p1 text  x=47.5 y=47.5 Arial-Bold/9.5 "Title: " #555555
-p1 text  x=72.8 y=47.5 Arial/9.5 "markout showcase" #1A1A1A
-p1 text  x=47.5 y=60.5 Arial-Bold/9.5 "Author: " #555555
-p1 text  x=84.4 y=60.5 Arial/9.5 "The markout project" #1A1A1A
-p1 text  x=47.5 y=73.5 Arial-Bold/9.5 "Date: " #555555
-p1 text  x=73.9 y=73.5 Arial/9.5 "2026-10-06" #1A1A1A
-p1 anchor y=109.5 markout-showcase
+p1 rect  x=42.5 y=42.5 w=510.2 h=55.0 fill=#F8F9FC stroke=#E2E4EB/1.0
+p1 text  x=47.5 y=47.5 Arial-Bold/9.5 "Title" #555555
+p1 text  x=88.6 y=47.5 Arial/9.5 "markout showcase" #1A1A1A
+p1 line  x=42.5 y=61.1 to x=552.8 y=61.1 #E2E4EB/0.5
+p1 text  x=47.5 y=63.5 Arial-Bold/9.5 "Author" #555555
+p1 text  x=88.6 y=63.5 Arial/9.5 "The markout project" #1A1A1A
+p1 line  x=42.5 y=77.1 to x=552.8 y=77.1 #E2E4EB/0.5
+p1 text  x=47.5 y=79.5 Arial-Bold/9.5 "Date" #555555
+p1 text  x=88.6 y=79.5 Arial/9.5 "2026-10-06" #1A1A1A
+p1 anchor y=115.5 markout-showcase
 p1 bookmark level=1 "markout showcase"
-p1 text  x=42.5 y=109.5 Arial-Bold/18 "markout" #000000
-p1 text  x=118.5 y=109.5 Arial-Bold/18 "showcase" #000000
-p1 text  x=42.5 y=137.5 Arial/9.5 "This document contains every kind of element markout can render, each with" #1A1A1A
-p1 text  x=368.6 y=137.5 Arial/9.5 "a" #1A1A1A
-p1 text  x=376.5 y=137.5 Arial/9.5 "short note saying what you should see." #1A1A1A
-p1 text  x=42.5 y=150.5 Arial/9.5 "Convert it to PDF and to DOCX and" #1A1A1A
-p1 text  x=195.5 y=150.5 Arial/9.5 "read" #1A1A1A
-p1 text  x=217.1 y=150.5 Arial/9.5 "through the result: if every note is true, the output is" #1A1A1A
-p1 text  x=436.1 y=150.5 Arial/9.5 "fine." #1A1A1A
-p1 rect  x=42.5 y=168.5 w=510.2 h=31.0 fill=#F4F4F4 stroke=#D4D4D4/1.0
-p1 text  x=47.5 y=173.5 Courier/8 "markout fixtures/showcase.md showcase.pdf" #1A1A1A
-p1 text  x=47.5 y=184.0 Courier/8 "markout fixtures/showcase.md showcase.docx" #1A1A1A
-p1 text  x=42.5 y=204.5 Arial/9.5 "Above this heading there should be a panel listing the title, author and" #1A1A1A
-p1 text  x=338.6 y=204.5 Arial/9.5 "date." #1A1A1A
-p1 anchor y=232.5 1-headings
+p1 text  x=42.5 y=115.5 Arial-Bold/18 "markout" #000000
+p1 text  x=118.5 y=115.5 Arial-Bold/18 "showcase" #000000
+p1 text  x=42.5 y=143.5 Arial/9.5 "This document contains every kind of element markout can render, each with" #1A1A1A
+p1 text  x=368.6 y=143.5 Arial/9.5 "a" #1A1A1A
+p1 text  x=376.5 y=143.5 Arial/9.5 "short note saying what you should see." #1A1A1A
+p1 text  x=42.5 y=156.5 Arial/9.5 "Convert it to PDF and to DOCX and" #1A1A1A
+p1 text  x=195.5 y=156.5 Arial/9.5 "read" #1A1A1A
+p1 text  x=217.1 y=156.5 Arial/9.5 "through the result: if every note is true, the output is" #1A1A1A
+p1 text  x=436.1 y=156.5 Arial/9.5 "fine." #1A1A1A
+p1 rect  x=42.5 y=174.5 w=510.2 h=31.0 fill=#F4F4F4 stroke=#D4D4D4/1.0
+p1 text  x=47.5 y=179.5 Courier/8 "markout fixtures/showcase.md showcase.pdf" #1A1A1A
+p1 text  x=47.5 y=190.0 Courier/8 "markout fixtures/showcase.md showcase.docx" #1A1A1A
+p1 text  x=42.5 y=210.5 Arial/9.5 "Above this heading there should be a table of the title, author and date" #1A1A1A
+p1 text  x=338.0 y=210.5 Arial/9.5 ":" #1A1A1A
+p1 text  x=343.3 y=210.5 Arial/9.5 "the labels in a column on the left, a thin line" #1A1A1A
+p1 text  x=42.5 y=223.5 Arial/9.5 "between the" #1A1A1A
+p1 text  x=96.9 y=223.5 Arial/9.5 "rows." #1A1A1A
+p1 anchor y=251.5 1-headings
 p1 bookmark level=2 "1. Headings"
-p1 text  x=42.5 y=232.5 Arial-Bold/14 "1." #000000
-p1 text  x=58.1 y=232.5 Arial-Bold/14 "Headings" #000000
-p1 text  x=42.5 y=255.5 Arial/9.5 "The six heading levels follow, each smaller than the one" #1A1A1A
-p1 text  x=280.5 y=255.5 Arial/9.5 "before." #1A1A1A
-p1 anchor y=283.5 heading-level-1
+p1 text  x=42.5 y=251.5 Arial-Bold/14 "1." #000000
+p1 text  x=58.1 y=251.5 Arial-Bold/14 "Headings" #000000
+p1 text  x=42.5 y=274.5 Arial/9.5 "The six heading levels follow, each smaller than the one" #1A1A1A
+p1 text  x=280.5 y=274.5 Arial/9.5 "before." #1A1A1A
+p1 anchor y=302.5 heading-level-1
 p1 bookmark level=1 "Heading level 1"
-p1 text  x=42.5 y=283.5 Arial-Bold/18 "Heading level" #000000
-p1 text  x=163.4 y=283.5 Arial-Bold/18 "1" #000000
-p1 anchor y=321.5 heading-level-2
+p1 text  x=42.5 y=302.5 Arial-Bold/18 "Heading level" #000000
+p1 text  x=163.4 y=302.5 Arial-Bold/18 "1" #000000
+p1 anchor y=340.5 heading-level-2
 p1 bookmark level=2 "Heading level 2"
-p1 text  x=42.5 y=321.5 Arial-Bold/14 "Heading level" #000000
-p1 text  x=136.6 y=321.5 Arial-Bold/14 "2" #000000
-p1 anchor y=352.5 heading-level-3
+p1 text  x=42.5 y=340.5 Arial-Bold/14 "Heading level" #000000
+p1 text  x=136.6 y=340.5 Arial-Bold/14 "2" #000000
+p1 anchor y=371.5 heading-level-3
 p1 bookmark level=3 "Heading level 3"
-p1 text  x=42.5 y=352.5 Arial-Bold/12 "Heading level" #000000
-p1 text  x=123.1 y=352.5 Arial-Bold/12 "3" #000000
-p1 anchor y=377.5 heading-level-4
+p1 text  x=42.5 y=371.5 Arial-Bold/12 "Heading level" #000000
+p1 text  x=123.1 y=371.5 Arial-Bold/12 "3" #000000
+p1 anchor y=396.5 heading-level-4
 p1 bookmark level=4 "Heading level 4"
-p1 text  x=42.5 y=377.5 Arial-Bold/10.5 "Heading level" #000000
-p1 text  x=113.0 y=377.5 Arial-Bold/10.5 "4" #000000
-p1 anchor y=400.5 heading-level-5
+p1 text  x=42.5 y=396.5 Arial-Bold/10.5 "Heading level" #000000
+p1 text  x=113.0 y=396.5 Arial-Bold/10.5 "4" #000000
+p1 anchor y=419.5 heading-level-5
 p1 bookmark level=5 "Heading level 5"
-p1 text  x=42.5 y=400.5 Arial-Bold/10 "Heading level" #000000
-p1 text  x=109.7 y=400.5 Arial-Bold/10 "5" #000000
-p1 anchor y=422.5 heading-level-6
+p1 text  x=42.5 y=419.5 Arial-Bold/10 "Heading level" #000000
+p1 text  x=109.7 y=419.5 Arial-Bold/10 "5" #000000
+p1 anchor y=441.5 heading-level-6
 p1 bookmark level=6 "Heading level 6"
-p1 text  x=42.5 y=422.5 Arial-Bold/9.5 "Heading level" #000000
-p1 text  x=106.3 y=422.5 Arial-Bold/9.5 "6" #000000
-p1 anchor y=448.5 2-text-formatting
+p1 text  x=42.5 y=441.5 Arial-Bold/9.5 "Heading level" #000000
+p1 text  x=106.3 y=441.5 Arial-Bold/9.5 "6" #000000
+p1 anchor y=467.5 2-text-formatting
 p1 bookmark level=2 "2. Text formatting"
-p1 text  x=42.5 y=448.5 Arial-Bold/14 "2. Text" #000000
-p1 text  x=90.7 y=448.5 Arial-Bold/14 "formatting" #000000
-p1 text  x=42.5 y=471.5 Arial/9.5 "Each word in quotes should look the way it describes itself: \"" #1A1A1A
-p1 text  x=296.0 y=471.5 Arial-Bold/9.5 "bold" #1A1A1A
-p1 text  x=316.0 y=471.5 Arial/9.5 "\"," #1A1A1A
-p1 text  x=324.6 y=471.5 Arial/9.5 "\"" #1A1A1A
-p1 text  x=328.0 y=471.5 Arial-Italic/9.5 "italic" #1A1A1A
-p1 text  x=347.0 y=471.5 Arial/9.5 "\", \"" #1A1A1A
-p1 text  x=359.0 y=471.5 Arial-BoldItalic/9.5 "bold italic" #1A1A1A
-p1 text  x=403.2 y=471.5 Arial/9.5 "\", \"" #1A1A1A
-p1 text  x=415.2 y=473.0 Courier/8.5 "inline code" #B42318
-p1 text  x=471.3 y=471.5 Arial/9.5 "\" (monospace," #1A1A1A
-p1 text  x=42.5 y=484.5 Arial/9.5 "colored)," #1A1A1A
-p1 text  x=82.1 y=484.5 Arial/9.5 "\"" #1A1A1A
-p1 text  x=85.5 y=484.5 Arial/9.5 "struck through" #888888
-p1 line  x=85.5 y=490.0 to x=145.6 y=490.0 #888888/0.6
-p1 text  x=145.6 y=484.5 Arial/9.5 "\" (with a line through it), \"" #1A1A1A
-p1 text  x=251.0 y=484.5 Arial/9.5 "underlined" #1A1A1A
-p1 line  x=251.0 y=495.0 to x=295.3 y=495.0 #1A1A1A/0.6
-p1 text  x=295.3 y=484.5 Arial/9.5 "\"," #1A1A1A
-p1 text  x=304.0 y=484.5 Arial/9.5 "\"" #1A1A1A
-p1 rect  x=307.3 y=483.5 w=45.9 h=12.5 fill=#FFF082
-p1 text  x=307.3 y=484.5 Arial/9.5 "highlighted" #1A1A1A
-p1 text  x=353.3 y=484.5 Arial/9.5 "\" (on a colored" #1A1A1A
-p1 text  x=417.3 y=484.5 Arial/9.5 "background)." #1A1A1A
-p1 text  x=42.5 y=502.5 Arial/9.5 "Water is H" #1A1A1A
-p1 text  x=86.8 y=507.0 Arial/7 "2" #1A1A1A
-p1 text  x=90.7 y=502.5 Arial/9.5 "O (the 2 sits below the line) and Einstein" #1A1A1A
-p1 text  x=263.2 y=502.5 Arial/9.5 "wrote" #1A1A1A
-p1 text  x=289.1 y=502.5 Arial/9.5 "E = mc" #1A1A1A
-p1 text  x=318.9 y=501.5 Arial/7 "2" #1A1A1A
-p1 text  x=325.4 y=502.5 Arial/9.5 "(the 2 sits above" #1A1A1A
-p1 text  x=397.7 y=502.5 Arial/9.5 "it)." #1A1A1A
-p1 text  x=42.5 y=520.5 Arial/9.5 "A paragraph long enough to wrap should fill the line and continue on the" #1A1A1A
-p1 text  x=347.6 y=520.5 Arial/9.5 "next" #1A1A1A
-p1 text  x=368.1 y=520.5 Arial/9.5 "one without any word being cut in half or" #1A1A1A
-p1 text  x=42.5 y=533.5 Arial/9.5 "running past the right margin," #1A1A1A
-p1 text  x=168.6 y=533.5 Arial/9.5 "which" #1A1A1A
-p1 text  x=195.5 y=533.5 Arial/9.5 "this sentence is here to demonstrate by simply being" #1A1A1A
-p1 text  x=419.3 y=533.5 Arial/9.5 "long." #1A1A1A
-p1 text  x=42.5 y=551.5 Arial/9.5 "Escaped characters appear without their backslash: *not italic*, # not" #1A1A1A
-p1 text  x=333.8 y=551.5 Arial/9.5 "a" #1A1A1A
-p1 text  x=341.7 y=551.5 Arial/9.5 "heading, [not a link]. A copyright sign from an" #1A1A1A
-p1 text  x=42.5 y=564.5 Arial/9.5 "entity:" #1A1A1A
-p1 text  x=70.5 y=564.5 Arial/9.5 "©." #1A1A1A
-p1 anchor y=592.5 3-links
+p1 text  x=42.5 y=467.5 Arial-Bold/14 "2. Text" #000000
+p1 text  x=90.7 y=467.5 Arial-Bold/14 "formatting" #000000
+p1 text  x=42.5 y=490.5 Arial/9.5 "Each word in quotes should look the way it describes itself: \"" #1A1A1A
+p1 text  x=296.0 y=490.5 Arial-Bold/9.5 "bold" #1A1A1A
+p1 text  x=316.0 y=490.5 Arial/9.5 "\"," #1A1A1A
+p1 text  x=324.6 y=490.5 Arial/9.5 "\"" #1A1A1A
+p1 text  x=328.0 y=490.5 Arial-Italic/9.5 "italic" #1A1A1A
+p1 text  x=347.0 y=490.5 Arial/9.5 "\", \"" #1A1A1A
+p1 text  x=359.0 y=490.5 Arial-BoldItalic/9.5 "bold italic" #1A1A1A
+p1 text  x=403.2 y=490.5 Arial/9.5 "\", \"" #1A1A1A
+p1 text  x=415.2 y=492.0 Courier/8.5 "inline code" #B42318
+p1 text  x=471.3 y=490.5 Arial/9.5 "\" (monospace," #1A1A1A
+p1 text  x=42.5 y=503.5 Arial/9.5 "colored)," #1A1A1A
+p1 text  x=82.1 y=503.5 Arial/9.5 "\"" #1A1A1A
+p1 text  x=85.5 y=503.5 Arial/9.5 "struck through" #888888
+p1 line  x=85.5 y=509.0 to x=145.6 y=509.0 #888888/0.6
+p1 text  x=145.6 y=503.5 Arial/9.5 "\" (with a line through it), \"" #1A1A1A
+p1 text  x=251.0 y=503.5 Arial/9.5 "underlined" #1A1A1A
+p1 line  x=251.0 y=514.0 to x=295.3 y=514.0 #1A1A1A/0.6
+p1 text  x=295.3 y=503.5 Arial/9.5 "\"," #1A1A1A
+p1 text  x=304.0 y=503.5 Arial/9.5 "\"" #1A1A1A
+p1 rect  x=307.3 y=502.5 w=45.9 h=12.5 fill=#FFF082
+p1 text  x=307.3 y=503.5 Arial/9.5 "highlighted" #1A1A1A
+p1 text  x=353.3 y=503.5 Arial/9.5 "\" (on a colored" #1A1A1A
+p1 text  x=417.3 y=503.5 Arial/9.5 "background)." #1A1A1A
+p1 text  x=42.5 y=521.5 Arial/9.5 "Water is H" #1A1A1A
+p1 text  x=86.8 y=526.0 Arial/7 "2" #1A1A1A
+p1 text  x=90.7 y=521.5 Arial/9.5 "O (the 2 sits below the line) and Einstein" #1A1A1A
+p1 text  x=263.2 y=521.5 Arial/9.5 "wrote" #1A1A1A
+p1 text  x=289.1 y=521.5 Arial/9.5 "E = mc" #1A1A1A
+p1 text  x=318.9 y=520.5 Arial/7 "2" #1A1A1A
+p1 text  x=325.4 y=521.5 Arial/9.5 "(the 2 sits above" #1A1A1A
+p1 text  x=397.7 y=521.5 Arial/9.5 "it)." #1A1A1A
+p1 text  x=42.5 y=539.5 Arial/9.5 "A paragraph long enough to wrap should fill the line and continue on the" #1A1A1A
+p1 text  x=347.6 y=539.5 Arial/9.5 "next" #1A1A1A
+p1 text  x=368.1 y=539.5 Arial/9.5 "one without any word being cut in half or" #1A1A1A
+p1 text  x=42.5 y=552.5 Arial/9.5 "running past the right margin," #1A1A1A
+p1 text  x=168.6 y=552.5 Arial/9.5 "which" #1A1A1A
+p1 text  x=195.5 y=552.5 Arial/9.5 "this sentence is here to demonstrate by simply being" #1A1A1A
+p1 text  x=419.3 y=552.5 Arial/9.5 "long." #1A1A1A
+p1 text  x=42.5 y=570.5 Arial/9.5 "Escaped characters appear without their backslash: *not italic*, # not" #1A1A1A
+p1 text  x=333.8 y=570.5 Arial/9.5 "a" #1A1A1A
+p1 text  x=341.7 y=570.5 Arial/9.5 "heading, [not a link]. A copyright sign from an" #1A1A1A
+p1 text  x=42.5 y=583.5 Arial/9.5 "entity:" #1A1A1A
+p1 text  x=70.5 y=583.5 Arial/9.5 "©." #1A1A1A
+p1 anchor y=611.5 3-links
 p1 bookmark level=2 "3. Links"
-p1 text  x=42.5 y=592.5 Arial-Bold/14 "3." #000000
-p1 text  x=58.1 y=592.5 Arial-Bold/14 "Links" #000000
-p1 text  x=42.5 y=615.5 Arial/9.5 "A" #1A1A1A
-p1 text  x=51.5 y=615.5 Arial/9.5 "link with text" #1D4ED8
-p1 text  x=105.8 y=615.5 Arial/9.5 "and a bare" #1A1A1A
-p1 text  x=153.8 y=615.5 Arial/9.5 "address," #1A1A1A
-p1 text  x=192.9 y=615.5 Arial/9.5 "https://example.com/bare" #1D4ED8
-p1 text  x=299.5 y=615.5 Arial/9.5 ", should both be colored and" #1A1A1A
-p1 text  x=421.9 y=615.5 Arial/9.5 "clickable." #1A1A1A
-p1 anchor y=643.5 4-lists
+p1 text  x=42.5 y=611.5 Arial-Bold/14 "3." #000000
+p1 text  x=58.1 y=611.5 Arial-Bold/14 "Links" #000000
+p1 text  x=42.5 y=634.5 Arial/9.5 "A" #1A1A1A
+p1 text  x=51.5 y=634.5 Arial/9.5 "link with text" #1D4ED8
+p1 text  x=105.8 y=634.5 Arial/9.5 "and a bare" #1A1A1A
+p1 text  x=153.8 y=634.5 Arial/9.5 "address," #1A1A1A
+p1 text  x=192.9 y=634.5 Arial/9.5 "https://example.com/bare" #1D4ED8
+p1 text  x=299.5 y=634.5 Arial/9.5 ", should both be colored and" #1A1A1A
+p1 text  x=421.9 y=634.5 Arial/9.5 "clickable." #1A1A1A
+p1 anchor y=662.5 4-lists
 p1 bookmark level=2 "4. Lists"
-p1 text  x=42.5 y=643.5 Arial-Bold/14 "4." #000000
-p1 text  x=58.1 y=643.5 Arial-Bold/14 "Lists" #000000
-p1 text  x=42.5 y=666.5 Arial/9.5 "Three bullets, the second with two nested ones" #1A1A1A
-p1 text  x=240.4 y=666.5 Arial/9.5 ":" #1A1A1A
-p1 text  x=56.5 y=684.5 Arial/9.5 "• " #1A1A1A
-p1 text  x=62.5 y=684.5 Arial/9.5 "First" #1A1A1A
-p1 text  x=83.6 y=684.5 Arial/9.5 "item" #1A1A1A
-p1 text  x=56.5 y=697.5 Arial/9.5 "• " #1A1A1A
-p1 text  x=62.5 y=697.5 Arial/9.5 "Second item, with" #1A1A1A
-p1 text  x=140.0 y=697.5 Arial-Bold/9.5 "bold" #1A1A1A
-p1 text  x=162.7 y=697.5 Arial/9.5 "and" #1A1A1A
-p1 text  x=181.2 y=699.0 Courier/8.5 "code" #B42318
-p1 text  x=204.2 y=697.5 Arial/9.5 "inside" #1A1A1A
-p1 text  x=231.6 y=697.5 Arial/9.5 "it" #1A1A1A
-p1 text  x=70.5 y=710.5 Arial/9.5 "◦ " #1A1A1A
-p1 text  x=76.5 y=710.5 Arial/9.5 "Nested item" #1A1A1A
-p1 text  x=129.8 y=710.5 Arial/9.5 "one" #1A1A1A
-p1 text  x=70.5 y=723.5 Arial/9.5 "◦ " #1A1A1A
-p1 text  x=76.5 y=723.5 Arial/9.5 "Nested item" #1A1A1A
-p1 text  x=129.8 y=723.5 Arial/9.5 "two" #1A1A1A
-p1 text  x=56.5 y=736.5 Arial/9.5 "• " #1A1A1A
-p1 text  x=62.5 y=736.5 Arial/9.5 "Third item, long enough to wrap onto a second line so that you can check" #1A1A1A
-p1 text  x=372.8 y=736.5 Arial/9.5 "the" #1A1A1A
-p1 text  x=388.6 y=736.5 Arial/9.5 "continuation line starts under the first" #1A1A1A
-p1 text  x=56.5 y=749.5 Arial/9.5 "one and not at the page" #1A1A1A
-p1 text  x=159.4 y=749.5 Arial/9.5 "margin" #1A1A1A
-p1 text  x=42.5 y=766.5 Arial/9.5 "Three numbered items" #1A1A1A
-p1 text  x=138.0 y=766.5 Arial/9.5 ":" #1A1A1A
-p1 text  x=56.5 y=784.5 Arial/9.5 "1. " #1A1A1A
-p1 text  x=67.1 y=784.5 Arial/9.5 "First" #1A1A1A
-p2 text  x=56.5 y=42.5 Arial/9.5 "2. " #1A1A1A
-p2 text  x=67.1 y=42.5 Arial/9.5 "Second" #1A1A1A
-p2 text  x=56.5 y=55.5 Arial/9.5 "3. " #1A1A1A
-p2 text  x=67.1 y=55.5 Arial/9.5 "Third" #1A1A1A
-p2 text  x=42.5 y=72.5 Arial/9.5 "A task list, the first box checked and the second empty" #1A1A1A
-p2 text  x=271.5 y=72.5 Arial/9.5 ":" #1A1A1A
-p2 text  x=56.5 y=90.5 Arial/9.5 "[x] " #1A1A1A
-p2 text  x=69.2 y=90.5 Arial/9.5 "Done" #1A1A1A
-p2 text  x=56.5 y=103.5 Arial/9.5 "[ ] " #1A1A1A
-p2 text  x=67.0 y=103.5 Arial/9.5 "Still to" #1A1A1A
-p2 text  x=95.5 y=103.5 Arial/9.5 "do" #1A1A1A
-p2 text  x=42.5 y=120.5 Arial/9.5 "Two numbered steps that hold more than a line of text. Under the first, a" #1A1A1A
-p2 text  x=347.5 y=120.5 Arial/9.5 "code" #1A1A1A
-p2 text  x=370.7 y=120.5 Arial/9.5 "block and then a second paragraph; under" #1A1A1A
-p2 text  x=42.5 y=133.5 Arial/9.5 "the second, a small table and" #1A1A1A
-p2 text  x=168.6 y=133.5 Arial/9.5 "a" #1A1A1A
-p2 text  x=176.6 y=133.5 Arial/9.5 "quote. All of it is indented to the text of its step, and the second step" #1A1A1A
-p2 text  x=463.5 y=133.5 Arial/9.5 "is" #1A1A1A
-p2 text  x=473.0 y=133.5 Arial/9.5 "numbered 2" #1A1A1A
-p2 text  x=523.7 y=133.5 Arial/9.5 ":" #1A1A1A
-p2 text  x=56.5 y=151.5 Arial/9.5 "1. " #1A1A1A
-p2 text  x=67.1 y=151.5 Arial/9.5 "Run the command" #1A1A1A
-p2 text  x=144.7 y=151.5 Arial/9.5 ":" #1A1A1A
-p2 rect  x=67.1 y=167.0 w=485.7 h=20.5 fill=#F4F4F4 stroke=#D4D4D4/0.5
-p2 text  x=72.1 y=172.0 Courier/8 "markout notes.md notes.pdf" #1A1A1A
-p2 text  x=67.1 y=192.5 Arial/9.5 "The file is written next to the" #1A1A1A
-p2 text  x=187.8 y=192.5 Arial/9.5 "source." #1A1A1A
-p2 text  x=56.5 y=210.5 Arial/9.5 "2. " #1A1A1A
-p2 text  x=67.1 y=210.5 Arial/9.5 "Check the result" #1A1A1A
-p2 text  x=135.7 y=210.5 Arial/9.5 ":" #1A1A1A
-p2 rect  x=67.1 y=226.0 w=192.4 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
-p2 rect  x=259.5 y=226.0 w=293.3 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
-p2 text  x=70.1 y=229.0 Arial-Bold/9.5 "Format" #1A1A1A
-p2 text  x=262.5 y=229.0 Arial-Bold/9.5 "Opens" #1A1A1A
-p2 text  x=294.6 y=229.0 Arial-Bold/9.5 "in" #1A1A1A
-p2 rect  x=67.1 y=243.5 w=192.4 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 rect  x=259.5 y=243.5 w=293.3 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 text  x=70.1 y=246.5 Arial/9.5 "PDF" #1A1A1A
-p2 text  x=262.5 y=246.5 Arial/9.5 "any" #1A1A1A
-p2 text  x=280.4 y=246.5 Arial/9.5 "viewer" #1A1A1A
-p2 text  x=81.1 y=267.0 Arial-Italic/9.5 "Quoted inside a" #1A1A1A
-p2 text  x=150.2 y=267.0 Arial-Italic/9.5 "step." #1A1A1A
-p2 line  x=72.1 y=267.0 to x=72.1 y=280.0 #B4B4B4/3.0
-p2 anchor y=297.0 5-tables
+p1 text  x=42.5 y=662.5 Arial-Bold/14 "4." #000000
+p1 text  x=58.1 y=662.5 Arial-Bold/14 "Lists" #000000
+p1 text  x=42.5 y=685.5 Arial/9.5 "Three bullets, the second with two nested ones" #1A1A1A
+p1 text  x=240.4 y=685.5 Arial/9.5 ":" #1A1A1A
+p1 text  x=56.5 y=703.5 Arial/9.5 "• " #1A1A1A
+p1 text  x=62.5 y=703.5 Arial/9.5 "First" #1A1A1A
+p1 text  x=83.6 y=703.5 Arial/9.5 "item" #1A1A1A
+p1 text  x=56.5 y=716.5 Arial/9.5 "• " #1A1A1A
+p1 text  x=62.5 y=716.5 Arial/9.5 "Second item, with" #1A1A1A
+p1 text  x=140.0 y=716.5 Arial-Bold/9.5 "bold" #1A1A1A
+p1 text  x=162.7 y=716.5 Arial/9.5 "and" #1A1A1A
+p1 text  x=181.2 y=718.0 Courier/8.5 "code" #B42318
+p1 text  x=204.2 y=716.5 Arial/9.5 "inside" #1A1A1A
+p1 text  x=231.6 y=716.5 Arial/9.5 "it" #1A1A1A
+p1 text  x=70.5 y=729.5 Arial/9.5 "◦ " #1A1A1A
+p1 text  x=76.5 y=729.5 Arial/9.5 "Nested item" #1A1A1A
+p1 text  x=129.8 y=729.5 Arial/9.5 "one" #1A1A1A
+p1 text  x=70.5 y=742.5 Arial/9.5 "◦ " #1A1A1A
+p1 text  x=76.5 y=742.5 Arial/9.5 "Nested item" #1A1A1A
+p1 text  x=129.8 y=742.5 Arial/9.5 "two" #1A1A1A
+p1 text  x=56.5 y=755.5 Arial/9.5 "• " #1A1A1A
+p1 text  x=62.5 y=755.5 Arial/9.5 "Third item, long enough to wrap onto a second line so that you can check" #1A1A1A
+p1 text  x=372.8 y=755.5 Arial/9.5 "the" #1A1A1A
+p1 text  x=388.6 y=755.5 Arial/9.5 "continuation line starts under the first" #1A1A1A
+p1 text  x=56.5 y=768.5 Arial/9.5 "one and not at the page" #1A1A1A
+p1 text  x=159.4 y=768.5 Arial/9.5 "margin" #1A1A1A
+p1 text  x=42.5 y=785.5 Arial/9.5 "Three numbered items" #1A1A1A
+p1 text  x=138.0 y=785.5 Arial/9.5 ":" #1A1A1A
+p2 text  x=56.5 y=42.5 Arial/9.5 "1. " #1A1A1A
+p2 text  x=67.1 y=42.5 Arial/9.5 "First" #1A1A1A
+p2 text  x=56.5 y=55.5 Arial/9.5 "2. " #1A1A1A
+p2 text  x=67.1 y=55.5 Arial/9.5 "Second" #1A1A1A
+p2 text  x=56.5 y=68.5 Arial/9.5 "3. " #1A1A1A
+p2 text  x=67.1 y=68.5 Arial/9.5 "Third" #1A1A1A
+p2 text  x=42.5 y=85.5 Arial/9.5 "A task list, the first box checked and the second empty" #1A1A1A
+p2 text  x=271.5 y=85.5 Arial/9.5 ":" #1A1A1A
+p2 text  x=56.5 y=103.5 Arial/9.5 "[x] " #1A1A1A
+p2 text  x=69.2 y=103.5 Arial/9.5 "Done" #1A1A1A
+p2 text  x=56.5 y=116.5 Arial/9.5 "[ ] " #1A1A1A
+p2 text  x=67.0 y=116.5 Arial/9.5 "Still to" #1A1A1A
+p2 text  x=95.5 y=116.5 Arial/9.5 "do" #1A1A1A
+p2 text  x=42.5 y=133.5 Arial/9.5 "Two numbered steps that hold more than a line of text. Under the first, a" #1A1A1A
+p2 text  x=347.5 y=133.5 Arial/9.5 "code" #1A1A1A
+p2 text  x=370.7 y=133.5 Arial/9.5 "block and then a second paragraph; under" #1A1A1A
+p2 text  x=42.5 y=146.5 Arial/9.5 "the second, a small table and" #1A1A1A
+p2 text  x=168.6 y=146.5 Arial/9.5 "a" #1A1A1A
+p2 text  x=176.6 y=146.5 Arial/9.5 "quote. All of it is indented to the text of its step, and the second step" #1A1A1A
+p2 text  x=463.5 y=146.5 Arial/9.5 "is" #1A1A1A
+p2 text  x=473.0 y=146.5 Arial/9.5 "numbered 2" #1A1A1A
+p2 text  x=523.7 y=146.5 Arial/9.5 ":" #1A1A1A
+p2 text  x=56.5 y=164.5 Arial/9.5 "1. " #1A1A1A
+p2 text  x=67.1 y=164.5 Arial/9.5 "Run the command" #1A1A1A
+p2 text  x=144.7 y=164.5 Arial/9.5 ":" #1A1A1A
+p2 rect  x=67.1 y=180.0 w=485.7 h=20.5 fill=#F4F4F4 stroke=#D4D4D4/0.5
+p2 text  x=72.1 y=185.0 Courier/8 "markout notes.md notes.pdf" #1A1A1A
+p2 text  x=67.1 y=205.5 Arial/9.5 "The file is written next to the" #1A1A1A
+p2 text  x=187.8 y=205.5 Arial/9.5 "source." #1A1A1A
+p2 text  x=56.5 y=223.5 Arial/9.5 "2. " #1A1A1A
+p2 text  x=67.1 y=223.5 Arial/9.5 "Check the result" #1A1A1A
+p2 text  x=135.7 y=223.5 Arial/9.5 ":" #1A1A1A
+p2 rect  x=67.1 y=239.0 w=192.4 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
+p2 rect  x=259.5 y=239.0 w=293.3 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
+p2 text  x=70.1 y=242.0 Arial-Bold/9.5 "Format" #1A1A1A
+p2 text  x=262.5 y=242.0 Arial-Bold/9.5 "Opens" #1A1A1A
+p2 text  x=294.6 y=242.0 Arial-Bold/9.5 "in" #1A1A1A
+p2 rect  x=67.1 y=256.5 w=192.4 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 rect  x=259.5 y=256.5 w=293.3 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 text  x=70.1 y=259.5 Arial/9.5 "PDF" #1A1A1A
+p2 text  x=262.5 y=259.5 Arial/9.5 "any" #1A1A1A
+p2 text  x=280.4 y=259.5 Arial/9.5 "viewer" #1A1A1A
+p2 text  x=81.1 y=280.0 Arial-Italic/9.5 "Quoted inside a" #1A1A1A
+p2 text  x=150.2 y=280.0 Arial-Italic/9.5 "step." #1A1A1A
+p2 line  x=72.1 y=280.0 to x=72.1 y=293.0 #B4B4B4/3.0
+p2 anchor y=310.0 5-tables
 p2 bookmark level=2 "5. Tables"
-p2 text  x=42.5 y=297.0 Arial-Bold/14 "5." #000000
-p2 text  x=58.1 y=297.0 Arial-Bold/14 "Tables" #000000
-p2 text  x=42.5 y=320.0 Arial/9.5 "A table with a shaded header row, borders, and the numbers in the third" #1A1A1A
-p2 text  x=347.0 y=320.0 Arial/9.5 "column" #1A1A1A
-p2 text  x=380.2 y=320.0 Arial/9.5 "right-aligned. The last row has formatting" #1A1A1A
-p2 text  x=42.5 y=333.0 Arial/9.5 "and a long cell that" #1A1A1A
-p2 text  x=124.8 y=333.0 Arial/9.5 "wraps." #1A1A1A
-p2 rect  x=42.5 y=351.0 w=90.8 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
-p2 rect  x=133.3 y=351.0 w=360.9 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
-p2 rect  x=494.3 y=351.0 w=58.5 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
-p2 text  x=45.5 y=354.0 Arial-Bold/9.5 "Element" #1A1A1A
-p2 text  x=136.3 y=354.0 Arial-Bold/9.5 "Example" #1A1A1A
-p2 text  x=522.4 y=354.0 Arial-Bold/9.5 "Count" #1A1A1A
-p2 rect  x=42.5 y=368.5 w=90.8 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 rect  x=133.3 y=368.5 w=360.9 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 rect  x=494.3 y=368.5 w=58.5 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 text  x=45.5 y=371.5 Arial/9.5 "Plain" #1A1A1A
-p2 text  x=136.3 y=371.5 Arial/9.5 "text" #1A1A1A
-p2 text  x=544.5 y=371.5 Arial/9.5 "1" #1A1A1A
-p2 rect  x=42.5 y=386.0 w=90.8 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
-p2 rect  x=133.3 y=386.0 w=360.9 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
-p2 rect  x=494.3 y=386.0 w=58.5 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
-p2 text  x=45.5 y=389.0 Arial/9.5 "Formatted" #1A1A1A
-p2 text  x=136.3 y=389.0 Arial-Bold/9.5 "bold" #1A1A1A
-p2 text  x=156.3 y=389.0 Arial/9.5 "," #1A1A1A
-p2 text  x=161.6 y=389.0 Arial-Italic/9.5 "italic" #1A1A1A
-p2 text  x=180.6 y=389.0 Arial/9.5 "," #1A1A1A
-p2 text  x=185.8 y=390.5 Courier/8.5 "code" #B42318
-p2 text  x=539.2 y=389.0 Arial/9.5 "22" #1A1A1A
-p2 rect  x=42.5 y=403.5 w=90.8 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 rect  x=133.3 y=403.5 w=360.9 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 rect  x=494.3 y=403.5 w=58.5 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
-p2 text  x=45.5 y=406.5 Arial/9.5 "Long" #1A1A1A
-p2 text  x=136.3 y=406.5 Arial/9.5 "A cell with enough text that it has to wrap onto more than one line inside its" #1A1A1A
-p2 text  x=453.4 y=406.5 Arial/9.5 "column" #1A1A1A
-p2 text  x=533.9 y=406.5 Arial/9.5 "333" #1A1A1A
-p2 anchor y=437.0 6-code
+p2 text  x=42.5 y=310.0 Arial-Bold/14 "5." #000000
+p2 text  x=58.1 y=310.0 Arial-Bold/14 "Tables" #000000
+p2 text  x=42.5 y=333.0 Arial/9.5 "A table with a shaded header row, borders, and the numbers in the third" #1A1A1A
+p2 text  x=347.0 y=333.0 Arial/9.5 "column" #1A1A1A
+p2 text  x=380.2 y=333.0 Arial/9.5 "right-aligned. The last row has formatting" #1A1A1A
+p2 text  x=42.5 y=346.0 Arial/9.5 "and a long cell that" #1A1A1A
+p2 text  x=124.8 y=346.0 Arial/9.5 "wraps." #1A1A1A
+p2 rect  x=42.5 y=364.0 w=90.8 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
+p2 rect  x=133.3 y=364.0 w=360.9 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
+p2 rect  x=494.3 y=364.0 w=58.5 h=17.5 fill=#EDEDED stroke=#C8C8C8/0.5
+p2 text  x=45.5 y=367.0 Arial-Bold/9.5 "Element" #1A1A1A
+p2 text  x=136.3 y=367.0 Arial-Bold/9.5 "Example" #1A1A1A
+p2 text  x=522.4 y=367.0 Arial-Bold/9.5 "Count" #1A1A1A
+p2 rect  x=42.5 y=381.5 w=90.8 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 rect  x=133.3 y=381.5 w=360.9 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 rect  x=494.3 y=381.5 w=58.5 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 text  x=45.5 y=384.5 Arial/9.5 "Plain" #1A1A1A
+p2 text  x=136.3 y=384.5 Arial/9.5 "text" #1A1A1A
+p2 text  x=544.5 y=384.5 Arial/9.5 "1" #1A1A1A
+p2 rect  x=42.5 y=399.0 w=90.8 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
+p2 rect  x=133.3 y=399.0 w=360.9 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
+p2 rect  x=494.3 y=399.0 w=58.5 h=17.5 fill=#F8F8F8 stroke=#C8C8C8/0.5
+p2 text  x=45.5 y=402.0 Arial/9.5 "Formatted" #1A1A1A
+p2 text  x=136.3 y=402.0 Arial-Bold/9.5 "bold" #1A1A1A
+p2 text  x=156.3 y=402.0 Arial/9.5 "," #1A1A1A
+p2 text  x=161.6 y=402.0 Arial-Italic/9.5 "italic" #1A1A1A
+p2 text  x=180.6 y=402.0 Arial/9.5 "," #1A1A1A
+p2 text  x=185.8 y=403.5 Courier/8.5 "code" #B42318
+p2 text  x=539.2 y=402.0 Arial/9.5 "22" #1A1A1A
+p2 rect  x=42.5 y=416.5 w=90.8 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 rect  x=133.3 y=416.5 w=360.9 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 rect  x=494.3 y=416.5 w=58.5 h=17.5 fill=#FFFFFF stroke=#C8C8C8/0.5
+p2 text  x=45.5 y=419.5 Arial/9.5 "Long" #1A1A1A
+p2 text  x=136.3 y=419.5 Arial/9.5 "A cell with enough text that it has to wrap onto more than one line inside its" #1A1A1A
+p2 text  x=453.4 y=419.5 Arial/9.5 "column" #1A1A1A
+p2 text  x=533.9 y=419.5 Arial/9.5 "333" #1A1A1A
+p2 anchor y=450.0 6-code
 p2 bookmark level=2 "6. Code"
-p2 text  x=42.5 y=437.0 Arial-Bold/14 "6." #000000
-p2 text  x=58.1 y=437.0 Arial-Bold/14 "Code" #000000
-p2 text  x=42.5 y=460.0 Arial/9.5 "A code block in a monospace font on a shaded panel, with its" #1A1A1A
-p2 text  x=302.7 y=460.0 Arial/9.5 "indentation" #1A1A1A
-p2 text  x=351.8 y=460.0 Arial/9.5 "preserved. It names its language, so the" #1A1A1A
-p2 text  x=42.5 y=473.0 Arial/9.5 "keywords, the function names and" #1A1A1A
-p2 text  x=189.2 y=473.0 Arial/9.5 "the" #1A1A1A
-p2 text  x=205.1 y=473.0 Arial/9.5 "text in quotes each have a color of their own" #1A1A1A
-p2 text  x=390.8 y=473.0 Arial/9.5 ":" #1A1A1A
-p2 rect  x=42.5 y=491.0 w=510.2 h=62.5 fill=#F4F4F4 stroke=#D4D4D4/0.5
-p2 text  x=47.5 y=496.0 Courier/8 "func " #CF222E
-p2 text  x=71.5 y=496.0 Courier/8 "main" #6639BA
-p2 text  x=90.7 y=496.0 Courier/8 "() {" #1A1A1A
-p2 text  x=47.5 y=506.5 Courier/8 "    if " #CF222E
-p2 text  x=81.1 y=506.5 Courier/8 "ok := " #1A1A1A
-p2 text  x=109.9 y=506.5 Courier/8 "convert" #6639BA
-p2 text  x=143.5 y=506.5 Courier/8 "(); !ok {" #1A1A1A
-p2 text  x=47.5 y=517.0 Courier/8 "        fmt." #1A1A1A
-p2 text  x=105.1 y=517.0 Courier/8 "Println" #6639BA
-p2 text  x=138.7 y=517.0 Courier/8 "(" #1A1A1A
-p2 text  x=143.5 y=517.0 Courier/8 "\"failed\"" #0A3069
-p2 text  x=181.9 y=517.0 Courier/8 ")" #1A1A1A
-p2 text  x=47.5 y=527.5 Courier/8 "    }" #1A1A1A
-p2 text  x=47.5 y=538.0 Courier/8 "}" #1A1A1A
-p2 anchor y=568.5 7-quotes
+p2 text  x=42.5 y=450.0 Arial-Bold/14 "6." #000000
+p2 text  x=58.1 y=450.0 Arial-Bold/14 "Code" #000000
+p2 text  x=42.5 y=473.0 Arial/9.5 "A code block in a monospace font on a shaded panel, with its" #1A1A1A
+p2 text  x=302.7 y=473.0 Arial/9.5 "indentation" #1A1A1A
+p2 text  x=351.8 y=473.0 Arial/9.5 "preserved. It names its language, so the" #1A1A1A
+p2 text  x=42.5 y=486.0 Arial/9.5 "keywords, the function names and" #1A1A1A
+p2 text  x=189.2 y=486.0 Arial/9.5 "the" #1A1A1A
+p2 text  x=205.1 y=486.0 Arial/9.5 "text in quotes each have a color of their own" #1A1A1A
+p2 text  x=390.8 y=486.0 Arial/9.5 ":" #1A1A1A
+p2 rect  x=42.5 y=504.0 w=510.2 h=62.5 fill=#F4F4F4 stroke=#D4D4D4/0.5
+p2 text  x=47.5 y=509.0 Courier/8 "func " #CF222E
+p2 text  x=71.5 y=509.0 Courier/8 "main" #6639BA
+p2 text  x=90.7 y=509.0 Courier/8 "() {" #1A1A1A
+p2 text  x=47.5 y=519.5 Courier/8 "    if " #CF222E
+p2 text  x=81.1 y=519.5 Courier/8 "ok := " #1A1A1A
+p2 text  x=109.9 y=519.5 Courier/8 "convert" #6639BA
+p2 text  x=143.5 y=519.5 Courier/8 "(); !ok {" #1A1A1A
+p2 text  x=47.5 y=530.0 Courier/8 "        fmt." #1A1A1A
+p2 text  x=105.1 y=530.0 Courier/8 "Println" #6639BA
+p2 text  x=138.7 y=530.0 Courier/8 "(" #1A1A1A
+p2 text  x=143.5 y=530.0 Courier/8 "\"failed\"" #0A3069
+p2 text  x=181.9 y=530.0 Courier/8 ")" #1A1A1A
+p2 text  x=47.5 y=540.5 Courier/8 "    }" #1A1A1A
+p2 text  x=47.5 y=551.0 Courier/8 "}" #1A1A1A
+p2 anchor y=581.5 7-quotes
 p2 bookmark level=2 "7. Quotes"
-p2 text  x=42.5 y=568.5 Arial-Bold/14 "7." #000000
-p2 text  x=58.1 y=568.5 Arial-Bold/14 "Quotes" #000000
-p2 text  x=42.5 y=591.5 Arial/9.5 "A quote, set off from the text by a bar on the left" #1A1A1A
-p2 text  x=243.0 y=591.5 Arial/9.5 ":" #1A1A1A
-p2 text  x=56.5 y=609.5 Arial-Italic/9.5 "The first paragraph of the quote, with" #1A1A1A
-p2 text  x=214.3 y=609.5 Arial-Italic/9.5 "emphasis" #1A1A1A
-p2 text  x=254.9 y=609.5 Arial-Italic/9.5 "." #1A1A1A
-p2 line  x=47.5 y=609.5 to x=47.5 y=622.5 #B4B4B4/3.0
-p2 text  x=56.5 y=625.5 Arial-Italic/9.5 "The second paragraph of the" #1A1A1A
-p2 text  x=181.1 y=625.5 Arial-Italic/9.5 "quote." #1A1A1A
-p2 line  x=47.5 y=625.5 to x=47.5 y=638.5 #B4B4B4/3.0
-p2 anchor y=651.5 8-callouts
+p2 text  x=42.5 y=581.5 Arial-Bold/14 "7." #000000
+p2 text  x=58.1 y=581.5 Arial-Bold/14 "Quotes" #000000
+p2 text  x=42.5 y=604.5 Arial/9.5 "A quote, set off from the text by a bar on the left" #1A1A1A
+p2 text  x=243.0 y=604.5 Arial/9.5 ":" #1A1A1A
+p2 text  x=56.5 y=622.5 Arial-Italic/9.5 "The first paragraph of the quote, with" #1A1A1A
+p2 text  x=214.3 y=622.5 Arial-Italic/9.5 "emphasis" #1A1A1A
+p2 text  x=254.9 y=622.5 Arial-Italic/9.5 "." #1A1A1A
+p2 line  x=47.5 y=622.5 to x=47.5 y=635.5 #B4B4B4/3.0
+p2 text  x=56.5 y=638.5 Arial-Italic/9.5 "The second paragraph of the" #1A1A1A
+p2 text  x=181.1 y=638.5 Arial-Italic/9.5 "quote." #1A1A1A
+p2 line  x=47.5 y=638.5 to x=47.5 y=651.5 #B4B4B4/3.0
+p2 anchor y=664.5 8-callouts
 p2 bookmark level=2 "8. Callouts"
-p2 text  x=42.5 y=651.5 Arial-Bold/14 "8." #000000
-p2 text  x=58.1 y=651.5 Arial-Bold/14 "Callouts" #000000
-p2 text  x=42.5 y=674.5 Arial/9.5 "Five boxes with a colored bar and title: blue note, green tip," #1A1A1A
-p2 text  x=293.7 y=674.5 Arial/9.5 "purple" #1A1A1A
-p2 text  x=322.7 y=674.5 Arial/9.5 "important, amber caution, red" #1A1A1A
-p2 text  x=449.3 y=674.5 Arial/9.5 "warning." #1A1A1A
-p2 rect  x=42.5 y=692.5 w=510.2 h=36.0 fill=#DBEAFE
-p2 line  x=42.5 y=692.5 to x=42.5 y=728.5 #3B82F6/3.0
-p2 text  x=47.5 y=697.5 Arial-Bold/9.5 "NOTE" #3B82F6
-p2 text  x=47.5 y=710.5 Arial/9.5 "Something worth" #1A1A1A
-p2 text  x=121.4 y=710.5 Arial/9.5 "knowing." #1A1A1A
-p2 rect  x=42.5 y=733.5 w=510.2 h=36.0 fill=#DCFCE7
-p2 line  x=42.5 y=733.5 to x=42.5 y=769.5 #22C55E/3.0
-p2 text  x=47.5 y=738.5 Arial-Bold/9.5 "TIP" #22C55E
-p2 text  x=47.5 y=751.5 Arial/9.5 "A helpful hint, with" #1A1A1A
-p2 text  x=127.2 y=751.5 Arial-Bold/9.5 "bold" #1A1A1A
-p2 text  x=149.8 y=751.5 Arial/9.5 "and" #1A1A1A
-p2 text  x=168.3 y=753.0 Courier/8.5 "code" #B42318
-p2 text  x=188.7 y=751.5 Arial/9.5 "." #1A1A1A
+p2 text  x=42.5 y=664.5 Arial-Bold/14 "8." #000000
+p2 text  x=58.1 y=664.5 Arial-Bold/14 "Callouts" #000000
+p2 text  x=42.5 y=687.5 Arial/9.5 "Five boxes with a colored bar and title: blue note, green tip," #1A1A1A
+p2 text  x=293.7 y=687.5 Arial/9.5 "purple" #1A1A1A
+p2 text  x=322.7 y=687.5 Arial/9.5 "important, amber caution, red" #1A1A1A
+p2 text  x=449.3 y=687.5 Arial/9.5 "warning." #1A1A1A
+p2 rect  x=42.5 y=705.5 w=510.2 h=36.0 fill=#DBEAFE
+p2 line  x=42.5 y=705.5 to x=42.5 y=741.5 #3B82F6/3.0
+p2 text  x=47.5 y=710.5 Arial-Bold/9.5 "NOTE" #3B82F6
+p2 text  x=47.5 y=723.5 Arial/9.5 "Something worth" #1A1A1A
+p2 text  x=121.4 y=723.5 Arial/9.5 "knowing." #1A1A1A
+p2 rect  x=42.5 y=746.5 w=510.2 h=36.0 fill=#DCFCE7
+p2 line  x=42.5 y=746.5 to x=42.5 y=782.5 #22C55E/3.0
+p2 text  x=47.5 y=751.5 Arial-Bold/9.5 "TIP" #22C55E
+p2 text  x=47.5 y=764.5 Arial/9.5 "A helpful hint, with" #1A1A1A
+p2 text  x=127.2 y=764.5 Arial-Bold/9.5 "bold" #1A1A1A
+p2 text  x=149.8 y=764.5 Arial/9.5 "and" #1A1A1A
+p2 text  x=168.3 y=766.0 Courier/8.5 "code" #B42318
+p2 text  x=188.7 y=764.5 Arial/9.5 "." #1A1A1A
 p3 rect  x=42.5 y=42.5 w=510.2 h=36.0 fill=#F3E8FF
 p3 line  x=42.5 y=42.5 to x=42.5 y=78.5 #A855F7/3.0
 p3 text  x=47.5 y=47.5 Arial-Bold/9.5 "IMPORTANT" #A855F7

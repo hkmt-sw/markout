@@ -1,33 +1,38 @@
-p1 rect  x=85.0 y=85.0 w=425.2 h=67.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
-p1 text  x=93.0 y=93.0 Serif-Bold/11.5 "Title: " #555555
-p1 text  x=122.7 y=93.0 Serif/11.5 "markout showcase" #222222
-p1 text  x=93.0 y=110.0 Serif-Bold/11.5 "Author: " #555555
-p1 text  x=135.5 y=110.0 Serif/11.5 "The markout project" #222222
-p1 text  x=93.0 y=127.0 Serif-Bold/11.5 "Date: " #555555
-p1 text  x=122.7 y=127.0 Serif/11.5 "2026-10-06" #222222
-p1 anchor y=180.0 markout-showcase
+p1 rect  x=85.0 y=85.0 w=425.2 h=75.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
+p1 text  x=93.0 y=93.0 Serif-Bold/11.5 "Title" #555555
+p1 text  x=144.8 y=93.0 Serif/11.5 "markout showcase" #222222
+p1 line  x=85.0 y=110.7 to x=510.2 y=110.7 #DDDAD0/0.5
+p1 text  x=93.0 y=114.0 Serif-Bold/11.5 "Author" #555555
+p1 text  x=144.8 y=114.0 Serif/11.5 "The markout project" #222222
+p1 line  x=85.0 y=131.7 to x=510.2 y=131.7 #DDDAD0/0.5
+p1 text  x=93.0 y=135.0 Serif-Bold/11.5 "Date" #555555
+p1 text  x=144.8 y=135.0 Serif/11.5 "2026-10-06" #222222
+p1 anchor y=188.0 markout-showcase
 p1 bookmark level=1 "markout showcase"
-p1 text  x=85.0 y=180.0 Serif-Bold/26 "markout" #111111
-p1 text  x=188.3 y=180.0 Serif-Bold/26 "showcase" #111111
-p1 text  x=85.0 y=223.0 Serif/11.5 "This document contains every kind of element markout can render, each with" #222222
-p1 text  x=443.3 y=223.0 Serif/11.5 "a" #222222
-p1 text  x=451.3 y=223.0 Serif/11.5 "short note" #222222
-p1 text  x=85.0 y=240.0 Serif/11.5 "saying what you should see. Convert it to PDF and to DOCX and" #222222
-p1 text  x=388.3 y=240.0 Serif/11.5 "read" #222222
-p1 text  x=410.9 y=240.0 Serif/11.5 "through the result: if" #222222
-p1 text  x=85.0 y=257.0 Serif/11.5 "every note is true, the output is" #222222
-p1 text  x=229.9 y=257.0 Serif/11.5 "fine." #222222
-p1 rect  x=85.0 y=282.0 w=425.2 h=41.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
-p1 text  x=93.0 y=290.0 Courier/9 "markout fixtures/showcase.md showcase.pdf" #222222
-p1 text  x=93.0 y=302.5 Courier/9 "markout fixtures/showcase.md showcase.docx" #222222
-p1 text  x=85.0 y=331.0 Serif/11.5 "Above this heading there should be a panel listing the title, author and" #222222
-p1 text  x=409.9 y=331.0 Serif/11.5 "date." #222222
-p1 anchor y=374.0 1-headings
+p1 text  x=85.0 y=188.0 Serif-Bold/26 "markout" #111111
+p1 text  x=188.3 y=188.0 Serif-Bold/26 "showcase" #111111
+p1 text  x=85.0 y=231.0 Serif/11.5 "This document contains every kind of element markout can render, each with" #222222
+p1 text  x=443.3 y=231.0 Serif/11.5 "a" #222222
+p1 text  x=451.3 y=231.0 Serif/11.5 "short note" #222222
+p1 text  x=85.0 y=248.0 Serif/11.5 "saying what you should see. Convert it to PDF and to DOCX and" #222222
+p1 text  x=388.3 y=248.0 Serif/11.5 "read" #222222
+p1 text  x=410.9 y=248.0 Serif/11.5 "through the result: if" #222222
+p1 text  x=85.0 y=265.0 Serif/11.5 "every note is true, the output is" #222222
+p1 text  x=229.9 y=265.0 Serif/11.5 "fine." #222222
+p1 rect  x=85.0 y=290.0 w=425.2 h=41.0 fill=#F7F6F2 stroke=#DDDAD0/1.0
+p1 text  x=93.0 y=298.0 Courier/9 "markout fixtures/showcase.md showcase.pdf" #222222
+p1 text  x=93.0 y=310.5 Courier/9 "markout fixtures/showcase.md showcase.docx" #222222
+p1 text  x=85.0 y=339.0 Serif/11.5 "Above this heading there should be a table of the title, author and date" #222222
+p1 text  x=407.3 y=339.0 Serif/11.5 ":" #222222
+p1 text  x=413.4 y=339.0 Serif/11.5 "the labels in a" #222222
+p1 text  x=85.0 y=356.0 Serif/11.5 "column on the left, a thin line between the" #222222
+p1 text  x=281.6 y=356.0 Serif/11.5 "rows." #222222
+p1 anchor y=399.0 1-headings
 p1 bookmark level=2 "1. Headings"
-p1 text  x=85.0 y=374.0 Serif-Bold/19 "1." #111111
-p1 text  x=104.0 y=374.0 Serif-Bold/19 "Headings" #111111
-p1 text  x=85.0 y=406.0 Serif/11.5 "The six heading levels follow, each smaller than the one" #222222
-p1 text  x=346.3 y=406.0 Serif/11.5 "before." #222222
+p1 text  x=85.0 y=399.0 Serif-Bold/19 "1." #111111
+p1 text  x=104.0 y=399.0 Serif-Bold/19 "Headings" #111111
+p1 text  x=85.0 y=431.0 Serif/11.5 "The six heading levels follow, each smaller than the one" #222222
+p1 text  x=346.3 y=431.0 Serif/11.5 "before." #222222
 p2 anchor y=85.0 heading-level-1
 p2 bookmark level=1 "Heading level 1"
 p2 text  x=85.0 y=85.0 Serif-Bold/26 "Heading level" #111111

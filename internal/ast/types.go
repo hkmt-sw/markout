@@ -242,6 +242,10 @@ type FrontMatter struct {
 	// conversion, and is not among the fields shown.
 	Lang string
 	Raw  map[string]any
+	// Written holds the numbers among the top-level values of YAML front
+	// matter as they were written ("1.0", not 1), for the fields that show
+	// them.
+	Written map[string]string
 }
 
 func (FrontMatter) elementMarker() { /* marks FrontMatter as an Element */ }
