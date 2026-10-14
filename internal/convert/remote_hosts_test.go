@@ -214,12 +214,10 @@ func TestConvertFileWithReturnsPanicsAsErrors(t *testing.T) {
 func TestRecoverInternal(t *testing.T) {
 	f := func() (err error) {
 		defer recoverInternal("list", &err)
-		var m map[string]int
-		m["x"] = 1
-		return nil
+		panic("a bug")
 	}
 	err := f()
-	if !errors.Is(err, ErrInternal) || !strings.Contains(err.Error(), "nil map") {
+	if !errors.Is(err, ErrInternal) || !strings.Contains(err.Error(), "a bug") {
 		t.Errorf("err = %v", err)
 	}
 }

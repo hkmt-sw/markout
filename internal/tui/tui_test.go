@@ -1068,7 +1068,7 @@ func TestBrokenSettingsFileIsNotOverwritten(t *testing.T) {
 	if !strings.Contains(m.status, "config.json.bak") || m.statusKind != statusWarning {
 		t.Errorf("status = %q (%d), want it to name the backup", m.status, m.statusKind)
 	}
-	next, _ = m.Update(key("a"))
+	m.Update(key("a"))
 	if asides != 1 || len(*saved) != 2 {
 		t.Errorf("a second change: set aside=%d, saved=%d", asides, len(*saved))
 	}
