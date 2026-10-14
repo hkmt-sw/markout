@@ -7,10 +7,12 @@ import (
 	"net/url"
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
+	"github.com/hkmt-sw/markout/internal/history"
 	"github.com/hkmt-sw/markout/internal/lang"
 	"github.com/hkmt-sw/markout/internal/parse"
 	"github.com/hkmt-sw/markout/internal/render"
@@ -136,6 +138,8 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		}
 	}
 
+	addVersionHistory(doc, input, opts.Warn)
+
 	// What the document says of its language goes before what it is told
 	language := doc.Lang
 	if language == "" {
@@ -192,6 +196,31 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %v", ErrParseFailure, err)}
 	}
 	return doc, nil
+}
+
+// addVersionHistory puts the version history of the input file, read from its
+// git repository, after the front matter of a document that asks for it. When
+// there is none to show, the document is left as it is and warn, if set, says
+// why.
+func addVersionHistory(doc *ast.Document, input string, warn func(string)) {
+	if len(doc.Elements) == 0 {
+		return
+	}
+	fm, ok := doc.Elements[0].(ast.FrontMatter)
+	if !ok {
+		return
+	}
+	asked, warning := history.Asked(fm)
+	if asked {
+		var entries []ast.VersionEntry
+		entries, warning = history.Of(input)
+		if len(entries) > 0 {
+			doc.Elements = slices.Insert(doc.Elements, 1, ast.Element(ast.VersionHistory{Entries: entries}))
+		}
+	}
+	if warning != "" && warn != nil {
+		warn(warning)
+	}
 }
 
 // RemoteHost is a server a document would download images from.
