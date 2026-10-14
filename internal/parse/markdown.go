@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	mathjax "github.com/litao91/goldmark-mathjax"
 	"github.com/yuin/goldmark"
 	emoji "github.com/yuin/goldmark-emoji"
 	emojiast "github.com/yuin/goldmark-emoji/ast"
@@ -26,6 +25,7 @@ import (
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/lang"
+	"github.com/hkmt-sw/markout/internal/parse/dollarmath"
 )
 
 // color chip pattern: hex color code like #FF0000, #abc, #12345678
@@ -76,7 +76,7 @@ func newMarkdown(f flavor.Features, frontMatter bool) goldmark.Markdown {
 	add(f.Footnotes, extension.Footnote)
 	add(f.DefinitionLists, extension.DefinitionList)
 	add(f.Typographer, extension.Typographer)
-	add(f.MathDollar, mathjax.MathJax)
+	add(f.MathDollar, dollarmath.Extension)
 	add(f.FrontMatter || frontMatter, &frontmatter.Extender{Formats: frontMatterFormats})
 	add(f.Emoji, emoji.Emoji)
 
@@ -840,7 +840,7 @@ func (w *astWalker) tryConvertAlert(n *gmast.Blockquote) *ast.Alert {
 	}
 }
 
-// convertMathBlock converts a goldmark-mathjax MathBlock to our AST
+// convertMathBlock converts a dollarmath MathBlock to our AST
 func (w *astWalker) convertMathBlock(n *extMathBlock) ast.MathBlock {
 	var expr bytes.Buffer
 	lines := n.Lines()
@@ -1229,9 +1229,9 @@ type extFootnoteLink = extast.FootnoteLink
 type extFootnoteList = extast.FootnoteList
 type extFootnoteBacklink = extast.FootnoteBacklink
 
-// Math extension types (goldmark-mathjax)
-type extMathBlock = mathjax.MathBlock
-type extInlineMath = mathjax.InlineMath
+// Math extension types (dollarmath)
+type extMathBlock = dollarmath.MathBlock
+type extInlineMath = dollarmath.InlineMath
 
 // Definition list extension types (goldmark built-in)
 type extDefinitionList = extast.DefinitionList
