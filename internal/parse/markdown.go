@@ -21,6 +21,7 @@ import (
 	"github.com/yuin/goldmark/util"
 	"go.abhg.dev/goldmark/frontmatter"
 	"go.abhg.dev/goldmark/toc"
+	"gopkg.in/yaml.v3"
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
@@ -145,7 +146,37 @@ func extractFrontMatter(data *frontmatter.Data) *ast.FrontMatter {
 	if err := data.Decode(&raw); err != nil {
 		return nil
 	}
-	return frontMatterFromMap(raw)
+	fm := frontMatterFromMap(raw)
+	if fm != nil {
+		fm.Written = writtenNumbers(data)
+	}
+	return fm
+}
+
+// writtenNumbers returns the numbers among the top-level values of YAML front
+// matter as they were written: decoded, version 1.0 would be shown as 1. It
+// returns nil for front matter that is not YAML.
+func writtenNumbers(data *frontmatter.Data) map[string]string {
+	var node yaml.Node
+	if data.Decode(&node) != nil || node.Kind != yaml.DocumentNode || len(node.Content) == 0 {
+		return nil
+	}
+	mapping := node.Content[0]
+	if mapping.Kind != yaml.MappingNode {
+		return nil
+	}
+	var out map[string]string
+	for i := 0; i+1 < len(mapping.Content); i += 2 {
+		value := mapping.Content[i+1]
+		if value.Kind != yaml.ScalarNode || (value.Tag != "!!int" && value.Tag != "!!float") {
+			continue
+		}
+		if out == nil {
+			out = map[string]string{}
+		}
+		out[mapping.Content[i].Value] = value.Value
+	}
+	return out
 }
 
 // frontMatterFromMap builds the front matter element from decoded metadata

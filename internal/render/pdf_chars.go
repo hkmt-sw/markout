@@ -237,27 +237,45 @@ const minPanelLines = 3
 // on over the following pages, the part on each page in a box of its own.
 // box draws the background of a part and line draws line i at y.
 func (r *PdfRenderer) panel(n int, lineHeight, padding float64, box func(y, h float64), line func(i int, y float64)) {
+	heights := make([]float64, n)
+	for i := range heights {
+		heights[i] = lineHeight
+	}
+	r.panelLines(heights, padding, box, line)
+}
+
+// panelLines is panel with lines of their own heights.
+func (r *PdfRenderer) panelLines(heights []float64, padding float64, box func(y, h float64), line func(i int, y float64)) {
 	bottom := r.pageHeight - r.marginBottom
-	if full := float64(n)*lineHeight + 2*padding; full <= bottom-r.marginTop {
+	full := 2 * padding
+	for _, h := range heights {
+		full += h
+	}
+	if full <= bottom-r.marginTop {
 		r.checkPageBreak(full)
 	} else {
-		r.checkPageBreak(minPanelLines*lineHeight + 2*padding)
+		first := 2 * padding
+		for _, h := range heights[:min(minPanelLines, len(heights))] {
+			first += h
+		}
+		r.checkPageBreak(first)
 	}
-	for i := 0; i < n; {
-		fit := int((bottom-r.currentY-2*padding)/lineHeight + 1e-6)
-		if fit < 1 {
-			fit = 1 // a page too small for one line still has to take it
+	for i := 0; i < len(heights); {
+		// The lines that fit on this page; a page too small for one line
+		// still has to take it
+		fit, h := 0, 2*padding
+		for i+fit < len(heights) && (fit == 0 || r.currentY+h+heights[i+fit] <= bottom+1e-6) {
+			h += heights[i+fit]
+			fit++
 		}
-		if fit > n-i {
-			fit = n - i
-		}
-		h := float64(fit)*lineHeight + 2*padding
 		box(r.currentY, h)
+		y := r.currentY + padding
 		for k := 0; k < fit; k++ {
-			line(i+k, r.currentY+padding+float64(k)*lineHeight)
+			line(i+k, y)
+			y += heights[i+k]
 		}
 		r.currentY += h
-		if i += fit; i < n {
+		if i += fit; i < len(heights) {
 			r.addPage()
 			r.currentY = r.marginTop
 		}

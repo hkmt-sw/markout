@@ -1,11 +1,3 @@
-TABLE
-  COL w=9070
-  ROW
-    cantSplit
-    tblHeader
-    CELL{border-bottom=single/4/E2E4EB border-left=single/4/E2E4EB border-right=single/4/E2E4EB border-top=single/4/E2E4EB fill=F8F9FC w=9070}
-      P
-P{spacing=/ line=160/exact}
 P{bookmark=_obsidian pStyle=Heading1}
   R "Obsidian"
 P{spacing=0/160 line=320/atLeast}

@@ -4,6 +4,29 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.10.0] - Unreleased
+
+Policy documents: the parts of a policy or procedure that are typed into Word
+by hand today. In progress.
+
+### Changed
+
+- The front matter is shown as a document control block: a table with the
+  labels in a column on the left and a thin line between the fields, in PDF
+  and DOCX, instead of a box of `key: value` lines. The keys a policy
+  carries come first, in this order and under labels in the language of the
+  document (Hungarian or English): `title`, `version`, `status`, `author`,
+  `owner`, `approved-by`, `date`, `review-date`, `classification`. They are
+  found whatever their case and with `_` for `-` (`approved_by`). Other keys
+  follow under their own names, as before. The labels can be renamed under
+  `[control.labels]` in a theme. A number such as `version: 1.0` is shown as
+  written, not as `1`.
+
+### Fixed
+
+- Front matter with nothing to show, such as only a list of `tags`, gave an
+  empty box in DOCX. It gives none, as in PDF.
+
 ## [1.9.0] - 2026-10-14
 
 Typography: text that is justified and hyphenated.

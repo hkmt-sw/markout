@@ -1414,92 +1414,69 @@ func tocMark(para domain.Paragraph, mark string) error {
 	return run.SetText(mark)
 }
 
+// renderFrontMatter sets the front matter as the document control block: a
+// table with a column of labels and a column of values, a thin line between
+// fields.
 func (r *DocxRenderer) renderFrontMatter(fm ast.FrontMatter) error {
-	// Create a single-cell table for the metadata block
-	table, err := r.addTable(1, 1)
+	fields := controlFields(fm, r.opts.Lang, r.t.Control.Labels)
+	if len(fields) == 0 {
+		return nil
+	}
+	table, err := r.addTable(len(fields), 2)
 	if err != nil {
 		return err
 	}
 	r.fullWidth(table)
 
-	row, err := table.Row(0)
-	if err != nil {
-		return err
+	// Word does not size the label column to its text, so it is given the
+	// width the longest label needs, about 0.6 em a letter, but no more
+	// than a third of the table.
+	longest := 0
+	for _, f := range fields {
+		longest = max(longest, len([]rune(f.label)))
 	}
+	padding := r.t.Alert.Padding
+	labelWidth := min(float64(longest)*r.t.Text.Size*0.6+2*padding, (r.t.Page.ContentWidth()-r.inset)/3)
+	widths := []int{twips(labelWidth), r.contentTwips() - twips(labelWidth)}
 
-	cell, err := row.Cell(0)
-	if err != nil {
-		return err
-	}
-
-	cell.SetShading(docxColor(r.t.Box.Background))
-	cell.SetWidth(r.contentTwips())
-
-	borderStyle := domain.BorderStyle{
-		Style: domain.BorderSingle,
-		Width: 4,
-		Color: docxColor(r.t.Box.Border),
-	}
-	cell.SetBorders(domain.TableBorders{
-		Top: borderStyle, Bottom: borderStyle,
-		Left: borderStyle, Right: borderStyle,
-	})
-
-	// Render known fields first
-	var inCell []domain.Paragraph
-	renderField := func(label, value string) error {
-		if value == "" {
-			return nil
-		}
-		para, err := cell.AddParagraph()
+	line := domain.BorderStyle{Style: domain.BorderSingle, Width: 4, Color: docxColor(r.t.Box.Border)}
+	for i, f := range fields {
+		row, err := table.Row(i)
 		if err != nil {
 			return err
 		}
-		inCell = append(inCell, para)
-		labelRun, err := para.AddRun()
-		if err != nil {
-			return err
-		}
-		labelRun.SetText(label + ": ")
-		labelRun.SetBold(true)
-		labelRun.SetSize(runSize(r.t.Text.Size))
-		labelRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		labelRun.SetColor(docxColor(r.t.Text.Muted))
+		for j, text := range []string{f.label, f.value} {
+			cell, err := row.Cell(j)
+			if err != nil {
+				return err
+			}
+			cell.SetWidth(widths[j])
+			cell.SetShading(docxColor(r.t.Box.Background))
+			// A frame around the table and a line between fields; none
+			// between the label and its value
+			borders := domain.TableBorders{Top: line, Bottom: line}
+			if j == 0 {
+				borders.Left = line
+			} else {
+				borders.Right = line
+			}
+			cell.SetBorders(borders)
 
-		valueRun, err := para.AddRun()
-		if err != nil {
-			return err
-		}
-		valueRun.SetText(value)
-		valueRun.SetSize(runSize(r.t.Text.Size))
-		valueRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
-		valueRun.SetColor(docxColor(r.t.Text.Color))
-		return nil
-	}
-
-	if err := renderField("Title", fm.Title); err != nil {
-		return err
-	}
-	if err := renderField("Author", fm.Author); err != nil {
-		return err
-	}
-	if err := renderField("Date", fm.Date); err != nil {
-		return err
-	}
-
-	// Render any remaining raw fields
-	for _, key := range sortedKeys(fm.Raw) {
-		if key == "title" || key == "author" || key == "date" {
-			continue
-		}
-		if strVal, ok := fm.Raw[key].(string); ok {
-			if err := renderField(key, strVal); err != nil {
+			para, err := cell.AddParagraph()
+			if err != nil {
+				return err
+			}
+			r.pad([]domain.Paragraph{para}, padding/2, r.t.Text.LineHeight)
+			r.aside(para)
+			base := r.bodyBase()
+			if j == 0 {
+				base.bold, base.color, base.styled = true, r.t.Text.Muted, false
+			}
+			if err := r.addRun(para, ast.InlineRun{Text: text}, base); err != nil {
 				return err
 			}
 		}
 	}
-
-	r.pad(inCell, r.t.Alert.Padding, r.t.Text.LineHeight)
 	return r.gap(r.t.Text.ParagraphSpacing)
 }
 

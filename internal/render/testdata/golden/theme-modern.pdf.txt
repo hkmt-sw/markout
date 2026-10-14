@@ -1,33 +1,38 @@
-p1 rect  x=70.9 y=70.9 w=453.5 h=67.0 fill=#F9FAFB stroke=#E5E7EB/1.0
-p1 text  x=78.9 y=78.9 Arial-Bold/10.5 "Title: " #6B7280
-p1 text  x=106.8 y=78.9 Arial/10.5 "markout showcase" #1F2937
-p1 text  x=78.9 y=95.9 Arial-Bold/10.5 "Author: " #6B7280
-p1 text  x=119.6 y=95.9 Arial/10.5 "The markout project" #1F2937
-p1 text  x=78.9 y=112.9 Arial-Bold/10.5 "Date: " #6B7280
-p1 text  x=108.0 y=112.9 Arial/10.5 "2026-10-06" #1F2937
-p1 anchor y=153.9 markout-showcase
+p1 rect  x=70.9 y=70.9 w=453.5 h=79.0 fill=#F9FAFB stroke=#E5E7EB/1.0
+p1 text  x=78.9 y=78.9 Arial-Bold/10.5 "Title" #6B7280
+p1 text  x=129.2 y=78.9 Arial/10.5 "markout showcase" #1F2937
+p1 line  x=70.9 y=97.2 to x=524.4 y=97.2 #E5E7EB/0.5
+p1 text  x=78.9 y=101.9 Arial-Bold/10.5 "Author" #6B7280
+p1 text  x=129.2 y=101.9 Arial/10.5 "The markout project" #1F2937
+p1 line  x=70.9 y=120.2 to x=524.4 y=120.2 #E5E7EB/0.5
+p1 text  x=78.9 y=124.9 Arial-Bold/10.5 "Date" #6B7280
+p1 text  x=129.2 y=124.9 Arial/10.5 "2026-10-06" #1F2937
+p1 anchor y=165.9 markout-showcase
 p1 bookmark level=1 "markout showcase"
-p1 text  x=70.9 y=153.9 Arial-Bold/30 "markout" #4F46E5
-p1 text  x=197.5 y=153.9 Arial-Bold/30 "showcase" #4F46E5
-p1 text  x=70.9 y=205.9 Arial/10.5 "This document contains every kind of element markout can render, each with" #1F2937
-p1 text  x=431.3 y=205.9 Arial/10.5 "a" #1F2937
-p1 text  x=440.1 y=205.9 Arial/10.5 "short note saying" #1F2937
-p1 text  x=70.9 y=222.9 Arial/10.5 "what you should see. Convert it to PDF and to DOCX and" #1F2937
-p1 text  x=341.4 y=222.9 Arial/10.5 "read" #1F2937
-p1 text  x=365.3 y=222.9 Arial/10.5 "through the result: if every note is" #1F2937
-p1 text  x=70.9 y=239.9 Arial/10.5 "true, the output is" #1F2937
-p1 text  x=154.8 y=239.9 Arial/10.5 "fine." #1F2937
-p1 rect  x=70.9 y=266.9 w=453.5 h=46.0 fill=#F3F4F6 stroke=#F3F4F6/1.0
-p1 text  x=80.9 y=276.9 Courier/9 "markout fixtures/showcase.md showcase.pdf" #1F2937
-p1 text  x=80.9 y=289.9 Courier/9 "markout fixtures/showcase.md showcase.docx" #1F2937
-p1 text  x=70.9 y=320.9 Arial/10.5 "Above this heading there should be a panel listing the title, author and" #1F2937
-p1 text  x=398.1 y=320.9 Arial/10.5 "date." #1F2937
-p1 anchor y=371.9 1-headings
+p1 text  x=70.9 y=165.9 Arial-Bold/30 "markout" #4F46E5
+p1 text  x=197.5 y=165.9 Arial-Bold/30 "showcase" #4F46E5
+p1 text  x=70.9 y=217.9 Arial/10.5 "This document contains every kind of element markout can render, each with" #1F2937
+p1 text  x=431.3 y=217.9 Arial/10.5 "a" #1F2937
+p1 text  x=440.1 y=217.9 Arial/10.5 "short note saying" #1F2937
+p1 text  x=70.9 y=234.9 Arial/10.5 "what you should see. Convert it to PDF and to DOCX and" #1F2937
+p1 text  x=341.4 y=234.9 Arial/10.5 "read" #1F2937
+p1 text  x=365.3 y=234.9 Arial/10.5 "through the result: if every note is" #1F2937
+p1 text  x=70.9 y=251.9 Arial/10.5 "true, the output is" #1F2937
+p1 text  x=154.8 y=251.9 Arial/10.5 "fine." #1F2937
+p1 rect  x=70.9 y=278.9 w=453.5 h=46.0 fill=#F3F4F6 stroke=#F3F4F6/1.0
+p1 text  x=80.9 y=288.9 Courier/9 "markout fixtures/showcase.md showcase.pdf" #1F2937
+p1 text  x=80.9 y=301.9 Courier/9 "markout fixtures/showcase.md showcase.docx" #1F2937
+p1 text  x=70.9 y=332.9 Arial/10.5 "Above this heading there should be a table of the title, author and date" #1F2937
+p1 text  x=397.5 y=332.9 Arial/10.5 ":" #1F2937
+p1 text  x=403.3 y=332.9 Arial/10.5 "the labels in a column on" #1F2937
+p1 text  x=70.9 y=349.9 Arial/10.5 "the left, a thin line between the" #1F2937
+p1 text  x=216.1 y=349.9 Arial/10.5 "rows." #1F2937
+p1 anchor y=400.9 1-headings
 p1 bookmark level=2 "1. Headings"
-p1 text  x=70.9 y=371.9 Arial-Bold/19 "1." #111827
-p1 text  x=92.0 y=371.9 Arial-Bold/19 "Headings" #111827
-p1 text  x=70.9 y=406.9 Arial/10.5 "The six heading levels follow, each smaller than the one" #1F2937
-p1 text  x=333.9 y=406.9 Arial/10.5 "before." #1F2937
+p1 text  x=70.9 y=400.9 Arial-Bold/19 "1." #111827
+p1 text  x=92.0 y=400.9 Arial-Bold/19 "Headings" #111827
+p1 text  x=70.9 y=435.9 Arial/10.5 "The six heading levels follow, each smaller than the one" #1F2937
+p1 text  x=333.9 y=435.9 Arial/10.5 "before." #1F2937
 p2 anchor y=70.9 heading-level-1
 p2 bookmark level=1 "Heading level 1"
 p2 text  x=70.9 y=70.9 Arial-Bold/30 "Heading level" #4F46E5

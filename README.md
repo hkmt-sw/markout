@@ -212,6 +212,34 @@ The language is also what words are hyphenated by, in a theme that sets text
 [justified or hyphenated](docs/themes.md#text). In PDF markout hyphenates
 Hungarian, American English and British English.
 
+## Document control
+
+A policy or procedure says in its front matter which version it is, who
+wrote and approved it, and how it is classified:
+
+```markdown
+---
+title: Mentési eljárásrend
+version: 1.2
+status: Jóváhagyva
+author: Informatikai üzemeltetés
+owner: Informatikai vezető
+approved-by: Ügyvezető
+date: 2026-09-20
+review-date: 2027-09-20
+classification: Belső
+lang: hu
+---
+```
+
+markout sets this as a table at the top of the document, in PDF and DOCX.
+These keys come first, in this order, labelled in the language of the
+document (here Hungarian; English for any other language): `title`,
+`version`, `status`, `author`, `owner`, `approved-by`, `date`, `review-date`,
+`classification`. Any other key with a text value follows under its own
+name. A theme can rename the labels under
+[`[control.labels]`](docs/themes.md#controllabels).
+
 ## Update notifications
 
 When a newer release exists, the TUI says so in its top border:

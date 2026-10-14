@@ -1,18 +1,31 @@
 TABLE
-  COL w=9070
+  COL w=1076
+  COL w=7994
   ROW
     cantSplit
     tblHeader
-    CELL{border-bottom=single/4/E5E7EB border-left=single/4/E5E7EB border-right=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=9070}
-      P{indent=160/160 spacing=160/0 line=340/atLeast}
-        R{b color=6B7280 font=Arial sz=21} "Title: "
-        R{color=1F2937 font=Arial sz=21} "markout showcase"
-      P{indent=160/160 spacing=0/0 line=340/atLeast}
-        R{b color=6B7280 font=Arial sz=21} "Author: "
-        R{color=1F2937 font=Arial sz=21} "The markout project"
-      P{indent=160/160 spacing=0/160 line=340/atLeast}
-        R{b color=6B7280 font=Arial sz=21} "Date: "
-        R{color=1F2937 font=Arial sz=21} "2026-10-06"
+    CELL{border-bottom=single/4/E5E7EB border-left=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=1076}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R{b color=6B7280 font=Arial sz=21} "Title"
+    CELL{border-bottom=single/4/E5E7EB border-right=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=7994}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R "markout showcase"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E5E7EB border-left=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=1076}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R{b color=6B7280 font=Arial sz=21} "Author"
+    CELL{border-bottom=single/4/E5E7EB border-right=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=7994}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R "The markout project"
+  ROW
+    cantSplit
+    CELL{border-bottom=single/4/E5E7EB border-left=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=1076}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R{b color=6B7280 font=Arial sz=21} "Date"
+    CELL{border-bottom=single/4/E5E7EB border-right=single/4/E5E7EB border-top=single/4/E5E7EB fill=F9FAFB w=7994}
+      P{indent=80/80 spacing=80/80 line=340/atLeast}
+        R "2026-10-06"
 P{spacing=/ line=200/exact}
 P{bookmark=_markout_showcase pStyle=Heading1}
   R "markout"
@@ -36,8 +49,10 @@ TABLE
         R{color=1F2937 font=Courier New sz=18} "markout fixtures/showcase.md showcase.docx"
 P{spacing=/ line=160/exact}
 P{spacing=0/200 line=340/atLeast}
-  R "Above this heading there should be a panel listing the title, author and"
-  R " date."
+  R "Above this heading there should be a table of the title, author and date"
+  R ": "
+  R "the labels in a column on the left, a thin line between the"
+  R " rows."
 P{bookmark=_1_headings pStyle=Heading2}
   R "1."
   R " Headings"

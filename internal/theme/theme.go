@@ -80,6 +80,7 @@ type Theme struct {
 	Colors   Colors     `key:"colors"`
 	Header   Running    `key:"header"`
 	Footer   Running    `key:"footer"`
+	Control  Control    `key:"control"`
 }
 
 // Page is the paper and its margins.
@@ -287,6 +288,26 @@ type Running struct {
 	Size   float64 `key:"size"`
 	Color  Color   `key:"color"`
 	Rule   bool    `key:"rule" doc:"a line between it and the page's text"`
+}
+
+// Control is the document control block, the table the front matter is
+// shown in.
+type Control struct {
+	Labels ControlLabels `key:"labels"`
+}
+
+// ControlLabels name the fields of the control block. An empty label is
+// given in the language of the document.
+type ControlLabels struct {
+	Title          string `key:"title" doc:"empty: in the language of the document"`
+	Version        string `key:"version"`
+	Status         string `key:"status"`
+	Author         string `key:"author"`
+	Owner          string `key:"owner"`
+	ApprovedBy     string `key:"approved-by"`
+	Date           string `key:"date"`
+	ReviewDate     string `key:"review-date"`
+	Classification string `key:"classification"`
 }
 
 // Empty reports whether there is nothing to show.

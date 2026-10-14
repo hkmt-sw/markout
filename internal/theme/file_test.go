@@ -303,3 +303,19 @@ color = "#777777"
 		t.Errorf("a footer in a 5mm margin: %v", err)
 	}
 }
+
+func TestControlLabelSettings(t *testing.T) {
+	set, err := Loader{}.Load(writeTheme(t, t.TempDir(), "labels.toml", `
+[control.labels]
+version = "Kiadás"
+approved-by = "Approver"
+`))
+	if err != nil {
+		t.Fatal(err)
+	}
+	for name, th := range map[string]Theme{"pdf": set.PDF, "docx": set.DOCX} {
+		if l := th.Control.Labels; l.Version != "Kiadás" || l.ApprovedBy != "Approver" || l.Title != "" {
+			t.Errorf("%s labels: %+v", name, l)
+		}
+	}
+}
