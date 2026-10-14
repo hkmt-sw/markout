@@ -23,7 +23,7 @@ func imageServer(t *testing.T) (url string, hits *atomic.Int32) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		hits.Add(1)
 		w.Header().Set("Content-Type", "image/png")
-		w.Write(buf.Bytes())
+		_, _ = w.Write(buf.Bytes())
 	}))
 	t.Cleanup(srv.Close)
 	return srv.URL, hits

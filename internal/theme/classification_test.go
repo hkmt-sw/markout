@@ -157,7 +157,7 @@ func TestClassificationErrors(t *testing.T) {
 		"[classification.secret]\nnames = \"secret\"\n":          "classification.secret.names must be a list of text",
 		"[classification.secret]\nnames = [1]\n":                 "classification.secret.names must be a list of text",
 		"[classification.secret]\nnames = [\" \"]\n":             "classification.secret.names must be a list of text",
-		"[classification.secret]\ncolour = \"#000\"\n":           "classification.secret.colour is not a setting",
+		"[classification.secret]\ncolour = \"#000\"\n":           "classification.secret.colour is not a setting", //nolint:misspell // the British spelling is the unknown setting being tested
 		"[classification.secret]\ncolor = \"red\"\n":             "classification.secret.color",
 		"[classification.secret]\nbackground = 1\n":              "classification.secret.background: a color is written in quotes",
 		"[classification.extra]\ncolor = \"#000\"\n":             "classification.extra needs names",

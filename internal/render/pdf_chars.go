@@ -32,7 +32,7 @@ func (r *PdfRenderer) drawable(c rune) bool {
 	ok, seen := known[c]
 	if !seen {
 		r.glyphMissed = false
-		r.pdf.MeasureTextWidth(string(c))
+		_, _ = r.pdf.MeasureTextWidth(string(c))
 		ok = !r.glyphMissed
 		known[c] = ok
 	}

@@ -463,7 +463,7 @@ func TestPDFAValidates(t *testing.T) {
 		}
 		files = append(files, path)
 	}
-	out, err := exec.Command(verapdf, append([]string{"--flavour", "2u", "--format", "text"}, files...)...).CombinedOutput()
+	out, err := exec.Command(verapdf, append([]string{"--flavour", "2u", "--format", "text"}, files...)...).CombinedOutput() //nolint:misspell // veraPDF spells its option this way
 	if err != nil {
 		t.Fatalf("veraPDF: %v\n%s", err, out)
 	}

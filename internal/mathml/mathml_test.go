@@ -125,7 +125,9 @@ func TestParseIsQuiet(t *testing.T) {
 		}
 	}
 	os.Stdout = stdout
-	write.Close()
+	if err := write.Close(); err != nil {
+		t.Fatal(err)
+	}
 	printed, _ := io.ReadAll(read)
 	if len(printed) > 0 {
 		t.Errorf("reading formulas printed:\n%s", printed)

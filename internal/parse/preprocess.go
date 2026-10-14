@@ -213,7 +213,7 @@ func (p *preprocessor) run(src []byte) []byte {
 	if p.f.MDX {
 		lines = mdxDedent(lines)
 	}
-	lines = append(head[:len(head):len(head)], p.blocks(lines)...)
+	lines = append(head[:len(head):len(head)], p.blocks(lines)...) //nolint:gocritic // the full slice expression makes append copy head, not write into lines
 	if len(p.notes) > 0 {
 		lines = append(lines, "")
 		for _, n := range p.notes {
@@ -1507,7 +1507,7 @@ func (p *preprocessor) include(rel string) ([]string, bool) {
 	if err != nil {
 		return nil, false
 	}
-	defer root.Close()
+	defer func() { _ = root.Close() }()
 
 	info, err := root.Stat(inRoot)
 	if err != nil || !info.Mode().IsRegular() || info.Size() > maxIncludeBytes {
@@ -1517,7 +1517,7 @@ func (p *preprocessor) include(rel string) ([]string, bool) {
 	if err != nil {
 		return nil, false
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	data, err := io.ReadAll(io.LimitReader(file, maxIncludeBytes))
 	if err != nil {
 		return nil, false

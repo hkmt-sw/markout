@@ -32,7 +32,7 @@ func TestReadLocalImageRefusesUnboundedSources(t *testing.T) {
 	if err := f.Truncate(MaxImageBytes + 1); err != nil {
 		t.Fatal(err)
 	}
-	f.Close()
+	_ = f.Close()
 	if _, err := readLocalImage(big); err == nil {
 		t.Error("an oversized file was accepted as an image")
 	}

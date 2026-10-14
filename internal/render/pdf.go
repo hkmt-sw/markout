@@ -252,7 +252,7 @@ func (r *PdfRenderer) codeFont() string    { return r.t.Fonts.Code }
 // ...), a style ("", "B", "I" or "BI") and a size.
 func (r *PdfRenderer) setFont(family string, style string, size float64) {
 	fontName := r.family(family).fontName(style)
-	r.pdf.SetFont(fontName, "", size)
+	_ = r.pdf.SetFont(fontName, "", size)
 	r.face, r.fontSize = fontName, size
 	r.font = fontLabel(fontName, size)
 }
@@ -304,7 +304,7 @@ func (r *PdfRenderer) lineWidth(w float64) {
 func (r *PdfRenderer) cell(text string) {
 	text = r.usable(text)
 	r.logf("text  x=%.1f y=%.1f %s %q %s", r.pdf.GetX(), r.pdf.GetY(), r.font, text, r.text)
-	r.pdf.Cell(nil, text)
+	_ = r.pdf.Cell(nil, text)
 }
 
 func (r *PdfRenderer) rect(x, y, w, h float64, style string) {
@@ -482,16 +482,17 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 		r.checkPageBreak(lineHeight)
 
 		var prefix string
-		if item.IsTask {
+		switch {
+		case item.IsTask:
 			if item.Checked {
 				prefix = "[x]"
 			} else {
 				prefix = "[ ]"
 			}
-		} else if ordered {
+		case ordered:
 			r.listCounters[level]++
 			prefix = formatOrderedBullet(r.listCounters[level], level)
-		} else {
+		default:
 			prefix = getBulletChar(level)
 		}
 
@@ -626,11 +627,12 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 	drawRow := func(laidOut [][]textLine, rowH float64, isHeader bool, rowIdx int) {
 		r.strokeColor(table.Border)
 
-		if isHeader {
+		switch {
+		case isHeader:
 			r.fillColor(table.HeaderBackground)
-		} else if rowIdx%2 == 1 {
+		case rowIdx%2 == 1:
 			r.fillColor(table.StripeBackground)
-		} else {
+		default:
 			r.fillColor(table.RowBackground)
 		}
 		for j := range numCols {
@@ -894,7 +896,7 @@ func readLocalImage(path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	return io.ReadAll(io.LimitReader(file, MaxImageBytes))
 }
 
@@ -1293,14 +1295,14 @@ func hexStringToRGB(hex string) theme.Color {
 	var r, g, b uint8
 	switch len(hex) {
 	case 3:
-		fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
 		r = r*16 + r
 		g = g*16 + g
 		b = b*16 + b
 	case 6:
-		fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
 	case 8:
-		fmt.Sscanf(hex[:6], "%02x%02x%02x", &r, &g, &b) // Ignore alpha
+		_, _ = fmt.Sscanf(hex[:6], "%02x%02x%02x", &r, &g, &b) // Ignore alpha
 	}
 	return theme.Color{R: r, G: g, B: b}
 }
@@ -1354,7 +1356,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 // calcColumnWidthsPt computes column widths in points for PDF tables. Each
 // column gets at least enough width for its longest unbreakable word (so text
-// never overflows into the neighbouring cell), and the remaining space is
+// never overflows into the neighboring cell), and the remaining space is
 // distributed in proportion to each column's content length.
 func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 {
 	const (

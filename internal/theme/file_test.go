@@ -192,11 +192,12 @@ func TestErrorsNameTheProblem(t *testing.T) {
 		i++
 		path := writeTheme(t, dir, "bad"+string(rune('a'+i))+".toml", text)
 		_, err := Loader{UserDir: dir}.Load(path)
-		if err == nil {
+		switch {
+		case err == nil:
 			t.Errorf("%q was accepted", text)
-		} else if !strings.Contains(err.Error(), want) {
+		case !strings.Contains(err.Error(), want):
 			t.Errorf("%q: error %q does not mention %q", text, err, want)
-		} else if !strings.Contains(err.Error(), filepath.Base(path)) {
+		case !strings.Contains(err.Error(), filepath.Base(path)):
 			t.Errorf("%q: error %q does not name the file", text, err)
 		}
 	}
@@ -376,7 +377,7 @@ subtitle-size = 18
 		"[cover]\nenabled = \"yes\"\n":  "cover.enabled must be true or false",
 		"[cover]\ntitle-size = 0\n":     "cover.title-size is 0 points",
 		"[cover]\ntop = -1\n":           "cover.top is -1 points",
-		"[cover]\ntitle-colour = 1\n":   "cover.title-colour is not a setting",
+		"[cover]\ntitle-colour = 1\n":   "cover.title-colour is not a setting", //nolint:misspell // the British spelling is the unknown setting being tested
 		"[cover]\nsubtitle-color = 5\n": "cover.subtitle-color: a color is written in quotes",
 	} {
 		_, err := Loader{}.Load(writeTheme(t, t.TempDir(), "bad.toml", text))

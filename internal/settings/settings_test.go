@@ -117,7 +117,7 @@ func TestFailedSaveKeepsTheFile(t *testing.T) {
 	if err := os.Chmod(dir, 0o500); err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { os.Chmod(dir, 0o700) })
+	t.Cleanup(func() { _ = os.Chmod(dir, 0o700) })
 	if os.Geteuid() == 0 {
 		t.Skip("root can write to a read-only directory")
 	}

@@ -241,8 +241,12 @@ func checkOnThePage(t *testing.T, trace string) {
 			continue
 		}
 		var x, y float64
-		fmt.Sscanf(m[1], "%g", &x)
-		fmt.Sscanf(m[2], "%g", &y)
+		if _, err := fmt.Sscanf(m[1], "%g", &x); err != nil {
+			t.Fatalf("%q: %v", line, err)
+		}
+		if _, err := fmt.Sscanf(m[2], "%g", &y); err != nil {
+			t.Fatalf("%q: %v", line, err)
+		}
 		if y < band || strings.Contains(line, " mark ") {
 			continue
 		}

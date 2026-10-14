@@ -59,14 +59,14 @@ func docxBody(t *testing.T, path string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	for _, f := range zr.File {
 		if f.Name == "word/document.xml" {
 			rc, err := f.Open()
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer rc.Close()
+			defer func() { _ = rc.Close() }()
 			data, _ := io.ReadAll(rc)
 			return string(data)
 		}

@@ -4,7 +4,7 @@ import "testing"
 
 func TestNormalize(t *testing.T) {
 	for in, want := range map[string]string{
-		"hu": "hu", "HU": "hu", " hu-hu ": "hu-HU", "en_GB": "en-GB", "EN-us": "en-US",
+		"hu": "hu", "HU": "hu", " hu-hu ": "hu-HU", "en_GB": "en-GB", "EN-us": "en-US", //nolint:gocritic // the spaces are the input being tested
 		"sr-latn-rs": "sr-Latn-RS", "es-419": "es-419", "de-CH-1996": "de-CH-1996", "fil": "fil",
 	} {
 		if got, ok := Normalize(in); !ok || got != want {

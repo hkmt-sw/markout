@@ -66,9 +66,15 @@ func TestQuitOnQ(t *testing.T) {
 
 func TestLoadEntriesSortsDirsThenMarkdown(t *testing.T) {
 	dir := t.TempDir()
-	os.Mkdir(filepath.Join(dir, "sub"), 0o755)
-	os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0o644)
-	os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0o644)
+	if err := os.Mkdir(filepath.Join(dir, "sub"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 
@@ -101,7 +107,9 @@ func TestLoadEntriesSortsDirsThenMarkdown(t *testing.T) {
 
 func TestFormatToggleChangesDerivedOutput(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("x"), 0o644)
+	if err := os.WriteFile(filepath.Join(dir, "doc.md"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	m := newAt(dir)
 	cursorOn(t, &m, "doc.md")
 
@@ -122,7 +130,9 @@ func TestFormatToggleChangesDerivedOutput(t *testing.T) {
 func TestEnterOnMarkdownConverts(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "sample.md")
-	os.WriteFile(in, []byte("# Hello\n\nWorld.\n"), 0o644)
+	if err := os.WriteFile(in, []byte("# Hello\n\nWorld.\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	cursorOn(t, &m, "sample.md")
@@ -156,8 +166,12 @@ func TestEnterOnMarkdownConverts(t *testing.T) {
 
 func TestEnterOnDirectoryNavigates(t *testing.T) {
 	dir := t.TempDir()
-	os.Mkdir(filepath.Join(dir, "sub"), 0o755)
-	os.WriteFile(filepath.Join(dir, "sub", "inner.md"), []byte("x"), 0o644)
+	if err := os.Mkdir(filepath.Join(dir, "sub"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "sub", "inner.md"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	cursorOn(t, &m, "sub")
@@ -181,7 +195,9 @@ func TestEnterOnDirectoryNavigates(t *testing.T) {
 func TestSearchJumpsToMatch(t *testing.T) {
 	dir := t.TempDir()
 	for _, n := range []string{"alpha.md", "beta.md", "gamma.md", "report.md"} {
-		os.WriteFile(filepath.Join(dir, n), []byte("x"), 0o644)
+		if err := os.WriteFile(filepath.Join(dir, n), []byte("x"), 0o644); err != nil {
+			t.Fatal(err)
+		}
 	}
 	m := newAt(dir)
 
@@ -222,7 +238,9 @@ func TestSearchJumpsToMatch(t *testing.T) {
 func TestSearchNextWraps(t *testing.T) {
 	dir := t.TempDir()
 	for _, n := range []string{"a_doc.md", "b_doc.md", "c_note.md"} {
-		os.WriteFile(filepath.Join(dir, n), []byte("x"), 0o644)
+		if err := os.WriteFile(filepath.Join(dir, n), []byte("x"), 0o644); err != nil {
+			t.Fatal(err)
+		}
 	}
 	m := newAt(dir)
 	next, _ := m.Update(tea.KeyMsg{Type: tea.KeyCtrlS})
@@ -247,8 +265,12 @@ func TestOverwritePromptThenCancel(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "doc.md")
 	out := filepath.Join(dir, "doc.pdf") // PDF is the default format
-	os.WriteFile(in, []byte("# Hi\n"), 0o644)
-	os.WriteFile(out, []byte("OLD"), 0o644) // existing output
+	if err := os.WriteFile(in, []byte("# Hi\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(out, []byte("OLD"), 0o644); err != nil { // existing output
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	cursorOn(t, &m, "doc.md")
@@ -278,8 +300,12 @@ func TestOverwritePromptThenConfirm(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "doc.md")
 	out := filepath.Join(dir, "doc.docx") // DOCX keeps the test fast
-	os.WriteFile(in, []byte("# Hi\n\nBody.\n"), 0o644)
-	os.WriteFile(out, []byte("OLD"), 0o644)
+	if err := os.WriteFile(in, []byte("# Hi\n\nBody.\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(out, []byte("OLD"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	cursorOn(t, &m, "doc.md")
@@ -307,8 +333,12 @@ func TestOverwriteButtonsNavigable(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "doc.md")
 	out := filepath.Join(dir, "doc.docx") // DOCX keeps the test fast
-	os.WriteFile(in, []byte("# Hi\n\nBody.\n"), 0o644)
-	os.WriteFile(out, []byte("OLD"), 0o644)
+	if err := os.WriteFile(in, []byte("# Hi\n\nBody.\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(out, []byte("OLD"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	cursorOn(t, &m, "doc.md")
@@ -413,7 +443,7 @@ func TestFlavorPickerSelectsAndSaves(t *testing.T) {
 func TestFlavorPickerEscKeepsFlavor(t *testing.T) {
 	m := newAt(t.TempDir())
 	m.saveSettings = func(settings.Settings) error {
-		t.Fatal("cancelling must not save")
+		t.Fatal("canceling must not save")
 		return nil
 	}
 
@@ -434,7 +464,9 @@ func TestFlavorPickerEscKeepsFlavor(t *testing.T) {
 func TestConversionUsesSelectedFlavor(t *testing.T) {
 	dir := t.TempDir()
 	src := filepath.Join(dir, "doc.md")
-	os.WriteFile(src, []byte("# Title\n\n{+ added +}\n"), 0o644)
+	if err := os.WriteFile(src, []byte("# Title\n\n{+ added +}\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	for id, wantMarkers := range map[string]bool{"commonmark": true, "gitlab": false} {
 		m := newAt(dir)
@@ -471,7 +503,7 @@ func docxBody(t *testing.T, path string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	parts := map[string]string{}
 	for _, f := range zr.File {
 		if f.Name != "word/document.xml" && f.Name != "word/styles.xml" {
@@ -482,7 +514,7 @@ func docxBody(t *testing.T, path string) string {
 			t.Fatal(err)
 		}
 		data, err := io.ReadAll(rc)
-		rc.Close()
+		_ = rc.Close()
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -525,12 +557,14 @@ func remoteDoc(t *testing.T) (Model, *atomic.Int32, string) {
 	hits := new(atomic.Int32)
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		hits.Add(1)
-		w.Write(buf.Bytes())
+		_, _ = w.Write(buf.Bytes())
 	}))
 	t.Cleanup(srv.Close)
 
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Doc\n\n![pic]("+srv.URL+"/p.png)\n"), 0o644)
+	if err := os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Doc\n\n![pic]("+srv.URL+"/p.png)\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	m := newAt(dir)
 	m.format = formatDOCX
 	cursorOn(t, &m, "doc.md")
@@ -580,7 +614,7 @@ func TestRemoteImagesDialogLoadAndCancel(t *testing.T) {
 		t.Fatal("Esc should close the dialog without converting")
 	}
 	if _, err := os.Stat(filepath.Join(m.cwd, "doc.docx")); err == nil {
-		t.Fatal("cancelling still wrote the output")
+		t.Fatal("canceling still wrote the output")
 	}
 
 	// Load: the image is downloaded.
@@ -726,11 +760,17 @@ func TestUpdateCheckFailureIsSilent(t *testing.T) {
 func themeModel(t *testing.T) (Model, *[]settings.Settings) {
 	t.Helper()
 	themes := t.TempDir()
-	os.WriteFile(filepath.Join(themes, "crimson.toml"), []byte("description = \"Red headings\"\n\n[heading]\ncolor = \"#AA0000\"\n"), 0o644)
-	os.WriteFile(filepath.Join(themes, "broken.toml"), []byte("[text]\nsizee = 1\n"), 0o644)
+	if err := os.WriteFile(filepath.Join(themes, "crimson.toml"), []byte("description = \"Red headings\"\n\n[heading]\ncolor = \"#AA0000\"\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(themes, "broken.toml"), []byte("[text]\nsizee = 1\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Title\n\ntext\n"), 0o644)
+	if err := os.WriteFile(filepath.Join(dir, "doc.md"), []byte("# Title\n\ntext\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	m := newAt(dir)
 	m.themes = theme.Loader{UserDir: themes}
 	m.settings.Flavor = flavor.DefaultID
@@ -925,7 +965,7 @@ func docxStyles(t *testing.T, path string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	for _, f := range zr.File {
 		if f.Name != "word/styles.xml" {
 			continue
@@ -934,7 +974,7 @@ func docxStyles(t *testing.T, path string) string {
 		if err != nil {
 			t.Fatal(err)
 		}
-		defer rc.Close()
+		defer func() { _ = rc.Close() }()
 		data, err := io.ReadAll(rc)
 		if err != nil {
 			t.Fatal(err)
@@ -989,7 +1029,9 @@ func TestPDFAToggle(t *testing.T) {
 func TestNoSecondConversionWhileConverting(t *testing.T) {
 	dir := t.TempDir()
 	in := filepath.Join(dir, "doc.md")
-	os.WriteFile(in, []byte("# Hi\n"), 0o644)
+	if err := os.WriteFile(in, []byte("# Hi\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 
 	m := newAt(dir)
 	m.format = formatDOCX
@@ -1014,7 +1056,9 @@ func TestNoSecondConversionWhileConverting(t *testing.T) {
 	// With the output in place, Enter would open the overwrite dialog; that
 	// must not happen while converting either
 	out := filepath.Join(dir, "doc.docx")
-	os.WriteFile(out, []byte("OLD"), 0o644)
+	if err := os.WriteFile(out, []byte("OLD"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	next, _ = m.Update(key("enter"))
 	if next.(Model).confirmOverwrite {
 		t.Error("the overwrite dialog opened during a conversion")

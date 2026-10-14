@@ -30,7 +30,7 @@ func (r *PdfRenderer) drawPageMarks() {
 		r.drawBand()
 	}
 
-	r.pdf.SetFont(face, "", size)
+	_ = r.pdf.SetFont(face, "", size)
 	r.face, r.fontSize, r.font = face, size, fontLabel(face, size)
 	r.textColor(text)
 	r.fillColor(fill)
@@ -94,6 +94,6 @@ func (r *PdfRenderer) drawWatermark() {
 	r.pdf.Rotate(watermarkAngle, cx, cy)
 	r.pdf.SetX(x)
 	r.pdf.SetY(y)
-	r.pdf.Cell(nil, text)
+	_ = r.pdf.Cell(nil, text)
 	r.pdf.RotateReset()
 }

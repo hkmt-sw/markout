@@ -4,6 +4,7 @@ import (
 	"archive/zip"
 	"bytes"
 	"encoding/xml"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
@@ -233,7 +234,7 @@ func docxOutline(t *testing.T, path string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 
 	read := func(name string) []byte {
 		for _, f := range zr.File {
@@ -242,7 +243,7 @@ func docxOutline(t *testing.T, path string) string {
 				if err != nil {
 					t.Fatal(err)
 				}
-				defer rc.Close()
+				defer func() { _ = rc.Close() }()
 				data, err := io.ReadAll(rc)
 				if err != nil {
 					t.Fatal(err)
@@ -297,7 +298,7 @@ func docxOutline(t *testing.T, path string) string {
 	dec := xml.NewDecoder(bytes.NewReader(body))
 	for {
 		tok, err := dec.Token()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -432,7 +433,7 @@ func stylesOutline(t *testing.T, styles []byte) string {
 	dec := xml.NewDecoder(bytes.NewReader(styles))
 	for {
 		tok, err := dec.Token()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {
@@ -480,7 +481,7 @@ func listsOutline(t *testing.T, numbering []byte) string {
 	dec := xml.NewDecoder(bytes.NewReader(numbering))
 	for {
 		tok, err := dec.Token()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {

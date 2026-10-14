@@ -243,14 +243,14 @@ func zipFile(t *testing.T, path, name string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	for _, f := range zr.File {
 		if f.Name == name {
 			rc, err := f.Open()
 			if err != nil {
 				t.Fatal(err)
 			}
-			defer rc.Close()
+			defer func() { _ = rc.Close() }()
 			data, err := io.ReadAll(rc)
 			if err != nil {
 				t.Fatal(err)

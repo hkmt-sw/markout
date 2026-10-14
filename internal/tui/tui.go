@@ -810,7 +810,7 @@ func (m Model) cancelRemote() Model {
 	m.confirmRemote = false
 	m.remoteHosts = nil
 	m.pendingIn, m.pendingOut = "", ""
-	m.status = "cancelled — nothing converted"
+	m.status = "cancelled — nothing converted" //nolint:misspell // the text the user sees; changing it is a change of behavior
 	m.statusKind = statusInfo
 	return m
 }
@@ -879,7 +879,7 @@ func (m Model) updateConfirm(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 func (m Model) cancelOverwrite() Model {
 	m.confirmOverwrite = false
 	m.pendingOut = ""
-	m.status = "cancelled — file not overwritten"
+	m.status = "cancelled — file not overwritten" //nolint:misspell // the text the user sees; changing it is a change of behavior
 	m.statusKind = statusInfo
 	return m
 }

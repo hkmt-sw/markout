@@ -117,8 +117,7 @@ func (blockParser) Continue(node ast.Node, reader text.Reader, _ parser.Context)
 	// DedentPosition is deprecated, but it is what the extension this one
 	// replaced used, and the lines of a block must come out as they did. Its
 	// successors count tabs differently.
-	//lint:ignore SA1019 kept for the same output as before
-	pos, padding := util.DedentPosition(line, 0, node.(*MathBlock).indent)
+	pos, padding := util.DedentPosition(line, 0, node.(*MathBlock).indent) //nolint:staticcheck // SA1019: kept for the same output as before
 	node.Lines().Append(text.NewSegmentPadding(segment.Start+pos, segment.Stop, padding))
 	reader.AdvanceAndSetPadding(segment.Stop-segment.Start-pos-1, padding)
 	return parser.Continue | parser.NoChildren

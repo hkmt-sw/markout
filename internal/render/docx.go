@@ -132,7 +132,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		return err
 	}
 	tempName := tempFile.Name()
-	defer os.Remove(tempName)
+	defer func() { _ = os.Remove(tempName) }()
 	if err := tempFile.Close(); err != nil {
 		return err
 	}
@@ -997,9 +997,9 @@ func (r *DocxRenderer) embedPicture(data []byte, displayWidth int, caption strin
 		return err
 	}
 	tmpPath := tmp.Name()
-	defer os.Remove(tmpPath)
+	defer func() { _ = os.Remove(tmpPath) }()
 	if _, err := tmp.Write(data); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := tmp.Close(); err != nil {
@@ -1916,7 +1916,7 @@ func mmToTwips(mm float64) int {
 func hexToColor(hex string) domain.Color {
 	var r, g, b uint8
 	if len(hex) == 6 {
-		fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
 	}
 	return domain.Color{R: r, G: g, B: b}
 }
@@ -1936,7 +1936,7 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, tableHeade
 	if err != nil {
 		return fmt.Errorf("failed to open docx: %w", err)
 	}
-	defer zipReader.Close()
+	defer func() { _ = zipReader.Close() }()
 
 	// The output replaces an earlier file only when it is complete
 	return atomicfile.Write(outputFile, 0o666, func(w io.Writer) error {
@@ -1959,7 +1959,7 @@ func rewriteDocx(zipReader *zip.Reader, w io.Writer, tableInsets []int, tableHea
 		}
 
 		content, err := io.ReadAll(rc)
-		rc.Close()
+		_ = rc.Close()
 		if err != nil {
 			return err
 		}

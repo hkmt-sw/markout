@@ -223,7 +223,7 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 	if err != nil {
 		return nil, &ConversionError{Op: "read input", Err: err}
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	content, err := io.ReadAll(io.LimitReader(file, MaxFileSize+1))
 	if err != nil {
 		return nil, &ConversionError{Op: "read input", Err: err}

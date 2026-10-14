@@ -305,7 +305,7 @@ func (r *PdfRenderer) mathRow(kids []*mathml.Node, st mathStyle) mathBox {
 			continue
 		}
 		closes := strings.Contains(mathClosers, kid.Text) || kid.Attr["form"] == "postfix"
-		if strings.Contains("|‖", kid.Text) && kid.Attr["form"] == "" {
+		if strings.Contains("|‖", kid.Text) && kid.Attr["form"] == "" { //nolint:gocritic // asks whether the text is one of these two, as meant
 			// A bar closes the bar that is open, and opens one otherwise
 			closes = len(open) > 0 && kids[open[len(open)-1]].Text == kid.Text
 		}
@@ -686,11 +686,11 @@ func (r *PdfRenderer) mathAccent(b mathBox, mark string, st mathStyle) mathBox {
 	fm, em := r.mathFace(), st.size()
 	rule, color := fm.rule*em, st.color
 	base := b.draw
-	switch {
-	case mark == "⏞":
+	switch mark {
+	case "⏞":
 		return r.mathBrace(b, true, st)
 
-	case mark == "‾" || mark == "¯" || mark == "―" || mark == "_":
+	case "‾", "¯", "―", "_":
 		up := b.h + 0.12*em
 		b.h, b.char = up+rule, false
 		b.draw = func(x, y float64) {
@@ -699,7 +699,7 @@ func (r *PdfRenderer) mathAccent(b mathBox, mark string, st mathStyle) mathBox {
 			r.line(x+0.02*em, y-up, x+b.w-0.02*em, y-up)
 		}
 
-	case mark == "⃗" || mark == "→":
+	case "⃗", "→":
 		up := b.h + 0.16*em
 		// An arrow longer than a narrow letter makes room for itself
 		length := math.Max(b.w, 0.5*em)
