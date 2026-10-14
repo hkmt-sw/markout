@@ -2,6 +2,7 @@ package render
 
 import (
 	"math"
+	"strconv"
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
@@ -115,7 +116,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	for _, run := range runs {
 		text := run.Text
 		if run.FootnoteIndex > 0 {
-			text = "[" + itoa(run.FootnoteIndex) + "]"
+			text = "[" + strconv.Itoa(run.FootnoteIndex) + "]"
 		}
 		if text == "" {
 			continue

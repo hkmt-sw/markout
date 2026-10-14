@@ -12,7 +12,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/signintech/gopdf"
@@ -1148,7 +1148,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 		}
 		// Beside the last line of the title
 		y := r.currentY - lineHeight
-		number := itoa(page)
+		number := strconv.Itoa(page)
 		r.setFont(r.bodyFont(), "", r.t.Text.Size)
 		r.textColor(r.t.Text.Muted)
 		from := left + lines[len(lines)-1].width() + gap/2
@@ -1305,29 +1305,6 @@ func hexStringToRGB(hex string) theme.Color {
 	return theme.Color{R: r, G: g, B: b}
 }
 
-// sortedKeys returns the keys of a metadata map in a stable order.
-func sortedKeys(m map[string]any) []string {
-	keys := make([]string, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys
-}
-
-// itoa converts int to string without importing strconv
-func itoa(n int) string {
-	if n == 0 {
-		return "0"
-	}
-	var digits []byte
-	for n > 0 {
-		digits = append([]byte{byte('0' + n%10)}, digits...)
-		n /= 10
-	}
-	return string(digits)
-}
-
 func (r *PdfRenderer) renderFootnoteSection() {
 	note := r.t.Footnote
 	lineHeight := note.LineHeight
@@ -1348,7 +1325,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 		// Render footnote number
 		r.textColor(r.t.Text.Color)
-		prefix := itoa(fn.Index) + ". "
+		prefix := strconv.Itoa(fn.Index) + ". "
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
 		r.cell(prefix)

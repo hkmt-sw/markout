@@ -149,7 +149,7 @@ func TestBandOnEveryPage(t *testing.T) {
 			t.Errorf("%s: %d pages, too few to tell", tc.name, pages)
 		}
 		for page := 1; page <= pages; page++ {
-			prefix := "p" + itoa(page) + " "
+			prefix := "p" + strconv.Itoa(page) + " "
 			lines := strings.Split(onPage(trace, page), "\n")
 			// The band is the first thing on the page: a strip across the full
 			// width at the top, in the level's colors, and in it the text as the
@@ -249,7 +249,7 @@ func TestWatermarkOnEveryPage(t *testing.T) {
 			lines := strings.Split(onPage(trace, page), "\n")
 			// Centered on the page (the text is 507.7 points wide), at 45 degrees, in
 			// light gray, and drawn first: what the page holds is drawn over it
-			want := "p" + itoa(page) + ` mark  x=47.3 y=372.9 angle=45 Arial-Bold/96 "TERVEZET" #E6E6E6`
+			want := "p" + strconv.Itoa(page) + ` mark  x=47.3 y=372.9 angle=45 Arial-Bold/96 "TERVEZET" #E6E6E6`
 			if lines[0] != want {
 				t.Errorf("%s: page %d starts with %q, want %q", tc.name, page, lines[0], want)
 			}

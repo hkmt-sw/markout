@@ -7,6 +7,7 @@ import (
 	"image"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	docx "github.com/mmonterroca/docxgo/v2"
@@ -262,7 +263,7 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 	if name, ok := r.bookmarks[h.ID]; ok && !r.bookmarked[name] {
 		if marked, ok := para.(interface{ HydrateBookmark(id, name string) }); ok {
 			r.bookmarkSeq++
-			marked.HydrateBookmark(itoa(r.bookmarkSeq), name)
+			marked.HydrateBookmark(strconv.Itoa(r.bookmarkSeq), name)
 			r.bookmarked[name] = true
 		}
 	}
@@ -319,7 +320,7 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 
 	// Handle footnote reference
 	if astRun.FootnoteIndex > 0 {
-		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
+		run.SetText("[" + strconv.Itoa(astRun.FootnoteIndex) + "]")
 		base.setSize(run, r.t.Footnote.Size)
 		base.setFont(run, base.font)
 		run.SetColor(docxColor(r.t.Link.Color))
@@ -1145,7 +1146,7 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		if err != nil {
 			return err
 		}
-		numRun.SetText(itoa(fn.Index) + ". ")
+		numRun.SetText(strconv.Itoa(fn.Index) + ". ")
 		numRun.SetSize(runSize(r.t.Footnote.Size))
 		numRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		numRun.SetColor(docxColor(r.t.Text.Muted))

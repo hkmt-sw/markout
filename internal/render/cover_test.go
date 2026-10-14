@@ -3,6 +3,7 @@ package render
 import (
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -45,7 +46,7 @@ func themedCover() theme.Set {
 
 // onPage returns the lines of a trace drawn on one page.
 func onPage(trace string, page int) string {
-	prefix := "p" + itoa(page) + " "
+	prefix := "p" + strconv.Itoa(page) + " "
 	var out []string
 	for _, line := range strings.Split(trace, "\n") {
 		if strings.HasPrefix(line, prefix) {
@@ -282,7 +283,7 @@ func TestCoverHasNoHeaderOrFooter(t *testing.T) {
 	}
 	for page := 2; page <= 3; page++ {
 		p := onPage(trace, page)
-		for _, want := range []string{`Arial/9 "The Title"`, `"An Author"`, `"Page ` + itoa(page) + ` of 3"`} {
+		for _, want := range []string{`Arial/9 "The Title"`, `"An Author"`, `"Page ` + strconv.Itoa(page) + ` of 3"`} {
 			if !strings.Contains(p, want) {
 				t.Errorf("page %d lacks %s", page, want)
 			}

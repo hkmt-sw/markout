@@ -3,6 +3,7 @@ package render
 import (
 	"path/filepath"
 	"reflect"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -44,20 +45,20 @@ func TestPDFHeaderAndFooterOnEveryPage(t *testing.T) {
 		t.Fatalf("the header appears on %d pages, expected at least 3:\n%s", pages, trace)
 	}
 	for page := 1; page <= pages; page++ {
-		prefix := "p" + itoa(page) + " "
+		prefix := "p" + strconv.Itoa(page) + " "
 		for _, want := range []string{
 			prefix + `text  x=56.7 y=23.8 Arial/9 "The Title" #4A4A68`, // left, in the middle of the top margin
 			`Arial/9 "2026-10-06" #4A4A68`,
 			prefix + `line  x=56.7 y=37.8 to x=538.6 y=37.8 #B4B4B4/0.5`, // the rule under the header
 			`Arial/9 "An Author" #4A4A68`,
-			`"Page ` + itoa(page) + ` of ` + itoa(pages) + `" #4A4A68`,
+			`"Page ` + strconv.Itoa(page) + ` of ` + strconv.Itoa(pages) + `" #4A4A68`,
 		} {
 			if !strings.Contains(trace, want) {
 				t.Errorf("page %d: missing %s", page, want)
 			}
 		}
 	}
-	if strings.Contains(trace, "Page "+itoa(pages+1)) {
+	if strings.Contains(trace, "Page "+strconv.Itoa(pages+1)) {
 		t.Error("a footer was drawn for a page that does not exist")
 	}
 
