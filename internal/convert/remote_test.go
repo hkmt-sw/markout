@@ -67,7 +67,7 @@ func TestRemoteImagesNeedConsent(t *testing.T) {
 	}
 
 	// With consent the images on the test server are downloaded.
-	if err := ConvertFileWith(src, filepath.Join(dir, "with.docx"), FormatUnknown, Options{RemoteImages: true}); err != nil {
+	if err := ConvertFileWith(src, filepath.Join(dir, "with.docx"), FormatUnknown, Options{RemoteImages: true, RemoteHosts: []string{hosts[0].Host}}); err != nil {
 		t.Fatal(err)
 	}
 	if n := hits.Load(); n != 2 {

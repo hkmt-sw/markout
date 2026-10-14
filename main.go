@@ -110,7 +110,7 @@ func main() {
 	}
 
 	// The flavor comes from the command line, else from the saved settings.
-	saved := settings.Load()
+	saved, settingsErr := settings.Load()
 	fl := saved.MarkdownFlavor()
 	if flavorID != "" {
 		chosen, ok := flavor.ByID(flavorID)
@@ -141,8 +141,10 @@ func main() {
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
+		warnSettings(settingsErr)
 		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language, PDFA: pdfa || saved.PDFA}
-		opts.RemoteImages = allowRemoteImages(input, opts, remote)
+		opts.RemoteHosts = allowRemoteImages(input, opts, remote)
+		opts.RemoteImages = len(opts.RemoteHosts) > 0
 		opts.Warn = func(message string) {
 			fmt.Fprintln(os.Stderr, "Warning: "+message)
 		}
@@ -156,17 +158,19 @@ func main() {
 		return
 	}
 
-	// Interactive mode.
-	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Lang: language, Settings: saved, Version: buildVersion()}); err != nil {
+	// Interactive mode. The terminal belongs to the interface, which shows a
+	// settings problem itself.
+	if err := tui.Run(tui.Config{Flavor: fl, Theme: themeRef, Lang: language, Settings: saved, SettingsErr: settingsErr, Version: buildVersion()}); err != nil {
 		fail("%v", err)
 	}
 }
 
-// allowRemoteImages decides whether a direct conversion may download the
-// images the document references by URL. policy is the --remote-images value;
-// when it is not given the user is asked if there is a terminal to ask on,
-// and the images are skipped otherwise.
-func allowRemoteImages(input string, opts convert.Options, policy string) bool {
+// allowRemoteImages decides which servers a direct conversion may download the
+// images the document references by URL from: the ones it lists, if the
+// policy and the user allow it, and none otherwise. policy is the
+// --remote-images value; when it is not given the user is asked if there is a
+// terminal to ask on, and the images are skipped otherwise.
+func allowRemoteImages(input string, opts convert.Options, policy string) []string {
 	interactive := stdinIsTerminal()
 	switch policy {
 	case "":
@@ -185,10 +189,10 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 	// A file that cannot be read or parsed is reported by the conversion.
 	hosts, _ := convert.RemoteImageHosts(input, opts)
 	if len(hosts) == 0 {
-		return false
+		return nil
 	}
 	if policy == "allow" {
-		return true
+		return convert.RemoteHostNames(hosts)
 	}
 
 	fmt.Fprintln(os.Stderr, "Warning: this document downloads images from the internet:")
@@ -206,7 +210,7 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 
 	if policy == "deny" {
 		fmt.Fprintln(os.Stderr, "Skipped: they are left as placeholders. Use --remote-images=allow to download them.")
-		return false
+		return nil
 	}
 
 	fmt.Fprintln(os.Stderr, "These servers will see your IP address and that you opened this document.")
@@ -214,10 +218,10 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 	answer, _ := bufio.NewReader(os.Stdin).ReadString('\n')
 	switch strings.ToLower(strings.TrimSpace(answer)) {
 	case "y", "yes":
-		return true
+		return convert.RemoteHostNames(hosts)
 	}
 	fmt.Fprintln(os.Stderr, "Skipped: the images are left as placeholders.")
-	return false
+	return nil
 }
 
 func stdinIsTerminal() bool {
@@ -237,7 +241,8 @@ func printable(s string) string {
 }
 
 func printThemes() {
-	current := settings.Load().Theme
+	saved := loadSettings()
+	current := saved.Theme
 	if current == "" {
 		current = theme.DefaultName
 	}
@@ -289,6 +294,21 @@ func checkUpdate() {
 	}
 }
 
+// loadSettings reads the saved settings, warning about a file that cannot be
+// used and carrying on with the defaults.
+func loadSettings() settings.Settings {
+	saved, err := settings.Load()
+	warnSettings(err)
+	return saved
+}
+
+// warnSettings tells that the settings file was not used, if err says so.
+func warnSettings(err error) {
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Warning: %v; using the default settings\n", err)
+	}
+}
+
 func fail(format string, a ...any) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", a...)
 	os.Exit(1)
@@ -326,7 +346,8 @@ Options:
 }
 
 func printFlavors() {
-	current := settings.Load().MarkdownFlavor().ID
+	saved := loadSettings()
+	current := saved.MarkdownFlavor().ID
 	for _, f := range flavor.All() {
 		mark := " "
 		if f.ID == current {

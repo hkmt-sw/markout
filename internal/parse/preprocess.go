@@ -254,7 +254,7 @@ var (
 	snippetLine   = regexp.MustCompile(`^-{2,}8<-{2,}\s+"([^"]+)"$`)
 	snippetFence  = regexp.MustCompile(`^-{2,}8<-{2,}$`)
 	markdownTag   = regexp.MustCompile(`^<(div|span|figure|section|article|aside)\b[^<>]*\smarkdown(?:="[^"]*")?[^<>]*>$`)
-	materialKeys  = regexp.MustCompile(`\+\+([A-Za-z0-9][A-Za-z0-9-]*(?:\+[A-Za-z0-9][A-Za-z0-9-]*)*)\+\+`)
+	materialKeys  = regexp.MustCompile(`\+\+([A-Za-z0-9]+(?:-[A-Za-z0-9]+)*(?:\+[A-Za-z0-9]+(?:-[A-Za-z0-9]+)*)*)\+\+`)
 	materialIcon  = regexp.MustCompile(`:(?:material|fontawesome|octicons|simple)-[a-z0-9-]+:(?:\{[^}]*\})?`)
 	mdxImport     = regexp.MustCompile(`^import\s+(?:.+\sfrom\s+)?['"][^'"]+['"];?[ \t]*$`)
 	mdxTabItem    = regexp.MustCompile(`^<TabItem\b([^>]*)>$`)

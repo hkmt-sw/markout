@@ -99,6 +99,29 @@ by hand today. In progress.
 - A no-break space (`&nbsp;`) did not keep words together in PDF: a line could
   break at it, and a name such as "Kovács Anna" was broken in a narrow table
   column. The narrow no-break space and the figure space did the same. (#96)
+- A keyboard key such as `++a-++` or `++a--b++` made markout crash. It is
+  left as typed now. A bug of this kind in the future is reported as an error
+  instead of a crash. (#99)
+- In the TUI, Enter during a conversion started a second one into the same
+  file. It does nothing now until the first one is done. (#100)
+- The PDF and DOCX were written straight into the output file, so a full disk
+  or a stopped conversion left a broken file in place of the earlier one, and
+  in DOCX a failed write was reported as saved. The output is written next to
+  it first and replaces it only when it is complete; the intermediate DOCX no
+  longer goes to `<output>.tmp`. (#101)
+- A settings file that could not be read, for example after a typo, was
+  replaced by the defaults the next time the TUI saved. markout now says so,
+  uses the defaults without saving them, and when a setting is changed keeps
+  the old file as `config.json.bak`. The settings file is written as a whole
+  and only its owner can read it. (#102)
+
+### Security
+
+- Before downloading images referenced by URL, markout asks the user, but the
+  list of servers it showed left out images in lists, and a server could
+  redirect the download to another one. Every image is listed now, images are
+  downloaded only from the servers the user agreed to, and redirects to other
+  servers are refused.
 
 ## [1.9.0] - 2026-10-14
 

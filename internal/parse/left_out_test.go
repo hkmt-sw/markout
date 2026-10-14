@@ -254,6 +254,26 @@ func TestMaterial(t *testing.T) {
 	}
 }
 
+// A key with an empty word ("a-", "a--b", "-") is not a key. It once made the
+// key rewriting slice an empty string and panic, so every flavor reads it.
+func TestMaterialKeysWithEmptyWords(t *testing.T) {
+	inputs := []string{"press ++a-++ now", "press ++a--b++ now", "press ++-++ now", "press ++-a++ now", "press ++ctrl+-++ now"}
+	for _, fl := range flavor.All() {
+		for _, md := range inputs {
+			doc := parseDoc(t, fl.ID, md+"\n")
+			if text := allText(doc.Elements); !strings.Contains(text, "press") || !strings.Contains(text, "now") {
+				t.Errorf("%s: %q lost its text: %q", fl.ID, md, text)
+			}
+		}
+	}
+
+	// Left as typed, and a real key next to it is still shown as a key
+	doc := parseDoc(t, "mkdocs", "++a--b++ and ++arrow-up++\n")
+	if got := allText(doc.Elements); !strings.Contains(got, "++a--b++ and Arrow Up") {
+		t.Errorf("text = %q", got)
+	}
+}
+
 // In MDX indentation does not make code: what is indented inside a
 // component, or anywhere outside a list, is text, and fenced code keeps its
 // own indentation.
