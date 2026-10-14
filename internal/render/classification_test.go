@@ -280,11 +280,10 @@ func TestWatermarkShrinksToFit(t *testing.T) {
 	line := strings.Split(onPage(trace, 1), "\n")[0]
 	i := strings.Index(line, "Arial-Bold/")
 	var size float64
-	for _, f := range strings.Fields(line[i+len("Arial-Bold/"):]) {
-		if v, err := strconv.ParseFloat(f, 64); err == nil {
+	if fields := strings.Fields(line[i+len("Arial-Bold/"):]); len(fields) > 0 {
+		if v, err := strconv.ParseFloat(fields[0], 64); err == nil {
 			size = v
 		}
-		break
 	}
 	x, y := fieldOf(t, line, "x="), fieldOf(t, line, "y=")
 	// The text is centered, and slanted as it is stays within the width of the

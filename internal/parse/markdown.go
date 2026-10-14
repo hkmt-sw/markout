@@ -472,9 +472,7 @@ func (w *astWalker) convertListItem(n *gmast.ListItem, level int) ast.ListItem {
 			if len(children) == 0 {
 				childrenOrdered = nestedList.Ordered
 			}
-			for _, item := range nestedList.Items {
-				children = append(children, item)
-			}
+			children = append(children, nestedList.Items...)
 		default:
 			blocks = append(blocks, w.convertNestedBlock(child)...)
 		}

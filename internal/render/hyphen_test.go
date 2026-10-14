@@ -178,7 +178,7 @@ func TestBreaksOf(t *testing.T) {
 }
 
 func TestSoftHyphens(t *testing.T) {
-	text, places := softHyphens("a rend­szer­gazda és az infor­máció")
+	text, places := softHyphens("a rend\u00adszer\u00adgazda és az infor\u00admáció")
 	if text != "a rendszergazda és az információ" {
 		t.Errorf("text %q", text)
 	}
@@ -194,7 +194,7 @@ func TestSoftHyphens(t *testing.T) {
 // A soft hyphen is never drawn; it is where its word is broken, in any block
 // and with no language, unless the theme turns hyphenation off.
 func TestSoftHyphenIsABreakAndNotACharacter(t *testing.T) {
-	text := "Az üzemeltetés rendje: rendszer­üzemeltetés"
+	text := "Az üzemeltetés rendje: rendszer\u00adüzemeltetés"
 	for mode, want := range map[string][]string{
 		theme.HyphenateAuto:  {"Az üzemeltetés rendje: rendszer-", "üzemeltetés"},
 		theme.HyphenateNever: {"Az üzemeltetés rendje:", "rendszerüzemeltetés"},

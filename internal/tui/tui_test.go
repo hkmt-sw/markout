@@ -496,7 +496,7 @@ func docxBody(t *testing.T, path string) string {
 
 // A file name must not be able to write terminal escape sequences.
 func TestFileNamesAreSanitizedForDisplay(t *testing.T) {
-	if got := printable("a\x1b[2Jb\tc​d.md"); got != "a?[2Jb?c?d.md" {
+	if got := printable("a\x1b[2Jb\tc\u200bd.md"); got != "a?[2Jb?c?d.md" {
 		t.Fatalf("printable = %q", got)
 	}
 	if runtime.GOOS == "windows" {
