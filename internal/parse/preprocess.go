@@ -878,6 +878,9 @@ func (p *preprocessor) fenced(open, marker, info string, body []string) (lines [
 
 var fenceTitle = regexp.MustCompile(`(?:^|\s)title=(?:"([^"]*)"|'([^']*)')`)
 
+// quotedTitle finds a title="..." attribute in the head of a fence.
+var quotedTitle = regexp.MustCompile(`title="([^"]*)"`)
+
 // colonBlock converts the body of a ":::" fence. ok is false when the fence is
 // not one the flavor understands and the lines should be left alone.
 func (p *preprocessor) colonBlock(head string, body []string) ([]string, bool) {
@@ -925,7 +928,7 @@ func (p *preprocessor) colonBlock(head string, body []string) ([]string, bool) {
 				}
 			}
 		}
-		if m := regexp.MustCompile(`title="([^"]*)"`).FindStringSubmatch(head); m != nil {
+		if m := quotedTitle.FindStringSubmatch(head); m != nil {
 			title = m[1]
 		}
 	} else if strings.HasPrefix(title, "[") && strings.HasSuffix(title, "]") {
@@ -1449,9 +1452,19 @@ func (p *preprocessor) materialInline(s string) string {
 	})
 }
 
-// mdxAttr returns the value of an attribute of a JSX tag, as label="x".
+// mdxAttrPatterns holds the pattern of each attribute mdxAttr is asked for.
+var mdxAttrPatterns = func() map[string]*regexp.Regexp {
+	m := make(map[string]*regexp.Regexp)
+	for _, name := range []string{"label", "value"} {
+		m[name] = regexp.MustCompile(`\b` + name + `=(?:"([^"]*)"|'([^']*)')`)
+	}
+	return m
+}()
+
+// mdxAttr returns the value of an attribute of a JSX tag, as label="x". The
+// name must be one of those in mdxAttrPatterns.
 func mdxAttr(attrs, name string) string {
-	m := regexp.MustCompile(`\b` + name + `=(?:"([^"]*)"|'([^']*)')`).FindStringSubmatch(attrs)
+	m := mdxAttrPatterns[name].FindStringSubmatch(attrs)
 	if m == nil {
 		return ""
 	}
@@ -1553,6 +1566,7 @@ var (
 	imageSizeEq      = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)\s]+)[ \t]+=(\d*)x(\d*)\)`)
 	imageAttrs       = regexp.MustCompile(`(!\[[^\]]*)\]\(([^)]*)\)\{:?([^}]*)\}`)
 	attrWidth        = regexp.MustCompile(`width\s*[=:]\s*["']?(\d+(?:\.\d+)?)\s*(px|%)?`)
+	bareWidth        = regexp.MustCompile(`^(\d+(?:\.\d+)?)\s*(px|%)?$`)
 	imageEmbed       = regexp.MustCompile(`!\[\[([^\]|]+)(?:\|([^\]]*))?\]\]`)
 	wikiLink         = regexp.MustCompile(`\[\[([^\]|]+)(?:\|([^\]]+))?\]\]`)
 	inlineNote       = regexp.MustCompile(`\^\[([^\]]+)\]`)
@@ -1791,7 +1805,7 @@ func widthHint(attrs string) string {
 	num, unit := "", ""
 	if m := attrWidth.FindStringSubmatch(attrs); m != nil {
 		num, unit = m[1], m[2]
-	} else if m := regexp.MustCompile(`^(\d+(?:\.\d+)?)\s*(px|%)?$`).FindStringSubmatch(attrs); m != nil {
+	} else if m := bareWidth.FindStringSubmatch(attrs); m != nil {
 		num, unit = m[1], m[2]
 	} else {
 		return ""
