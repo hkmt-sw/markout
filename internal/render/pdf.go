@@ -1473,7 +1473,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 func cellLongestWord(cell ast.TableCell) int {
 	longest := 0
 	for _, run := range cell.Runs {
-		for _, w := range strings.Fields(run.Text) {
+		for _, w := range words(run.Text) {
 			if l := len([]rune(w)); l > longest {
 				longest = l
 			}

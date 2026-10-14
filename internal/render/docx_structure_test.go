@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"regexp"
+	"strconv"
 	"strings"
 	"testing"
 
@@ -210,5 +211,18 @@ func TestDOCXEquations(t *testing.T) {
 	}
 	if len(warnings) != 1 || !strings.Contains(warnings[0], "1 formula could not be typeset") {
 		t.Errorf("warnings: %q", warnings)
+	}
+}
+
+// A no-break space is written to the document as it is, so that Word keeps
+// the words together.
+func TestDOCXKeepsNoBreakSpace(t *testing.T) {
+	outline := docxOutline(t, renderDocx(t, "Kovács&nbsp;Anna and Nagy\u202fBéla\n", flavor.Default()))
+	for _, text := range []string{"Kovács\u00a0Anna", "Nagy\u202fBéla"} {
+		// The outline shows the text of a run quoted
+		want := strings.Trim(strconv.Quote(text), `"`)
+		if !strings.Contains(outline, want) {
+			t.Errorf("missing %q in\n%s", want, outline)
+		}
 	}
 }

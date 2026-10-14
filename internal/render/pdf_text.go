@@ -329,7 +329,9 @@ func (r *PdfRenderer) layoutText(b *lineBreaker, f fragment, text string) {
 	p := runPlacer{b: b, f: f, spaceWidth: spaceWidth, chip: f.run.ColorChip != ""}
 
 	leadingSpace := strings.TrimLeft(text, " \t\n") != text
-	for i, word := range strings.Fields(text) {
+	for i, word := range words(text) {
+		// A no-break space is drawn as an ordinary space inside the word
+		word = noBreakAsSpace(word)
 		// The gap before a run is a space of the text around it
 		gapWidth := spaceWidth
 		if i == 0 {

@@ -21,7 +21,7 @@ func (r *PdfRenderer) glyphOption() gopdf.TtfOption {
 
 // drawable reports whether the current font has a glyph for c.
 func (r *PdfRenderer) drawable(c rune) bool {
-	if c == ' ' {
+	if c == ' ' || isNoBreakSpace(c) {
 		return true
 	}
 	known := r.glyphs[r.face]
@@ -43,6 +43,33 @@ func (r *PdfRenderer) drawable(c rune) bool {
 		r.rightToLeft = true
 	}
 	return ok
+}
+
+// isNoBreakSpace reports whether c is a space that keeps the words on both
+// sides of it on one line: the no-break space, the figure space and the
+// narrow no-break space. (The word joiner is not a space, and splits nothing.)
+func isNoBreakSpace(c rune) bool {
+	return c == '\u00a0' || c == '\u2007' || c == '\u202f'
+}
+
+// words splits text into the words a line is broken between. Words joined by
+// a no-break space are one.
+func words(text string) []string {
+	return strings.FieldsFunc(text, func(c rune) bool {
+		return unicode.IsSpace(c) && !isNoBreakSpace(c)
+	})
+}
+
+// noBreakAsSpace draws the no-break spaces of a word as ordinary spaces,
+// which every font has. A word that has them stays whole, so the line is
+// never broken at one.
+func noBreakAsSpace(word string) string {
+	return strings.Map(func(c rune) rune {
+		if isNoBreakSpace(c) {
+			return ' '
+		}
+		return c
+	}, word)
 }
 
 // usable returns text without the characters the current font cannot draw.
