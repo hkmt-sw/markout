@@ -1,13 +1,24 @@
 name: CI
 
-# Build, vet and test on every push to master and on pull requests.
+# Build, vet, lint and test on every push to master and on pull requests.
+# A weekly run as well, because new vulnerability advisories and new Go
+# releases arrive between pushes; every job runs then, so the "test" check
+# below needs no special case for it.
 on:
   push:
     branches: [master]
   pull_request:
+  schedule:
+    - cron: "17 5 * * 1" # Mondays, 05:17 UTC
 
 permissions:
   contents: read
+
+# A new push to a pull request makes the run in progress useless. Runs for
+# master and the weekly run are left to finish.
+concurrency:
+  group: ci-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   platform:
@@ -17,6 +28,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -37,13 +49,29 @@ jobs:
             echo "Run gofmt on:"; echo "$unformatted"; exit 1
           fi
 
+      # go.mod and go.sum must be what `go mod tidy` would write, and the
+      # downloaded modules must match go.sum.
+      - name: Check modules
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          go mod tidy -diff
+          go mod verify
+
       - name: Build
         run: go build ./...
 
       - name: Vet
         run: go vet ./...
 
+      # The race detector and a shuffled test order run on Linux only: they
+      # slow the tests down several times over, and neither finds anything
+      # that depends on the operating system.
+      - name: Test (race detector, shuffled)
+        if: matrix.os == 'ubuntu-latest'
+        run: go test -race -shuffle=on ./...
+
       - name: Test
+        if: matrix.os != 'ubuntu-latest'
         run: go test ./...
 
   # The sample documents, made as PDF/A, are checked by veraPDF. The version
@@ -52,6 +80,7 @@ jobs:
   pdfa:
     name: PDF/A (veraPDF)
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: read
     steps:
@@ -79,12 +108,56 @@ jobs:
       - name: Convert to PDF/A and validate
         run: scripts/check-pdfa.sh "$RUNNER_TEMP/markout" "$RUNNER_TEMP/verapdf/verapdf"
 
+  # The linters and their settings are in .golangci.yml. The version of
+  # golangci-lint is pinned here, so that a new release cannot turn a green
+  # build red; Dependabot moves the action, and the version is raised by hand.
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: Run golangci-lint
+        uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9.3.0
+        with:
+          version: v2.14.0
+
+  # Known vulnerabilities in the code that is reachable, in the dependencies
+  # and in the standard library of the Go that builds it. govulncheck is
+  # pinned and run with `go run`, so there is no extra action to trust.
+  vuln:
+    name: Vulnerabilities
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: Run govulncheck
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+
   # The branch protection rule requires a check named "test". This job gives
-  # it one result for all platforms and for the PDF/A check.
+  # it one result for all platforms, the PDF/A check, the linters and the
+  # vulnerability check.
   test:
-    needs: [platform, pdfa]
+    needs: [platform, pdfa, lint, vuln]
     if: always()
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Everything passed
         run: |
@@ -93,4 +166,10 @@ jobs:
           fi
           if [ "${{ needs.pdfa.result }}" != "success" ]; then
             echo "The sample documents are not valid PDF/A."; exit 1
+          fi
+          if [ "${{ needs.lint.result }}" != "success" ]; then
+            echo "The linters found problems."; exit 1
+          fi
+          if [ "${{ needs.vuln.result }}" != "success" ]; then
+            echo "A known vulnerability affects the code, or the check did not run."; exit 1
           fi
