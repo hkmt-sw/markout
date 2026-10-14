@@ -166,11 +166,11 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) (e
 	switch format {
 	case FormatDOCX:
 		if err := render.RenderDocx(doc, output, renderOpts); err != nil {
-			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+			return &ConversionError{Op: "render DOCX", Err: fmt.Errorf("%w: %w", ErrRenderFailure, err)}
 		}
 	case FormatPDF:
 		if err := render.RenderPdf(doc, output, renderOpts); err != nil {
-			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %v", ErrRenderFailure, err)}
+			return &ConversionError{Op: "render PDF", Err: fmt.Errorf("%w: %w", ErrRenderFailure, err)}
 		}
 	default:
 		return &ConversionError{Op: "render", Err: ErrInvalidFormat}
@@ -238,7 +238,7 @@ func loadDocument(input string, fl flavor.Flavor) (*ast.Document, error) {
 	// Parse markdown
 	doc, err := parse.ParseFlavor(content, fl, filepath.Dir(input))
 	if err != nil {
-		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %v", ErrParseFailure, err)}
+		return nil, &ConversionError{Op: "parse markdown", Err: fmt.Errorf("%w: %w", ErrParseFailure, err)}
 	}
 	return doc, nil
 }
