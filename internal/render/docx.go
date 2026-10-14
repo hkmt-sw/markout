@@ -1920,18 +1920,6 @@ func hexToColor(hex string) domain.Color {
 	return domain.Color{R: r, G: g, B: b}
 }
 
-// RenderDocxToFile is a convenience function
-func RenderDocxToFile(doc *ast.Document, filename string) error {
-	renderer := NewDocxRenderer()
-	return renderer.RenderToFile(doc, filename)
-}
-
-// RenderDocxToFileWithBaseDir renders to DOCX, resolving relative image paths
-// against baseDir (typically the directory of the source Markdown file).
-func RenderDocxToFileWithBaseDir(doc *ast.Document, filename, baseDir string) error {
-	return RenderDocx(doc, filename, Options{BaseDir: baseDir})
-}
-
 // RenderDocx renders to DOCX with the given options.
 func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 	renderer := NewDocxRenderer()

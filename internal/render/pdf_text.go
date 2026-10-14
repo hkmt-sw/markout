@@ -459,18 +459,6 @@ func (p *runPlacer) place(part string, partWidth float64, gap bool, gapWidth flo
 	p.open = true
 }
 
-// drawLinesAt draws laid-out lines with their first baseline box at (x, y),
-// without touching the page position. firstX applies to the first line.
-func (r *PdfRenderer) drawLinesAt(lines []textLine, firstX, restX, y, lineHeight float64) {
-	for i, line := range lines {
-		x := restX
-		if i == 0 {
-			x = firstX
-		}
-		r.drawLine(line, x, y+float64(i)*lineHeight, lineHeight)
-	}
-}
-
 // drawLines draws laid-out lines at the current position, moving down the
 // page and onto a new one as needed.
 func (r *PdfRenderer) drawLines(lines []textLine, firstX, restX, lineHeight float64) {
