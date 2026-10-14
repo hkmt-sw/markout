@@ -30,11 +30,11 @@ func markColors(th *theme.Theme) map[string]bool {
 		}
 		switch v.Kind() {
 		case reflect.Struct:
-			for i := 0; i < v.NumField(); i++ {
+			for i := range v.NumField() {
 				walk(v.Field(i))
 			}
 		case reflect.Array:
-			for i := 0; i < v.Len(); i++ {
+			for i := range v.Len() {
 				walk(v.Index(i))
 			}
 		}

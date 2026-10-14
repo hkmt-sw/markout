@@ -9,7 +9,6 @@ import (
 	"reflect"
 	"regexp"
 	"slices"
-	"sort"
 	"strconv"
 	"strings"
 
@@ -87,14 +86,14 @@ func (l Loader) List() []Info {
 	for name := range builtin {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 	for _, name := range names {
 		out = append(out, Info{Name: name, Description: describe(l, name)})
 	}
 
 	if l.UserDir != "" {
 		files, _ := filepath.Glob(filepath.Join(l.UserDir, "*"+Ext))
-		sort.Strings(files)
+		slices.Sort(files)
 		for _, file := range files {
 			name := strings.TrimSuffix(filepath.Base(file), Ext)
 			if name == DefaultName {
@@ -284,7 +283,7 @@ func apply(th *Theme, sections map[string]any, dir, prefix string) error {
 	for name := range sections {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 
 	for _, name := range names {
 		m, ok := sections[name].(map[string]any)
@@ -512,7 +511,7 @@ func sortedNames[V any](m map[string]V) []string {
 	for name := range m {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 	return names
 }
 
@@ -556,7 +555,7 @@ func setStruct(v reflect.Value, m map[string]any, path string) error {
 	for key := range m {
 		keys = append(keys, key)
 	}
-	sort.Strings(keys)
+	slices.Sort(keys)
 
 	for _, key := range keys {
 		value := m[key]
@@ -609,7 +608,7 @@ func setStruct(v reflect.Value, m map[string]any, path string) error {
 
 func fieldByKey(v reflect.Value, key string) (reflect.Value, bool) {
 	t := v.Type()
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		if tag := t.Field(i).Tag.Get("key"); tag == key && tag != "-" {
 			return v.Field(i), true
 		}
@@ -619,12 +618,12 @@ func fieldByKey(v reflect.Value, key string) (reflect.Value, bool) {
 
 func keysOf(t reflect.Type) []string {
 	var keys []string
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		if tag := t.Field(i).Tag.Get("key"); tag != "" && tag != "-" {
 			keys = append(keys, tag)
 		}
 	}
-	sort.Strings(keys)
+	slices.Sort(keys)
 	return keys
 }
 

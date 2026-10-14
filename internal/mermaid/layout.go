@@ -141,7 +141,7 @@ func (l *layout) sizeNodes() {
 		case Subroutine:
 			n.W += 12
 		}
-		n.W, n.H = math.Max(n.W, 36), math.Max(n.H, 26)
+		n.W, n.H = max(n.W, 36), max(n.H, 26)
 	}
 	for _, e := range l.g.Edges {
 		if e.From == e.To {
@@ -439,7 +439,7 @@ func (l *layout) copyRanks() [][]int {
 func (l *layout) place() {
 	pos := l.packRanks()
 	up, down := l.neighbors()
-	for round := 0; round < 16; round++ {
+	for range 16 {
 		for r := 1; r < len(l.ranks); r++ {
 			l.pull(pos, l.ranks[r], up)
 		}
@@ -558,7 +558,7 @@ func (l *layout) rankCenters() []float64 {
 		if r > 0 {
 			space := rankGap / 2
 			if r%2 == 1 && depth[r] > 0 {
-				space = math.Max(space, 10)
+				space = max(space, 10)
 			}
 			at += depth[r-1]/2 + space + depth[r]/2
 		}
@@ -957,7 +957,7 @@ func outline(n *Node) (shape []Point, marks [][]Point) {
 	t, b := n.Y-n.H/2, n.Y+n.H/2
 	arc := func(cx, cy, rx, ry, from, to float64) []Point {
 		// Enough corners for the curve to look round
-		steps := int(math.Max(4, math.Abs(to-from)/7.5))
+		steps := int(max(4, math.Abs(to-from)/7.5))
 		pts := make([]Point, 0, steps+1)
 		for i := 0; i <= steps; i++ {
 			a := (from + (to-from)*float64(i)/float64(steps)) * math.Pi / 180

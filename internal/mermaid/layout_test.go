@@ -151,7 +151,7 @@ func TestLayoutIsStable(t *testing.T) {
 	if got := string(g.Layout(testMetrics).SVG(style)); got != want {
 		t.Error("laying the same graph out again gives another drawing")
 	}
-	for i := 0; i < 5; i++ {
+	for range 5 {
 		_, again := layoutOf(t, sampleChart)
 		if string(again.SVG(style)) != want {
 			t.Fatal("the same chart gives another drawing")
@@ -180,7 +180,7 @@ func TestSVG(t *testing.T) {
 func TestLayoutOddCharts(t *testing.T) {
 	var big strings.Builder
 	big.WriteString("graph TD\n")
-	for i := 0; i < 120; i++ {
+	for i := range 120 {
 		big.WriteString("n" + strings.Repeat("x", i%7) + string(rune('a'+i%26)) + " --> m" + string(rune('a'+(i*7)%26)) + "\n")
 	}
 	for name, src := range map[string]string{

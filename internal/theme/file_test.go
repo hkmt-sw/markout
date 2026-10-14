@@ -237,14 +237,14 @@ func closeEnough(a, b reflect.Value) bool {
 		d := a.Float() - b.Float()
 		return d < 0.001 && d > -0.001
 	case reflect.Struct:
-		for i := 0; i < a.NumField(); i++ {
+		for i := range a.NumField() {
 			if !closeEnough(a.Field(i), b.Field(i)) {
 				return false
 			}
 		}
 		return true
 	case reflect.Array:
-		for i := 0; i < a.Len(); i++ {
+		for i := range a.Len() {
 			if !closeEnough(a.Index(i), b.Index(i)) {
 				return false
 			}

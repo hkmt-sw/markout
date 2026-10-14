@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
-	"sort"
+	"slices"
 	"strings"
 	"testing"
 
@@ -31,7 +31,7 @@ var corpusFlavors = map[string]string{"github": "github", "mkdocs": "mkdocs", "m
 
 func TestGoldenCorpus(t *testing.T) {
 	files, _ := filepath.Glob(filepath.Join(fixturesDir, "corpus", "*", "*.md*"))
-	sort.Strings(files)
+	slices.Sort(files)
 	if len(files) < 10 {
 		t.Fatalf("found only %d documents under %s/corpus", len(files), fixturesDir)
 	}
@@ -56,7 +56,7 @@ func TestGoldenCorpus(t *testing.T) {
 // that needs a warning is a poor example, or shows something to fix.
 func TestGoldenExamples(t *testing.T) {
 	files, _ := filepath.Glob(filepath.Join("..", "..", "examples", "*", "*.md*"))
-	sort.Strings(files)
+	slices.Sort(files)
 	if len(files) < 8 {
 		t.Fatalf("found only %d examples", len(files))
 	}
@@ -178,7 +178,7 @@ func elementCounts(elems []ast.Element) string {
 	for name := range counts {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 	parts := make([]string, len(names))
 	for i, name := range names {
 		parts[i] = fmt.Sprintf("%s %d", name, counts[name])

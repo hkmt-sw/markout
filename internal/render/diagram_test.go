@@ -47,7 +47,7 @@ func TestFlowchartInPDF(t *testing.T) {
 func TestWideFlowchartIsShrunk(t *testing.T) {
 	var src strings.Builder
 	src.WriteString("```mermaid\ngraph LR\n")
-	for i := 0; i < 5; i++ {
+	for i := range 5 {
 		src.WriteString("    n" + string(rune('a'+i)) + "[A box with a long label] --> n" + string(rune('b'+i)) + "\n")
 	}
 	src.WriteString("```\n")
@@ -65,7 +65,7 @@ func TestWideFlowchartIsShrunk(t *testing.T) {
 func TestLongSidewaysFlowchartIsTurned(t *testing.T) {
 	var src strings.Builder
 	src.WriteString("```mermaid\ngraph LR\n")
-	for i := 0; i < 14; i++ {
+	for i := range 14 {
 		src.WriteString("    n" + string(rune('a'+i)) + "[A box with a long label] --> n" + string(rune('b'+i)) + "\n")
 	}
 	src.WriteString("```\n")

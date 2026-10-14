@@ -172,7 +172,7 @@ func typoAscent(data []byte, fallback float64) float64 {
 	}
 	numTables := int(binary.BigEndian.Uint16(data[4:6]))
 	var ascender, unitsPerEm float64
-	for i := 0; i < numTables; i++ {
+	for i := range numTables {
 		rec := 12 + 16*i
 		if rec+16 > len(data) {
 			return fallback
@@ -205,7 +205,7 @@ func ttfAscent(data []byte) float64 {
 	}
 	numTables := int(binary.BigEndian.Uint16(data[4:6]))
 	var ascender, unitsPerEm float64
-	for i := 0; i < numTables; i++ {
+	for i := range numTables {
 		rec := 12 + 16*i
 		if rec+16 > len(data) {
 			return typical

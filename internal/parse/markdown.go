@@ -532,7 +532,7 @@ func (w *astWalker) convertFencedCodeBlock(n *gmast.FencedCodeBlock) ast.Element
 	language := string(n.Language(w.source))
 	var code bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		code.Write(line.Value(w.source))
 	}
@@ -559,7 +559,7 @@ func (w *astWalker) convertFencedCodeBlock(n *gmast.FencedCodeBlock) ast.Element
 func (w *astWalker) convertCodeBlock(n *gmast.CodeBlock) ast.CodeBlock {
 	var code bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		code.Write(line.Value(w.source))
 	}
@@ -842,7 +842,7 @@ func (w *astWalker) tryConvertAlert(n *gmast.Blockquote) *ast.Alert {
 func (w *astWalker) convertMathBlock(n *extMathBlock) ast.MathBlock {
 	var expr bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		expr.Write(line.Value(w.source))
 	}
@@ -1041,7 +1041,7 @@ func (w *astWalker) extractInlineRunsFromNode(node gmast.Node, bold, italic, cod
 
 	case *gmast.RawHTML:
 		var raw bytes.Buffer
-		for i := 0; i < n.Segments.Len(); i++ {
+		for i := range n.Segments.Len() {
 			seg := n.Segments.At(i)
 			raw.Write(seg.Value(w.source))
 		}

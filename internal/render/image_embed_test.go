@@ -18,8 +18,8 @@ import (
 func writeTestImages(t *testing.T, dir string) {
 	t.Helper()
 	img := image.NewRGBA(image.Rect(0, 0, 200, 100))
-	for y := 0; y < 100; y++ {
-		for x := 0; x < 200; x++ {
+	for y := range 100 {
+		for x := range 200 {
 			img.Set(x, y, color.RGBA{R: uint8(x), G: uint8(y * 2), B: 120, A: 255})
 		}
 	}

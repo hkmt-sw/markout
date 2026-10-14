@@ -113,14 +113,14 @@ func (r *DocxRenderer) numberingXML() []byte {
 	}
 
 	b.WriteString(`<w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/>`)
-	for i := 0; i < numberingLevel; i++ {
+	for i := range numberingLevel {
 		level(i, "bullet", getBulletChar(i))
 	}
 	b.WriteString(`</w:abstractNum>`)
 
 	// The same forms formatOrderedBullet gives PDF: 1. a. 1)
 	b.WriteString(`<w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="hybridMultilevel"/>`)
-	for i := 0; i < numberingLevel; i++ {
+	for i := range numberingLevel {
 		switch i % 3 {
 		case 0:
 			level(i, "decimal", fmt.Sprintf("%%%d.", i+1))
@@ -137,7 +137,7 @@ func (r *DocxRenderer) numberingXML() []byte {
 		// Lists made from one definition go on counting where the last one
 		// stopped unless each is told to start again.
 		fmt.Fprintf(&b, `<w:num w:numId="%d"><w:abstractNumId w:val="1"/>`, bulletNum+n)
-		for i := 0; i < numberingLevel; i++ {
+		for i := range numberingLevel {
 			fmt.Fprintf(&b, `<w:lvlOverride w:ilvl="%d"><w:startOverride w:val="1"/></w:lvlOverride>`, i)
 		}
 		b.WriteString(`</w:num>`)

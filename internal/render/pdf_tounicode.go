@@ -124,7 +124,7 @@ func editPDF(pdf []byte, edits []pdfEdit) []byte {
 	}
 	// The table of objects: each entry is an offset of ten digits
 	write(entries)
-	for i := 0; i < count; i++ {
+	for i := range count {
 		entry := pdf[entries+20*i : entries+20*i+20]
 		offset, err := strconv.Atoi(string(entry[:10]))
 		if err != nil {

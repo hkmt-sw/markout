@@ -590,7 +590,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 	// colX returns the x position for column j
 	colX := func(j int) float64 {
 		x := r.marginLeft
-		for k := 0; k < j; k++ {
+		for k := range j {
 			x += colWidthsPt[k]
 		}
 		return x
@@ -603,7 +603,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		style.bold, style.lineHeight = bold, lineHeight
 		maxLines := 1
 		laidOut := make([][]textLine, numCols)
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			if j >= len(cells) {
 				continue
 			}
@@ -633,11 +633,11 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		} else {
 			r.fillColor(table.RowBackground)
 		}
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			r.rect(colX(j), r.currentY, colWidthsPt[j], rowH, "FD")
 		}
 
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			x := colX(j) + cellPadding
 			inner := colWidthsPt[j] - 2*cellPadding
 			for li, line := range laidOut[j] {
@@ -1219,7 +1219,7 @@ func (r *PdfRenderer) renderControlBlock(fields []controlField) {
 	for _, f := range fields {
 		labels := r.layout([]ast.InlineRun{{Text: f.label}}, labelStyle, labelWidth, labelWidth)
 		values := r.layout([]ast.InlineRun{{Text: f.value}}, r.asideStyle(), valueWidth, valueWidth)
-		for i := 0; i < max(len(labels), len(values), 1); i++ {
+		for i := range max(len(labels), len(values), 1) {
 			rw := row{first: i == 0}
 			if i < len(labels) {
 				rw.label = labels[i]
@@ -1375,7 +1375,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 			maxWord[j] = w
 		}
 	}
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		if j < len(t.Header.Cells) {
 			consider(t.Header.Cells[j], j)
 		}
@@ -1393,7 +1393,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 	// whole table.
 	minW := make([]float64, numCols)
 	sumMin := 0.0
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		m := float64(maxWord[j])*charW + 2*cellPad
 		if m < minCol {
 			m = minCol
@@ -1409,7 +1409,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 
 	// If the minimums already exceed the available width, scale them to fit.
 	if sumMin >= totalWidth {
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			widths[j] = minW[j] / sumMin * totalWidth
 		}
 		return widths
@@ -1421,7 +1421,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 	for _, l := range maxLen {
 		totalChars += l
 	}
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		share := 0.0
 		if totalChars > 0 {
 			share = extra * float64(maxLen[j]) / float64(totalChars)

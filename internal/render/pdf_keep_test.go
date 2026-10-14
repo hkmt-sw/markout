@@ -83,7 +83,7 @@ func TestHeaderRowsAndTermsStayWithWhatFollows(t *testing.T) {
 func TestHeadingStaysWithATallChart(t *testing.T) {
 	var chart strings.Builder
 	chart.WriteString("Intro.\n\n## Process\n\n```mermaid\ngraph TD\n")
-	for i := 0; i < 24; i++ {
+	for i := range 24 {
 		chart.WriteString("    n" + string(rune('a'+i)) + "[STEP] --> n" + string(rune('b'+i)) + "\n")
 	}
 	chart.WriteString("```\n")

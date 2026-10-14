@@ -31,7 +31,7 @@ func newGlyphBoxes(data []byte) (*glyphBoxes, error) {
 		return nil, fmt.Errorf("not a font")
 	}
 	n := int(binary.BigEndian.Uint16(data[4:6]))
-	for i := 0; i < n; i++ {
+	for i := range n {
 		rec := 12 + 16*i
 		if rec+16 > len(data) {
 			return nil, fmt.Errorf("truncated font")
@@ -60,7 +60,7 @@ func newGlyphBoxes(data []byte) (*glyphBoxes, error) {
 	// The table for all of Unicode if there is one, else the one for its
 	// first 65536 characters
 	var full, basic []byte
-	for i := 0; i < int(binary.BigEndian.Uint16(cmap[2:4])); i++ {
+	for i := range int(binary.BigEndian.Uint16(cmap[2:4])) {
 		rec := 4 + 8*i
 		if rec+8 > len(cmap) {
 			break
@@ -113,7 +113,7 @@ func (g *glyphBoxes) readFormat4(t []byte) {
 		return
 	}
 	u16 := func(at int) int { return int(binary.BigEndian.Uint16(t[at : at+2])) }
-	for i := 0; i < segs; i++ {
+	for i := range segs {
 		first, last := u16(starts+2*i), u16(ends+2*i)
 		delta, offset := u16(deltas+2*i), u16(offsets+2*i)
 		if first == 0xFFFF {

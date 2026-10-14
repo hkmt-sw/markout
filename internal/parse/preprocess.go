@@ -1313,7 +1313,7 @@ func pipeTable(rows [][]string, header bool) []string {
 	line := func(cells []string) string {
 		var b strings.Builder
 		b.WriteString("|")
-		for c := 0; c < columns; c++ {
+		for c := range columns {
 			cell := ""
 			if c < len(cells) {
 				cell = strings.ReplaceAll(strings.Join(strings.Fields(cells[c]), " "), "|", "\\|")

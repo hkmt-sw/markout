@@ -388,7 +388,7 @@ func TestFlavorPickerSelectsAndSaves(t *testing.T) {
 	}
 
 	// Move down twice and confirm: the third flavor in the list is chosen.
-	for i := 0; i < 2; i++ {
+	for range 2 {
 		next, _ = m.Update(key("down"))
 		m = next.(Model)
 	}

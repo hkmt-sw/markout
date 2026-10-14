@@ -635,7 +635,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 func splitLines(s string) []string {
 	var lines []string
 	var current []byte
-	for i := 0; i < len(s); i++ {
+	for i := range len(s) {
 		if s[i] == '\n' {
 			lines = append(lines, string(current))
 			current = nil
@@ -807,7 +807,7 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 
 	// Measure max character count per column across header + all rows
 	maxLen := make([]int, numCols)
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		if j < len(t.Header.Cells) {
 			l := cellTextLen(t.Header.Cells[j])
 			if l > maxLen[j] {
@@ -849,7 +849,7 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 	clamped := 0
 
 	// First pass: assign minimums where proportional width is too small
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		proportional := totalTwips * maxLen[j] / totalChars
 		if proportional < minColTwips {
 			widths[j] = minColTwips
@@ -861,13 +861,13 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 	// Second pass: distribute remaining space proportionally among unclamped columns
 	if clamped < numCols {
 		unclampedChars := 0
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			if widths[j] == 0 {
 				unclampedChars += maxLen[j]
 			}
 		}
 		if unclampedChars > 0 {
-			for j := 0; j < numCols; j++ {
+			for j := range numCols {
 				if widths[j] == 0 {
 					widths[j] = remaining * maxLen[j] / unclampedChars
 				}

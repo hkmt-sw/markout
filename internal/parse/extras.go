@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"html"
 	"regexp"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -110,7 +110,7 @@ func (w *astWalker) flattenBlock(node gmast.Node) []ast.Element {
 	case *gmast.FencedCodeBlock, *gmast.CodeBlock:
 		var out []ast.Element
 		lines := node.Lines()
-		for i := 0; i < lines.Len(); i++ {
+		for i := range lines.Len() {
 			line := lines.At(i)
 			text := strings.TrimRight(string(line.Value(w.source)), "\r\n")
 			out = append(out, ast.NewParagraph(ast.NewCodeRun(text)))
@@ -395,7 +395,7 @@ func htmlPlainText(s string) string {
 func (w *astWalker) convertHTMLBlock(n *gmast.HTMLBlock) []ast.Element {
 	var buf bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		buf.Write(line.Value(w.source))
 	}
@@ -488,7 +488,7 @@ func jsonTable(code string) (ast.Table, bool) {
 		for k := range spec.Items[0] {
 			keys = append(keys, k)
 		}
-		sort.Strings(keys)
+		slices.Sort(keys)
 		labels = keys
 	}
 

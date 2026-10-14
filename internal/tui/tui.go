@@ -1076,7 +1076,7 @@ func (m Model) matchFrom(q string, start, dir int) (int, bool) {
 		return 0, false
 	}
 	ql := strings.ToLower(q)
-	for i := 0; i < n; i++ {
+	for i := range n {
 		idx := ((start+dir*i)%n + n) % n
 		if strings.Contains(strings.ToLower(m.entries[idx].name), ql) {
 			return idx, true
