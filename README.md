@@ -263,6 +263,41 @@ A theme can give every document with front matter a cover with `[cover]`
 takes it off one document. See
 [Cover page](docs/themes.md#cover-page) for the settings.
 
+## Classification and watermark
+
+`classification` in the front matter puts a band across the top of every page,
+in PDF and DOCX, with the classification centered in it in bold type. The
+cover page has it too. The band says the classification as you wrote it, and
+the level it belongs to decides the colors. Four levels are built in, each
+known by an English and a Hungarian name, in any case:
+
+| Level | Names | Band |
+| --- | --- | --- |
+| `public` | `public`, `nyilvános` | white on green |
+| `internal` | `internal`, `belső`, `belső használatra` | white on blue |
+| `confidential` | `confidential`, `bizalmas` | white on amber |
+| `secret` | `secret`, `titkos`, `szigorúan titkos` | white on red |
+
+A classification no level knows still gets a band, in neutral colors (white on
+gray), and markout warns. `watermark` draws its text in light gray across every
+page, from the bottom left to the top right, behind the text; only text counts,
+anything else is ignored with a warning. In DOCX the watermark is Word's own
+text watermark.
+
+```markdown
+---
+title: Mentési eljárásrend
+classification: Szigorúan titkos
+watermark: TERVEZET
+---
+```
+
+A theme can add names to a level, change colors, add levels of its own and
+size the band and the watermark with `[classification]`, `[classification.NAME]`
+and `[watermark]`; `band = false` under `[classification]` draws no band for
+the theme's documents. See
+[Classification and watermark](docs/themes.md#classification-and-watermark).
+
 A header or footer can show the version and the classification of the
 document with `{version}` and `{classification}`, next to `{title}`,
 `{author}`, `{date}`, `{page}` and `{pages}`.

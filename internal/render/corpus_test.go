@@ -195,6 +195,9 @@ func checkOnThePage(t *testing.T, trace string) {
 	page := theme.Default().PDF.Page
 	left, right := page.MarginLeft-1, page.Width-page.MarginRight+1
 	top, bottom := page.MarginTop-1, page.Height-page.MarginBottom+1
+	// The classification band is in the margin, across the full width of the
+	// page, and the watermark across the middle of it
+	band := theme.Default().PDF.Classification.Height
 	reported := 0
 	for _, line := range strings.Split(trace, "\n") {
 		m := tracePlace.FindStringSubmatch(line)
@@ -204,6 +207,9 @@ func checkOnThePage(t *testing.T, trace string) {
 		var x, y float64
 		fmt.Sscanf(m[1], "%g", &x)
 		fmt.Sscanf(m[2], "%g", &y)
+		if y < band || strings.Contains(line, " mark ") {
+			continue
+		}
 		if x < left || x > right || y < top || y > bottom {
 			if reported++; reported <= 5 {
 				t.Errorf("drawn outside the margins: %s", line)

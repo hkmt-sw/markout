@@ -4,7 +4,11 @@
 // Lengths are in points (1/72 inch).
 package theme
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+	"strings"
+)
 
 // Color is an RGB color.
 type Color struct {
@@ -82,6 +86,9 @@ type Theme struct {
 	Footer   Running    `key:"footer"`
 	Control  Control    `key:"control"`
 	Cover    Cover      `key:"cover"`
+
+	Classification Classification `key:"classification"`
+	Watermark      Watermark      `key:"watermark"`
 }
 
 // Page is the paper and its margins.
@@ -321,6 +328,73 @@ type Cover struct {
 	SubtitleSize  float64 `key:"subtitle-size"`
 	SubtitleColor Color   `key:"subtitle-color"`
 	Top           float64 `key:"top" doc:"how far below the top margin the title starts"`
+}
+
+// Classification is the band across the top of every page of a document whose
+// front matter says how it is classified. The band shows the classification as
+// the document writes it; the level it belongs to, if the theme knows one,
+// gives the colors, and any other classification gets the neutral colors set
+// here.
+type Classification struct {
+	Band       bool    `key:"band" doc:"false draws no band"`
+	Size       float64 `key:"size" doc:"text size; the text is bold"`
+	Height     float64 `key:"height" doc:"the band sits in the top margin; keep it well under page.margin-top"`
+	Color      Color   `key:"color" doc:"text in the neutral colors"`
+	Background Color   `key:"background" doc:"band in the neutral colors"`
+
+	// Levels are the classifications the theme knows, by level name, as
+	// [classification.NAME] sections.
+	Levels map[string]ClassificationLevel `key:"-"`
+}
+
+// ClassificationLevel is one level of classification and the colors of its
+// band.
+type ClassificationLevel struct {
+	// Names are the words that mean this level, in any case.
+	Names      []string
+	Color      Color // text
+	Background Color
+}
+
+// LevelNames returns the names of the levels, in alphabetical order.
+func (c Classification) LevelNames() []string {
+	names := make([]string, 0, len(c.Levels))
+	for name := range c.Levels {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return names
+}
+
+// Find returns the level a classification value belongs to. A value is
+// matched with the names of the levels whatever its case and the spaces
+// around and in it ("  Szigorúan   TITKOS ").
+func (c Classification) Find(value string) (ClassificationLevel, bool) {
+	want := normalizeName(value)
+	if want == "" {
+		return ClassificationLevel{}, false
+	}
+	for _, level := range c.LevelNames() {
+		for _, name := range c.Levels[level].Names {
+			if normalizeName(name) == want {
+				return c.Levels[level], true
+			}
+		}
+	}
+	return ClassificationLevel{}, false
+}
+
+// normalizeName is a classification name as names are compared: in lower
+// case, without the spaces around it, one space between words.
+func normalizeName(s string) string {
+	return strings.ToLower(strings.Join(strings.Fields(s), " "))
+}
+
+// Watermark is the text drawn across every page of a document whose front
+// matter has a watermark.
+type Watermark struct {
+	Color Color   `key:"color" doc:"light, so that the text over it stays readable"`
+	Size  float64 `key:"size" doc:"smaller if the text would not fit the page"`
 }
 
 // Empty reports whether there is nothing to show.

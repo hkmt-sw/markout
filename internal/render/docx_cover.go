@@ -107,7 +107,10 @@ func (r *DocxRenderer) coverHidesRunning() bool {
 
 // emptyFirstPage gives the section the header or the footer of its first page,
 // which is the cover: a single empty paragraph, as a part may not be empty.
-func (r *DocxRenderer) emptyFirstPage(section domain.Section, header bool) error {
+// The header of a theme that has none holds nothing but the classification
+// band and the watermark (see docx_classification.go); its paragraph, which
+// carries them, is as small as it can be.
+func (r *DocxRenderer) emptyFirstPage(section domain.Section, header, marksOnly bool) error {
 	var part interface {
 		AddParagraph() (domain.Paragraph, error)
 	}
@@ -119,6 +122,9 @@ func (r *DocxRenderer) emptyFirstPage(section domain.Section, header bool) error
 	}
 	if err != nil {
 		return err
+	}
+	if marksOnly {
+		return marksOnlyParagraph(part)
 	}
 	_, err = part.AddParagraph()
 	return err

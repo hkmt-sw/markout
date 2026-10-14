@@ -97,6 +97,11 @@ func (r *PdfRenderer) drawRunning(info docInfo) error {
 		// the page's text.
 		if h := r.t.Header; !h.Empty() {
 			y := (r.marginTop - h.Size) / 2
+			// A top margin too small for the band and the header leaves the
+			// header the room under the band
+			if band := r.bandHeight(); y < band+headerGap {
+				y = band + (r.marginTop-band-h.Size)/2
+			}
 			r.drawRunningLine(h, info, page, pages, y, y+h.Size+5)
 		}
 		if f := r.t.Footer; !f.Empty() {
@@ -106,6 +111,18 @@ func (r *PdfRenderer) drawRunning(info docInfo) error {
 	}
 	r.resetText()
 	return nil
+}
+
+// headerGap is the least space between the classification band and a header.
+const headerGap = 2.0
+
+// bandHeight is how far down from the top of the page the classification band
+// reaches; 0 if the document has none.
+func (r *PdfRenderer) bandHeight() float64 {
+	if !r.band.drawn {
+		return 0
+	}
+	return r.t.Classification.Height
 }
 
 func (r *PdfRenderer) drawRunningLine(run theme.Running, info docInfo, page, pages int, y, ruleY float64) {

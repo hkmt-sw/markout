@@ -75,6 +75,18 @@ func Default() Set {
 		Header:   Running{Size: 9, Color: Hex("4A4A68")},
 		Footer:   Running{Size: 9, Color: Hex("4A4A68")},
 		Cover:    Cover{TitleSize: 28, SubtitleSize: 16, Top: 160},
+		// White on each of these has a contrast of at least 4.5 to 1
+		Classification: Classification{
+			Band: true, Size: 8.5, Height: 16,
+			Color: White, Background: Hex("6B7280"),
+			Levels: map[string]ClassificationLevel{
+				"public":       {Names: []string{"public", "nyilvános"}, Color: White, Background: Hex("2E7D32")},
+				"internal":     {Names: []string{"internal", "belső", "belső használatra"}, Color: White, Background: Hex("1565C0")},
+				"confidential": {Names: []string{"confidential", "bizalmas"}, Color: White, Background: Hex("B45309")},
+				"secret":       {Names: []string{"secret", "titkos", "szigorúan titkos"}, Color: White, Background: Hex("B91C1C")},
+			},
+		},
+		Watermark: Watermark{Color: Hex("E6E6E6"), Size: 96},
 		Colors: Colors{
 			Math: Hex("7C3AED"), Highlight: Hex("FFF082"),
 			Inserted: Hex("16A34A"), Deleted: Hex("CF222E"),
