@@ -13,7 +13,35 @@ permissions:
   attestations: write
 
 jobs:
+  # The same checks as CI, because a tag can be pushed on a commit whose CI
+  # run is not looked at. They are a job of their own, with read access only:
+  # govulncheck is run with `go run`, and that code must not be in the job
+  # that can write the release and sign the attestation.
+  checks:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: Verify modules
+        run: go mod verify
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Check for known vulnerabilities
+        run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+
   release:
+    needs: checks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,17 +56,6 @@ jobs:
           # standard-library security fixes; go.mod states the minimum.
           go-version: stable
           check-latest: true
-
-      # The same checks as CI, because a tag can be pushed on a commit whose
-      # CI run is not looked at: nothing is released that fails them.
-      - name: Verify modules
-        run: go mod verify
-
-      - name: Vet
-        run: go vet ./...
-
-      - name: Check for known vulnerabilities
-        run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
 
       - name: Run tests
         run: go test ./...
