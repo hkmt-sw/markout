@@ -114,6 +114,29 @@ by hand today. In progress.
   uses the defaults without saving them, and when a setting is changed keeps
   the old file as `config.json.bak`. The settings file is written as a whole
   and only its owner can read it. (#102)
+- A device or a pipe given as the input, such as `/dev/zero`, was read with
+  no size limit or blocked. Only a regular file is read now, and never more
+  than the 10 MB limit. (#104)
+- An image width such as `{width=9999999999999999}` overflowed and gave the
+  image a negative size in DOCX. Widths are capped. (#105)
+- A theme could set `nan` or `inf` as a size or length, and page sizes,
+  margins and spacing had no upper limit; the output had nonsense sizes in
+  it. Such values are errors now: a page side is 72 to 14400 points, a margin
+  less than half the page and a spacing 0 to 400 points. (#106)
+- An option markout does not know was taken as a file name, and one file
+  name alone opened the TUI. Both are errors now. (#107)
+- An error of a conversion kept the kind of failure but not its cause for
+  programs that check it. (#108)
+- In the TUI, `o` waited until the program that opens the output returned,
+  which with some viewers is when the viewer is closed, and a failure was
+  not shown. (#109)
+- A table of more than 63 columns made the DOCX fail. DOCX shows the first 63
+  columns now, and markout says so. (#111)
+- An SVG of extreme proportions printed an error of the image library over
+  the screen, or took a great deal of memory. Such an image is a placeholder
+  now, and markout says so. (#112)
+- A theme's `description` or `name` that was not text was ignored without a
+  word. It is an error now. (#114)
 
 ### Security
 
@@ -122,6 +145,12 @@ by hand today. In progress.
   redirect the download to another one. Every image is listed now, images are
   downloaded only from the servers the user agreed to, and redirects to other
   servers are refused.
+- A server the user agreed to was trusted by its name, which can lead to an
+  address on this machine or the local network. markout now checks the
+  address it connects to, and refuses one that is not public unless the
+  server was shown as local. Through a proxy (`HTTP_PROXY`, `HTTPS_PROXY`)
+  the name is checked before the request; where markout cannot look the name
+  up and only the proxy can, it says so, and the proxy decides.
 
 ## [1.9.0] - 2026-10-14
 
