@@ -110,7 +110,7 @@ bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 | `→` / `Enter`  | Enter a directory                              |
 | `←`            | Go up a directory                              |
 | `Enter`        | Convert the highlighted `.md` file             |
-| `F2`           | Settings: flavor, theme, language, update check |
+| `F2`           | Settings: flavor, theme, language, update check, PDF/A |
 | `F3`           | Toggle output format (DOCX ⇄ PDF)              |
 | `F4`           | Edit the output path by hand                   |
 | `o`            | Open the last converted file                   |
@@ -130,6 +130,7 @@ The output format is inferred from the file extension:
 ./markout --flavor gitlab input.md output.pdf   # interpret as a specific flavor
 ./markout --list-flavors                        # show the supported flavors
 ./markout --lang hu input.md output.docx        # the language, if the document names none
+./markout --pdfa input.md output.pdf            # a PDF/A-2u file, for archiving
 ./markout --remote-images allow input.md out.pdf # download images referenced by URL
 ```
 
@@ -340,6 +341,47 @@ machine, and no hooks of the repository run. Without `git`, with a file outside
 a git work tree, one that is not committed yet, or one with no commit that has
 a `Changelog:` trailer, markout warns and converts the document without the
 table. A `history` value other than `git` is ignored, with a warning.
+
+## PDF/A
+
+PDF/A is the form of PDF for documents that have to stay readable and look
+the same for years, in an archive or a records system. markout makes
+PDF/A-2u: the fonts are in the file, the colors are tied to a color profile
+(sRGB), and the file describes itself (title, author, language) in a standard
+way. Text still copies and searches as Unicode. Ask for it in one of three
+ways:
+
+- `markout --pdfa input.md output.pdf` on the command line;
+- `pdfa: true` in the front matter, which `pdfa: false` turns off again (any
+  other value is ignored, with a warning);
+- **PDF/A** in the TUI: `F2` for Settings, then `a`. It is saved with the other
+  settings and also applies to `markout` on the command line.
+
+```markdown
+---
+title: Mentési eljárásrend
+lang: hu
+pdfa: true
+---
+```
+
+Without one of them a PDF is made as before. The setting changes the PDF
+only: a DOCX is made as usual, and `--pdfa` with a `.docx` output says so.
+
+The file's title, author and language are those of the document. Its
+creation and modification date is the `date` of the front matter, when that is
+a day or a time markout can read, and none otherwise. The same document gives
+the same file every time, byte for byte. The cover page, the classification band, the
+watermark and the headers and footers are PDF/A like the rest. The color
+profile is [`sRGB-v2-magic.icc`](internal/render/icc/README.md), a public
+domain file.
+
+What is not covered: PDF/A-2a, which asks for a tagged PDF, a structure of
+headings, paragraphs and tables for screen readers, and PDF/UA, the standard
+for accessible PDF. markout does not tag its PDFs. CI converts the sample
+documents with `--pdfa` and validates them with [veraPDF](https://verapdf.org/),
+and a PDF/A file is checked against the same rules by `scripts/check-pdfa.sh`
+if you have veraPDF.
 
 ## Update notifications
 
@@ -584,7 +626,7 @@ things are beyond it for now:
 | `internal/theme`   | Themes: the built-in ones and theme files       |
 | `internal/lang`    | Language tags                                   |
 | `internal/hyphen`  | Hyphenation, with the patterns of each language |
-| `internal/settings`| Saved preferences (flavor, theme, language)     |
+| `internal/settings`| Saved preferences (flavor, theme, language, PDF/A) |
 | `fixtures`         | Sample documents: `showcase.md` shows every element, `flavors/` has one per flavor, `corpus/` has real documents from public projects |
 | `examples`         | [Example documents](examples/README.md): a policy, a runbook, a report, minutes and more, to convert and to copy from |
 | `docs`             | The [theme guide](docs/themes.md) and pictures  |
@@ -622,6 +664,9 @@ It builds on these projects:
   [SIL Open Font License](internal/render/fonts/LICENSE), and
   [DejaVu Math TeX Gyre](https://dejavu-fonts.github.io/), embedded for
   formulas under the [DejaVu fonts license](internal/render/fonts/LICENSE-DejaVu)
+- The [Compact ICC Profiles](https://github.com/saucecontrol/Compact-ICC-Profiles)
+  of Clinton Ingram, whose sRGB profile PDF/A files carry (CC0 1.0, public
+  domain; [its notice](internal/render/icc/README.md))
 - The hyphenation patterns of the TeX community
   ([hyph-utf8](https://github.com/hyphenation/tex-hyphen)) for Hungarian
   (LGPL 2.1), American English and British English (MIT), embedded with

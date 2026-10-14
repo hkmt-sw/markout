@@ -98,6 +98,9 @@ type Options struct {
 	// Lang is the language of documents that do not name one themselves,
 	// as a language tag ("hu", "en-GB"). Empty means none.
 	Lang string
+	// PDFA asks for PDF/A-2u in PDF output; DOCX output ignores it. The
+	// document's own pdfa key, when it is true or false, decides instead.
+	PDFA bool
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it (characters no font can draw, for example).
 	// The conversion still succeeds.
@@ -146,7 +149,7 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		language, _ = lang.Normalize(opts.Lang)
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Lang: language, Warn: opts.Warn}
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Lang: language, PDFA: opts.PDFA, Warn: opts.Warn}
 
 	// Render to output format
 	switch format {

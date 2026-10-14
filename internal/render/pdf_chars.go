@@ -111,6 +111,9 @@ func (r *PdfRenderer) warnings() []string {
 	if r.coverProblem != "" {
 		out = append(out, r.coverProblem)
 	}
+	if r.pdfaProblem != "" {
+		out = append(out, r.pdfaProblem)
+	}
 	if r.classProblem != "" {
 		out = append(out, r.classProblem)
 	}

@@ -28,6 +28,9 @@ type Settings struct {
 	// a language tag ("hu", "en-GB"). Empty means none.
 	Lang string `json:"lang,omitempty"`
 
+	// PDFA makes PDF output PDF/A-2u, for archiving.
+	PDFA bool `json:"pdfa,omitempty"`
+
 	// NoUpdateCheck turns off the automatic check for a newer release.
 	NoUpdateCheck bool `json:"no_update_check,omitempty"`
 	// UpdateCheckedAt and LatestVersion remember the last check, so it runs

@@ -87,6 +87,11 @@ type PdfRenderer struct {
 	info         docInfo
 	coverProblem string
 
+	// Whether the file is made as PDF/A; see pdf_pdfa.go. pdfaProblem is
+	// what to tell the user of the front matter's pdfa key.
+	pdfa        bool
+	pdfaProblem string
+
 	// What every page carries; see pdf_classification.go. band is the
 	// classification band, watermark the text across the page, and the
 	// problems what to tell the user of the front matter's keys for them.
@@ -148,6 +153,11 @@ func (r *PdfRenderer) RenderToFile(astDoc *ast.Document, filename string) error 
 	}
 	data = fixToUnicode(data)
 	data = setPDFLanguage(data, r.opts.Lang)
+	if r.pdfa {
+		if data, err = makePDFA(data, metaOf(r.info, r.opts.Lang)); err != nil {
+			return fmt.Errorf("PDF/A: %w", err)
+		}
+	}
 	if err := os.WriteFile(filename, data, 0o666); err != nil {
 		return err
 	}
@@ -185,6 +195,7 @@ func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
 	r.waiting = nil
 	r.info = infoOf(astDoc)
 	r.cover, r.coverProblem = coverOf(astDoc, r.t.Cover.Enabled)
+	r.pdfa, r.pdfaProblem = pdfaOf(astDoc, r.opts.PDFA)
 	r.band, r.classProblem = classificationOf(astDoc, r.t.Classification)
 	r.watermark, r.watermarkProblem = watermarkOf(astDoc)
 	r.headingPages = map[string]int{}

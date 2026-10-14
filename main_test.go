@@ -341,3 +341,55 @@ func TestCLILanguage(t *testing.T) {
 		t.Errorf("--lang with nothing after it: %+v", r)
 	}
 }
+
+func TestCLIPDFA(t *testing.T) {
+	dir := t.TempDir()
+	writeDoc(t, dir, "doc.md", "---\ntitle: T\n---\n\n# Title\n\ntext\n")
+	writeDoc(t, dir, "refuses.md", "---\npdfa: false\n---\n\n# Title\n\ntext\n")
+
+	isPDFA := func(args ...string) (bool, result) {
+		t.Helper()
+		r := markout(t, dir, args...)
+		if r.code != 0 {
+			t.Fatalf("%v: %+v", args, r)
+		}
+		data, err := os.ReadFile(filepath.Join(dir, "out.pdf"))
+		if err != nil {
+			t.Fatal(err)
+		}
+		return bytes.Contains(data, []byte("<pdfaid:conformance>U</pdfaid:conformance>")), r
+	}
+
+	if got, r := isPDFA("doc.md", "out.pdf"); got || r.stderr != "" {
+		t.Errorf("without --pdfa: PDF/A %v, %+v", got, r)
+	}
+	for _, args := range [][]string{
+		{"--pdfa", "doc.md", "out.pdf"},
+		{"doc.md", "out.pdf", "--pdfa"},
+	} {
+		if got, r := isPDFA(args...); !got || r.stderr != "" {
+			t.Errorf("%v: PDF/A %v, %+v", args, got, r)
+		}
+	}
+	if got, _ := isPDFA("--pdfa", "refuses.md", "out.pdf"); got {
+		t.Error("a document with pdfa: false was made PDF/A")
+	}
+
+	// The saved setting does the same as the flag
+	writeDoc(t, dir, "config.json", `{"flavor": "markout", "pdfa": true}`)
+	if got, _ := isPDFA("doc.md", "out.pdf"); !got {
+		t.Error("the saved setting was not used")
+	}
+
+	// A DOCX is not PDF/A: the flag says so, the setting does not
+	r := markout(t, dir, "--pdfa", "doc.md", "out.docx")
+	if r.code != 0 || !strings.Contains(r.stderr, "Warning: --pdfa applies to PDF only") {
+		t.Errorf("--pdfa with DOCX: %+v", r)
+	}
+	if r := markout(t, dir, "doc.md", "out.docx"); r.code != 0 || r.stderr != "" {
+		t.Errorf("the saved setting with DOCX: %+v", r)
+	}
+	if r := markout(t, dir, "--help"); !strings.Contains(r.stdout, "--pdfa") {
+		t.Error("--help does not name --pdfa")
+	}
+}

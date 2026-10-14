@@ -42,6 +42,7 @@ func main() {
 	remote := "" // --remote-images: ask, allow or deny
 	themeRef := ""
 	language := "" // --lang: the language of documents that do not name one
+	pdfa := false  // --pdfa: make PDF output PDF/A-2u
 
 	args := os.Args[1:]
 	for i := 0; i < len(args); i++ {
@@ -93,6 +94,8 @@ func main() {
 			language = args[i]
 		case strings.HasPrefix(arg, "--lang="):
 			language = strings.TrimPrefix(arg, "--lang=")
+		case arg == "--pdfa":
+			pdfa = true
 		case arg == "--remote-images":
 			if i+1 >= len(args) {
 				fail("--remote-images needs ask, allow or deny")
@@ -138,10 +141,13 @@ func main() {
 	// Non-interactive mode: markout <input.md> <output.docx|output.pdf>
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
-		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language}
+		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language, PDFA: pdfa || saved.PDFA}
 		opts.RemoteImages = allowRemoteImages(input, opts, remote)
 		opts.Warn = func(message string) {
 			fmt.Fprintln(os.Stderr, "Warning: "+message)
+		}
+		if pdfa && convert.DetectFormat(output) == convert.FormatDOCX {
+			opts.Warn("--pdfa applies to PDF only; the DOCX is made as usual.")
 		}
 		if err := convert.ConvertFileWith(input, output, convert.FormatUnknown, opts); err != nil {
 			fail("%v", err)
@@ -311,6 +317,9 @@ Options:
                                   in its front matter (lang: hu), such as hu,
                                   en-US or en-GB (default: the one saved in
                                   the TUI settings, or none)
+      --pdfa                      Make a PDF as PDF/A-2u, for archiving (also
+                                  set in the TUI settings, or with pdfa: true
+                                  in a document's front matter)
       --remote-images <mode>      Images referenced by URL: ask (default in a
                                   terminal), allow, or deny (default otherwise)
 `)

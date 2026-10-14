@@ -46,15 +46,51 @@ jobs:
       - name: Test
         run: go test ./...
 
+  # The sample documents, made as PDF/A, are checked by veraPDF. The version
+  # of veraPDF is pinned, with the checksum of its download, in
+  # scripts/install-verapdf.sh; the Java it runs on is set up here.
+  pdfa:
+    name: PDF/A (veraPDF)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Go
+        uses: actions/setup-go@b7ad1dad31e06c5925ef5d2fc7ad053ef454303e # v7.0.0
+        with:
+          go-version: stable
+          check-latest: true
+
+      - name: Set up Java
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Install veraPDF
+        run: scripts/install-verapdf.sh "$RUNNER_TEMP/verapdf"
+
+      - name: Build
+        run: go build -o "$RUNNER_TEMP/markout" .
+
+      - name: Convert to PDF/A and validate
+        run: scripts/check-pdfa.sh "$RUNNER_TEMP/markout" "$RUNNER_TEMP/verapdf/verapdf"
+
   # The branch protection rule requires a check named "test". This job gives
-  # it one result for all platforms.
+  # it one result for all platforms and for the PDF/A check.
   test:
-    needs: platform
+    needs: [platform, pdfa]
     if: always()
     runs-on: ubuntu-latest
     steps:
-      - name: All platforms passed
+      - name: Everything passed
         run: |
           if [ "${{ needs.platform.result }}" != "success" ]; then
             echo "The tests did not pass on every platform."; exit 1
+          fi
+          if [ "${{ needs.pdfa.result }}" != "success" ]; then
+            echo "The sample documents are not valid PDF/A."; exit 1
           fi

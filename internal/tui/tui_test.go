@@ -941,3 +941,43 @@ func docxStyles(t *testing.T, path string) string {
 	}
 	return ""
 }
+
+// a in the settings dialog turns PDF/A on and off at once, and saves it; the
+// Convert box says so while the format is PDF.
+func TestPDFAToggle(t *testing.T) {
+	m, _, saved := updateModel(t, "v1.0.0")
+	next, _ := m.Update(tea.WindowSizeMsg{Width: 100, Height: 24})
+	next, _ = next.(Model).Update(tea.KeyMsg{Type: tea.KeyF2})
+	m = next.(Model)
+	if !strings.Contains(m.View(), "PDF/A: off") {
+		t.Fatal("the dialog does not say PDF/A is off")
+	}
+
+	next, _ = m.Update(key("a"))
+	m = next.(Model)
+	if !m.pickFlavor || !m.settings.PDFA {
+		t.Fatal("a should turn PDF/A on and keep the dialog open")
+	}
+	if !strings.Contains(m.View(), "PDF/A: on") {
+		t.Error("the dialog does not say PDF/A is on")
+	}
+	if last := (*saved)[len(*saved)-1]; !last.PDFA {
+		t.Errorf("not saved: %+v", last)
+	}
+
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyEsc})
+	m = next.(Model)
+	if !strings.Contains(m.formatLine(), "PDF/A") {
+		t.Error("the Convert box does not say PDF/A")
+	}
+	m.format = formatDOCX
+	if strings.Contains(m.formatLine(), "PDF/A") {
+		t.Error("the Convert box says PDF/A for a DOCX")
+	}
+
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF2})
+	next, _ = next.(Model).Update(key("a"))
+	if m = next.(Model); m.settings.PDFA || (*saved)[len(*saved)-1].PDFA {
+		t.Error("a did not turn PDF/A off again")
+	}
+}
