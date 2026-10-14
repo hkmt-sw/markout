@@ -224,7 +224,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "function hello() {"
@@ -240,7 +239,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "Nincs nyelvjelölés"
@@ -254,7 +252,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=CF222E font=Consolas sz=19} "function "
@@ -281,7 +278,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=CF222E font=Consolas sz=19} "def "
@@ -311,7 +307,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=CF222E font=Consolas sz=19} "SELECT "
@@ -351,7 +346,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=57606A font=Consolas sz=19} "#!/bin/bash"
@@ -374,7 +368,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "{"
@@ -404,7 +397,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/4/C8C8C8 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=F6F8FA w=9070}
       P{indent=160/160 spacing=160/160 line=240/atLeast}
         R{color=24292F font=Consolas sz=19} "procedure TForm1.Button1Click(Sender: TObject);"
@@ -842,7 +834,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/10B981 border-left=single/4/10B981 border-right=single/4/10B981 border-top=single/4/10B981 fill=ECFDF5 w=9070}
       P{indent=160/160 spacing=160/0 line=240/atLeast}
         R{b color=065F46 font=Georgia sz=22} "Mermaid Diagram"

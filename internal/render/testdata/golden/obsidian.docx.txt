@@ -19,7 +19,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/22C55E border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DCFCE7 w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=22C55E font=Georgia sz=22} "Foldable callout"
@@ -39,7 +38,6 @@ TABLE
   COL w=9070
   ROW
     cantSplit
-    tblHeader
     CELL{border-bottom=single/4/C8C8C8 border-left=single/24/3B82F6 border-right=single/4/C8C8C8 border-top=single/4/C8C8C8 fill=DBEAFE w=9070}
       P{indent=160/160 spacing=160/0 line=320/atLeast}
         R{b color=3B82F6 font=Georgia sz=22} "Any type works"
