@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"github.com/hkmt-sw/markout/internal/theme"
 	"io"
+	"math"
 	"net/http"
 	"net/url"
 	"regexp"
@@ -151,6 +152,22 @@ func looksLikeSVG(data []byte) bool {
 	return strings.Contains(strings.ToLower(string(head)), "<svg")
 }
 
+// ErrSVGTooLarge is returned for an SVG whose proportions would need a bitmap
+// bigger than maxSVGSide or maxSVGPixels.
+var ErrSVGTooLarge = errors.New("SVG image too large")
+
+// The rasterizer is given a bitmap of at most these sizes. The width is
+// already limited to maxSVGWidth, so only a very tall SVG goes past the
+// others. A bitmap of maxSVGPixels takes 64 MB as RGBA, and the PNG made of it
+// is embedded in the document. Beyond them resvg either allocates a great
+// deal or, for extreme proportions, panics inside WebAssembly and prints the
+// message on standard error.
+const (
+	maxSVGWidth  = 2400
+	maxSVGSide   = 8192
+	maxSVGPixels = 16 << 20
+)
+
 // loadRasterImage loads the image at url and returns raster bytes in a format
 // the downstream encoders understand (PNG/JPEG/GIF). SVG sources are rasterized
 // to PNG so they can be embedded too. widthHint (px, 0 = unset) controls the
@@ -169,10 +186,13 @@ func loadRasterImage(url string, opts Options, widthHint int) (data []byte, disp
 	if looksLikeSVG(data) {
 		if displayWidth <= 0 {
 			if w, _ := svgIntrinsicSize(data); w > 0 {
-				displayWidth = int(w + 0.5)
+				displayWidth = int(min(w+0.5, maxSVGWidth))
 			}
 		}
 		data, err = rasterizeSVG(data, widthHint)
+		if errors.Is(err, ErrSVGTooLarge) && opts.Warn != nil {
+			opts.Warn("an SVG image has proportions too extreme to draw; a placeholder is shown instead")
+		}
 		if err != nil {
 			return nil, 0, err
 		}
@@ -213,21 +233,18 @@ func rasterizeSVG(data []byte, widthHint int) ([]byte, error) {
 
 	// resvg stretches the SVG to the requested width x height, so the target
 	// must keep the intrinsic aspect ratio to avoid distortion.
-	base := widthHint
+	base := min(widthHint, maxSVGWidth)
 	if base <= 0 {
-		base = int(iw)
+		base = int(min(iw, maxSVGWidth))
 	}
-	const maxWidth = 2400
-	w := base * 2 // supersample
-	if w > maxWidth {
-		w = maxWidth
-	}
+	w := min(base*2, maxSVGWidth) // supersample
 	if w < 1 {
-		w = int(iw)
+		w = int(min(iw, maxSVGWidth))
 	}
-	h := int(float64(w) * ih / iw)
-	if h < 1 {
-		h = 1
+	// Work in floats: the height of a very thin or tall SVG does not fit an int.
+	h := max(float64(w)*ih/iw, 1)
+	if !(h <= maxSVGSide && h*float64(w) <= maxSVGPixels) { // written so that NaN is refused too
+		return nil, fmt.Errorf("%w: %d x %.0f pixels", ErrSVGTooLarge, w, h)
 	}
 	return renderer.RenderWithSize(data, uint32(w), uint32(h))
 }
@@ -288,7 +305,7 @@ func svgIntrinsicSize(data []byte) (w, h float64) {
 			if len(f) == 4 {
 				vw, _ := strconv.ParseFloat(f[2], 64)
 				vh, _ := strconv.ParseFloat(f[3], 64)
-				if vw > 0 && vh > 0 {
+				if vw > 0 && vh > 0 && !math.IsInf(vw, 0) && !math.IsInf(vh, 0) {
 					return vw, vh
 				}
 			}
