@@ -148,6 +148,13 @@ type convertDoneMsg struct {
 	warnings []string // what the output does not show as the document has it
 }
 
+// openedMsg reports a failed attempt to open the output; a success is not
+// reported.
+type openedMsg struct {
+	path string
+	err  error
+}
+
 // ============================================================================
 // Model
 // ============================================================================
@@ -177,6 +184,7 @@ type Model struct {
 	settings     settings.Settings             // saved preferences
 	saveSettings func(settings.Settings) error // persists the settings; nil in tests
 	setAside     func() (string, error)        // moves a broken settings file out of the way; nil in tests
+	open         func(path string) error       // starts the program that shows a file; nil in tests
 
 	// settingsErr is why the settings file could not be loaded, while that
 	// file is still in place. Until the user changes a setting, it is not
@@ -246,6 +254,7 @@ func New(cfg Config) Model {
 	m.settings = cfg.Settings
 	m.saveSettings = settings.Save
 	m.setAside = settings.SetAside
+	m.open = openFile
 	if cfg.SettingsErr != nil {
 		m.settingsErr = cfg.SettingsErr
 		m.status = cfg.SettingsErr.Error() + " · using the defaults"
@@ -455,6 +464,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		}
 		return m, nil
 
+	case openedMsg:
+		if msg.err != nil {
+			m.status = "could not open " + filepath.Base(msg.path) + ": " + msg.err.Error()
+			m.statusKind = statusError
+		}
+		return m, nil
+
 	case updateCheckedMsg:
 		// Offline or rate limited: stay quiet and try again next time.
 		if msg.err != nil {
@@ -595,8 +611,10 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		}
 
 	case "o":
-		if m.lastOutput != "" {
-			_ = openFile(m.lastOutput)
+		if m.lastOutput != "" && m.open != nil {
+			// A command, so that the screen does not wait for the program
+			open, path := m.open, m.lastOutput
+			return m, func() tea.Msg { return openedMsg{path: path, err: open(path)} }
 		}
 
 	case "enter", "right", "l":
@@ -1639,17 +1657,27 @@ func printable(s string) string {
 	}, s)
 }
 
+// openFile starts the program that shows a file and returns without waiting
+// for it: some of them stay until the viewer is closed. A failure after the
+// start is not seen.
 func openFile(path string) error {
+	var cmd *exec.Cmd
 	switch runtime.GOOS {
 	case "darwin":
-		return exec.Command("open", path).Run()
+		cmd = exec.Command("open", path)
 	case "windows":
 		// Not "cmd /c start": cmd would interpret characters such as & in the
 		// file name as commands.
-		return exec.Command("rundll32", "url.dll,FileProtocolHandler", path).Run()
+		cmd = exec.Command("rundll32", "url.dll,FileProtocolHandler", path)
 	default:
-		return exec.Command("xdg-open", path).Run()
+		cmd = exec.Command("xdg-open", path)
 	}
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	// Wait so that the finished program does not stay as a zombie
+	go func() { _ = cmd.Wait() }()
+	return nil
 }
 
 // Run starts the TUI program and blocks until the user quits.
