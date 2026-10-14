@@ -648,6 +648,9 @@ func splitLines(s string) []string {
 	return lines
 }
 
+// maxDocxColumns is how many columns a table of the docx library can have.
+const maxDocxColumns = 63
+
 func (r *DocxRenderer) renderTable(t ast.Table) error {
 	numCols := len(t.Header.Cells)
 	if numCols == 0 && len(t.Rows) > 0 {
@@ -662,6 +665,13 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 
 	if numCols == 0 {
 		return nil
+	}
+	// A DOCX table has at most maxDocxColumns columns; keep the first ones.
+	if numCols > maxDocxColumns {
+		if r.opts.Warn != nil {
+			r.opts.Warn(fmt.Sprintf("a table has %d columns; DOCX shows the first %d", numCols, maxDocxColumns))
+		}
+		numCols = maxDocxColumns
 	}
 
 	table, err := r.addTable(numRows, numCols, headerRows > 0)
@@ -697,7 +707,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 			return err
 		}
 
-		for j, astCell := range t.Header.Cells {
+		for j, astCell := range t.Header.Cells[:min(len(t.Header.Cells), numCols)] {
 			cell, err := row.Cell(j)
 			if err != nil {
 				return err
@@ -751,7 +761,7 @@ func (r *DocxRenderer) renderTable(t ast.Table) error {
 			rowColor = oddRowColor
 		}
 
-		for j, astCell := range astRow.Cells {
+		for j, astCell := range astRow.Cells[:min(len(astRow.Cells), numCols)] {
 			cell, err := row.Cell(j)
 			if err != nil {
 				return err
