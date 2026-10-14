@@ -689,6 +689,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 	format := m.format
 	m.confirmOverwrite = false
 	m.confirmRemote = false
+	hosts := convert.RemoteHostNames(m.remoteHosts)
 	m.remoteHosts = nil
 	m.pendingIn = ""
 	m.pendingOut = ""
@@ -701,7 +702,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 		m.statusKind = statusError
 		return m, nil
 	}
-	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA}
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, RemoteHosts: hosts, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA}
 	m.converting = true
 	m.status = "converting…"
 	m.statusKind = statusInfo

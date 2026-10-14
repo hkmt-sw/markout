@@ -142,7 +142,8 @@ func main() {
 	if len(positional) >= 2 {
 		input, output := positional[0], positional[1]
 		opts := convert.Options{Flavor: fl, Theme: &look, Lang: language, PDFA: pdfa || saved.PDFA}
-		opts.RemoteImages = allowRemoteImages(input, opts, remote)
+		opts.RemoteHosts = allowRemoteImages(input, opts, remote)
+		opts.RemoteImages = len(opts.RemoteHosts) > 0
 		opts.Warn = func(message string) {
 			fmt.Fprintln(os.Stderr, "Warning: "+message)
 		}
@@ -162,11 +163,12 @@ func main() {
 	}
 }
 
-// allowRemoteImages decides whether a direct conversion may download the
-// images the document references by URL. policy is the --remote-images value;
-// when it is not given the user is asked if there is a terminal to ask on,
-// and the images are skipped otherwise.
-func allowRemoteImages(input string, opts convert.Options, policy string) bool {
+// allowRemoteImages decides which servers a direct conversion may download the
+// images the document references by URL from: the ones it lists, if the
+// policy and the user allow it, and none otherwise. policy is the
+// --remote-images value; when it is not given the user is asked if there is a
+// terminal to ask on, and the images are skipped otherwise.
+func allowRemoteImages(input string, opts convert.Options, policy string) []string {
 	interactive := stdinIsTerminal()
 	switch policy {
 	case "":
@@ -185,10 +187,10 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 	// A file that cannot be read or parsed is reported by the conversion.
 	hosts, _ := convert.RemoteImageHosts(input, opts)
 	if len(hosts) == 0 {
-		return false
+		return nil
 	}
 	if policy == "allow" {
-		return true
+		return convert.RemoteHostNames(hosts)
 	}
 
 	fmt.Fprintln(os.Stderr, "Warning: this document downloads images from the internet:")
@@ -206,7 +208,7 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 
 	if policy == "deny" {
 		fmt.Fprintln(os.Stderr, "Skipped: they are left as placeholders. Use --remote-images=allow to download them.")
-		return false
+		return nil
 	}
 
 	fmt.Fprintln(os.Stderr, "These servers will see your IP address and that you opened this document.")
@@ -214,10 +216,10 @@ func allowRemoteImages(input string, opts convert.Options, policy string) bool {
 	answer, _ := bufio.NewReader(os.Stdin).ReadString('\n')
 	switch strings.ToLower(strings.TrimSpace(answer)) {
 	case "y", "yes":
-		return true
+		return convert.RemoteHostNames(hosts)
 	}
 	fmt.Fprintln(os.Stderr, "Skipped: the images are left as placeholders.")
-	return false
+	return nil
 }
 
 func stdinIsTerminal() bool {

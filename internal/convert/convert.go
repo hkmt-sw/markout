@@ -4,7 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"net"
-	"net/url"
 	"os"
 	"path/filepath"
 	"slices"
@@ -54,6 +53,7 @@ var (
 	ErrParseFailure  = errors.New("failed to parse markdown")
 	ErrRenderFailure = errors.New("failed to render document")
 	ErrOutputFailure = errors.New("failed to write output file")
+	ErrInternal      = errors.New("internal error")
 )
 
 // ConversionError wraps an error with additional context
@@ -93,6 +93,11 @@ type Options struct {
 	// named in the document who opened it, and a document can point at
 	// addresses on the local network. See RemoteImageHosts.
 	RemoteImages bool
+	// RemoteHosts are the servers the user agreed to download images from,
+	// as RemoteHostNames gives them for the list RemoteImageHosts returned.
+	// Images are downloaded from these servers only, and redirects are
+	// followed only to them. With none, RemoteImages allows nothing.
+	RemoteHosts []string
 	// Theme is how the output looks; nil means the default theme.
 	Theme *theme.Set
 	// Lang is the language of documents that do not name one themselves,
@@ -116,7 +121,11 @@ func ConvertFile(input, output string, format OutputFormat) error {
 
 // ConvertFileWith converts a Markdown file to the specified output format.
 // If format is FormatUnknown, it will be auto-detected from the output filename.
-func ConvertFileWith(input, output string, format OutputFormat, opts Options) error {
+// A bug that makes the conversion panic is returned as an error, so that the
+// programs using it can report it instead of crashing.
+func ConvertFileWith(input, output string, format OutputFormat, opts Options) (err error) {
+	defer recoverInternal("convert", &err)
+
 	fl := opts.Flavor
 	if fl.ID == "" {
 		fl = flavor.Default()
@@ -149,7 +158,7 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 		language, _ = lang.Normalize(opts.Lang)
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, Theme: opts.Theme, Lang: language, PDFA: opts.PDFA, Warn: opts.Warn}
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, RemoteHosts: opts.RemoteHosts, Theme: opts.Theme, Lang: language, PDFA: opts.PDFA, Warn: opts.Warn}
 
 	// Render to output format
 	switch format {
@@ -166,6 +175,17 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) er
 	}
 
 	return nil
+}
+
+// recoverInternal turns a panic into an error in *err. It is deferred by the
+// entry points that read a document written by someone else: a bug that a
+// document sets off must not take the whole program down with a stack trace
+// nobody asked for. The panic value is kept in the message so that it can be
+// reported.
+func recoverInternal(op string, err *error) {
+	if r := recover(); r != nil {
+		*err = &ConversionError{Op: op, Err: fmt.Errorf("%w: %v (this is a bug in markout, please report it with the document that caused it)", ErrInternal, r)}
+	}
 }
 
 // loadDocument validates, reads and parses the input file.
@@ -233,11 +253,23 @@ type RemoteHost struct {
 	Local  bool   // the address is on this machine or the local network
 }
 
+// RemoteHostNames gives the names of hosts as Options.RemoteHosts takes them.
+func RemoteHostNames(hosts []RemoteHost) []string {
+	names := make([]string, len(hosts))
+	for i, h := range hosts {
+		names[i] = h.Host
+	}
+	return names
+}
+
 // RemoteImageHosts lists the servers that converting input would download
 // images from, in order of first appearance. Nothing is fetched or resolved.
-// Callers show the list to the user and set Options.RemoteImages only if the
-// user agrees.
-func RemoteImageHosts(input string, opts Options) ([]RemoteHost, error) {
+// Callers show the list to the user and, only if the user agrees, set
+// Options.RemoteImages and Options.RemoteHosts to it. The conversion
+// downloads from no other server.
+func RemoteImageHosts(input string, opts Options) (hosts []RemoteHost, err error) {
+	defer recoverInternal("list remote images", &err)
+
 	fl := opts.Flavor
 	if fl.ID == "" {
 		fl = flavor.Default()
@@ -247,17 +279,12 @@ func RemoteImageHosts(input string, opts Options) ([]RemoteHost, error) {
 		return nil, err
 	}
 
-	var hosts []RemoteHost
 	index := map[string]int{}
-	for _, elem := range doc.Elements {
-		img, ok := elem.(ast.Image)
-		if !ok || !render.IsRemoteURL(img.URL) {
+	for _, img := range ast.Images(doc.Elements) {
+		if !render.IsRemoteURL(img.URL) {
 			continue
 		}
-		host := img.URL
-		if u, err := url.Parse(img.URL); err == nil && u.Host != "" {
-			host = u.Host
-		}
+		host := render.RemoteHostOf(img.URL)
 		i, seen := index[host]
 		if !seen {
 			i = len(hosts)

@@ -5,10 +5,16 @@ import (
 	"context"
 	"encoding/xml"
 	"errors"
+	"fmt"
 	"github.com/hkmt-sw/markout/internal/theme"
+	"io"
+	"net/http"
+	"net/url"
 	"regexp"
+	"slices"
 	"strconv"
 	"strings"
+	"time"
 
 	resvg "github.com/kanrichan/resvg-go"
 )
@@ -27,9 +33,16 @@ type Options struct {
 	// BaseDir resolves relative image paths, typically the directory of the
 	// source Markdown file.
 	BaseDir string
-	// RemoteImages allows images referenced by http(s) URL to be downloaded.
-	// When false they are left as placeholders and nothing is fetched.
+	// RemoteImages allows images referenced by http(s) URL to be downloaded
+	// from the servers named in RemoteHosts. When false they are left as
+	// placeholders and nothing is fetched.
 	RemoteImages bool
+	// RemoteHosts are the servers images may be downloaded from, as
+	// RemoteHostOf names them: the ones the user was shown and agreed to.
+	// An image on any other server is left as a placeholder, and so is one
+	// that a redirect sends to another server. With none, nothing is
+	// downloaded even if RemoteImages is set.
+	RemoteHosts []string
 	// Theme is how the document looks; nil means the default theme.
 	Theme *theme.Set
 	// Lang is the language of the document as a normalized language tag
@@ -56,10 +69,77 @@ func (o Options) theme() theme.Set {
 // downloaded when Options.RemoteImages is off.
 var ErrRemoteImageSkipped = errors.New("remote image not loaded")
 
+// ErrRemoteHostNotAllowed is returned for an image on a server that is not in
+// Options.RemoteHosts, whether the document names it or a redirect does.
+var ErrRemoteHostNotAllowed = errors.New("remote image host not allowed")
+
+// maxRedirects is how many redirects an image download follows, which is what
+// net/http does when it is not told otherwise.
+const maxRedirects = 10
+
 // IsRemoteURL reports whether an image reference is fetched over the network.
 func IsRemoteURL(url string) bool {
 	l := strings.ToLower(url)
 	return strings.HasPrefix(l, "http://") || strings.HasPrefix(l, "https://")
+}
+
+// RemoteHostOf names the server an image URL is downloaded from: the host of
+// the URL in lower case, with the port if one is given. It is what the user is
+// shown before agreeing to a download, and what Options.RemoteHosts holds. A
+// reference with no host in it is named by itself.
+func RemoteHostOf(rawURL string) string {
+	if u, err := url.Parse(rawURL); err == nil && u.Host != "" {
+		return strings.ToLower(u.Host)
+	}
+	return rawURL
+}
+
+// checkRemoteHost refuses a URL that is not an http(s) address on one of the
+// servers the user agreed to.
+func (o Options) checkRemoteHost(u *url.URL) error {
+	if u.Scheme != "http" && u.Scheme != "https" {
+		return fmt.Errorf("%w: %q is not an http(s) address", ErrRemoteHostNotAllowed, u.Scheme)
+	}
+	host := strings.ToLower(u.Host)
+	if host == "" || !slices.ContainsFunc(o.RemoteHosts, func(h string) bool { return strings.ToLower(h) == host }) {
+		return fmt.Errorf("%w: %s", ErrRemoteHostNotAllowed, u.Host)
+	}
+	return nil
+}
+
+// fetchRemoteImage downloads the image at rawURL, if the user agreed to
+// downloads from its server. A redirect is followed only to a server the user
+// agreed to as well: a server that was shown to the user must not be able to
+// send the download to an address on the local network that was not.
+func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
+	if !opts.RemoteImages {
+		return nil, ErrRemoteImageSkipped
+	}
+	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
+	if err != nil {
+		return nil, err
+	}
+	if err := opts.checkRemoteHost(req.URL); err != nil {
+		return nil, err
+	}
+	client := &http.Client{
+		Timeout: 15 * time.Second,
+		CheckRedirect: func(next *http.Request, via []*http.Request) error {
+			if len(via) >= maxRedirects {
+				return fmt.Errorf("stopped after %d redirects", maxRedirects)
+			}
+			return opts.checkRemoteHost(next.URL)
+		},
+	}
+	resp, err := client.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return nil, fmt.Errorf("fetch image: status %d", resp.StatusCode)
+	}
+	return io.ReadAll(io.LimitReader(resp.Body, MaxImageBytes))
 }
 
 // looksLikeSVG reports whether data appears to be an SVG document.

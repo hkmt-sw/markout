@@ -10,12 +10,10 @@ import (
 	_ "image/png"
 	"io"
 	"math"
-	"net/http"
 	"os"
 	"path/filepath"
 	"sort"
 	"strings"
-	"time"
 
 	"github.com/signintech/gopdf"
 
@@ -866,19 +864,7 @@ func loadImageBytes(url string, opts Options) ([]byte, error) {
 		return []byte(payload), nil
 
 	case IsRemoteURL(url):
-		if !opts.RemoteImages {
-			return nil, ErrRemoteImageSkipped
-		}
-		client := &http.Client{Timeout: 15 * time.Second}
-		resp, err := client.Get(url)
-		if err != nil {
-			return nil, err
-		}
-		defer resp.Body.Close()
-		if resp.StatusCode != http.StatusOK {
-			return nil, fmt.Errorf("fetch image: status %d", resp.StatusCode)
-		}
-		return io.ReadAll(io.LimitReader(resp.Body, MaxImageBytes))
+		return fetchRemoteImage(url, opts)
 
 	default:
 		path := url
