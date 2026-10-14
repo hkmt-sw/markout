@@ -40,7 +40,7 @@ var controlKeys = []controlKey{
 
 // steeringKeys are front matter keys that steer the conversion. They are
 // never rows of the control block, whatever their value.
-var steeringKeys = map[string]bool{"cover": true}
+var steeringKeys = map[string]bool{"cover": true, "watermark": true}
 
 // normKey is a front matter key as keys are compared: in lower case, with -
 // for _ (approved_by, Approved-By).
@@ -167,10 +167,8 @@ func coverFor(fm ast.FrontMatter, themed bool) (cover bool, warning string) {
 // front matter, when that is the first element of the document, and the
 // warning says what is wrong with its cover key.
 func coverOf(doc *ast.Document, themed bool) (cover bool, warning string) {
-	if len(doc.Elements) > 0 {
-		if fm, ok := doc.Elements[0].(ast.FrontMatter); ok {
-			return coverFor(fm, themed)
-		}
+	if fm, ok := frontMatterOf(doc); ok {
+		return coverFor(fm, themed)
 	}
 	return false, ""
 }

@@ -24,9 +24,29 @@ by hand today. In progress.
   ignored, and markout says so.
 - `{version}` and `{classification}` in headers and footers, filled in from
   the front matter as the control block shows them.
+- A classification band, in PDF and DOCX. A document whose front matter has a
+  `classification` gets a band across the top edge of every page, the cover
+  included, with the classification centered in it in bold type. The band
+  says the classification as written; the level it belongs to gives the
+  colors. Four levels are built in, known by English and Hungarian names:
+  `public` (`nyilvános`), `internal` (`belső`, `belső használatra`),
+  `confidential` (`bizalmas`) and `secret` (`titkos`, `szigorúan titkos`). A
+  classification no level knows gets neutral colors, and markout says so. A
+  theme adds names, changes colors, adds levels with `[classification.NAME]`
+  and sets the size and height of the band under `[classification]`. In DOCX
+  the band is a text box in the header, anchored to the page; a theme without
+  a header gets a header part for it, and the header text and the margins
+  stay where they are.
+- A watermark, in PDF and DOCX. `watermark: TERVEZET` in the front matter
+  draws the text in light gray across every page, from the bottom left to the
+  top right, behind the text and shrunk if it would not fit. A theme sets the
+  color and size under `[watermark]`. In DOCX it is Word's own text watermark.
+  A watermark that is not text is ignored, and markout says so.
 
 ### Changed
 
+- Documents that already have a `classification` now get a band on every
+  page. A theme turns it off with `band = false` under `[classification]`.
 - The front matter is shown as a document control block: a table with the
   labels in a column on the left and a thin line between the fields, in PDF
   and DOCX, instead of a box of `key: value` lines. The keys a policy

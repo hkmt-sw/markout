@@ -52,6 +52,15 @@ type DocxRenderer struct {
 	cover        bool
 	info         docInfo
 	coverProblem string
+
+	// See docx_classification.go: the classification band and the watermark
+	// the document asks for, what its headers carry, and what to tell the
+	// user of the front matter's keys for them.
+	band             classBand
+	watermark        string
+	marks            pageMarks
+	classProblem     string
+	watermarkProblem string
 }
 
 // NewDocxRenderer creates a new DOCX renderer
@@ -72,6 +81,9 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	r.equations, r.mathProblems, r.diagramProblems = nil, mathProblems{}, diagramProblems{}
 	r.info = infoOf(astDoc)
 	r.cover, r.coverProblem = coverOf(astDoc, r.t.Cover.Enabled)
+	r.band, r.classProblem = classificationOf(astDoc, r.t.Classification)
+	r.watermark, r.watermarkProblem = watermarkOf(astDoc)
+	r.marks = r.pageMarks()
 	r.setupDocument()
 	r.collectHeadings(astDoc.Elements)
 
@@ -115,7 +127,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
-	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning()); err != nil {
+	if err := postProcessDocx(tempFile, filename, r.tableInsets, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {
 		os.Remove(tempFile)
 		return err
 	}
@@ -124,6 +136,12 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 	if r.opts.Warn != nil {
 		if r.coverProblem != "" {
 			r.opts.Warn(r.coverProblem)
+		}
+		if r.classProblem != "" {
+			r.opts.Warn(r.classProblem)
+		}
+		if r.watermarkProblem != "" {
+			r.opts.Warn(r.watermarkProblem)
 		}
 		if w := r.mathProblems.warning(); w != "" {
 			r.opts.Warn(w)
@@ -1508,23 +1526,31 @@ func (r *DocxRenderer) renderControlBlock(fields []controlField) error {
 // addRunning sets the theme's header and footer on the document. Page
 // numbers are fields, which the word processor fills in.
 func (r *DocxRenderer) addRunning(info docInfo) error {
-	if r.t.Header.Empty() && r.t.Footer.Empty() {
+	if r.t.Header.Empty() && r.t.Footer.Empty() && !r.marks.any() {
 		return nil
 	}
 	section, err := r.doc.DefaultSection()
 	if err != nil {
 		return err
 	}
-	if h := r.t.Header; !h.Empty() {
+	// The classification band and the watermark are in the headers, also in
+	// a theme that has no header text: the header holds nothing else then.
+	if h := r.t.Header; !h.Empty() || r.marks.any() {
 		header, err := section.Header(domain.HeaderDefault)
 		if err != nil {
 			return err
 		}
-		if err := r.fillRunning(header, h, info, true); err != nil {
+		if h.Empty() {
+			err = marksOnlyParagraph(header)
+		} else {
+			err = r.fillRunning(header, h, info, true)
+		}
+		if err != nil {
 			return err
 		}
+		// The first page of a cover has the marks, but no text
 		if r.coverHidesRunning() {
-			if err := r.emptyFirstPage(section, true); err != nil {
+			if err := r.emptyFirstPage(section, true, h.Empty()); err != nil {
 				return err
 			}
 		}
@@ -1538,7 +1564,7 @@ func (r *DocxRenderer) addRunning(info docInfo) error {
 			return err
 		}
 		if r.coverHidesRunning() {
-			if err := r.emptyFirstPage(section, false); err != nil {
+			if err := r.emptyFirstPage(section, false, false); err != nil {
 				return err
 			}
 		}
@@ -1867,7 +1893,7 @@ func RenderDocx(doc *ast.Document, filename string, opts Options) error {
 
 // postProcessDocx modifies the DOCX to add table row properties
 // that prevent tables from splitting awkwardly across pages
-func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool) error {
+func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map[string]string, equations []string, language string, hyphenate bool, firstPageApart bool, marks pageMarks) error {
 	// Open the input DOCX (which is a ZIP file)
 	zipReader, err := zip.OpenReader(inputFile)
 	if err != nil {
@@ -1885,7 +1911,9 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 	zipWriter := zip.NewWriter(outFile)
 	defer zipWriter.Close()
 
-	// Process each file in the ZIP
+	// Process each file in the ZIP; headers is how many headers have the
+	// marks so far
+	headers := 0
 	for _, file := range zipReader.File {
 		rc, err := file.Open()
 		if err != nil {
@@ -1908,6 +1936,10 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, styles map
 			if firstPageApart {
 				content = setTitlePage(content)
 			}
+		}
+		if marks.any() && headerPart.MatchString(file.Name) {
+			content = addPageMarks(content, marks.run(headers))
+			headers++
 		}
 		if file.Name == "word/styles.xml" {
 			content = replaceStyles(content, styles)

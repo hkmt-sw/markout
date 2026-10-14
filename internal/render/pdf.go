@@ -46,6 +46,8 @@ type PdfRenderer struct {
 	trace *strings.Builder
 	page  int
 	font  string
+	// fontSize is the size of the font selected
+	fontSize float64
 
 	// Current drawing state, kept so the trace can say how things look.
 	text, fill, stroke theme.Color
@@ -84,6 +86,14 @@ type PdfRenderer struct {
 	cover        bool
 	info         docInfo
 	coverProblem string
+
+	// What every page carries; see pdf_classification.go. band is the
+	// classification band, watermark the text across the page, and the
+	// problems what to tell the user of the front matter's keys for them.
+	band             classBand
+	watermark        string
+	classProblem     string
+	watermarkProblem string
 
 	// For the page numbers of a table of contents: the page each heading
 	// is on in this layout, and where they were in the layout before.
@@ -175,6 +185,8 @@ func (r *PdfRenderer) layoutDocument(astDoc *ast.Document) error {
 	r.waiting = nil
 	r.info = infoOf(astDoc)
 	r.cover, r.coverProblem = coverOf(astDoc, r.t.Cover.Enabled)
+	r.band, r.classProblem = classificationOf(astDoc, r.t.Classification)
+	r.watermark, r.watermarkProblem = watermarkOf(astDoc)
 	r.headingPages = map[string]int{}
 	// gopdf starts with black text and strokes, a thin line, and no fill set.
 	r.text, r.fill, r.stroke, r.strokeWidth = theme.Black, theme.Black, theme.Black, 1
@@ -231,8 +243,13 @@ func (r *PdfRenderer) codeFont() string    { return r.t.Fonts.Code }
 func (r *PdfRenderer) setFont(family string, style string, size float64) {
 	fontName := r.family(family).fontName(style)
 	r.pdf.SetFont(fontName, "", size)
-	r.face = fontName
-	r.font = fmt.Sprintf("%s/%g", fontName, size)
+	r.face, r.fontSize = fontName, size
+	r.font = fontLabel(fontName, size)
+}
+
+// fontLabel is how the trace names a font at a size.
+func fontLabel(face string, size float64) string {
+	return fmt.Sprintf("%s/%g", face, size)
 }
 
 // The drawing primitives below wrap gopdf so that everything put on a page is
@@ -246,9 +263,12 @@ func (r *PdfRenderer) logf(format string, args ...any) {
 	}
 }
 
+// addPage starts a new page, with the watermark and the classification band
+// that every page has.
 func (r *PdfRenderer) addPage() {
 	r.pdf.AddPage()
 	r.page++
+	r.drawPageMarks()
 }
 
 func (r *PdfRenderer) textColor(c theme.Color) {

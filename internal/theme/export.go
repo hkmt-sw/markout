@@ -32,9 +32,11 @@ func Export(set Set) string {
 	pdf, docx := reflect.ValueOf(set.PDF), reflect.ValueOf(set.DOCX)
 	writeSections(&b, "", pdf, reflect.Value{})
 	writeFamilies(&b, set.PDF.Fonts.Families)
+	writeLevels(&b, "", set.PDF.Classification.Levels, nil)
 
 	var diff strings.Builder
 	writeSections(&diff, "docx.", docx, pdf)
+	writeLevels(&diff, "docx.", set.DOCX.Classification.Levels, set.PDF.Classification.Levels)
 	if diff.Len() > 0 {
 		b.WriteString("\n# ---- DOCX only " + strings.Repeat("-", 60) + "\n")
 		b.WriteString(diff.String())
@@ -153,5 +155,25 @@ func writeFamilies(b *strings.Builder, families map[string]FontFamily) {
 				fmt.Fprintf(b, "%s = %s\n", kv[0], strconv.Quote(kv[1]))
 			}
 		}
+	}
+}
+
+// writeLevels writes the classification levels as sections. Of a level that
+// other has too, only a change is written, so when other is the PDF levels
+// the DOCX ones follow only where they differ.
+func writeLevels(b *strings.Builder, prefix string, levels, other map[string]ClassificationLevel) {
+	for _, name := range sortedNames(levels) {
+		level := levels[name]
+		if have, ok := other[name]; ok && reflect.DeepEqual(level, have) {
+			continue
+		}
+		names := make([]string, len(level.Names))
+		for i, n := range level.Names {
+			names[i] = strconv.Quote(n)
+		}
+		fmt.Fprintf(b, "\n[%sclassification.%s]\n", prefix, name)
+		fmt.Fprintf(b, "names      = [%s]\n", strings.Join(names, ", "))
+		fmt.Fprintf(b, "color      = %s\n", formatValue(level.Color))
+		fmt.Fprintf(b, "background = %s\n", formatValue(level.Background))
 	}
 }

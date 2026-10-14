@@ -266,6 +266,103 @@ cover it is an ordinary row of the control block. The cover page counts as
 page 1 in `{page}` and `{pages}`, but carries no header or footer. The `cover`
 key is never shown as a row of the control block.
 
+## Classification and watermark
+
+The front matter can classify a document and mark it. Both appear on every
+page, the cover page included.
+
+```markdown
+---
+title: Mentési eljárásrend
+classification: Belső használatra
+watermark: TERVEZET
+---
+```
+
+### The classification band
+
+`classification` puts a band across the top of every page, over the full width
+of the paper, with the classification centered in it in bold type. It is also
+a row of the control block. The band shows the classification as the document
+writes it (`Belső használatra`, not a word of the theme's), and the theme
+decides the colors by the **level** the classification belongs to.
+
+A theme knows four levels, which every theme inherits:
+
+| Level | Names it is recognized by | Band |
+| --- | --- | --- |
+| `public` | `public`, `nyilvános` | white on green |
+| `internal` | `internal`, `belső`, `belső használatra` | white on blue |
+| `confidential` | `confidential`, `bizalmas` | white on amber |
+| `secret` | `secret`, `titkos`, `szigorúan titkos` | white on red |
+
+A classification is matched with the names whatever its case and the spaces
+in it: `BELSŐ  használatra` is `internal`. One that no level knows
+(`Top secret`) gets the **neutral colors**, white on gray unless the theme says
+otherwise, and markout warns, naming the levels the theme has.
+
+A theme file adds names to a level, changes the colors of a level, or adds a
+level of its own, as `[classification.NAME]` with any name for NAME:
+
+```toml
+[classification.confidential]
+names = ["restricted"]            # added to the names it has
+background = "#8A4B08"
+
+[classification.sensitive]        # a new level
+names = ["Sensitive", "Érzékeny"]
+color = "#000000"
+background = "#FFD54F"
+```
+
+The names of a level are added to those it already has, so a theme cannot
+take one away; a name belongs to one level only. A new level has the neutral
+colors until it sets its own.
+
+`band = false` turns the band off for every document of a theme:
+
+```toml
+[classification]
+band = false
+```
+
+The band sits in the top margin, so `height` (default 16 points) has to stay
+well under `page.margin-top`, or the page's text starts under the band. A
+header does not collide with it: where the margin is too small to hold both in
+their usual places, the header moves into the room under the band.
+
+### The watermark
+
+`watermark` draws its text in light gray, large, running from the bottom left
+to the top right of every page. Without the key there is no watermark. The text
+is drawn at `size` (default 96 points), or smaller if it would not fit across
+the page. It is drawn first, under the page's text and under whatever has a
+background of its own (a table cell, a code block, a callout), which hide it
+where they are. Only text counts: `watermark: 2026` or a list is ignored, and
+markout says so. The `watermark` key is never shown as a row of the control
+block.
+
+```toml
+[watermark]
+color = "#E6E6E6"
+size  = 96
+```
+
+### In DOCX
+
+The band and the watermark are shapes in the header of the document, anchored
+to the page as Word anchors such things: the band is a text box across the top
+edge, and the watermark is Word's own text watermark (the one under Design >
+Watermark), set in the body font and rotated up to the right. Both lie behind
+the text, and neither moves the header text or the margins. A theme without a
+header still gets a header part to hold them. With a cover page the cover has
+the band and the watermark too, though no header or footer text. A header text
+that reaches into the band stays where it is, so keep `height` under the
+header margin.
+
+The watermark is sized from the widths of the built-in sans font, so a theme
+with a wider body font shows the same text stretched to the same width.
+
 ## Settings reference
 
 Every section and setting, with what it controls. Run
@@ -527,6 +624,39 @@ The [cover page](#cover-page).
 | `subtitle-size` | Font size of the subtitle. Default 16 |
 | `subtitle-color` | Color of the subtitle. Default: the `muted` color of `[text]` |
 | `top` | How far below the top margin the title starts. Default 160 |
+
+### `[classification]`
+
+The [classification band](#the-classification-band) and the colors of a
+classification that no level knows.
+
+| Setting | Meaning |
+| --- | --- |
+| `band` | `false` draws no band, whatever the front matter says. Default `true` |
+| `size` | Font size of the text in the band, which is bold. Default 8.5 |
+| `height` | Height of the band, which sits in the top margin. Default 16 |
+| `color` | Text color for a classification that no level knows. Default white |
+| `background` | Band color for a classification that no level knows. Default gray |
+
+### `[classification.NAME]`
+
+A level of classification, one section for each, with any name for NAME. The
+levels `public`, `internal`, `confidential` and `secret` exist in every theme.
+
+| Setting | Meaning |
+| --- | --- |
+| `names` | A list of the words that mean this level, such as `["internal", "belső"]`. They are matched in any case, and are added to the names the level has |
+| `color` | Text color of the band. A new level has the neutral `color` until it sets this |
+| `background` | Background color of the band. A new level has the neutral `background` until it sets this |
+
+### `[watermark]`
+
+The [watermark](#the-watermark) text.
+
+| Setting | Meaning |
+| --- | --- |
+| `color` | Color of the text. Default `#E6E6E6`, light enough for text over it to stay readable |
+| `size` | Font size. Default 96; the text is drawn smaller if it would not fit across the page |
 
 ### `[control.labels]`
 

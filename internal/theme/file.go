@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"reflect"
 	"regexp"
+	"slices"
 	"sort"
 	"strconv"
 	"strings"
@@ -294,6 +295,8 @@ func apply(th *Theme, sections map[string]any, dir, prefix string) error {
 			err = applyFonts(&th.Fonts, m, dir, path)
 		case "heading":
 			err = applyHeadings(&th.Heading, m, path)
+		case "classification":
+			err = applyClassification(&th.Classification, m, path)
 		default:
 			field, found := fieldByKey(reflect.ValueOf(th).Elem(), name)
 			if !found {
@@ -420,6 +423,92 @@ func applyFonts(f *Fonts, m map[string]any, dir, path string) error {
 		}
 	}
 	return setStruct(reflect.ValueOf(f).Elem(), rest, path)
+}
+
+// applyClassification sets the settings of [classification] and its levels,
+// the sections [classification.NAME]. A level that exists keeps what the
+// section does not set, and the names it lists are added to its own; a new
+// level takes the neutral colors until it sets its own.
+func applyClassification(c *Classification, m map[string]any, path string) error {
+	rest := map[string]any{}
+	tables := map[string]map[string]any{}
+	for key, value := range m {
+		if _, isSetting := fieldByKey(reflect.ValueOf(c).Elem(), key); !isSetting {
+			if table, ok := value.(map[string]any); ok {
+				tables[key] = table
+				continue
+			}
+		}
+		rest[key] = value
+	}
+	if err := setStruct(reflect.ValueOf(c).Elem(), rest, path); err != nil {
+		return err
+	}
+
+	// Do not write into a map shared with the theme this one extends
+	levels := make(map[string]ClassificationLevel, len(c.Levels)+len(tables))
+	for name, level := range c.Levels {
+		levels[name] = level
+	}
+	c.Levels = levels
+
+	for _, name := range sortedNames(tables) {
+		level, known := levels[name]
+		if !known {
+			level = ClassificationLevel{Color: c.Color, Background: c.Background}
+		}
+		at := path + "." + name
+		for _, key := range sortedNames(tables[name]) {
+			value := tables[name][key]
+			switch key {
+			case "names":
+				list, ok := value.([]any)
+				if !ok {
+					return fmt.Errorf("%s.names must be a list of text in quotes, such as [\"internal\", \"belső\"]", at)
+				}
+				// The names are added to those the level has
+				added := append([]string(nil), level.Names...)
+				for _, item := range list {
+					s, ok := item.(string)
+					if !ok || normalizeName(s) == "" {
+						return fmt.Errorf("%s.names must be a list of text in quotes, such as [\"internal\", \"belső\"]", at)
+					}
+					if !slices.ContainsFunc(added, func(have string) bool { return normalizeName(have) == normalizeName(s) }) {
+						added = append(added, s)
+					}
+				}
+				level.Names = added
+			case "color", "background":
+				s, ok := value.(string)
+				if !ok {
+					return fmt.Errorf("%s.%s: a color is written in quotes, as \"#RRGGBB\"", at, key)
+				}
+				color, err := ParseColor(s)
+				if err != nil {
+					return fmt.Errorf("%s.%s: %w", at, key, err)
+				}
+				if key == "color" {
+					level.Color = color
+				} else {
+					level.Background = color
+				}
+			default:
+				return fmt.Errorf("%s.%s is not a setting; a level has names, color and background", at, key)
+			}
+		}
+		levels[name] = level
+	}
+	return nil
+}
+
+// sortedNames returns the keys of a table in alphabetical order.
+func sortedNames[V any](m map[string]V) []string {
+	names := make([]string, 0, len(m))
+	for name := range m {
+		names = append(names, name)
+	}
+	sort.Strings(names)
+	return names
 }
 
 var headingKey = regexp.MustCompile(`^h([1-6])$`)
@@ -594,6 +683,25 @@ func resolveDocxFonts(th *Theme) {
 	}
 }
 
+// validateLevels rejects classification levels that no value could be matched
+// to, or that two levels claim a name of.
+func validateLevels(levels map[string]ClassificationLevel) error {
+	owner := map[string]string{} // normalized name -> level
+	for _, level := range sortedNames(levels) {
+		if len(levels[level].Names) == 0 {
+			return fmt.Errorf("classification.%s needs names, the words that mean this level", level)
+		}
+		for _, name := range levels[level].Names {
+			norm := normalizeName(name)
+			if other, taken := owner[norm]; taken && other != level {
+				return fmt.Errorf("classification: %q is a name of both %s and %s", name, other, level)
+			}
+			owner[norm] = level
+		}
+	}
+	return nil
+}
+
 // validate rejects themes that could not produce a readable document.
 func validate(th Theme, pdf bool) error {
 	p := th.Page
@@ -622,6 +730,8 @@ func validate(th Theme, pdf bool) error {
 		"footnote.size":     th.Footnote.Size, "footnote.line-height": th.Footnote.LineHeight,
 		"caption.size":     th.Caption.Size,
 		"cover.title-size": th.Cover.TitleSize, "cover.subtitle-size": th.Cover.SubtitleSize,
+		"classification.size": th.Classification.Size, "classification.height": th.Classification.Height,
+		"watermark.size": th.Watermark.Size,
 	}
 	if !th.Header.Empty() {
 		sizes["header.size"] = th.Header.Size
@@ -635,6 +745,9 @@ func validate(th Theme, pdf bool) error {
 	}
 	if !th.Footer.Empty() && p.MarginBottom < th.Footer.Size+16 {
 		return fmt.Errorf("footer: the bottom margin (%.0f points) is too small to hold a footer; make page.margin-bottom at least %.0f", p.MarginBottom, th.Footer.Size+16)
+	}
+	if err := validateLevels(th.Classification.Levels); err != nil {
+		return err
 	}
 	if th.Cover.Top < 0 {
 		return fmt.Errorf("cover.top is %g points; it cannot be negative", th.Cover.Top)

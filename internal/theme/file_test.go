@@ -251,7 +251,18 @@ func closeEnough(a, b reflect.Value) bool {
 		}
 		return true
 	case reflect.Map:
-		return a.Len() == b.Len()
+		if a.Len() != b.Len() {
+			return false
+		}
+		for _, key := range a.MapKeys() {
+			other := b.MapIndex(key)
+			if !other.IsValid() || !closeEnough(a.MapIndex(key), other) {
+				return false
+			}
+		}
+		return true
+	case reflect.Slice:
+		return a.Len() == b.Len() && reflect.DeepEqual(a.Interface(), b.Interface())
 	}
 	return reflect.DeepEqual(a.Interface(), b.Interface())
 }
