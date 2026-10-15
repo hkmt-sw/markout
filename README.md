@@ -264,6 +264,10 @@ A theme can give every document with front matter a cover with `[cover]`
 takes it off one document. See
 [Cover page](docs/themes.md#cover-page) for the settings.
 
+[`examples/policy/jogosultsagkezelesi-szabalyzat.md`](examples/policy/jogosultsagkezelesi-szabalyzat.md)
+is a short policy with a cover page, every control key, a classification and
+a watermark: copy its front matter to start your own.
+
 ## Classification and watermark
 
 `classification` in the front matter puts a band across the top of every page,
