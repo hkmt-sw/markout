@@ -98,6 +98,7 @@ func TestUnreadFrontMatterWarning(t *testing.T) {
 		{"TOML", "commonmark", "+++\ntitle = \"T\"\n\n[extra]\nkey = 1\n+++\n# H\n", true},
 		{"after a byte order mark", "commonmark", "\uFEFF" + yaml, true},
 		{"CRLF", "commonmark", strings.ReplaceAll(yaml, "\n", "\r\n"), true},
+		{"accented keys", "commonmark", "---\ncím: Mentési eljárásrend\nszerző: Üzemeltetés\n---\n# H\n", true},
 		{"list in the metadata", "extra", "---\nlist:\n- a\n- b\n---\ntext\n", true},
 		{"markout reads it", "markout", yaml, false},
 		{"github reads it", "github", yaml, false},

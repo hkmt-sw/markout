@@ -215,6 +215,11 @@ Hungarian, American English and British English.
 
 ## Document control
 
+*New to this? [Writing a policy document](docs/policy-documents.md) walks
+through the front matter, the cover page, the classification band, the
+version history and the headers in order, with what to do when something
+does not appear.*
+
 A policy or procedure says in its front matter which version it is, who
 wrote and approved it, and how it is classified:
 

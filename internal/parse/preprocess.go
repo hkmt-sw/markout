@@ -157,9 +157,9 @@ func dropBOM(s string) string {
 
 var (
 	// yamlKeyLine is a "key: value" line, or "key:" that holds a mapping or a list.
-	yamlKeyLine = regexp.MustCompile(`^(?:[A-Za-z_][\w.-]*|"[^"]+"|'[^']+'):(?:[ \t].*)?$`)
+	yamlKeyLine = regexp.MustCompile(`^(?:[\pL_][\pL\pN_.-]*|"[^"]+"|'[^']+'):(?:[ \t].*)?$`)
 	// tomlKeyLine is a "key = value" line, or a [table] header.
-	tomlKeyLine = regexp.MustCompile(`^(?:(?:[A-Za-z_][\w.-]*|"[^"]+"|'[^']+')[ \t]*=[ \t]*\S.*|\[{1,2}[A-Za-z_][\w. -]*\]{1,2})$`)
+	tomlKeyLine = regexp.MustCompile(`^(?:(?:[\pL_][\pL\pN_.-]*|"[^"]+"|'[^']+')[ \t]*=[ \t]*\S.*|\[{1,2}[\pL_][\pL\pN_. -]*\]{1,2})$`)
 )
 
 // startsWithFrontMatter reports whether the lines open with YAML (---) or
@@ -178,10 +178,7 @@ func startsWithFrontMatter(lines []string) bool {
 		trimmed := strings.TrimSpace(line)
 		switch {
 		case trimmed == d:
-			if keys {
-				return true
-			}
-			return false
+			return keys
 		case trimmed == "":
 		case keys && (line[0] == ' ' || line[0] == '\t' || strings.HasPrefix(line, "- ")):
 		case d == "---" && yamlKeyLine.MatchString(strings.TrimRight(line, " \t")):
