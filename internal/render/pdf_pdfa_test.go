@@ -92,8 +92,26 @@ func TestPDFAFor(t *testing.T) {
 		{"the document asks", map[string]any{"pdfa": true}, false, true, ""},
 		{"the document refuses", map[string]any{"pdfa": false}, true, false, ""},
 		{"key in other case", map[string]any{"PDFA": true}, false, true, ""},
-		{"a word is no answer", map[string]any{"pdfa": "yes"}, false, false, "pdfa in the front matter must be true or false, not yes; it was ignored."},
-		{"a word does not refuse", map[string]any{"pdfa": "no"}, true, true, "pdfa in the front matter must be true or false, not no; it was ignored."},
+		{"true, requested false", map[string]any{"pdfa": true}, false, true, ""},
+		{"false, requested false", map[string]any{"pdfa": false}, false, false, ""},
+		{"string \"true\", requested false", map[string]any{"pdfa": "true"}, false, true, ""},
+		{"string \"False\", requested false", map[string]any{"pdfa": "False"}, false, false, ""},
+		{"\"yes\", requested false", map[string]any{"pdfa": "yes"}, false, true, ""},
+		{"\"YES\", requested false", map[string]any{"pdfa": "YES"}, false, true, ""},
+		{"\" no \", requested false", map[string]any{"pdfa": " no "}, false, false, ""},
+		{"\"maybe\", requested false", map[string]any{"pdfa": "maybe"}, false, false, "pdfa in the front matter must be true, false, yes or no, not \"maybe\"; it was ignored."},
+		{"number, requested false", map[string]any{"pdfa": int64(1)}, false, false, "pdfa in the front matter must be true, false, yes or no, not \"1\"; it was ignored."},
+		{"missing key, requested false", map[string]any{"title": "T"}, false, false, ""},
+		{"true, requested true", map[string]any{"pdfa": true}, true, true, ""},
+		{"false, requested true", map[string]any{"pdfa": false}, true, false, ""},
+		{"string \"true\", requested true", map[string]any{"pdfa": "true"}, true, true, ""},
+		{"string \"False\", requested true", map[string]any{"pdfa": "False"}, true, false, ""},
+		{"\"yes\", requested true", map[string]any{"pdfa": "yes"}, true, true, ""},
+		{"\"YES\", requested true", map[string]any{"pdfa": "YES"}, true, true, ""},
+		{"\" no \", requested true", map[string]any{"pdfa": " no "}, true, false, ""},
+		{"\"maybe\", requested true", map[string]any{"pdfa": "maybe"}, true, true, "pdfa in the front matter must be true, false, yes or no, not \"maybe\"; it was ignored."},
+		{"number, requested true", map[string]any{"pdfa": int64(1)}, true, true, "pdfa in the front matter must be true, false, yes or no, not \"1\"; it was ignored."},
+		{"missing key, requested true", map[string]any{"title": "T"}, true, true, ""},
 	} {
 		pdfa, warning := pdfaFor(ast.FrontMatter{Raw: tc.raw}, tc.requested)
 		if pdfa != tc.pdfa || warning != tc.warning {
@@ -360,7 +378,7 @@ func mustPDF(t *testing.T, md string, opts Options) []byte {
 	return data
 }
 
-// A pdfa value that is neither true nor false is ignored, with a warning,
+// A pdfa value that is not a yes or no is ignored, with a warning,
 // and is never a row of the control block.
 func TestPDFAKeyIsChecked(t *testing.T) {
 	const md = "---\ntitle: T\npdfa: maybe\n---\n\ntext\n"
@@ -368,7 +386,7 @@ func TestPDFAKeyIsChecked(t *testing.T) {
 	if bytes.Contains(pdf, []byte("/OutputIntents")) {
 		t.Error("made PDF/A although the key is not true")
 	}
-	if len(warnings) != 1 || warnings[0] != "pdfa in the front matter must be true or false, not maybe; it was ignored." {
+	if len(warnings) != 1 || warnings[0] != "pdfa in the front matter must be true, false, yes or no, not \"maybe\"; it was ignored." {
 		t.Errorf("warnings: %q", warnings)
 	}
 	if _, warnings := pdfBytes(t, md, Options{PDFA: true}); len(warnings) != 1 {

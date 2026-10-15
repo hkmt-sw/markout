@@ -262,9 +262,9 @@ enabled = true
 ```
 
 `cover: false` turns the cover off for one document of a theme that gives
-them all one. Only `true` and `false` count; anything else (`cover: yes` in
-quotes, say) is ignored, and markout says so. A document without front matter
-has no cover page.
+them all one. `true`, `false`, `yes` and `no` count, in any case; anything
+else is ignored, and markout says so. A document without front matter has no
+cover page.
 
 The title is the `title` of the front matter, or the first top-level heading
 if there is none. `subtitle` is the key with that name; on a page without a

@@ -52,7 +52,7 @@ type Options struct {
 	// output for the programs that read it.
 	Lang string
 	// PDFA asks for a PDF/A-2u file, in PDF output. A pdfa key in the front
-	// matter that is true or false decides instead. DOCX output ignores it.
+	// matter that is true, false, yes or no decides instead. DOCX output ignores it.
 	PDFA bool
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it, such as characters no font can draw.

@@ -64,8 +64,10 @@ func TestDOCXCoverWhenAsked(t *testing.T) {
 		{"nobody asks", "---\ntitle: The Title\n---\n" + body, theme.Default(), false, false},
 		{"no front matter", body, themedDocxCover(), false, false},
 		{"only a language", "---\nlang: hu\n---\n" + body, themedDocxCover(), false, false},
-		{"a word asks nothing", "---\ntitle: The Title\ncover: yes\n---\n" + body, theme.Default(), false, true},
-		{"a word does not refuse", "---\ntitle: The Title\ncover: \"no\"\n---\n" + body, themedDocxCover(), true, true},
+		{"yes asks", "---\ntitle: The Title\ncover: yes\n---\n" + body, theme.Default(), true, false},
+		{"no refuses", "---\ntitle: The Title\ncover: \"No\"\n---\n" + body, themedDocxCover(), false, false},
+		{"another word asks nothing", "---\ntitle: The Title\ncover: maybe\n---\n" + body, theme.Default(), false, true},
+		{"another word does not refuse", "---\ntitle: The Title\ncover: \"maybe\"\n---\n" + body, themedDocxCover(), true, true},
 	} {
 		out, warnings := coverDocx(t, tc.md, tc.set)
 		doc := docxPart(t, out, "word/document.xml")

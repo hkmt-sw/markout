@@ -247,7 +247,8 @@ name. A theme can rename the labels under
 large type, the `subtitle` under it, and under them the rest of the control
 block. The text starts on the next page. The cover page has no header or
 footer, though it counts as page 1; in DOCX the title and subtitle are in
-Word's Title and Subtitle styles.
+Word's Title and Subtitle styles. `true`, `false`, `yes` and `no` count, in any
+case; any other value is ignored, with a warning.
 
 ```markdown
 ---
@@ -356,8 +357,9 @@ way. Text still copies and searches as Unicode. Ask for it in one of three
 ways:
 
 - `markout --pdfa input.md output.pdf` on the command line;
-- `pdfa: true` in the front matter, which `pdfa: false` turns off again (any
-  other value is ignored, with a warning);
+- `pdfa: true` in the front matter, which `pdfa: false` turns off again
+  (`yes` and `no` count too, in any case; any other value is ignored, with a
+  warning);
 - **PDF/A** in the TUI: `F2` for Settings, then `a`. It is saved with the other
   settings and also applies to `markout` on the command line.
 
