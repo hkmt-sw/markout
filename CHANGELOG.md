@@ -66,6 +66,11 @@ by hand today. In progress.
   tagged PDF/A-2a and PDF/UA are not made. CI converts the sample documents
   with `--pdfa` and validates them with a pinned veraPDF. The color profile
   is the CC0 sRGB profile of Compact ICC Profiles.
+- A guide, [Writing a policy document](docs/policy-documents.md), that takes
+  a policy from an empty file to a PDF with a cover page, control block,
+  classification band, version history and headers, with a table of what to
+  do when something does not appear; and an example policy that uses all of
+  it, `examples/policy/jogosultsagkezelesi-szabalyzat.md`.
 
 ### Changed
 
@@ -137,6 +142,17 @@ by hand today. In progress.
   now, and markout says so. (#112)
 - A theme's `description` or `name` that was not text was ignored without a
   word. It is an error now. (#114)
+- A file that starts with a UTF-8 byte order mark, as many Windows editors
+  save it, had its front matter shown as text, so the cover page, the control
+  block and the classification band were missing without a word. The mark is
+  dropped now, in included files too. (#121)
+- The `commonmark`, `youtrack`, `bitbucket` and `extra` flavors do not read
+  front matter, and a document that started with one lost it without a word.
+  markout warns now and names a flavor that reads it. (#122)
+- `cover: yes` and `pdfa: yes` were ignored, since `yes` is text in YAML, and
+  the warning for `cover: "true"` read "not true". `yes` and `no` count now as
+  well as `true` and `false`, in any case and in quotes, and the warning
+  quotes the value it ignored. (#123)
 
 ### Security
 

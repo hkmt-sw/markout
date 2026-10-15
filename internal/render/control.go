@@ -149,18 +149,46 @@ func controlValue(fm ast.FrontMatter, key string) string {
 	return ""
 }
 
+// frontBool reads a front matter value as a yes-or-no answer: true, false,
+// yes or no, in any case and with spaces around, as a YAML boolean or as a
+// string (yes is a string in YAML). ok is false for anything else.
+func frontBool(v any) (value, ok bool) {
+	switch v := v.(type) {
+	case bool:
+		return v, true
+	case string:
+		switch strings.ToLower(strings.TrimSpace(v)) {
+		case "true", "yes":
+			return true, true
+		case "false", "no":
+			return false, true
+		}
+	}
+	return false, false
+}
+
+// frontBoolWarning is the warning for a value that frontBool does not accept
+// as the answer to the front matter key named.
+func frontBoolWarning(key string, v any) string {
+	text, isString := v.(string)
+	if !isString {
+		text = fmt.Sprint(v)
+	}
+	return fmt.Sprintf("%s in the front matter must be true, false, yes or no, not %q; it was ignored.", key, text)
+}
+
 // coverFor says whether a document gets a cover page. The front matter's
-// cover key decides when it is true or false; without it, or with anything
-// else (which is ignored, and named in the warning), the theme does.
+// cover key decides when it is true, false, yes or no; without it, or with
+// anything else (which is ignored, and named in the warning), the theme does.
 func coverFor(fm ast.FrontMatter, themed bool) (cover bool, warning string) {
 	key, ok := findKey(fm, "cover")
 	if !ok {
 		return themed, ""
 	}
-	if asked, isBool := fm.Raw[key].(bool); isBool {
+	if asked, ok := frontBool(fm.Raw[key]); ok {
 		return asked, ""
 	}
-	return themed, fmt.Sprintf("cover in the front matter must be true or false, not %v; it was ignored.", fm.Raw[key])
+	return themed, frontBoolWarning("cover", fm.Raw[key])
 }
 
 // coverOf says whether a document gets a cover page: it is decided by the

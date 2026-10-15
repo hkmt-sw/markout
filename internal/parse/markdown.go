@@ -40,6 +40,7 @@ type Parser struct {
 	md       goldmark.Markdown
 	features flavor.Features
 	baseDir  string
+	id       string // the flavor, as it is named on the command line
 }
 
 // NewParser creates a markdown parser for the default flavor
@@ -77,11 +78,12 @@ func NewParserFor(fl flavor.Flavor, baseDir string) *Parser {
 		goldmark.WithExtensions(exts...),
 		goldmark.WithParserOptions(parserOpts...),
 	)
-	return &Parser{md: md, features: f, baseDir: baseDir}
+	return &Parser{md: md, features: f, baseDir: baseDir, id: fl.ID}
 }
 
 // Parse converts markdown bytes to our internal AST
 func (p *Parser) Parse(source []byte) (*ast.Document, error) {
+	src := source
 	pre := newPreprocessor(p.features, p.baseDir)
 	source = pre.run(source)
 
@@ -94,6 +96,9 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 
 	doc := ast.NewDocument()
 	doc.Warnings = pre.left.warnings()
+	if w := p.unreadFrontMatterWarning(src); w != "" {
+		doc.Warnings = append([]string{w}, doc.Warnings...)
+	}
 
 	// Extract and prepend front matter
 	fm := pre.frontMatter
@@ -127,6 +132,20 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 	walker.appendFootnotes()
 
 	return doc, nil
+}
+
+// unreadFrontMatterWarning says so when the document starts with YAML or TOML
+// front matter that the flavor does not read: it is shown as text, a
+// horizontal rule and a heading. The conversion goes on as it is.
+func (p *Parser) unreadFrontMatterWarning(src []byte) string {
+	if p.features.FrontMatter || p.id == "" {
+		return ""
+	}
+	s := strings.ReplaceAll(dropBOM(string(src)), "\r\n", "\n")
+	if !startsWithFrontMatter(strings.Split(s, "\n")) {
+		return ""
+	}
+	return fmt.Sprintf("The document starts with front matter, which the %s flavor does not read; it is shown as text. Choose a flavor that reads it, such as %s.", p.id, flavor.DefaultID)
 }
 
 // Parse is a convenience function that creates a parser and parses the source

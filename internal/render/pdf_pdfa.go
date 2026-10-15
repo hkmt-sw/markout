@@ -43,17 +43,17 @@ import (
 var srgbProfile []byte
 
 // pdfaFor says whether a document is made as PDF/A. The front matter's pdfa
-// key decides when it is true or false; without it, or with anything else
-// (which is ignored, and named in the warning), requested does.
+// key decides when it is true, false, yes or no; without it, or with anything
+// else (which is ignored, and named in the warning), requested does.
 func pdfaFor(fm ast.FrontMatter, requested bool) (pdfa bool, warning string) {
 	key, ok := findKey(fm, "pdfa")
 	if !ok {
 		return requested, ""
 	}
-	if asked, isBool := fm.Raw[key].(bool); isBool {
+	if asked, ok := frontBool(fm.Raw[key]); ok {
 		return asked, ""
 	}
-	return requested, fmt.Sprintf("pdfa in the front matter must be true or false, not %v; it was ignored.", fm.Raw[key])
+	return requested, frontBoolWarning("pdfa", fm.Raw[key])
 }
 
 // pdfaOf says whether a document is made as PDF/A: it is decided by the

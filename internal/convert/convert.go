@@ -105,7 +105,8 @@ type Options struct {
 	// as a language tag ("hu", "en-GB"). Empty means none.
 	Lang string
 	// PDFA asks for PDF/A-2u in PDF output; DOCX output ignores it. The
-	// document's own pdfa key, when it is true or false, decides instead.
+	// document's own pdfa key, when it is true, false, yes or no, decides
+	// instead.
 	PDFA bool
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it (characters no font can draw, for example).

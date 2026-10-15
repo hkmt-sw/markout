@@ -146,8 +146,54 @@ func (l *leftOut) warnings() []string {
 	return out
 }
 
+// byteOrderMark is the UTF-8 byte order mark that some editors, Notepad
+// among them, put at the start of a file. It is not part of the text.
+const byteOrderMark = "\uFEFF"
+
+// dropBOM removes a byte order mark from the start of a source.
+func dropBOM(s string) string {
+	return strings.TrimPrefix(s, byteOrderMark)
+}
+
+var (
+	// yamlKeyLine is a "key: value" line, or "key:" that holds a mapping or a list.
+	yamlKeyLine = regexp.MustCompile(`^(?:[\pL_][\pL\pN_.-]*|"[^"]+"|'[^']+'):(?:[ \t].*)?$`)
+	// tomlKeyLine is a "key = value" line, or a [table] header.
+	tomlKeyLine = regexp.MustCompile(`^(?:(?:[\pL_][\pL\pN_.-]*|"[^"]+"|'[^']+')[ \t]*=[ \t]*\S.*|\[{1,2}[\pL_][\pL\pN_. -]*\]{1,2})$`)
+)
+
+// startsWithFrontMatter reports whether the lines open with YAML (---) or
+// TOML (+++) front matter. Metadata is told from a horizontal rule followed by
+// prose by its lines: all of them are keys with values, or continue a key.
+func startsWithFrontMatter(lines []string) bool {
+	if len(lines) == 0 {
+		return false
+	}
+	d := strings.TrimSpace(lines[0])
+	if d != "---" && d != "+++" {
+		return false
+	}
+	keys := false
+	for _, line := range lines[1:] {
+		trimmed := strings.TrimSpace(line)
+		switch {
+		case trimmed == d:
+			return keys
+		case trimmed == "":
+		case keys && (line[0] == ' ' || line[0] == '\t' || strings.HasPrefix(line, "- ")):
+		case d == "---" && yamlKeyLine.MatchString(strings.TrimRight(line, " \t")):
+			keys = true
+		case d == "+++" && tomlKeyLine.MatchString(strings.TrimRight(line, " \t")):
+			keys = true
+		default:
+			return false
+		}
+	}
+	return false
+}
+
 func (p *preprocessor) run(src []byte) []byte {
-	s := strings.ReplaceAll(string(src), "\r\n", "\n")
+	s := strings.ReplaceAll(dropBOM(string(src)), "\r\n", "\n")
 	lines := p.metadata(strings.Split(s, "\n"))
 
 	// YAML/TOML front matter belongs to the front matter extension: keep it
@@ -1465,7 +1511,7 @@ func (p *preprocessor) include(rel string) ([]string, bool) {
 	}
 
 	sub := &preprocessor{f: p.f, root: p.root, baseDir: filepath.Dir(path), depth: p.depth + 1, nesting: p.nesting, left: p.left}
-	lines := sub.blocks(strings.Split(strings.ReplaceAll(string(data), "\r\n", "\n"), "\n"))
+	lines := sub.blocks(strings.Split(strings.ReplaceAll(dropBOM(string(data)), "\r\n", "\n"), "\n"))
 	p.notes = append(p.notes, sub.notes...)
 	return unwrap(lines), true
 }
