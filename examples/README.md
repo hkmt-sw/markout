@@ -17,6 +17,7 @@ The organizations, people, products and numbers in them are made up.
 | [`policy/information-security-policy.md`](policy/information-security-policy.md) | A top-level policy with version, classification and approver in its front matter | Table of contents, definition lists, tables, numbered rules with sub-points, callouts, a footnote, a document history |
 | [`policy/incident-response-procedure.md`](policy/incident-response-procedure.md) | What to do when something goes wrong | A severity table, the process as a flowchart, steps with code and warnings inside them, a checklist, footnotes |
 | [`policy/mentesi-eljarasrend.md`](policy/mentesi-eljarasrend.md) | A backup and restore procedure, in Hungarian | Accented text throughout, Hungarian quotation marks, right-aligned columns |
+| [`policy/jogosultsagkezelesi-szabalyzat.md`](policy/jogosultsagkezelesi-szabalyzat.md) | An access management policy, in Hungarian, with every document control key filled in | A cover page with title and subtitle, the control block, a classification band, a watermark; start your own policy from its front matter |
 
 ## Technical documentation
 
