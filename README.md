@@ -473,6 +473,8 @@ LaTeX delimiters; the default flavor reads both `$…$` and `\(…\)` / `\[…\]
 
 Syntax that a flavor doesn't define is left as plain text, exactly as that
 platform would show it (`~~text~~` stays literal under CommonMark, for example).
+Front matter is the exception: it is markout's own, so every flavor reads the
+YAML or TOML block that starts the file.
 
 Things that only make sense on the original platform have no document
 equivalent and stay as text: `@mentions`, issue references such as `#123` or

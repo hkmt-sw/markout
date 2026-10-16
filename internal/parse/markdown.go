@@ -38,9 +38,9 @@ var alertPattern = regexp.MustCompile(`^\[!([A-Za-z][\w:-]*)\]([+-]?)[ \t]*`)
 // Parser holds the goldmark parser instance
 type Parser struct {
 	md       goldmark.Markdown
+	withFM   goldmark.Markdown // md with the front matter extension; nil if md has it
 	features flavor.Features
 	baseDir  string
-	id       string // the flavor, as it is named on the command line
 }
 
 // NewParser creates a markdown parser for the default flavor
@@ -52,6 +52,17 @@ func NewParser() *Parser {
 // baseDir resolves files referenced by the document (e.g. GitLab includes).
 func NewParserFor(fl flavor.Flavor, baseDir string) *Parser {
 	f := fl.Features
+	p := &Parser{md: newMarkdown(f, false), features: f, baseDir: baseDir}
+	if !f.FrontMatter {
+		p.withFM = newMarkdown(f, true)
+	}
+	return p
+}
+
+// newMarkdown builds the goldmark instance for the features. Front matter is
+// markout's own feature, not the flavor's: a document that starts with it is
+// parsed by an instance that reads it, whatever the flavor.
+func newMarkdown(f flavor.Features, frontMatter bool) goldmark.Markdown {
 	var exts []goldmark.Extender
 	add := func(on bool, e goldmark.Extender) {
 		if on {
@@ -66,7 +77,7 @@ func NewParserFor(fl flavor.Flavor, baseDir string) *Parser {
 	add(f.DefinitionLists, extension.DefinitionList)
 	add(f.Typographer, extension.Typographer)
 	add(f.MathDollar, mathjax.MathJax)
-	add(f.FrontMatter, &frontmatter.Extender{})
+	add(f.FrontMatter || frontMatter, &frontmatter.Extender{})
 	add(f.Emoji, emoji.Emoji)
 
 	parserOpts := []parser.Option{parser.WithAutoHeadingID()}
@@ -74,31 +85,39 @@ func NewParserFor(fl flavor.Flavor, baseDir string) *Parser {
 		parserOpts = append(parserOpts, parser.WithAttribute())
 	}
 
-	md := goldmark.New(
+	return goldmark.New(
 		goldmark.WithExtensions(exts...),
 		goldmark.WithParserOptions(parserOpts...),
 	)
-	return &Parser{md: md, features: f, baseDir: baseDir, id: fl.ID}
+}
+
+// startsWithFrontMatterSource reports whether the source opens with YAML or
+// TOML front matter, as the preprocessor sees it.
+func startsWithFrontMatterSource(src []byte) bool {
+	s := strings.ReplaceAll(dropBOM(string(src)), "\r\n", "\n")
+	return startsWithFrontMatter(strings.Split(s, "\n"))
 }
 
 // Parse converts markdown bytes to our internal AST
 func (p *Parser) Parse(source []byte) (*ast.Document, error) {
-	src := source
-	pre := newPreprocessor(p.features, p.baseDir)
+	// Front matter is read in every flavor, also in those that leave it out
+	features, md := p.features, p.md
+	if p.withFM != nil && startsWithFrontMatterSource(source) {
+		features.FrontMatter = true
+		md = p.withFM
+	}
+	pre := newPreprocessor(features, p.baseDir)
 	source = pre.run(source)
 
 	ctx := parser.NewContext()
 	reader := text.NewReader(source)
-	gmDoc := p.md.Parser().Parse(reader, parser.WithContext(ctx))
+	gmDoc := md.Parser().Parse(reader, parser.WithContext(ctx))
 
 	// Extract TOC tree from headings
 	tocTree, _ := toc.Inspect(gmDoc, source)
 
 	doc := ast.NewDocument()
 	doc.Warnings = pre.left.warnings()
-	if w := p.unreadFrontMatterWarning(src); w != "" {
-		doc.Warnings = append([]string{w}, doc.Warnings...)
-	}
 
 	// Extract and prepend front matter
 	fm := pre.frontMatter
@@ -116,7 +135,7 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 	}
 
 	walker := &astWalker{
-		f:         p.features,
+		f:         features,
 		source:    source,
 		doc:       doc,
 		footnotes: make(map[string]*ast.FootnoteDefinition),
@@ -132,20 +151,6 @@ func (p *Parser) Parse(source []byte) (*ast.Document, error) {
 	walker.appendFootnotes()
 
 	return doc, nil
-}
-
-// unreadFrontMatterWarning says so when the document starts with YAML or TOML
-// front matter that the flavor does not read: it is shown as text, a
-// horizontal rule and a heading. The conversion goes on as it is.
-func (p *Parser) unreadFrontMatterWarning(src []byte) string {
-	if p.features.FrontMatter || p.id == "" {
-		return ""
-	}
-	s := strings.ReplaceAll(dropBOM(string(src)), "\r\n", "\n")
-	if !startsWithFrontMatter(strings.Split(s, "\n")) {
-		return ""
-	}
-	return fmt.Sprintf("The document starts with front matter, which the %s flavor does not read; it is shown as text. Choose a flavor that reads it, such as %s.", p.id, flavor.DefaultID)
 }
 
 // Parse is a convenience function that creates a parser and parses the source

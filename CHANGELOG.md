@@ -153,6 +153,12 @@ by hand today. In progress.
   the warning for `cover: "true"` read "not true". `yes` and `no` count now as
   well as `true` and `false`, in any case and in quotes, and the warning
   quotes the value it ignored. (#123)
+- The `commonmark`, `youtrack`, `bitbucket` and `extra` flavors did not read
+  front matter, so a document in one of them had no cover page, control
+  block, watermark or classification band, and the `---` and the keys were
+  shown as text. The cover page and the rest are markout's own, not the
+  platform's: front matter that starts the file is now read in every flavor.
+  This replaces the warning of #122, which is gone. (#126)
 
 ### Security
 
