@@ -16,7 +16,13 @@ import (
 // drawn and the warnings.
 func coverRender(t *testing.T, md string, set theme.Set) (string, []string) {
 	t.Helper()
-	doc, err := parse.ParseFlavor([]byte(md), flavor.Default(), "")
+	return coverRenderIn(t, flavor.Default(), md, set)
+}
+
+// coverRenderIn is coverRender for a document read as the flavor reads it.
+func coverRenderIn(t *testing.T, fl flavor.Flavor, md string, set theme.Set) (string, []string) {
+	t.Helper()
+	doc, err := parse.ParseFlavor([]byte(md), fl, "")
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -126,6 +132,24 @@ func TestCoverWhenAsked(t *testing.T) {
 		}
 		if tc.warns && !strings.Contains(warnings[0], "cover") {
 			t.Errorf("%s: the warning does not name the key: %q", tc.name, warnings[0])
+		}
+	}
+}
+
+// Front matter is read in every flavor, so it gives a cover in each of them.
+func TestCoverInEveryFlavor(t *testing.T) {
+	const md = "---\ntitle: The Title\ncover: true\n---\n\n# The Heading\n\nbody text\n"
+	for _, id := range []string{"commonmark", "youtrack", "bitbucket", "extra"} {
+		fl, ok := flavor.ByID(id)
+		if !ok {
+			t.Fatalf("no flavor %s", id)
+		}
+		trace, warnings := coverRenderIn(t, fl, md, theme.Default())
+		if !strings.Contains(onPage(trace, 1), "Arial-Bold/28 ") {
+			t.Errorf("%s: no cover\n%s", id, trace)
+		}
+		if len(warnings) > 0 {
+			t.Errorf("%s: warnings %q", id, warnings)
 		}
 	}
 }

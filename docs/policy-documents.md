@@ -155,11 +155,9 @@ markout policy.md policy.docx
 In the TUI (`markout` with no arguments), highlight the file and press
 `Enter`; `F3` switches between PDF and DOCX.
 
-The front matter is only read by flavors that know it. The default flavor,
-`markout`, does. `commonmark`, `youtrack`, `bitbucket` and `extra` do not, and
-markout warns if you use one of them on a document with front matter. In the
-TUI the flavor is under `F2`, and it is saved, so check it if a cover page that
-worked before stops appearing.
+Every flavor reads the front matter, as long as it starts the file: `---` must
+be the very first line. The cover page, the control block, the watermark and
+the classification band do not depend on the flavor.
 
 ## When something does not appear
 
@@ -168,7 +166,7 @@ line, in the TUI in the status line after the conversion. Read it first.
 
 | What you see | Why | What to do |
 | --- | --- | --- |
-| The `---` and the keys appear as text on the first page | Text comes before the first `---`, or the flavor does not read front matter (markout warns about the flavor) | Make `---` the first line of the file; use the `markout` flavor (`F2` in the TUI, or `--flavor markout`) |
+| The `---` and the keys appear as text on the first page | Text comes before the first `---`, or what is between the two `---` lines is not `key: value` lines (prose, or a line without a colon) | Make `---` the first line of the file, and put only `key: value` lines between the two `---` lines |
 | No cover page, and a warning about `cover` | The value is not one markout knows | Write `cover: true` or `cover: yes` |
 | No cover page, and no warning | The front matter has no `cover` key, and the theme gives no cover | Add `cover: true` |
 | A gray band, and a warning about the classification | The classification is not one of the known levels | Use one of the names in [section 4](#4-classification-and-watermark), or add your level in a theme |

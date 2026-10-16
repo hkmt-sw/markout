@@ -81,57 +81,76 @@ func TestByteOrderMarkInInclude(t *testing.T) {
 	}
 }
 
-// A flavor that does not read front matter shows it as text, and the
-// conversion says so.
-func TestUnreadFrontMatterWarning(t *testing.T) {
+// Front matter is read in every flavor, also in those that leave it out
+// (markout's cover, control block and the like are not the platform's): a
+// document that starts with it has it as its first element. Anything that
+// only looks like it stays text.
+func TestFrontMatterInEveryFlavor(t *testing.T) {
 	const yaml = "---\ntitle: T\ntags:\n  - a\n  - b\n---\n# H\n\nx\n"
 	for _, tt := range []struct {
 		name   string
 		flavor string
 		src    string
-		warned bool
+		read   bool
+		title  string // the title in the front matter
+		key    string // a key to look for instead, when there is no title
 	}{
-		{"commonmark", "commonmark", yaml, true},
-		{"youtrack", "youtrack", yaml, true},
-		{"bitbucket", "bitbucket", yaml, true},
-		{"extra", "extra", yaml, true},
-		{"TOML", "commonmark", "+++\ntitle = \"T\"\n\n[extra]\nkey = 1\n+++\n# H\n", true},
-		{"after a byte order mark", "commonmark", "\uFEFF" + yaml, true},
-		{"CRLF", "commonmark", strings.ReplaceAll(yaml, "\n", "\r\n"), true},
-		{"accented keys", "commonmark", "---\ncím: Mentési eljárásrend\nszerző: Üzemeltetés\n---\n# H\n", true},
-		{"list in the metadata", "extra", "---\nlist:\n- a\n- b\n---\ntext\n", true},
-		{"markout reads it", "markout", yaml, false},
-		{"github reads it", "github", yaml, false},
-		{"pandoc reads it", "pandoc", yaml, false},
-		{"kramdown reads it", "kramdown", yaml, false},
-		{"rule and prose", "commonmark", "---\n\nSome prose, which is not metadata.\n\n---\n\ntext\n", false},
-		{"rule and a sentence with a colon", "commonmark", "---\nSee the note below: it matters\n---\ntext\n", false},
-		{"rule and a key and prose", "commonmark", "---\ntitle: T\nand then some prose\n---\ntext\n", false},
-		{"no closing line", "commonmark", "---\ntitle: T\n\n# H\n\ntext\n", false},
-		{"nothing between", "commonmark", "---\n---\ntext\n", false},
-		{"only blank lines between", "commonmark", "---\n\n---\ntext\n", false},
-		{"not at the start", "commonmark", "text\n\n---\ntitle: T\n---\n", false},
-		{"a key on the delimiter's line", "commonmark", "--- title: T\n---\n", false},
-		{"TOML in a YAML frame", "commonmark", "---\ntitle = \"T\"\n---\ntext\n", false},
-		{"JSON is left alone", "commonmark", ";;;\n{\"title\": \"T\"}\n;;;\ntext\n", false},
-		{"empty", "commonmark", "", false},
+		{"commonmark", "commonmark", yaml, true, "T", ""},
+		{"youtrack", "youtrack", yaml, true, "T", ""},
+		{"bitbucket", "bitbucket", yaml, true, "T", ""},
+		{"extra", "extra", yaml, true, "T", ""},
+		{"TOML", "commonmark", "+++\ntitle = \"T\"\n\n[extra]\nkey = 1\n+++\n# H\n", true, "T", ""},
+		{"after a byte order mark", "commonmark", "\uFEFF" + yaml, true, "T", ""},
+		{"CRLF", "commonmark", strings.ReplaceAll(yaml, "\n", "\r\n"), true, "T", ""},
+		{"accented keys", "commonmark", "---\ncím: Mentési eljárásrend\nszerző: Üzemeltetés\n---\n# H\n", true, "", "cím"},
+		{"list in the metadata", "extra", "---\nlist:\n- a\n- b\n---\ntext\n", true, "", "list"},
+		{"markout reads it", "markout", yaml, true, "T", ""},
+		{"github reads it", "github", yaml, true, "T", ""},
+		{"pandoc reads it", "pandoc", yaml, true, "T", ""},
+		{"kramdown reads it", "kramdown", yaml, true, "T", ""},
+		{"rule and prose", "commonmark", "---\n\nSome prose, which is not metadata.\n\n---\n\ntext\n", false, "", ""},
+		{"rule and a sentence with a colon", "commonmark", "---\nSee the note below: it matters\n---\ntext\n", false, "", ""},
+		{"rule and a key and prose", "commonmark", "---\ntitle: T\nand then some prose\n---\ntext\n", false, "", ""},
+		{"no closing line", "commonmark", "---\ntitle: T\n\n# H\n\ntext\n", false, "", ""},
+		{"nothing between", "commonmark", "---\n---\ntext\n", false, "", ""},
+		{"only blank lines between", "commonmark", "---\n\n---\ntext\n", false, "", ""},
+		{"not at the start", "commonmark", "text\n\n---\ntitle: T\n---\n", false, "", ""},
+		{"a key on the delimiter's line", "commonmark", "--- title: T\n---\n", false, "", ""},
+		{"TOML in a YAML frame", "commonmark", "---\ntitle = \"T\"\n---\ntext\n", false, "", ""},
+		{"JSON is left alone", "commonmark", ";;;\n{\"title\": \"T\"}\n;;;\ntext\n", false, "", ""},
+		{"empty", "commonmark", "", false, "", ""},
 	} {
 		doc := parseDoc(t, tt.flavor, tt.src)
-		var got []string
 		for _, w := range doc.Warnings {
 			if strings.Contains(w, "front matter") {
-				got = append(got, w)
+				t.Errorf("%s: warning %q", tt.name, w)
 			}
 		}
-		if (len(got) > 0) != tt.warned {
-			t.Errorf("%s: warnings %q, want warned: %v", tt.name, doc.Warnings, tt.warned)
+		var fm *ast.FrontMatter
+		for i, e := range doc.Elements {
+			if f, ok := e.(ast.FrontMatter); ok {
+				if i != 0 {
+					t.Errorf("%s: front matter is element %d, want the first", tt.name, i)
+				}
+				fm = &f
+			}
+		}
+		if !tt.read {
+			if fm != nil {
+				t.Errorf("%s: front matter %v, want none", tt.name, fm.Raw)
+			}
 			continue
 		}
-		if tt.warned {
-			want := "The document starts with front matter, which the " + tt.flavor + " flavor does not read; it is shown as text. Choose a flavor that reads it, such as markout."
-			if len(got) != 1 || got[0] != want {
-				t.Errorf("%s: warning %q, want %q", tt.name, got, want)
+		if fm == nil {
+			t.Errorf("%s: no front matter", tt.name)
+			continue
+		}
+		if tt.key != "" {
+			if _, ok := fm.Raw[tt.key]; !ok {
+				t.Errorf("%s: no %q key in %v", tt.name, tt.key, fm.Raw)
 			}
+		} else if fm.Title != tt.title {
+			t.Errorf("%s: title %q, want %q", tt.name, fm.Title, tt.title)
 		}
 	}
 }
