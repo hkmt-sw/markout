@@ -1235,3 +1235,12 @@ func TestMacPermissionDenied(t *testing.T) {
 		t.Fatal("'p' should do nothing outside the macOS case")
 	}
 }
+
+func TestKeyBarFitsEightyColumns(t *testing.T) {
+	m := newAt(t.TempDir())
+	m.width = 80
+	m.lastOutput = "out.pdf"
+	if bar := m.keyBar(); lipgloss.Width(bar) > m.innerWidth() || !strings.Contains(bar, "Quit") {
+		t.Fatalf("key bar does not fit %d columns: %q", m.innerWidth(), bar)
+	}
+}

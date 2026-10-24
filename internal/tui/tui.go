@@ -1607,7 +1607,12 @@ func (m Model) keyBar() string {
 	for _, k := range keys {
 		parts = append(parts, keyStyle.Render(k[0])+" "+keyDescStyle.Render(k[1]))
 	}
-	return strings.Join(parts, "   ")
+	// Narrow the gaps before row() cuts off the last keys on an 80-column screen.
+	bar := strings.Join(parts, "   ")
+	for gap := "  "; lipgloss.Width(bar) > m.innerWidth() && gap != ""; gap = gap[1:] {
+		bar = strings.Join(parts, gap)
+	}
+	return bar
 }
 
 // ---- box drawing -----------------------------------------------------------
