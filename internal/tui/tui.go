@@ -489,7 +489,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.statusKind = statusError
 			if goos == "darwin" && errors.Is(msg.err, fs.ErrPermission) {
 				m.writeDenied = true
-				m.status = "macOS did not let your terminal app write to " + filepath.Dir(msg.output) + " · p opens the settings · F4 changes the output"
+				m.status = "macOS blocked writing to " + filepath.Base(filepath.Dir(msg.output)) + " · p settings · F4 output"
 			}
 		} else {
 			m.status = "saved → " + msg.output

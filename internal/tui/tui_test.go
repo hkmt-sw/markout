@@ -1251,7 +1251,7 @@ func TestMacWriteDenied(t *testing.T) {
 	m.open = func(path string) error { opened = path; return nil }
 	updated, _ := m.Update(denied)
 	m = updated.(Model)
-	if want := "macOS did not let your terminal app write to " + filepath.Join("some", "dir"); !strings.Contains(m.status, want) || !strings.Contains(m.status, "F4") || m.statusKind != statusError {
+	if want := "macOS blocked writing to dir"; !strings.Contains(m.status, want) || !strings.Contains(m.status, "F4") || m.statusKind != statusError {
 		t.Fatalf("unexpected status %q", m.status)
 	}
 	if !strings.Contains(m.keyBar(), "p Settings") {
