@@ -113,6 +113,7 @@ bar at the bottom. Highlight a Markdown file and press Enter to convert it.
 | `F2`           | Settings: flavor, theme, language, update check, PDF/A |
 | `F3`           | Toggle output format (DOCX ⇄ PDF)              |
 | `F4`           | Edit the output path by hand                   |
+| `F5` / `m`     | Show only Markdown files and directories (again: all files) |
 | `o`            | Open the last converted file                   |
 | `F10` / `q`    | Quit                                           |
 

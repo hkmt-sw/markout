@@ -71,6 +71,9 @@ by hand today. In progress.
   classification band, version history and headers, with a table of what to
   do when something does not appear; and an example policy that uses all of
   it, `examples/policy/jogosultsagkezelesi-szabalyzat.md`.
+- `F5` or `m` in the file browser shows only Markdown files and directories,
+  and shows all files again when pressed a second time. The list stays on the
+  entry that was highlighted. The choice is not saved.
 
 ### Changed
 
@@ -89,6 +92,15 @@ by hand today. In progress.
 
 ### Fixed
 
+- The file browser drew directories in blue and Markdown files, the ones
+  that can be converted, in the plain text color. Markdown files are blue
+  now and directories are bold in the plain text color; other files stay dim.
+- Going up a directory put the cursor on the first entry. It is on the
+  directory that was just left now.
+- A folder that macOS does not let the terminal app read, such as Documents
+  or Downloads before the app is allowed there, showed only "cannot read
+  directory". On macOS markout now says what has happened and where to allow
+  it, and `p` opens the Files and Folders list of System Settings.
 - Front matter with nothing to show, such as only a list of `tags`, gave an
   empty box in DOCX. It gives none, as in PDF.
 - In DOCX the first row of every table was a header row that Word repeats on

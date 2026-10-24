@@ -1111,3 +1111,127 @@ func TestUpdateCheckSaveFailureIsShown(t *testing.T) {
 		t.Errorf("status = %q, want the save error", m.status)
 	}
 }
+
+func TestMarkdownFilesBlueDirectoriesBold(t *testing.T) {
+	if mdStyle.GetForeground() != colDir {
+		t.Fatal("Markdown files should be drawn in colDir")
+	}
+	if dirStyle.GetForeground() != colText || !dirStyle.GetBold() {
+		t.Fatal("directories should be bold in the plain text color")
+	}
+}
+
+func TestMarkdownOnlyToggleKeepsCursor(t *testing.T) {
+	dir := t.TempDir()
+	os.Mkdir(filepath.Join(dir, "sub"), 0o755)
+	os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0o644)
+	os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0o644)
+	has := func(m Model, name string) bool {
+		for _, e := range m.entries {
+			if e.name == name {
+				return true
+			}
+		}
+		return false
+	}
+
+	m := newAt(dir)
+	cursorOn(t, &m, "a.md")
+	next, _ := m.Update(key("m"))
+	m = next.(Model)
+	if !m.mdOnly || has(m, "b.txt") || !has(m, "sub") || !has(m, "..") {
+		t.Fatalf("expected only dirs and Markdown, got %+v", m.entries)
+	}
+	if e, _ := m.current(); e.name != "a.md" {
+		t.Fatalf("cursor should stay on a.md, is on %q", e.name)
+	}
+
+	next, _ = m.Update(tea.KeyMsg{Type: tea.KeyF5})
+	m = next.(Model)
+	if m.mdOnly || !has(m, "b.txt") {
+		t.Fatal("F5 should list all files again")
+	}
+
+	// b.txt is not listed in the Markdown view, so the cursor goes to the top.
+	cursorOn(t, &m, "b.txt")
+	next, _ = m.Update(key("m"))
+	if next.(Model).cursor != 0 {
+		t.Fatalf("expected cursor 0, got %d", next.(Model).cursor)
+	}
+}
+
+func TestKeyBarShowsMarkdownFilter(t *testing.T) {
+	m := newAt(t.TempDir())
+	if bar := m.keyBar(); !strings.Contains(bar, "MD only") {
+		t.Fatalf("expected 'MD only' in %q", bar)
+	}
+	m.mdOnly = true
+	if bar := m.keyBar(); !strings.Contains(bar, "All files") {
+		t.Fatalf("expected 'All files' in %q", bar)
+	}
+}
+
+func TestGoUpPutsCursorOnDirectoryLeft(t *testing.T) {
+	dir := t.TempDir()
+	for _, n := range []string{"a", "b", "c"} {
+		os.Mkdir(filepath.Join(dir, n), 0o755)
+	}
+
+	m := newAt(filepath.Join(dir, "c"))
+	next, _ := m.Update(key("h"))
+	if e, _ := next.(Model).current(); e.name != "c" {
+		t.Fatalf("cursor should be on 'c' after going up, is on %q", e.name)
+	}
+
+	// Enter on ".." does the same.
+	m = newAt(filepath.Join(dir, "b"))
+	cursorOn(t, &m, "..")
+	next, _ = m.Update(key("enter"))
+	if e, _ := next.(Model).current(); e.name != "b" {
+		t.Fatalf("cursor should be on 'b' after Enter on '..', is on %q", e.name)
+	}
+}
+
+func TestMacPermissionDenied(t *testing.T) {
+	if runtime.GOOS == "windows" || os.Getuid() == 0 {
+		t.Skip("a directory cannot be made unreadable here")
+	}
+	dir := filepath.Join(t.TempDir(), "locked")
+	os.Mkdir(dir, 0o755)
+	os.Chmod(dir, 0)
+	t.Cleanup(func() { os.Chmod(dir, 0o755) })
+
+	goos = "darwin"
+	t.Cleanup(func() { goos = runtime.GOOS })
+
+	m := newAt(dir)
+	var opened string
+	m.open = func(path string) error { opened = path; return nil }
+
+	view := m.View()
+	for _, want := range []string{"cannot read directory", "did not give your terminal app access", "Privacy & Security", "p opens the settings"} {
+		if !strings.Contains(view, want) {
+			t.Fatalf("expected %q in the view:\n%s", want, view)
+		}
+	}
+	if !strings.Contains(m.keyBar(), "p Settings") {
+		t.Fatalf("expected the p key in %q", m.keyBar())
+	}
+
+	_, cmd := m.Update(key("p"))
+	if cmd == nil {
+		t.Fatal("expected a command from 'p'")
+	}
+	if msg := cmd().(openedMsg); msg.err != nil || opened != macPrivacyURL {
+		t.Fatalf("expected %q to be opened, got %q (%v)", macPrivacyURL, opened, msg.err)
+	}
+
+	// Elsewhere there is only the error, and p does nothing.
+	goos = "linux"
+	if v := m.View(); strings.Contains(v, "terminal app") || strings.Contains(m.keyBar(), "p Settings") {
+		t.Fatalf("no macOS hint expected on linux:\n%s", v)
+	}
+	if _, cmd := m.Update(key("p")); cmd != nil {
+		t.Fatal("'p' should do nothing outside the macOS case")
+	}
+}

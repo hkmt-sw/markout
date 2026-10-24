@@ -9,7 +9,9 @@ package tui
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -125,7 +127,8 @@ var (
 	pathStyle   = lipgloss.NewStyle().Foreground(colText)
 	dimStyle    = lipgloss.NewStyle().Foreground(colDim)
 
-	dirStyle  = lipgloss.NewStyle().Foreground(colDir).Bold(true)
+	dirStyle  = lipgloss.NewStyle().Foreground(colText).Bold(true)
+	mdStyle   = lipgloss.NewStyle().Foreground(colDir) // markdown files
 	fileStyle = lipgloss.NewStyle().Foreground(colText)
 	skipStyle = lipgloss.NewStyle().Foreground(colDim) // non-markdown files
 
@@ -148,6 +151,12 @@ type convertDoneMsg struct {
 	warnings []string // what the output does not show as the document has it
 }
 
+// goos is the system markout runs on; tests change it.
+var goos = runtime.GOOS
+
+// macPrivacyURL opens the Files and Folders list of the macOS privacy settings.
+const macPrivacyURL = "x-apple.systempreferences:com.apple.preference.security?Privacy_FilesAndFolders"
+
 // openedMsg reports a failed attempt to open the output; a success is not
 // reported.
 type openedMsg struct {
@@ -169,6 +178,7 @@ type Model struct {
 	cursor  int
 	offset  int // index of the first visible row (scrolling)
 	loadErr error
+	mdOnly  bool // list only Markdown files and directories; not saved
 
 	format         format
 	outputOverride string // set when the user edits the path by hand; cleared on cursor move
@@ -385,6 +395,9 @@ func (m *Model) loadEntries() {
 		}
 		ext := strings.ToLower(filepath.Ext(name))
 		md := ext == ".md" || ext == ".markdown"
+		if m.mdOnly && !md {
+			continue
+		}
 		e := entry{name: name, selectable: md}
 		if ierr == nil {
 			e.size = info.Size()
@@ -402,6 +415,22 @@ func (m *Model) loadEntries() {
 	}
 	m.entries = append(m.entries, dirs...)
 	m.entries = append(m.entries, files...)
+}
+
+// selectName puts the cursor on the entry with the given name, if it is listed.
+func (m *Model) selectName(name string) {
+	for i, e := range m.entries {
+		if e.name == name {
+			m.cursor = i
+			m.clampScroll()
+			return
+		}
+	}
+}
+
+// macDenied reports that macOS did not let this program read the directory.
+func (m Model) macDenied() bool {
+	return goos == "darwin" && errors.Is(m.loadErr, fs.ErrPermission)
 }
 
 // current returns the highlighted entry, or zero value if the list is empty.
@@ -610,6 +639,19 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 			return m, m.outputInput.Focus()
 		}
 
+	case "f5", "m":
+		e, _ := m.current()
+		m.mdOnly = !m.mdOnly
+		m.outputOverride = ""
+		m.loadEntries()
+		m.selectName(e.name)
+
+	case "p":
+		if m.macDenied() && m.open != nil {
+			open := m.open
+			return m, func() tea.Msg { return openedMsg{path: macPrivacyURL, err: open(macPrivacyURL)} }
+		}
+
 	case "o":
 		if m.lastOutput != "" && m.open != nil {
 			// A command, so that the screen does not wait for the program
@@ -673,9 +715,11 @@ func (m Model) goUp() (tea.Model, tea.Cmd) {
 	if parent == m.cwd {
 		return m, nil
 	}
+	left := filepath.Base(m.cwd)
 	m.cwd = parent
 	m.outputOverride = ""
 	m.loadEntries()
+	m.selectName(left)
 	return m, nil
 }
 
@@ -1375,6 +1419,19 @@ func (m Model) fileRows() []string {
 
 	if m.loadErr != nil {
 		rows = append(rows, m.row(skipStyle.Render("cannot read directory: "+m.loadErr.Error())))
+		if m.macDenied() {
+			for _, para := range []string{
+				"macOS did not give your terminal app access to this folder.",
+				"Allow it in System Settings → Privacy & Security → Files and Folders (or Full Disk Access), then come back.",
+				"p opens the settings · ← goes back",
+			} {
+				for _, l := range strings.Split(ansi.Wrap(para, inner, ""), "\n") {
+					if len(rows) < h {
+						rows = append(rows, m.row(skipStyle.Render(l)))
+					}
+				}
+			}
+		}
 		for len(rows) < h {
 			rows = append(rows, m.row(""))
 		}
@@ -1440,7 +1497,7 @@ func (m Model) renderEntry(i, inner int) string {
 	case e.isDir:
 		nameStyled = dirStyle.Render(namePadded)
 	case e.selectable:
-		nameStyled = fileStyle.Render(namePadded)
+		nameStyled = mdStyle.Render(namePadded)
 	default:
 		nameStyled = skipStyle.Render(namePadded)
 	}
@@ -1531,6 +1588,14 @@ func (m Model) keyBar() string {
 			{"F2", "Settings"},
 			{"F3", "Format"},
 			{"F4", "Output"},
+		}
+		if m.mdOnly {
+			keys = append(keys, [2]string{"F5", "All files"})
+		} else {
+			keys = append(keys, [2]string{"F5", "MD only"})
+		}
+		if m.macDenied() {
+			keys = append(keys, [2]string{"p", "Settings"})
 		}
 		if m.lastOutput != "" {
 			keys = append(keys, [2]string{"o", "Open"})
