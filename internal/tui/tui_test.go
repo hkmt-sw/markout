@@ -5,9 +5,11 @@ import (
 	"bytes"
 	"context"
 	"errors"
+	"fmt"
 	"image"
 	"image/png"
 	"io"
+	"io/fs"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -1230,6 +1232,65 @@ func TestMacPermissionDenied(t *testing.T) {
 	goos = "linux"
 	if v := m.View(); strings.Contains(v, "terminal app") || strings.Contains(m.keyBar(), "p Settings") {
 		t.Fatalf("no macOS hint expected on linux:\n%s", v)
+	}
+	if _, cmd := m.Update(key("p")); cmd != nil {
+		t.Fatal("'p' should do nothing outside the macOS case")
+	}
+}
+
+func TestMacWriteDenied(t *testing.T) {
+	denied := convertDoneMsg{
+		output: filepath.Join("some", "dir", "out.pdf"),
+		err:    fmt.Errorf("render PDF: %w", fmt.Errorf("open x.tmp: %w", fs.ErrPermission)),
+	}
+	t.Cleanup(func() { goos = runtime.GOOS })
+
+	goos = "darwin"
+	m := newAt(t.TempDir())
+	var opened string
+	m.open = func(path string) error { opened = path; return nil }
+	updated, _ := m.Update(denied)
+	m = updated.(Model)
+	if want := "macOS did not let your terminal app write to " + filepath.Join("some", "dir"); !strings.Contains(m.status, want) || !strings.Contains(m.status, "F4") || m.statusKind != statusError {
+		t.Fatalf("unexpected status %q", m.status)
+	}
+	if !strings.Contains(m.keyBar(), "p Settings") {
+		t.Fatalf("expected the p key in %q", m.keyBar())
+	}
+	_, cmd := m.Update(key("p"))
+	if cmd == nil {
+		t.Fatal("expected a command from 'p'")
+	}
+	if msg := cmd().(openedMsg); msg.err != nil || opened != macPrivacyURL {
+		t.Fatalf("expected %q to be opened, got %q (%v)", macPrivacyURL, opened, msg.err)
+	}
+
+	// The hint goes with the message: moving the cursor takes both away.
+	m.entries = []entry{{name: "a.md"}, {name: "b.md"}}
+	m.moveCursor(1)
+	if m.writeDenied || strings.Contains(m.keyBar(), "p Settings") {
+		t.Fatal("p should not be offered after the cursor moved")
+	}
+
+	// So does a new directory, and a new conversion.
+	m.writeDenied = true
+	m.loadEntries()
+	if m.writeDenied {
+		t.Fatal("p should not be offered after the directory changed")
+	}
+	m.writeDenied = true
+	updated, _ = m.runConvert("in.md", "out.pdf", false)
+	if updated.(Model).writeDenied {
+		t.Fatal("p should not be offered while a conversion runs")
+	}
+
+	// Elsewhere there is only the error, and p does nothing.
+	goos = "linux"
+	m = newAt(t.TempDir())
+	updated, _ = m.Update(denied)
+	m = updated.(Model)
+	if m.status != denied.err.Error() || strings.Contains(m.keyBar(), "p Settings") {
+		t.Fatalf("no macOS hint expected on linux: %q", m.status)
 	}
 	if _, cmd := m.Update(key("p")); cmd != nil {
 		t.Fatal("'p' should do nothing outside the macOS case")
