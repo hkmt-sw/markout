@@ -45,7 +45,7 @@ func fetchRemoteImage(rawURL string, opts Options) ([]byte, error) {
 	if !opts.RemoteImages {
 		return nil, ErrRemoteImageSkipped
 	}
-	req, err := http.NewRequest(http.MethodGet, rawURL, nil)
+	req, err := http.NewRequestWithContext(opts.context(), http.MethodGet, rawURL, nil)
 	if err != nil {
 		return nil, err
 	}

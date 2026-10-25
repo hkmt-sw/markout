@@ -18,6 +18,7 @@ import (
 	"runtime"
 	"sort"
 	"strings"
+	"sync/atomic"
 	"time"
 	"unicode"
 
@@ -168,6 +169,22 @@ type openedMsg struct {
 // Model
 // ============================================================================
 
+// convertJob is a conversion in the background. Quitting cancels it, and Run
+// waits for done so that the conversion removes its temporary files before
+// the program ends: bubbletea does not wait for a command that is running.
+type convertJob struct {
+	cancel  context.CancelFunc
+	started atomic.Bool // bubbletea may quit before it runs the command at all
+	done    chan struct{}
+}
+
+// stopConvert cancels the conversion, if one is running.
+func (m Model) stopConvert() {
+	if m.converting && m.job != nil {
+		m.job.cancel()
+	}
+}
+
 // Model is the root bubbletea model for the markout TUI.
 type Model struct {
 	width  int
@@ -229,6 +246,7 @@ type Model struct {
 	confirmChoice    int    // focused button: 0 = Overwrite, 1 = Cancel
 
 	converting bool
+	job        *convertJob // the running or last conversion; shared by the copies of the Model
 	spinner    spinner.Model
 
 	status     string
@@ -543,6 +561,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 	case tea.KeyMsg:
 		if msg.String() == "ctrl+c" {
+			m.stopConvert()
 			m.quit = true
 			return m, tea.Quit
 		}
@@ -586,6 +605,7 @@ func (m Model) updateEditing(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 	switch msg.String() {
 	case "q", "f10":
+		m.stopConvert()
 		m.quit = true
 		return m, tea.Quit
 
@@ -840,7 +860,10 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 		m.statusKind = statusError
 		return m, nil
 	}
-	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, RemoteHosts: hosts, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA}
+	ctx, cancel := context.WithCancel(context.Background())
+	job := &convertJob{cancel: cancel, done: make(chan struct{})}
+	m.job = job
+	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, RemoteHosts: hosts, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA, Context: ctx}
 	m.converting = true
 	m.writeDenied = false
 	m.status = "converting…"
@@ -848,6 +871,9 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 	return m, tea.Batch(
 		m.spinner.Tick,
 		func() tea.Msg {
+			job.started.Store(true)
+			defer close(job.done)
+			defer cancel()
 			var warnings []string
 			opts.Warn = func(message string) { warnings = append(warnings, message) }
 			err := convert.ConvertFileWith(in, out, format.convertFormat(), opts)
@@ -1768,6 +1794,10 @@ func openFile(path string) error {
 // Run starts the TUI program and blocks until the user quits.
 func Run(cfg Config) error {
 	p := tea.NewProgram(New(cfg), tea.WithAltScreen())
-	_, err := p.Run()
+	final, err := p.Run()
+	// A conversion that was canceled by quitting ends at once
+	if m, ok := final.(Model); ok && m.job != nil && m.job.started.Load() {
+		<-m.job.done
+	}
 	return err
 }

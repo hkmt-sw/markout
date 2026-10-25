@@ -57,6 +57,17 @@ type Options struct {
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it, such as characters no font can draw.
 	Warn func(message string)
+	// Context, once canceled, stops the image downloads, and the rendering
+	// writes no output. Nil means context.Background().
+	Context context.Context
+}
+
+// context gives the context of the rendering, which is Background if none was set.
+func (o Options) context() context.Context {
+	if o.Context == nil {
+		return context.Background()
+	}
+	return o.Context
 }
 
 // theme returns the theme to render with.
