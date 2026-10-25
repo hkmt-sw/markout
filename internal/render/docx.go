@@ -7,6 +7,7 @@ import (
 	"image"
 	"io"
 	"os"
+	"strconv"
 	"strings"
 
 	docx "github.com/mmonterroca/docxgo/v2"
@@ -131,7 +132,7 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		return err
 	}
 	tempName := tempFile.Name()
-	defer os.Remove(tempName)
+	defer func() { _ = os.Remove(tempName) }()
 	if err := tempFile.Close(); err != nil {
 		return err
 	}
@@ -262,7 +263,7 @@ func (r *DocxRenderer) renderHeading(h ast.Heading) error {
 	if name, ok := r.bookmarks[h.ID]; ok && !r.bookmarked[name] {
 		if marked, ok := para.(interface{ HydrateBookmark(id, name string) }); ok {
 			r.bookmarkSeq++
-			marked.HydrateBookmark(itoa(r.bookmarkSeq), name)
+			marked.HydrateBookmark(strconv.Itoa(r.bookmarkSeq), name)
 			r.bookmarked[name] = true
 		}
 	}
@@ -319,7 +320,7 @@ func (r *DocxRenderer) addRun(para domain.Paragraph, astRun ast.InlineRun, base 
 
 	// Handle footnote reference
 	if astRun.FootnoteIndex > 0 {
-		run.SetText("[" + itoa(astRun.FootnoteIndex) + "]")
+		run.SetText("[" + strconv.Itoa(astRun.FootnoteIndex) + "]")
 		base.setSize(run, r.t.Footnote.Size)
 		base.setFont(run, base.font)
 		run.SetColor(docxColor(r.t.Link.Color))
@@ -634,7 +635,7 @@ func (r *DocxRenderer) renderCodeBlock(cb ast.CodeBlock) error {
 func splitLines(s string) []string {
 	var lines []string
 	var current []byte
-	for i := 0; i < len(s); i++ {
+	for i := range len(s) {
 		if s[i] == '\n' {
 			lines = append(lines, string(current))
 			current = nil
@@ -806,7 +807,7 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 
 	// Measure max character count per column across header + all rows
 	maxLen := make([]int, numCols)
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		if j < len(t.Header.Cells) {
 			l := cellTextLen(t.Header.Cells[j])
 			if l > maxLen[j] {
@@ -848,7 +849,7 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 	clamped := 0
 
 	// First pass: assign minimums where proportional width is too small
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		proportional := totalTwips * maxLen[j] / totalChars
 		if proportional < minColTwips {
 			widths[j] = minColTwips
@@ -860,13 +861,13 @@ func calcColumnWidths(t ast.Table, numCols, totalTwips int) []int {
 	// Second pass: distribute remaining space proportionally among unclamped columns
 	if clamped < numCols {
 		unclampedChars := 0
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			if widths[j] == 0 {
 				unclampedChars += maxLen[j]
 			}
 		}
 		if unclampedChars > 0 {
-			for j := 0; j < numCols; j++ {
+			for j := range numCols {
 				if widths[j] == 0 {
 					widths[j] = remaining * maxLen[j] / unclampedChars
 				}
@@ -996,9 +997,9 @@ func (r *DocxRenderer) embedPicture(data []byte, displayWidth int, caption strin
 		return err
 	}
 	tmpPath := tmp.Name()
-	defer os.Remove(tmpPath)
+	defer func() { _ = os.Remove(tmpPath) }()
 	if _, err := tmp.Write(data); err != nil {
-		tmp.Close()
+		_ = tmp.Close()
 		return err
 	}
 	if err := tmp.Close(); err != nil {
@@ -1145,7 +1146,7 @@ func (r *DocxRenderer) renderFootnoteSection() error {
 		if err != nil {
 			return err
 		}
-		numRun.SetText(itoa(fn.Index) + ". ")
+		numRun.SetText(strconv.Itoa(fn.Index) + ". ")
 		numRun.SetSize(runSize(r.t.Footnote.Size))
 		numRun.SetFont(domain.Font{Name: r.t.Fonts.Body})
 		numRun.SetColor(docxColor(r.t.Text.Muted))
@@ -1915,21 +1916,9 @@ func mmToTwips(mm float64) int {
 func hexToColor(hex string) domain.Color {
 	var r, g, b uint8
 	if len(hex) == 6 {
-		fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
 	}
 	return domain.Color{R: r, G: g, B: b}
-}
-
-// RenderDocxToFile is a convenience function
-func RenderDocxToFile(doc *ast.Document, filename string) error {
-	renderer := NewDocxRenderer()
-	return renderer.RenderToFile(doc, filename)
-}
-
-// RenderDocxToFileWithBaseDir renders to DOCX, resolving relative image paths
-// against baseDir (typically the directory of the source Markdown file).
-func RenderDocxToFileWithBaseDir(doc *ast.Document, filename, baseDir string) error {
-	return RenderDocx(doc, filename, Options{BaseDir: baseDir})
 }
 
 // RenderDocx renders to DOCX with the given options.
@@ -1947,7 +1936,7 @@ func postProcessDocx(inputFile, outputFile string, tableInsets []int, tableHeade
 	if err != nil {
 		return fmt.Errorf("failed to open docx: %w", err)
 	}
-	defer zipReader.Close()
+	defer func() { _ = zipReader.Close() }()
 
 	// The output replaces an earlier file only when it is complete
 	return atomicfile.Write(outputFile, 0o666, func(w io.Writer) error {
@@ -1970,7 +1959,7 @@ func rewriteDocx(zipReader *zip.Reader, w io.Writer, tableInsets []int, tableHea
 		}
 
 		content, err := io.ReadAll(rc)
-		rc.Close()
+		_ = rc.Close()
 		if err != nil {
 			return err
 		}

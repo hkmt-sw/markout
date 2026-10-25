@@ -102,7 +102,7 @@ func TestPDFCalloutAndContentsLabels(t *testing.T) {
 	check("Hungarian region", pdfDrawn(t, Options{Lang: "hu-HU"}), hungarianLabels, englishLabels)
 	// The own title is not a label: nothing else is drawn in its place
 	if trace := pdfDrawn(t, Options{Lang: "hu"}); strings.Count(trace, quoted("MEGJEGYZÉS")) != 1 {
-		t.Errorf("the callout with a title of its own is labelled too:\n%s", trace)
+		t.Errorf("the callout with a title of its own is labeled too:\n%s", trace)
 	}
 
 	// A theme's words win over the language, for the kinds it names
@@ -134,7 +134,7 @@ func TestDOCXCalloutAndContentsLabels(t *testing.T) {
 	check("Hungarian", docxText(t, Options{Lang: "hu"}), append(hungarianLabels, own), englishLabels)
 	check("Hungarian region", docxText(t, Options{Lang: "hu-HU"}), hungarianLabels, englishLabels)
 	if doc := docxText(t, Options{Lang: "hu"}); strings.Count(doc, ">MEGJEGYZÉS<") != 1 {
-		t.Errorf("the callout with a title of its own is labelled too")
+		t.Errorf("the callout with a title of its own is labeled too")
 	}
 
 	for _, lang := range []string{"", "hu"} {

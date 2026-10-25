@@ -2,6 +2,7 @@ package render
 
 import (
 	"math"
+	"strconv"
 	"strings"
 
 	"github.com/hkmt-sw/markout/internal/ast"
@@ -115,7 +116,7 @@ func (r *PdfRenderer) layout(runs []ast.InlineRun, base textStyle, firstWidth, r
 	for _, run := range runs {
 		text := run.Text
 		if run.FootnoteIndex > 0 {
-			text = "[" + itoa(run.FootnoteIndex) + "]"
+			text = "[" + strconv.Itoa(run.FootnoteIndex) + "]"
 		}
 		if text == "" {
 			continue
@@ -457,18 +458,6 @@ func (p *runPlacer) place(part string, partWidth float64, gap bool, gapWidth flo
 	}
 	b.add(piece)
 	p.open = true
-}
-
-// drawLinesAt draws laid-out lines with their first baseline box at (x, y),
-// without touching the page position. firstX applies to the first line.
-func (r *PdfRenderer) drawLinesAt(lines []textLine, firstX, restX, y, lineHeight float64) {
-	for i, line := range lines {
-		x := restX
-		if i == 0 {
-			x = firstX
-		}
-		r.drawLine(line, x, y+float64(i)*lineHeight, lineHeight)
-	}
 }
 
 // drawLines draws laid-out lines at the current position, moving down the

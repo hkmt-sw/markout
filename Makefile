@@ -6,10 +6,18 @@ ifeq ($(GOBIN),)
 GOBIN := $(shell go env GOPATH)/bin
 endif
 
+# Versions of the tools that `make lint` and `make vuln` run with, the same
+# as in .github/workflows/ci.yml (and release.yml): change them together.
+GOLANGCI_LINT_VERSION := v2.14.0
+GOVULNCHECK_VERSION   := v1.9.0
+
+# How long `make fuzz` runs each fuzz target.
+FUZZTIME := 30s
+
 # Platforms for `make release` (os/arch pairs).
 PLATFORMS := darwin/arm64 darwin/amd64 linux/amd64 linux/arm64 windows/amd64 windows/arm64
 
-.PHONY: build install uninstall run test clean release
+.PHONY: build install uninstall run test lint vuln fuzz clean release
 
 ## build: compile the binary into ./$(BINARY)
 build:
@@ -32,9 +40,25 @@ uninstall:
 run:
 	go run .
 
-## test: run the test suite
+## test: run the test suite as CI does (race detector, shuffled order)
 test:
-	go test ./...
+	go test -race -shuffle=on ./...
+
+## lint: run golangci-lint with the settings in .golangci.yml
+lint:
+	go run github.com/golangci/golangci-lint/v2/cmd/golangci-lint@$(GOLANGCI_LINT_VERSION) run ./...
+
+## vuln: look for known vulnerabilities in the code and in the Go that builds it
+vuln:
+	go run golang.org/x/vuln/cmd/govulncheck@$(GOVULNCHECK_VERSION) ./...
+
+## fuzz: run every fuzz target for $(FUZZTIME) (a target on its own: go test -fuzz)
+fuzz:
+	go test ./internal/mathml  -run='^$$' -fuzz='^FuzzMath$$'    -fuzztime=$(FUZZTIME)
+	go test ./internal/mermaid -run='^$$' -fuzz='^FuzzMermaid$$' -fuzztime=$(FUZZTIME)
+	go test ./internal/parse   -run='^$$' -fuzz='^FuzzParse$$'   -fuzztime=$(FUZZTIME)
+	go test ./internal/render  -run='^$$' -fuzz='^FuzzSVGSize$$' -fuzztime=$(FUZZTIME)
+	go test ./internal/theme   -run='^$$' -fuzz='^FuzzTheme$$'   -fuzztime=$(FUZZTIME)
 
 ## clean: remove the locally built binary and dist/
 clean:

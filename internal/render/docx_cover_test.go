@@ -215,7 +215,7 @@ func TestDOCXCoverBreakIsAnEmptyParagraph(t *testing.T) {
 func TestDOCXCoverTitleFromHeading(t *testing.T) {
 	out, _ := coverDocx(t, "---\ncover: true\nversion: 3\n---\n\n# A Heading Title\n\ntext\n", theme.Default())
 	doc := docxPart(t, out, "word/document.xml")
-	cover := doc[:strings.Index(doc, "<w:pageBreakBefore/>")]
+	cover, _, _ := strings.Cut(doc, "<w:pageBreakBefore/>")
 	if !strings.Contains(cover, `<w:pStyle w:val="Title">`) || !strings.Contains(cover, ">A Heading Title<") {
 		t.Errorf("the heading is not the title:\n%s", cover)
 	}

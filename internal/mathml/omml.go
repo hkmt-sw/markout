@@ -316,7 +316,7 @@ func writeMatrix(b *strings.Builder, table *Node) {
 	}
 
 	b.WriteString(`<m:m><m:mPr><m:mcs>`)
-	for c := 0; c < columns; c++ {
+	for c := range columns {
 		align := "center"
 		for _, cells := range rows {
 			if c < len(cells) {
@@ -331,7 +331,7 @@ func writeMatrix(b *strings.Builder, table *Node) {
 	b.WriteString(`</m:mcs></m:mPr>`)
 	for _, cells := range rows {
 		b.WriteString(`<m:mr>`)
-		for c := 0; c < columns; c++ {
+		for c := range columns {
 			b.WriteString(`<m:e>`)
 			if c < len(cells) && len(cells[c].Kids) > 0 {
 				writeRow(b, cells[c].Kids)

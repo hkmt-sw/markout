@@ -27,7 +27,7 @@ func TestRegistry(t *testing.T) {
 }
 
 func TestByID(t *testing.T) {
-	for in, want := range map[string]string{"GFM": "github", " glfm ": "gitlab", "YouTrack": "youtrack", "ado": "azure"} {
+	for in, want := range map[string]string{"GFM": "github", " glfm ": "gitlab", "YouTrack": "youtrack", "ado": "azure"} { //nolint:gocritic // the spaces are the input being tested
 		if got, ok := ByID(in); !ok || got.ID != want {
 			t.Errorf("ByID(%q) = %q, %v; want %q", in, got.ID, ok, want)
 		}

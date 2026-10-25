@@ -3,7 +3,7 @@ package theme
 import (
 	"fmt"
 	"reflect"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -48,7 +48,7 @@ func Export(set Set) string {
 // settings that differ from it are written.
 func writeSections(b *strings.Builder, prefix string, th, other reflect.Value) {
 	t := th.Type()
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		key := t.Field(i).Tag.Get("key")
 		if key == "" || key == "-" {
 			continue
@@ -59,7 +59,7 @@ func writeSections(b *strings.Builder, prefix string, th, other reflect.Value) {
 			otherField = other.Field(i)
 		}
 		if field.Kind() == reflect.Array { // the six heading levels
-			for n := 0; n < field.Len(); n++ {
+			for n := range field.Len() {
 				var o reflect.Value
 				if otherField.IsValid() {
 					o = otherField.Index(n)
@@ -82,7 +82,7 @@ func writeTable(b *strings.Builder, name string, v, other reflect.Value) {
 	}
 	var subs []nested
 
-	for i := 0; i < t.NumField(); i++ {
+	for i := range t.NumField() {
 		key := t.Field(i).Tag.Get("key")
 		if key == "" || key == "-" {
 			continue
@@ -132,7 +132,7 @@ func formatValue(v any) string {
 
 func roundTo(x float64, places int) float64 {
 	scale := 1.0
-	for i := 0; i < places; i++ {
+	for range places {
 		scale *= 10
 	}
 	if x < 0 {
@@ -146,7 +146,7 @@ func writeFamilies(b *strings.Builder, families map[string]FontFamily) {
 	for name := range families {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 	for _, name := range names {
 		fam := families[name]
 		fmt.Fprintf(b, "\n[fonts.family.%s]\n", name)

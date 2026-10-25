@@ -1,0 +1,52 @@
+version: "2"
+
+# A deliberate, modest set: the default linters plus a few that catch real
+# mistakes in this code base (leaked response bodies, errors compared with
+# ==, helpers in tests without t.Helper). Every //nolint names its linter
+# and says why.
+linters:
+  default: standard # errcheck, govet, ineffassign, staticcheck, unused
+  enable:
+    - bodyclose
+    - copyloopvar
+    - errorlint
+    - gocritic
+    - misspell
+    - nolintlint
+    - thelper
+    - usestdlibvars
+
+  settings:
+    misspell:
+      locale: US # the docs and comments use American spelling (color)
+    nolintlint:
+      require-explanation: true
+      require-specific: true
+    staticcheck:
+      checks:
+        - all
+        - -ST1000 # package comments are not required everywhere
+        - -ST1003 # naming is left to review
+        - -ST1016
+        - -ST1020
+        - -ST1021
+        - -ST1022
+        # "Apply De Morgan's law" is a matter of taste: !(a && b) often
+        # says what is meant better than !a || !b.
+        - -QF1001
+
+  exclusions:
+    rules:
+      # The DOCX library's setters return an error only for a value out of
+      # range (a negative width, a size outside the font limits). The
+      # renderer computes those values from the theme, and a document is
+      # still written when one is off, so the errors have always been
+      # dropped; returning them would change what a conversion does.
+      - path: internal/render/docx[a-z_]*\.go
+        linters: [errcheck]
+        text: Error return value of `[A-Za-z.]+\.(Set[A-Za-z]+|AddBreak|AddField)` is not checked
+
+# Show every finding, not the first 50 of a linter.
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0

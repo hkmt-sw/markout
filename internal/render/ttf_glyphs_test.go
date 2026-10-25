@@ -84,7 +84,7 @@ func TestGlyphWidths(t *testing.T) {
 	if err := pdf.AddTTFFontData("f", fontSansRegular); err != nil {
 		t.Fatal(err)
 	}
-	pdf.SetFont("f", "", 10)
+	_ = pdf.SetFont("f", "", 10)
 	for _, text := range []string{"Process the data", "Árvíztűrő tükörfúrógép", "Is it valid?", "i", "WWW"} {
 		want, _ := pdf.MeasureTextWidth(text)
 		if got := g.width(text, 10); got < want-0.2 || got > want+0.2 {

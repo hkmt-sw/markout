@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"html"
 	"regexp"
-	"sort"
+	"slices"
 	"strconv"
 	"strings"
 
@@ -110,7 +110,7 @@ func (w *astWalker) flattenBlock(node gmast.Node) []ast.Element {
 	case *gmast.FencedCodeBlock, *gmast.CodeBlock:
 		var out []ast.Element
 		lines := node.Lines()
-		for i := 0; i < lines.Len(); i++ {
+		for i := range lines.Len() {
 			line := lines.At(i)
 			text := strings.TrimRight(string(line.Value(w.source)), "\r\n")
 			out = append(out, ast.NewParagraph(ast.NewCodeRun(text)))
@@ -364,10 +364,19 @@ func htmlImageSize(s string) int {
 	return min(n, maxImageWidthPx)
 }
 
-// htmlAttr returns the value of an attribute in a tag's attribute text.
+// htmlAttrPatterns holds the pattern of each attribute htmlAttr is asked for.
+var htmlAttrPatterns = func() map[string]*regexp.Regexp {
+	m := make(map[string]*regexp.Regexp)
+	for _, name := range []string{"href", "src", "alt", "title", "width"} {
+		m[name] = regexp.MustCompile(`(?i)(?:^|\s)` + name + `\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))`)
+	}
+	return m
+}()
+
+// htmlAttr returns the value of an attribute in a tag's attribute text. The
+// name must be one of those in htmlAttrPatterns.
 func htmlAttr(attrs, name string) string {
-	re := regexp.MustCompile(`(?i)(?:^|\s)` + name + `\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))`)
-	m := re.FindStringSubmatch(attrs)
+	m := htmlAttrPatterns[name].FindStringSubmatch(attrs)
 	if m == nil {
 		return ""
 	}
@@ -386,7 +395,7 @@ func htmlPlainText(s string) string {
 func (w *astWalker) convertHTMLBlock(n *gmast.HTMLBlock) []ast.Element {
 	var buf bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		buf.Write(line.Value(w.source))
 	}
@@ -479,7 +488,7 @@ func jsonTable(code string) (ast.Table, bool) {
 		for k := range spec.Items[0] {
 			keys = append(keys, k)
 		}
-		sort.Strings(keys)
+		slices.Sort(keys)
 		labels = keys
 	}
 

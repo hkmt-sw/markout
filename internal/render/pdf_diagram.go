@@ -112,7 +112,7 @@ func (r *PdfRenderer) drawChart(source string) error {
 				}
 				// Sixteen corners are round enough for a dot
 				var ring []mermaid.Point
-				for i := 0; i < 16; i++ {
+				for i := range 16 {
 					a := float64(i) * math.Pi / 8
 					ring = append(ring, mermaid.Point{X: c.X + mermaid.TipSize*math.Cos(a), Y: c.Y + mermaid.TipSize*math.Sin(a)})
 				}

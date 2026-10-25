@@ -30,11 +30,11 @@ func markColors(th *theme.Theme) map[string]bool {
 		}
 		switch v.Kind() {
 		case reflect.Struct:
-			for i := 0; i < v.NumField(); i++ {
+			for i := range v.NumField() {
 				walk(v.Field(i))
 			}
 		case reflect.Array:
-			for i := 0; i < v.Len(); i++ {
+			for i := range v.Len() {
 				walk(v.Index(i))
 			}
 		}
@@ -164,7 +164,7 @@ func TestThemeFileFontsAndPage(t *testing.T) {
 		t.Fatal(err)
 	}
 	themePath := filepath.Join(dir, "t.toml")
-	os.WriteFile(themePath, []byte(`
+	if err := os.WriteFile(themePath, []byte(`
 [page]
 size = "Letter"
 orientation = "landscape"
@@ -177,7 +177,9 @@ heading = "brand"
 [fonts.family.brand]
 regular = "Brand.ttf"
 name = "Brand Sans"
-`), 0o644)
+`), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	set, err := theme.Loader{}.Load(themePath)
 	if err != nil {
 		t.Fatal(err)
@@ -219,7 +221,8 @@ name = "Brand Sans"
 	}
 	xml := docxPart(t, out, "word/document.xml")
 	if !strings.Contains(xml, `w:w="15840"`) || !strings.Contains(xml, `w:h="12240"`) || !strings.Contains(xml, "landscape") {
-		t.Errorf("the DOCX page is not landscape Letter: %s", xml[strings.Index(xml, "<w:sectPr"):])
+		_, sect, _ := strings.Cut(xml, "<w:sectPr")
+		t.Errorf("the DOCX page is not landscape Letter: %s", "<w:sectPr"+sect)
 	}
 }
 
@@ -229,11 +232,11 @@ func docxPart(t *testing.T, path, name string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	for _, f := range zr.File {
 		if f.Name == name {
 			rc, _ := f.Open()
-			defer rc.Close()
+			defer func() { _ = rc.Close() }()
 			data, _ := io.ReadAll(rc)
 			return string(data)
 		}

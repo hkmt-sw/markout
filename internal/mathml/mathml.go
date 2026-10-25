@@ -5,6 +5,7 @@ package mathml
 
 import (
 	"encoding/xml"
+	"errors"
 	"fmt"
 	"io"
 	"regexp"
@@ -116,7 +117,7 @@ func decode(mml string) (*Node, error) {
 	skip := 0
 	for {
 		tok, err := dec.Token()
-		if err == io.EOF {
+		if errors.Is(err, io.EOF) {
 			break
 		}
 		if err != nil {

@@ -13,7 +13,7 @@ import (
 func headerRows(body string) [][]int {
 	var out [][]int
 	for _, table := range strings.Split(body, "<w:tbl>")[1:] {
-		table = table[:strings.Index(table, "</w:tbl>")]
+		table, _, _ = strings.Cut(table, "</w:tbl>")
 		rows := []int{}
 		for i, row := range strings.Split(table, "<w:tr>")[1:] {
 			if strings.Contains(row, "<w:tblHeader/>") {

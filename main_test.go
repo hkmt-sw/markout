@@ -3,6 +3,7 @@ package main
 import (
 	"archive/zip"
 	"bytes"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -34,7 +35,7 @@ func TestMain(m *testing.M) {
 		os.Exit(1)
 	}
 	code := m.Run()
-	os.RemoveAll(dir)
+	_ = os.RemoveAll(dir)
 	os.Exit(code)
 }
 
@@ -54,7 +55,8 @@ func markout(t *testing.T, dir string, args ...string) result {
 	cmd.Stdout, cmd.Stderr = &stdout, &stderr
 	err := cmd.Run()
 	code := 0
-	if exit, ok := err.(*exec.ExitError); ok {
+	var exit *exec.ExitError
+	if errors.As(err, &exit) {
 		code = exit.ExitCode()
 	} else if err != nil {
 		t.Fatalf("running markout %v: %v", args, err)
@@ -313,7 +315,7 @@ func docxDocument(t *testing.T, path string) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	defer zr.Close()
+	defer func() { _ = zr.Close() }()
 	parts := map[string]string{}
 	for _, f := range zr.File {
 		if f.Name != "word/document.xml" && f.Name != "word/styles.xml" {
@@ -324,7 +326,7 @@ func docxDocument(t *testing.T, path string) string {
 			t.Fatal(err)
 		}
 		data, err := io.ReadAll(rc)
-		rc.Close()
+		_ = rc.Close()
 		if err != nil {
 			t.Fatal(err)
 		}

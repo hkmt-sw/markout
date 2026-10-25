@@ -99,7 +99,7 @@ func TestDeeplyNestedContainersAreBounded(t *testing.T) {
 
 func TestExtremeIndentationIsCapped(t *testing.T) {
 	var b strings.Builder
-	for i := 0; i < 3000; i++ {
+	for i := range 3000 {
 		b.WriteString(strings.Repeat(" ", 2*i) + "- item\n")
 	}
 	within(t, 20*time.Second, func() {

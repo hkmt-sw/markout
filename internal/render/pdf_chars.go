@@ -32,7 +32,7 @@ func (r *PdfRenderer) drawable(c rune) bool {
 	ok, seen := known[c]
 	if !seen {
 		r.glyphMissed = false
-		r.pdf.MeasureTextWidth(string(c))
+		_, _ = r.pdf.MeasureTextWidth(string(c))
 		ok = !r.glyphMissed
 		known[c] = ok
 	}
@@ -309,7 +309,7 @@ func (r *PdfRenderer) panelLines(heights []float64, padding float64, box func(y,
 		}
 		box(r.currentY, h)
 		y := r.currentY + padding
-		for k := 0; k < fit; k++ {
+		for k := range fit {
 			line(i+k, y)
 			y += heights[i+k]
 		}

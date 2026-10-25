@@ -57,8 +57,8 @@ func Write(path string, perm fs.FileMode, fill func(w io.Writer) error) error {
 	done := false
 	defer func() {
 		if !done {
-			f.Close() // the error that matters is being returned already
-			os.Remove(name)
+			_ = f.Close() // the error that matters is being returned already
+			_ = os.Remove(name)
 		}
 	}()
 

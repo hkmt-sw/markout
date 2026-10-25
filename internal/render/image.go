@@ -162,13 +162,13 @@ func rasterizeSVG(data []byte, widthHint int) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer ctx.Close()
+	defer func() { _ = ctx.Close() }()
 
 	renderer, err := ctx.NewRenderer()
 	if err != nil {
 		return nil, err
 	}
-	defer renderer.Close()
+	defer func() { _ = renderer.Close() }()
 
 	// resvg drops <text> unless a matching font is available; load the embedded
 	// fonts and rewrite the SVG's font-family declarations to point at them.

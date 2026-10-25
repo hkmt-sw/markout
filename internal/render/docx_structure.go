@@ -3,8 +3,9 @@ package render
 import (
 	"bytes"
 	"fmt"
+	"maps"
 	"regexp"
-	"sort"
+	"slices"
 	"strings"
 	"unicode"
 
@@ -112,14 +113,14 @@ func (r *DocxRenderer) numberingXML() []byte {
 	}
 
 	b.WriteString(`<w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/>`)
-	for i := 0; i < numberingLevel; i++ {
+	for i := range numberingLevel {
 		level(i, "bullet", getBulletChar(i))
 	}
 	b.WriteString(`</w:abstractNum>`)
 
 	// The same forms formatOrderedBullet gives PDF: 1. a. 1)
 	b.WriteString(`<w:abstractNum w:abstractNumId="1"><w:multiLevelType w:val="hybridMultilevel"/>`)
-	for i := 0; i < numberingLevel; i++ {
+	for i := range numberingLevel {
 		switch i % 3 {
 		case 0:
 			level(i, "decimal", fmt.Sprintf("%%%d.", i+1))
@@ -136,7 +137,7 @@ func (r *DocxRenderer) numberingXML() []byte {
 		// Lists made from one definition go on counting where the last one
 		// stopped unless each is told to start again.
 		fmt.Fprintf(&b, `<w:num w:numId="%d"><w:abstractNumId w:val="1"/>`, bulletNum+n)
-		for i := 0; i < numberingLevel; i++ {
+		for i := range numberingLevel {
 			fmt.Fprintf(&b, `<w:lvlOverride w:ilvl="%d"><w:startOverride w:val="1"/></w:lvlOverride>`, i)
 		}
 		b.WriteString(`</w:num>`)
@@ -241,12 +242,14 @@ func setDocxLanguage(content []byte, tag string) []byte {
 	return bytes.Replace(content, []byte(open), []byte(def), 1)
 }
 
+var defaultTabStop = regexp.MustCompile(`<w:defaultTabStop [^>]*/>`)
+
 // hyphenateDocx turns on hyphenation in word/settings.xml, with the same
 // limit on lines in a row that end in a hyphen as PDF has. The word
 // processor hyphenates by the language of the text.
 func hyphenateDocx(content []byte) []byte {
 	// The settings have an order; these two come right after the tab stop
-	at := regexp.MustCompile(`<w:defaultTabStop [^>]*/>`).FindIndex(content)
+	at := defaultTabStop.FindIndex(content)
 	if at == nil {
 		return content
 	}
@@ -254,24 +257,38 @@ func hyphenateDocx(content []byte) []byte {
 	return append(content[:at[1]:at[1]], append([]byte(on), content[at[1]:]...)...)
 }
 
+// styleElement matches a style definition in word/styles.xml and captures its ID.
+var styleElement = regexp.MustCompile(`(?s)<w:style\s[^>]*w:styleId="([^"]*)"[^>]*>.*?</w:style>`)
+
 // replaceStyles puts the definitions into word/styles.xml in place of the
-// library's own styles of the same IDs.
+// library's own styles of the same IDs. A definition whose ID the file does
+// not have is added at the end, in the order of the IDs.
 func replaceStyles(content []byte, styles map[string]string) []byte {
-	ids := make([]string, 0, len(styles))
-	for id := range styles {
-		ids = append(ids, id)
+	var out []byte
+	done := make(map[string]bool, len(styles))
+	last := 0
+	for _, loc := range styleElement.FindAllSubmatchIndex(content, -1) {
+		id := string(content[loc[2]:loc[3]])
+		def, ok := styles[id]
+		if !ok || done[id] {
+			continue
+		}
+		done[id] = true
+		out = append(out, content[last:loc[0]]...)
+		out = append(out, def...)
+		last = loc[1]
 	}
-	sort.Strings(ids)
-	for _, id := range ids {
-		def := styles[id]
-		old := regexp.MustCompile(`(?s)<w:style\s[^>]*w:styleId="` + regexp.QuoteMeta(id) + `"[^>]*>.*?</w:style>`)
-		if loc := old.FindIndex(content); loc != nil {
-			content = append(content[:loc[0]:loc[0]], append([]byte(def), content[loc[1]:]...)...)
-		} else {
-			content = bytes.Replace(content, []byte("</w:styles>"), []byte(def+"</w:styles>"), 1)
+	content = append(out, content[last:]...)
+	var added strings.Builder
+	for _, id := range slices.Sorted(maps.Keys(styles)) {
+		if !done[id] {
+			added.WriteString(styles[id])
 		}
 	}
-	return content
+	if added.Len() == 0 {
+		return content
+	}
+	return bytes.Replace(content, []byte("</w:styles>"), []byte(added.String()+"</w:styles>"), 1)
 }
 
 // ---- Table of contents ------------------------------------------------------

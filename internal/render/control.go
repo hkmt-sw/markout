@@ -2,6 +2,7 @@ package render
 
 import (
 	"fmt"
+	"maps"
 	"slices"
 	"strconv"
 	"strings"
@@ -112,7 +113,7 @@ func controlFields(fm ast.FrontMatter, language string, labels theme.ControlLabe
 		fields = append(fields, controlField{label, value})
 	}
 
-	for _, key := range sortedKeys(fm.Raw) {
+	for _, key := range slices.Sorted(maps.Keys(fm.Raw)) {
 		norm := normKey(key)
 		if _, isKnown := known[norm]; isKnown || skip(norm) {
 			continue

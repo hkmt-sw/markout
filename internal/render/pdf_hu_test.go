@@ -20,7 +20,7 @@ func TestPdfHungarianAccents(t *testing.T) {
 	}
 
 	out := filepath.Join(t.TempDir(), "hu.pdf")
-	if err := RenderPdfToFile(doc, out); err != nil {
+	if err := RenderPdf(doc, out, Options{}); err != nil {
 		t.Fatalf("render PDF (embedded fonts should work without system fonts): %v", err)
 	}
 

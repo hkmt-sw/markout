@@ -6,7 +6,7 @@ package theme
 
 import (
 	"fmt"
-	"sort"
+	"slices"
 	"strings"
 )
 
@@ -369,7 +369,7 @@ func (c Classification) LevelNames() []string {
 	for name := range c.Levels {
 		names = append(names, name)
 	}
-	sort.Strings(names)
+	slices.Sort(names)
 	return names
 }
 

@@ -9,7 +9,6 @@ import (
 	"strings"
 	"time"
 
-	mathjax "github.com/litao91/goldmark-mathjax"
 	"github.com/yuin/goldmark"
 	emoji "github.com/yuin/goldmark-emoji"
 	emojiast "github.com/yuin/goldmark-emoji/ast"
@@ -21,11 +20,12 @@ import (
 	"github.com/yuin/goldmark/util"
 	"go.abhg.dev/goldmark/frontmatter"
 	"go.abhg.dev/goldmark/toc"
-	"gopkg.in/yaml.v3"
+	"go.yaml.in/yaml/v3"
 
 	"github.com/hkmt-sw/markout/internal/ast"
 	"github.com/hkmt-sw/markout/internal/flavor"
 	"github.com/hkmt-sw/markout/internal/lang"
+	"github.com/hkmt-sw/markout/internal/parse/dollarmath"
 )
 
 // color chip pattern: hex color code like #FF0000, #abc, #12345678
@@ -76,8 +76,8 @@ func newMarkdown(f flavor.Features, frontMatter bool) goldmark.Markdown {
 	add(f.Footnotes, extension.Footnote)
 	add(f.DefinitionLists, extension.DefinitionList)
 	add(f.Typographer, extension.Typographer)
-	add(f.MathDollar, mathjax.MathJax)
-	add(f.FrontMatter || frontMatter, &frontmatter.Extender{})
+	add(f.MathDollar, dollarmath.Extension)
+	add(f.FrontMatter || frontMatter, &frontmatter.Extender{Formats: frontMatterFormats})
 	add(f.Emoji, emoji.Emoji)
 
 	parserOpts := []parser.Option{parser.WithAutoHeadingID()}
@@ -162,6 +162,14 @@ func Parse(source []byte) (*ast.Document, error) {
 // ParseFlavor parses the source the way the given flavor reads it
 func ParseFlavor(source []byte, fl flavor.Flavor, baseDir string) (*ast.Document, error) {
 	return NewParserFor(fl, baseDir).Parse(source)
+}
+
+// frontMatterFormats are the front matter formats goldmark-frontmatter reads.
+// Its own YAML format decodes with gopkg.in/yaml.v3, whose nodes are not ours,
+// so the YAML one is set up with the same library as the rest of the code.
+var frontMatterFormats = []frontmatter.Format{
+	frontmatter.TOML,
+	{Name: "YAML", Delim: '-', Unmarshal: yaml.Unmarshal},
 }
 
 // extractFrontMatter decodes front matter data into our AST type
@@ -464,9 +472,7 @@ func (w *astWalker) convertListItem(n *gmast.ListItem, level int) ast.ListItem {
 			if len(children) == 0 {
 				childrenOrdered = nestedList.Ordered
 			}
-			for _, item := range nestedList.Items {
-				children = append(children, item)
-			}
+			children = append(children, nestedList.Items...)
 		default:
 			blocks = append(blocks, w.convertNestedBlock(child)...)
 		}
@@ -526,7 +532,7 @@ func (w *astWalker) convertFencedCodeBlock(n *gmast.FencedCodeBlock) ast.Element
 	language := string(n.Language(w.source))
 	var code bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		code.Write(line.Value(w.source))
 	}
@@ -553,7 +559,7 @@ func (w *astWalker) convertFencedCodeBlock(n *gmast.FencedCodeBlock) ast.Element
 func (w *astWalker) convertCodeBlock(n *gmast.CodeBlock) ast.CodeBlock {
 	var code bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		code.Write(line.Value(w.source))
 	}
@@ -832,11 +838,11 @@ func (w *astWalker) tryConvertAlert(n *gmast.Blockquote) *ast.Alert {
 	}
 }
 
-// convertMathBlock converts a goldmark-mathjax MathBlock to our AST
+// convertMathBlock converts a dollarmath MathBlock to our AST
 func (w *astWalker) convertMathBlock(n *extMathBlock) ast.MathBlock {
 	var expr bytes.Buffer
 	lines := n.Lines()
-	for i := 0; i < lines.Len(); i++ {
+	for i := range lines.Len() {
 		line := lines.At(i)
 		expr.Write(line.Value(w.source))
 	}
@@ -1035,7 +1041,7 @@ func (w *astWalker) extractInlineRunsFromNode(node gmast.Node, bold, italic, cod
 
 	case *gmast.RawHTML:
 		var raw bytes.Buffer
-		for i := 0; i < n.Segments.Len(); i++ {
+		for i := range n.Segments.Len() {
 			seg := n.Segments.At(i)
 			raw.Write(seg.Value(w.source))
 		}
@@ -1221,9 +1227,9 @@ type extFootnoteLink = extast.FootnoteLink
 type extFootnoteList = extast.FootnoteList
 type extFootnoteBacklink = extast.FootnoteBacklink
 
-// Math extension types (goldmark-mathjax)
-type extMathBlock = mathjax.MathBlock
-type extInlineMath = mathjax.InlineMath
+// Math extension types (dollarmath)
+type extMathBlock = dollarmath.MathBlock
+type extInlineMath = dollarmath.InlineMath
 
 // Definition list extension types (goldmark built-in)
 type extDefinitionList = extast.DefinitionList

@@ -60,7 +60,7 @@ func (s mathStyle) size() float64 {
 	default:
 		size *= 0.56
 	}
-	return math.Max(size, 4.5)
+	return max(size, 4.5)
 }
 
 // script is the style of a subscript, a superscript or a limit.
@@ -95,7 +95,7 @@ func (r *PdfRenderer) mathFace() *mathFont {
 		fm.boxes = boxes
 		// The minus sign is on the axis, and as thick as a rule
 		if lo, hi, ok := boxes.bounds('−'); ok {
-			fm.axis, fm.rule = (lo+hi)/2, math.Min(hi-lo, 0.09)
+			fm.axis, fm.rule = (lo+hi)/2, min(hi-lo, 0.09)
 		}
 	}
 	if err := r.pdf.AddTTFFontDataWithOption("Math", fontMath, r.glyphOption()); err == nil {
@@ -305,7 +305,7 @@ func (r *PdfRenderer) mathRow(kids []*mathml.Node, st mathStyle) mathBox {
 			continue
 		}
 		closes := strings.Contains(mathClosers, kid.Text) || kid.Attr["form"] == "postfix"
-		if strings.Contains("|‖", kid.Text) && kid.Attr["form"] == "" {
+		if strings.Contains("|‖", kid.Text) && kid.Attr["form"] == "" { //nolint:gocritic // asks whether the text is one of these two, as meant
 			// A bar closes the bar that is open, and opens one otherwise
 			closes = len(open) > 0 && kids[open[len(open)-1]].Text == kid.Text
 		}
@@ -517,7 +517,7 @@ func (r *PdfRenderer) mathRoot(inner mathBox, degree *mathml.Node, st mathStyle)
 	if degree != nil {
 		small := st.script().script()
 		index = r.mathNode(degree, small)
-		lead = math.Max(0, index.w-0.45*sign)
+		lead = max(0, index.w-0.45*sign)
 	}
 	hookY := 0.45*(top+bottom) - bottom // where the sign starts, above the baseline
 	indexUp := hookY + 0.12*em + index.d
@@ -686,11 +686,11 @@ func (r *PdfRenderer) mathAccent(b mathBox, mark string, st mathStyle) mathBox {
 	fm, em := r.mathFace(), st.size()
 	rule, color := fm.rule*em, st.color
 	base := b.draw
-	switch {
-	case mark == "⏞":
+	switch mark {
+	case "⏞":
 		return r.mathBrace(b, true, st)
 
-	case mark == "‾" || mark == "¯" || mark == "―" || mark == "_":
+	case "‾", "¯", "―", "_":
 		up := b.h + 0.12*em
 		b.h, b.char = up+rule, false
 		b.draw = func(x, y float64) {
@@ -699,7 +699,7 @@ func (r *PdfRenderer) mathAccent(b mathBox, mark string, st mathStyle) mathBox {
 			r.line(x+0.02*em, y-up, x+b.w-0.02*em, y-up)
 		}
 
-	case mark == "⃗" || mark == "→":
+	case "⃗", "→":
 		up := b.h + 0.16*em
 		// An arrow longer than a narrow letter makes room for itself
 		length := math.Max(b.w, 0.5*em)
@@ -996,7 +996,7 @@ func leadingSpace(cell *mathml.Node, level int) float64 {
 // mathStroke sets the pen that draws bars, root signs and brackets.
 func (r *PdfRenderer) mathStroke(c theme.Color, width float64) {
 	r.strokeColor(c)
-	r.lineWidth(math.Max(width, 0.3))
+	r.lineWidth(max(width, 0.3))
 }
 
 // point is a place on the page.

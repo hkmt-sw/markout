@@ -14,7 +14,7 @@ import (
 func wideTable(cols int) string {
 	row := func(cell func(int) string) string {
 		var b strings.Builder
-		for j := 0; j < cols; j++ {
+		for j := range cols {
 			b.WriteString("| " + cell(j) + " ")
 		}
 		return b.String() + "|\n"

@@ -1,6 +1,6 @@
 package theme
 
-// mm is points per millimetre, rounded the way the renderers always have, so
+// mm is points per millimeter, rounded the way the renderers always have, so
 // the default margins land exactly where they did.
 const mm = 2.8346
 

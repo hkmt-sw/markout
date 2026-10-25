@@ -14,7 +14,9 @@ You need Go (the version in `go.mod` or newer).
 
 ```sh
 make build     # ./markout
-make test      # go test ./...
+make test      # go test -race -shuffle=on ./...
+make lint      # golangci-lint, set up in .golangci.yml
+make vuln      # govulncheck: known vulnerabilities
 make run       # launch the TUI without installing
 ```
 
@@ -23,8 +25,15 @@ Before sending a pull request, make sure these pass, as CI runs them:
 ```sh
 gofmt -l .     # must print nothing
 go vet ./...
-go test ./...
+make lint vuln test
 ```
+
+`make lint` and `make vuln` run the tools at the versions CI uses, with
+`go run`, so there is nothing to install. If the linter flags something that
+is meant, say why on the line with `//nolint:name // reason`; a bare
+`//nolint` is itself reported. `make fuzz` runs the fuzz tests of the parser,
+the theme reader and the diagram and formula translators for half a minute
+each; it is worth running after a change to one of them.
 
 ### When the output changes
 

@@ -32,7 +32,7 @@ func isolateTemp(t *testing.T) string {
 	if err != nil {
 		t.Fatal(err)
 	}
-	t.Cleanup(func() { os.RemoveAll(dir) })
+	t.Cleanup(func() { _ = os.RemoveAll(dir) })
 	t.Setenv("TMPDIR", dir)
 	t.Setenv("TMP", dir)
 	t.Setenv("TEMP", dir)
@@ -67,7 +67,7 @@ func TestFailedWriteLeavesNothingBehind(t *testing.T) {
 			if got := leftovers(t, dir); len(got) != 1 || got[0] != "out."+name {
 				t.Errorf("the output directory holds %v", got)
 			}
-			if got := leftovers(t, filepath.Join(out)); len(got) != 1 || got[0] != "keep" {
+			if got := leftovers(t, out); len(got) != 1 || got[0] != "keep" {
 				t.Errorf("what was in the output's place changed: %v", got)
 			}
 			if got := leftovers(t, sysTmp); len(got) != 0 {

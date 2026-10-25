@@ -12,7 +12,7 @@ import (
 	"math"
 	"os"
 	"path/filepath"
-	"sort"
+	"strconv"
 	"strings"
 
 	"github.com/signintech/gopdf"
@@ -252,7 +252,7 @@ func (r *PdfRenderer) codeFont() string    { return r.t.Fonts.Code }
 // ...), a style ("", "B", "I" or "BI") and a size.
 func (r *PdfRenderer) setFont(family string, style string, size float64) {
 	fontName := r.family(family).fontName(style)
-	r.pdf.SetFont(fontName, "", size)
+	_ = r.pdf.SetFont(fontName, "", size)
 	r.face, r.fontSize = fontName, size
 	r.font = fontLabel(fontName, size)
 }
@@ -304,7 +304,7 @@ func (r *PdfRenderer) lineWidth(w float64) {
 func (r *PdfRenderer) cell(text string) {
 	text = r.usable(text)
 	r.logf("text  x=%.1f y=%.1f %s %q %s", r.pdf.GetX(), r.pdf.GetY(), r.font, text, r.text)
-	r.pdf.Cell(nil, text)
+	_ = r.pdf.Cell(nil, text)
 }
 
 func (r *PdfRenderer) rect(x, y, w, h float64, style string) {
@@ -482,16 +482,17 @@ func (r *PdfRenderer) renderListItems(items []ast.ListItem, ordered bool, level 
 		r.checkPageBreak(lineHeight)
 
 		var prefix string
-		if item.IsTask {
+		switch {
+		case item.IsTask:
 			if item.Checked {
 				prefix = "[x]"
 			} else {
 				prefix = "[ ]"
 			}
-		} else if ordered {
+		case ordered:
 			r.listCounters[level]++
 			prefix = formatOrderedBullet(r.listCounters[level], level)
-		} else {
+		default:
 			prefix = getBulletChar(level)
 		}
 
@@ -590,7 +591,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 	// colX returns the x position for column j
 	colX := func(j int) float64 {
 		x := r.marginLeft
-		for k := 0; k < j; k++ {
+		for k := range j {
 			x += colWidthsPt[k]
 		}
 		return x
@@ -603,7 +604,7 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 		style.bold, style.lineHeight = bold, lineHeight
 		maxLines := 1
 		laidOut := make([][]textLine, numCols)
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			if j >= len(cells) {
 				continue
 			}
@@ -626,18 +627,19 @@ func (r *PdfRenderer) renderTable(t ast.Table) {
 	drawRow := func(laidOut [][]textLine, rowH float64, isHeader bool, rowIdx int) {
 		r.strokeColor(table.Border)
 
-		if isHeader {
+		switch {
+		case isHeader:
 			r.fillColor(table.HeaderBackground)
-		} else if rowIdx%2 == 1 {
+		case rowIdx%2 == 1:
 			r.fillColor(table.StripeBackground)
-		} else {
+		default:
 			r.fillColor(table.RowBackground)
 		}
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			r.rect(colX(j), r.currentY, colWidthsPt[j], rowH, "FD")
 		}
 
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			x := colX(j) + cellPadding
 			inner := colWidthsPt[j] - 2*cellPadding
 			for li, line := range laidOut[j] {
@@ -894,7 +896,7 @@ func readLocalImage(path string) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
+	defer func() { _ = file.Close() }()
 	return io.ReadAll(io.LimitReader(file, MaxImageBytes))
 }
 
@@ -1148,7 +1150,7 @@ func (r *PdfRenderer) renderTableOfContents(toc ast.TableOfContents) {
 		}
 		// Beside the last line of the title
 		y := r.currentY - lineHeight
-		number := itoa(page)
+		number := strconv.Itoa(page)
 		r.setFont(r.bodyFont(), "", r.t.Text.Size)
 		r.textColor(r.t.Text.Muted)
 		from := left + lines[len(lines)-1].width() + gap/2
@@ -1219,7 +1221,7 @@ func (r *PdfRenderer) renderControlBlock(fields []controlField) {
 	for _, f := range fields {
 		labels := r.layout([]ast.InlineRun{{Text: f.label}}, labelStyle, labelWidth, labelWidth)
 		values := r.layout([]ast.InlineRun{{Text: f.value}}, r.asideStyle(), valueWidth, valueWidth)
-		for i := 0; i < max(len(labels), len(values), 1); i++ {
+		for i := range max(len(labels), len(values), 1) {
 			rw := row{first: i == 0}
 			if i < len(labels) {
 				rw.label = labels[i]
@@ -1293,39 +1295,16 @@ func hexStringToRGB(hex string) theme.Color {
 	var r, g, b uint8
 	switch len(hex) {
 	case 3:
-		fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
 		r = r*16 + r
 		g = g*16 + g
 		b = b*16 + b
 	case 6:
-		fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+		_, _ = fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
 	case 8:
-		fmt.Sscanf(hex[:6], "%02x%02x%02x", &r, &g, &b) // Ignore alpha
+		_, _ = fmt.Sscanf(hex[:6], "%02x%02x%02x", &r, &g, &b) // Ignore alpha
 	}
 	return theme.Color{R: r, G: g, B: b}
-}
-
-// sortedKeys returns the keys of a metadata map in a stable order.
-func sortedKeys(m map[string]any) []string {
-	keys := make([]string, 0, len(m))
-	for k := range m {
-		keys = append(keys, k)
-	}
-	sort.Strings(keys)
-	return keys
-}
-
-// itoa converts int to string without importing strconv
-func itoa(n int) string {
-	if n == 0 {
-		return "0"
-	}
-	var digits []byte
-	for n > 0 {
-		digits = append([]byte{byte('0' + n%10)}, digits...)
-		n /= 10
-	}
-	return string(digits)
 }
 
 func (r *PdfRenderer) renderFootnoteSection() {
@@ -1348,7 +1327,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 		// Render footnote number
 		r.textColor(r.t.Text.Color)
-		prefix := itoa(fn.Index) + ". "
+		prefix := strconv.Itoa(fn.Index) + ". "
 		r.pdf.SetX(r.marginLeft)
 		r.pdf.SetY(r.currentY)
 		r.cell(prefix)
@@ -1377,7 +1356,7 @@ func (r *PdfRenderer) renderFootnoteSection() {
 
 // calcColumnWidthsPt computes column widths in points for PDF tables. Each
 // column gets at least enough width for its longest unbreakable word (so text
-// never overflows into the neighbouring cell), and the remaining space is
+// never overflows into the neighboring cell), and the remaining space is
 // distributed in proportion to each column's content length.
 func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 {
 	const (
@@ -1398,7 +1377,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 			maxWord[j] = w
 		}
 	}
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		if j < len(t.Header.Cells) {
 			consider(t.Header.Cells[j], j)
 		}
@@ -1416,7 +1395,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 	// whole table.
 	minW := make([]float64, numCols)
 	sumMin := 0.0
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		m := float64(maxWord[j])*charW + 2*cellPad
 		if m < minCol {
 			m = minCol
@@ -1432,7 +1411,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 
 	// If the minimums already exceed the available width, scale them to fit.
 	if sumMin >= totalWidth {
-		for j := 0; j < numCols; j++ {
+		for j := range numCols {
 			widths[j] = minW[j] / sumMin * totalWidth
 		}
 		return widths
@@ -1444,7 +1423,7 @@ func calcColumnWidthsPt(t ast.Table, numCols int, totalWidth float64) []float64 
 	for _, l := range maxLen {
 		totalChars += l
 	}
-	for j := 0; j < numCols; j++ {
+	for j := range numCols {
 		share := 0.0
 		if totalChars > 0 {
 			share = extra * float64(maxLen[j]) / float64(totalChars)
@@ -1467,18 +1446,6 @@ func cellLongestWord(cell ast.TableCell) int {
 		}
 	}
 	return longest
-}
-
-// RenderPdfToFile is a convenience function
-func RenderPdfToFile(doc *ast.Document, filename string) error {
-	renderer := NewPdfRenderer()
-	return renderer.RenderToFile(doc, filename)
-}
-
-// RenderPdfToFileWithBaseDir renders to PDF, resolving relative image paths
-// against baseDir (typically the directory of the source Markdown file).
-func RenderPdfToFileWithBaseDir(doc *ast.Document, filename, baseDir string) error {
-	return RenderPdf(doc, filename, Options{BaseDir: baseDir})
 }
 
 // RenderPdf renders to PDF with the given options.

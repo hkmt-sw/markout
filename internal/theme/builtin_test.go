@@ -58,7 +58,7 @@ func TestGuideCoversEverySetting(t *testing.T) {
 
 	var check func(t reflect.Type, section string)
 	check = func(rt reflect.Type, section string) {
-		for i := 0; i < rt.NumField(); i++ {
+		for i := range rt.NumField() {
 			f := rt.Field(i)
 			key := f.Tag.Get("key")
 			if key == "" || key == "-" {

@@ -93,7 +93,7 @@ func TestDOCXClassificationBand(t *testing.T) {
 
 func TestDOCXClassificationLevelColors(t *testing.T) {
 	for value, background := range map[string]string{
-		"Nyilvános": "#2E7D32", "BELSŐ": "#1565C0", " Bizalmas ": "#B45309", "secret": "#B91C1C",
+		"Nyilvános": "#2E7D32", "BELSŐ": "#1565C0", " Bizalmas ": "#B45309", "secret": "#B91C1C", //nolint:gocritic // the spaces are the input being tested
 	} {
 		out, warnings := coverDocx(t, "---\ntitle: T\nclassification: \""+value+"\"\n---\n"+classBody, theme.Default())
 		header := headerOf(t, out, "default")
@@ -350,8 +350,8 @@ func TestDOCXMarksAreWellFormed(t *testing.T) {
 			}
 		}
 		// The namespaces of the prefixes used are declared on the root
-		root := header[strings.Index(header, "<w:hdr"):]
-		root = root[:strings.Index(root, ">")]
+		_, root, _ := strings.Cut(header, "<w:hdr")
+		root, _, _ = strings.Cut(root, ">")
 		for _, ns := range []string{"xmlns:v=", "xmlns:o=", "xmlns:w10=", "xmlns:w="} {
 			if !strings.Contains(root, ns) {
 				t.Errorf("the %s header does not declare %s", kind, ns)
@@ -362,7 +362,7 @@ func TestDOCXMarksAreWellFormed(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	zr.Close()
+	_ = zr.Close()
 }
 
 func TestDOCXBandTextShrinksToFit(t *testing.T) {

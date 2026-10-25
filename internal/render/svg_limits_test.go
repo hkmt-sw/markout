@@ -29,7 +29,7 @@ func captureStderr(t *testing.T, fn func()) string {
 	}()
 	defer func() { os.Stderr = old }()
 	fn()
-	w.Close()
+	_ = w.Close()
 	return <-done
 }
 
