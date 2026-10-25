@@ -25,17 +25,17 @@ import (
 // tagged structure of PDF/A-2a is not made.
 //
 // gopdf has no PDF/A mode. Measured with veraPDF on the sample documents,
-// what its files lack comes to six rules, and each is put right here in the
+// what its files lack comes to five rules, and each is put right here in the
 // finished file, the way fixToUnicode puts the maps right:
 //
 //	6.1.3-1       a file identifier in the trailer
 //	6.6.2.1-1     a metadata stream in the catalog
 //	6.2.4.3-2     an output intent with an sRGB profile, since colors are DeviceRGB
-//	6.2.11.3.2-1  CIDToGIDMap in the dictionaries of the fonts
 //	6.1.7.1-1     an end of line before endstream
 //	6.3.2-1       the F flag on the links
 //
-// A plain PDF is not touched.
+// A sixth, 6.2.11.3.2-1 (CIDToGIDMap in the dictionaries of the fonts), gopdf
+// meets itself since 0.38.2. A plain PDF is not touched.
 
 // srgbProfile is the color profile the output intent names; see icc/README.md.
 //
@@ -198,8 +198,6 @@ func (m pdfaMeta) xmp() []byte {
 }
 
 var (
-	// The dictionary of a font that is a TrueType font program
-	cidFontType2 = regexp.MustCompile(`/Subtype /CIDFontType2\n`)
 	// The start of a link annotation's dictionary
 	linkAnnotation = regexp.MustCompile(`/Type /Annot /Subtype /Link`)
 	// The start of a stream, after its dictionary
@@ -207,18 +205,6 @@ var (
 	streamLen   = regexp.MustCompile(`/Length (\d+)`)
 	trailerRoot = regexp.MustCompile(`/Root (\d+ 0 R)`)
 )
-
-// cidToGIDMapEdits say, in the dictionary of each font, that a character
-// code is the glyph number: gopdf writes the codes it draws with as glyph
-// numbers of the embedded font. PDF/A wants the map named, even when it is
-// the identity.
-func cidToGIDMapEdits(pdf []byte) []pdfEdit {
-	var edits []pdfEdit
-	for _, m := range cidFontType2.FindAllIndex(pdf, -1) {
-		edits = append(edits, pdfEdit{at: m[0], with: []byte("/CIDToGIDMap /Identity\n")})
-	}
-	return edits
-}
 
 // linkFlagEdits set the "print" flag (F 4) on each link: PDF/A wants every
 // annotation to have the flag set and the hidden ones off.
@@ -266,7 +252,7 @@ func endstreamEdits(pdf []byte) ([]pdfEdit, error) {
 	}
 }
 
-// makePDFA turns a PDF from gopdf into PDF/A-2u: the six repairs listed
+// makePDFA turns a PDF from gopdf into PDF/A-2u: the five repairs listed
 // above. A file that is not laid out the way gopdf lays it out is an error,
 // since it could not be made right.
 func makePDFA(pdf []byte, meta pdfaMeta) ([]byte, error) {
@@ -283,7 +269,6 @@ func makePDFA(pdf []byte, meta pdfaMeta) ([]byte, error) {
 		"  /Metadata %d 0 R\n  /OutputIntents [<<\n    /Type /OutputIntent\n    /S /GTS_PDFA1\n"+
 			"    /OutputConditionIdentifier (sRGB IEC61966-2.1)\n    /Info (sRGB IEC61966-2.1)\n"+
 			"    /DestOutputProfile %d 0 R\n  >>]\n", metadata, profile))}}
-	edits = append(edits, cidToGIDMapEdits(pdf)...)
 	edits = append(edits, linkFlagEdits(pdf)...)
 	ends, err := endstreamEdits(pdf)
 	if err != nil {

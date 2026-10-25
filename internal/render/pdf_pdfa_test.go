@@ -120,18 +120,16 @@ func TestPDFAFor(t *testing.T) {
 	}
 }
 
-// The first repair: the fonts say how character codes map to glyphs.
-func TestCIDToGIDMapRepair(t *testing.T) {
-	plain, _ := pdfBytes(t, sample, Options{})
-	fonts := bytes.Count(plain, []byte("/Subtype /CIDFontType2"))
-	if fonts == 0 || bytes.Contains(plain, []byte("/CIDToGIDMap")) {
-		t.Fatalf("the plain PDF has %d fonts and CIDToGIDMap should be in none", fonts)
+// gopdf names the identity CIDToGIDMap in each font, once, and PDF/A does not
+// add a second one.
+func TestCIDToGIDMap(t *testing.T) {
+	for _, opts := range []Options{{}, {PDFA: true}} {
+		pdf := mustPDF(t, sample, opts)
+		fonts := bytes.Count(pdf, []byte("/Subtype /CIDFontType2\n"))
+		if got := bytes.Count(pdf, []byte("/CIDToGIDMap")); fonts == 0 || got != fonts {
+			t.Errorf("PDFA %v: %d fonts, %d CIDToGIDMap", opts.PDFA, fonts, got)
+		}
 	}
-	fixed := editPDF(plain, cidToGIDMapEdits(plain))
-	if got := bytes.Count(fixed, []byte("/CIDToGIDMap /Identity\n/Subtype /CIDFontType2")); got != fonts {
-		t.Errorf("%d of %d fonts have CIDToGIDMap", got, fonts)
-	}
-	checkXref(t, fixed)
 }
 
 // The second: every stream has an end of line before endstream.
@@ -337,9 +335,9 @@ func TestPDFAIsDeterministic(t *testing.T) {
 	}
 }
 
-// The six things are in a PDF/A file and in no other.
+// The five things are in a PDF/A file and in no other.
 func TestPDFAOnRequestOnly(t *testing.T) {
-	marks := []string{"/ID [", "/Type /Metadata", "/OutputIntents", "/CIDToGIDMap", "/Subtype /Link /F 4", "pdfaid"}
+	marks := []string{"/ID [", "/Type /Metadata", "/OutputIntents", "/Subtype /Link /F 4", "pdfaid"}
 	has := func(pdf []byte) (found []string) {
 		for _, m := range marks {
 			if bytes.Contains(pdf, []byte(m)) {
