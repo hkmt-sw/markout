@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -108,6 +109,10 @@ type Options struct {
 	// document's own pdfa key, when it is true, false, yes or no, decides
 	// instead.
 	PDFA bool
+	// Context, once canceled, stops the image downloads, and the conversion
+	// writes no output; the error then matches context.Canceled. Nil means
+	// context.Background().
+	Context context.Context
 	// Warn, if set, is called with each thing the output does not show the
 	// way the document has it (characters no font can draw, for example).
 	// The conversion still succeeds.
@@ -160,7 +165,7 @@ func ConvertFileWith(input, output string, format OutputFormat, opts Options) (e
 		language, _ = lang.Normalize(opts.Lang)
 	}
 
-	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, RemoteHosts: opts.RemoteHosts, Theme: opts.Theme, Lang: language, PDFA: opts.PDFA, Warn: opts.Warn}
+	renderOpts := render.Options{BaseDir: filepath.Dir(input), RemoteImages: opts.RemoteImages, RemoteHosts: opts.RemoteHosts, Theme: opts.Theme, Lang: language, PDFA: opts.PDFA, Warn: opts.Warn, Context: opts.Context}
 
 	// Render to output format
 	switch format {

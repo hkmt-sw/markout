@@ -140,6 +140,10 @@ func (r *DocxRenderer) RenderToFile(astDoc *ast.Document, filename string) error
 		return err
 	}
 
+	if err := r.opts.context().Err(); err != nil {
+		return err
+	}
+
 	// Post-process to add table row properties (cantSplit, tblHeader), table
 	// indents, the table of contents field and the styles
 	if err := postProcessDocx(tempName, filename, r.tableInsets, r.tableHeaders, r.styleDefinitions(), r.equations, r.opts.Lang, r.t.Text.Hyphenated(), r.coverHidesRunning(), r.marks); err != nil {

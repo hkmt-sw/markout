@@ -1361,3 +1361,17 @@ func TestKeyBarFitsEightyColumns(t *testing.T) {
 		t.Fatalf("key bar does not fit %d columns: %q", m.innerWidth(), bar)
 	}
 }
+
+// Quitting while a conversion runs cancels it, by q and by Ctrl-C.
+func TestQuitCancelsConversion(t *testing.T) {
+	for _, quit := range []tea.KeyMsg{key("q"), {Type: tea.KeyCtrlC}} {
+		m := newAt(t.TempDir())
+		ctx, cancel := context.WithCancel(context.Background())
+		m.converting = true
+		m.job = &convertJob{cancel: cancel, done: make(chan struct{})}
+		m.Update(quit)
+		if ctx.Err() == nil {
+			t.Errorf("%v: the conversion was not canceled", quit)
+		}
+	}
+}

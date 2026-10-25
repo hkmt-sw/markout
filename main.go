@@ -14,10 +14,13 @@ package main
 import (
 	"bufio"
 	"context"
+	"errors"
 	"fmt"
 	"os"
+	"os/signal"
 	"runtime/debug"
 	"strings"
+	"syscall"
 	"unicode"
 
 	"github.com/mattn/go-isatty"
@@ -161,7 +164,15 @@ func main() {
 		if pdfa && convert.DetectFormat(output) == convert.FormatDOCX {
 			opts.Warn("--pdfa applies to PDF only; the DOCX is made as usual.")
 		}
-		if err := convert.ConvertFileWith(input, output, convert.FormatUnknown, opts); err != nil {
+		ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt, syscall.SIGTERM)
+		opts.Context = ctx
+		err := convert.ConvertFileWith(input, output, convert.FormatUnknown, opts)
+		stop()
+		if errors.Is(err, context.Canceled) {
+			fmt.Fprintln(os.Stderr, "Canceled; nothing was saved.")
+			os.Exit(exitInterrupted)
+		}
+		if err != nil {
 			fail("%v", err)
 		}
 		fmt.Printf("Saved to: %s\n", output)
@@ -318,6 +329,9 @@ func warnSettings(err error) {
 		fmt.Fprintf(os.Stderr, "Warning: %v; using the default settings\n", err)
 	}
 }
+
+// exitInterrupted is the exit status of a program stopped by Ctrl-C (128 + SIGINT).
+const exitInterrupted = 130
 
 func fail(format string, a ...any) {
 	fmt.Fprintf(os.Stderr, "Error: "+format+"\n", a...)
