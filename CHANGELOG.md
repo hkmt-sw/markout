@@ -4,6 +4,33 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [1.10.1] - 2026-10-25
+
+Maintenance. Nothing a document shows has changed: every sample document and
+example gives the same PDF and DOCX as with 1.10.0.
+
+### Added
+
+- Fuzz tests for the parser, Mermaid, themes, math and SVG sizes (#65).
+
+### Changed
+
+- Dollar math (`$x$`, `$$…$$`) is read by markout's own goldmark extension
+  instead of goldmark-mathjax, which has no license and is no longer kept up.
+- `gopkg.in/yaml.v3`, which is no longer kept up, is replaced by its
+  successor `go.yaml.in/yaml/v3`. Other dependencies are updated to their
+  latest patch and minor versions.
+- The code was cleaned up: unused helpers removed, regular expressions
+  compiled once, package documentation added, the staticcheck findings fixed.
+- CI also runs golangci-lint, govulncheck, the race detector and a module
+  check, and once a week on its own. A release is built only after the same
+  checks pass. `make lint`, `make vuln` and `make fuzz` run them locally.
+
+### Fixed
+
+- Some malformed dollar math made goldmark-mathjax panic, found by fuzzing
+  random input. The new extension reads the same documents without it.
+
 ## [1.10.0] - 2026-10-25
 
 Policy documents: the parts of a policy or procedure that are typed into Word

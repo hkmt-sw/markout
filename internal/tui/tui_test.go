@@ -1169,9 +1169,15 @@ func TestMarkdownFilesBlueDirectoriesBold(t *testing.T) {
 
 func TestMarkdownOnlyToggleKeepsCursor(t *testing.T) {
 	dir := t.TempDir()
-	os.Mkdir(filepath.Join(dir, "sub"), 0o755)
-	os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0o644)
-	os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0o644)
+	if err := os.Mkdir(filepath.Join(dir, "sub"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "a.md"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(filepath.Join(dir, "b.txt"), []byte("x"), 0o644); err != nil {
+		t.Fatal(err)
+	}
 	has := func(m Model, name string) bool {
 		for _, e := range m.entries {
 			if e.name == name {
@@ -1220,7 +1226,9 @@ func TestKeyBarShowsMarkdownFilter(t *testing.T) {
 func TestGoUpPutsCursorOnDirectoryLeft(t *testing.T) {
 	dir := t.TempDir()
 	for _, n := range []string{"a", "b", "c"} {
-		os.Mkdir(filepath.Join(dir, n), 0o755)
+		if err := os.Mkdir(filepath.Join(dir, n), 0o755); err != nil {
+			t.Fatal(err)
+		}
 	}
 
 	m := newAt(filepath.Join(dir, "c"))
@@ -1243,9 +1251,13 @@ func TestMacPermissionDenied(t *testing.T) {
 		t.Skip("a directory cannot be made unreadable here")
 	}
 	dir := filepath.Join(t.TempDir(), "locked")
-	os.Mkdir(dir, 0o755)
-	os.Chmod(dir, 0)
-	t.Cleanup(func() { os.Chmod(dir, 0o755) })
+	if err := os.Mkdir(dir, 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Chmod(dir, 0); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { _ = os.Chmod(dir, 0o755) })
 
 	goos = "darwin"
 	t.Cleanup(func() { goos = runtime.GOOS })
