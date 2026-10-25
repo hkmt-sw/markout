@@ -13,7 +13,7 @@ require (
 	github.com/litao91/goldmark-mathjax v0.0.0-20210217064022-a43cf739a50f
 	github.com/mattn/go-isatty v0.0.24
 	github.com/mmonterroca/docxgo/v2 v2.14.0
-	github.com/signintech/gopdf v0.38.1
+	github.com/signintech/gopdf v0.38.2
 	github.com/wyatt915/treeblood v0.1.16
 	github.com/yuin/goldmark v1.8.6
 	github.com/yuin/goldmark-emoji v1.0.6

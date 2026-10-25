@@ -89,6 +89,8 @@ by hand today. In progress.
   follow under their own names, as before. The labels can be renamed under
   `[control.labels]` in a theme. A number such as `version: 1.0` is shown as
   written, not as `1`.
+- Updated gopdf to 0.38.2. It names the CIDToGIDMap of each font itself, in
+  every PDF, so markout no longer adds it when making PDF/A.
 
 ### Fixed
 
