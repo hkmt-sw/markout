@@ -489,7 +489,7 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			m.statusKind = statusError
 			if goos == "darwin" && errors.Is(msg.err, fs.ErrPermission) {
 				m.writeDenied = true
-				m.status = "macOS blocked writing to " + filepath.Base(filepath.Dir(msg.output)) + " · p settings · F4 output"
+				m.status = "macOS or antivirus blocked writing to " + filepath.Base(filepath.Dir(msg.output)) + " · p settings · F4 output"
 			}
 		} else {
 			m.status = "saved → " + msg.output
@@ -1436,8 +1436,8 @@ func (m Model) fileRows() []string {
 		rows = append(rows, m.row(skipStyle.Render("cannot read directory: "+m.loadErr.Error())))
 		if m.macDenied() {
 			for _, para := range []string{
-				"macOS did not give your terminal app access to this folder.",
-				"Allow it in System Settings → Privacy & Security → Files and Folders (or Full Disk Access), then come back.",
+				"macOS, or security software such as an antivirus, did not give your terminal app access to this folder.",
+				"Allow it in System Settings → Privacy & Security → Files and Folders (or Full Disk Access), or in the security software, then come back.",
 				"p opens the settings · ← goes back",
 			} {
 				for _, l := range strings.Split(ansi.Wrap(para, inner, ""), "\n") {

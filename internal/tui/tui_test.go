@@ -1211,7 +1211,7 @@ func TestMacPermissionDenied(t *testing.T) {
 	m.open = func(path string) error { opened = path; return nil }
 
 	view := m.View()
-	for _, want := range []string{"cannot read directory", "did not give your terminal app access", "Privacy & Security", "p opens the settings"} {
+	for _, want := range []string{"cannot read directory", "antivirus", "Privacy & Security", "p opens the settings"} {
 		if !strings.Contains(view, want) {
 			t.Fatalf("expected %q in the view:\n%s", want, view)
 		}
@@ -1251,7 +1251,7 @@ func TestMacWriteDenied(t *testing.T) {
 	m.open = func(path string) error { opened = path; return nil }
 	updated, _ := m.Update(denied)
 	m = updated.(Model)
-	if want := "macOS blocked writing to dir"; !strings.Contains(m.status, want) || !strings.Contains(m.status, "F4") || m.statusKind != statusError {
+	if want := "macOS or antivirus blocked writing to dir"; !strings.Contains(m.status, want) || !strings.Contains(m.status, "F4") || m.statusKind != statusError {
 		t.Fatalf("unexpected status %q", m.status)
 	}
 	if !strings.Contains(m.keyBar(), "p Settings") {
