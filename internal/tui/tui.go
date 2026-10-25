@@ -180,6 +180,8 @@ type Model struct {
 	loadErr error
 	mdOnly  bool // list only Markdown files and directories; not saved
 
+	writeDenied bool // macOS did not let the last conversion write its output; p opens the settings
+
 	format         format
 	outputOverride string // set when the user edits the path by hand; cleared on cursor move
 
@@ -368,6 +370,7 @@ func (m *Model) loadEntries() {
 	m.offset = 0
 	m.entries = nil
 	m.loadErr = nil
+	m.writeDenied = false
 	m.searching = false
 	m.searchQuery = ""
 	m.searchMiss = false
@@ -433,6 +436,12 @@ func (m Model) macDenied() bool {
 	return goos == "darwin" && errors.Is(m.loadErr, fs.ErrPermission)
 }
 
+// macHint reports that the p key opens the macOS privacy settings, because
+// macOS did not let this program read a directory or write the output.
+func (m Model) macHint() bool {
+	return m.macDenied() || m.writeDenied
+}
+
 // current returns the highlighted entry, or zero value if the list is empty.
 func (m Model) current() (entry, bool) {
 	if m.cursor < 0 || m.cursor >= len(m.entries) {
@@ -478,6 +487,10 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if msg.err != nil {
 			m.status = msg.err.Error()
 			m.statusKind = statusError
+			if goos == "darwin" && errors.Is(msg.err, fs.ErrPermission) {
+				m.writeDenied = true
+				m.status = "macOS or antivirus blocked writing to " + filepath.Base(filepath.Dir(msg.output)) + " · p settings · F4 output"
+			}
 		} else {
 			m.status = "saved → " + msg.output
 			m.statusKind = statusSuccess
@@ -647,7 +660,7 @@ func (m Model) updateNav(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		m.selectName(e.name)
 
 	case "p":
-		if m.macDenied() && m.open != nil {
+		if m.macHint() && m.open != nil {
 			open := m.open
 			return m, func() tea.Msg { return openedMsg{path: macPrivacyURL, err: open(macPrivacyURL)} }
 		}
@@ -694,6 +707,7 @@ func (m *Model) moveCursor(delta int) {
 		m.cursor = len(m.entries) - 1
 	}
 	m.outputOverride = "" // derived output follows the highlight
+	m.writeDenied = false
 	m.clampScroll()
 }
 
@@ -828,6 +842,7 @@ func (m Model) runConvert(in, out string, remoteImages bool) (tea.Model, tea.Cmd
 	}
 	opts := convert.Options{Flavor: m.flavor, RemoteImages: remoteImages, RemoteHosts: hosts, Theme: &look, Lang: m.lang, PDFA: m.settings.PDFA}
 	m.converting = true
+	m.writeDenied = false
 	m.status = "converting…"
 	m.statusKind = statusInfo
 	return m, tea.Batch(
@@ -1421,8 +1436,8 @@ func (m Model) fileRows() []string {
 		rows = append(rows, m.row(skipStyle.Render("cannot read directory: "+m.loadErr.Error())))
 		if m.macDenied() {
 			for _, para := range []string{
-				"macOS did not give your terminal app access to this folder.",
-				"Allow it in System Settings → Privacy & Security → Files and Folders (or Full Disk Access), then come back.",
+				"macOS, or security software such as an antivirus, did not give your terminal app access to this folder.",
+				"Allow it in System Settings → Privacy & Security → Files and Folders (or Full Disk Access), or in the security software, then come back.",
 				"p opens the settings · ← goes back",
 			} {
 				for _, l := range strings.Split(ansi.Wrap(para, inner, ""), "\n") {
@@ -1594,7 +1609,7 @@ func (m Model) keyBar() string {
 		} else {
 			keys = append(keys, [2]string{"F5", "MD only"})
 		}
-		if m.macDenied() {
+		if m.macHint() {
 			keys = append(keys, [2]string{"p", "Settings"})
 		}
 		if m.lastOutput != "" {

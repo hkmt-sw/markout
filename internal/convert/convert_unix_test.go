@@ -4,6 +4,8 @@ package convert
 
 import (
 	"errors"
+	"io/fs"
+	"os"
 	"path/filepath"
 	"syscall"
 	"testing"
@@ -36,5 +38,31 @@ func TestConvertRefusesInputThatIsNotARegularFile(t *testing.T) {
 
 	if _, err := RemoteImageHosts(fifo, Options{}); !errors.Is(err, ErrNotRegular) {
 		t.Errorf("RemoteImageHosts on a named pipe: got %v, want ErrNotRegular", err)
+	}
+}
+
+// A conversion that cannot write its output reports a permission error that
+// errors.Is still recognises, so that the caller can tell it from a failure of
+// the document.
+func TestConvertUnwritableOutputKeepsPermissionError(t *testing.T) {
+	if os.Getuid() == 0 {
+		t.Skip("root can write anywhere")
+	}
+	dir := t.TempDir()
+	in := filepath.Join(dir, "in.md")
+	if err := os.WriteFile(in, []byte("# Title\n\ntext\n"), 0o644); err != nil {
+		t.Fatal(err)
+	}
+	locked := filepath.Join(dir, "locked")
+	if err := os.Mkdir(locked, 0o555); err != nil {
+		t.Fatal(err)
+	}
+	t.Cleanup(func() { os.Chmod(locked, 0o755) })
+
+	for _, name := range []string{"out.pdf", "out.docx"} {
+		err := ConvertFile(in, filepath.Join(locked, name), FormatUnknown)
+		if !errors.Is(err, fs.ErrPermission) {
+			t.Errorf("%s: got %v, want an error that is fs.ErrPermission", name, err)
+		}
 	}
 }

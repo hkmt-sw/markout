@@ -101,6 +101,11 @@ by hand today. In progress.
   or Downloads before the app is allowed there, showed only "cannot read
   directory". On macOS markout now says what has happened and where to allow
   it, and `p` opens the Files and Folders list of System Settings (#130).
+- A conversion whose output macOS did not let the terminal app write, for
+  example into Downloads, showed only "operation not permitted". On macOS
+  markout now says so, and names security software such as an antivirus as
+  the other likely cause, which gives the same error. `p` opens the Files
+  and Folders list of System Settings while `F4` changes the output (#132).
 - Front matter with nothing to show, such as only a list of `tags`, gave an
   empty box in DOCX. It gives none, as in PDF.
 - In DOCX the first row of every table was a header row that Word repeats on
