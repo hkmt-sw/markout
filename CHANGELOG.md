@@ -4,10 +4,10 @@ All notable changes to markout are listed here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
-## [1.10.0] - Unreleased
+## [1.10.0] - 2026-10-25
 
 Policy documents: the parts of a policy or procedure that are typed into Word
-by hand today. In progress.
+by hand today.
 
 ### Added
 
