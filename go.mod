@@ -14,7 +14,7 @@ require (
 	github.com/mmonterroca/docxgo/v2 v2.14.0
 	github.com/signintech/gopdf v0.38.2
 	github.com/wyatt915/treeblood v0.1.16
-	github.com/yuin/goldmark v1.8.6
+	github.com/yuin/goldmark v1.8.7
 	github.com/yuin/goldmark-emoji v1.0.6
 	go.abhg.dev/goldmark/frontmatter v0.3.0
 	go.abhg.dev/goldmark/toc v0.12.0
