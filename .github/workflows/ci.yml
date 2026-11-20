@@ -5,11 +5,10 @@ name: CI
 # releases arrive between pushes; every job runs then, so the "test" check
 # below needs no special case for it.
 on:
+  workflow_dispatch:
   push:
     branches: [master]
   pull_request:
-  schedule:
-    - cron: "17 5 * * 1" # Mondays, 05:17 UTC
 
 permissions:
   contents: read
