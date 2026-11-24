@@ -8,7 +8,7 @@ require (
 	github.com/charmbracelet/bubbles v1.0.0
 	github.com/charmbracelet/bubbletea v1.3.10
 	github.com/charmbracelet/lipgloss v1.1.0
-	github.com/charmbracelet/x/ansi v0.11.9
+	github.com/charmbracelet/x/ansi v0.11.10
 	github.com/kanrichan/resvg-go v0.0.1
 	github.com/mattn/go-isatty v0.0.24
 	github.com/mmonterroca/docxgo/v2 v2.14.0
